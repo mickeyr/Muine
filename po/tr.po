@@ -1,0 +1,510 @@
+# translation of tr.po to Turkish
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Görkem Çetin <gorkem@kde.org>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tr\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-03-21 04:29+0100\n"
+"PO-Revision-Date: 2004-03-21 11:50+0000\n"
+"Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
+"Language-Team: Turkish <kde-i18n-tr@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/glade/AddWindow.glade.h:1
+msgid "*"
+msgstr ""
+
+#: data/glade/AddWindow.glade.h:2
+msgid "_Play"
+msgstr ""
+
+#: data/glade/AddWindow.glade.h:3
+msgid "_Queue"
+msgstr ""
+
+#: data/glade/AddWindow.glade.h:4
+msgid "_Search:"
+msgstr ""
+
+#: data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:1
+msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:2
+msgid "Muine was unable to find your music collection. What would you like me to do?"
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:3
+msgid ""
+"Muine will create the folders Music and Music/Playlists in your home folder "
+"to store your music files. This option is highly recommended. You can always "
+"import other folders manually."
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:4
+msgid "No Music Found"
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:5
+msgid ""
+"You will have to import your music manually. This is for experienced users "
+"only and therefore not generally recommended."
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:6
+msgid "_Create an empty music collection "
+msgstr ""
+
+#: data/glade/NoMusicFoundWindow.glade.h:7
+msgid "_Nothing, I will manage my music myself"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:1 src/AddAlbumWindow.cs:54
+msgid "Play Album"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:2 src/AddSongWindow.cs:54
+msgid "Play Song"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:3 src/NotificationAreaIcon.cs:100
+msgid "Play _Album..."
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:4 src/NotificationAreaIcon.cs:97
+msgid "Play _Song..."
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:5
+msgid "R_epeat"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:6
+msgid "Remove _Played Songs"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:7
+msgid "Skip _Backwards"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:8
+msgid "Skip _Forward"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:9
+msgid "TMP"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:10
+msgid "_Clear Playlist"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:11
+msgid "_Hide Window"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:12
+msgid "_Import Folder..."
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:13
+msgid "_Information"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:14
+msgid "_Next"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:15
+msgid "_Open Playlist..."
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:16
+msgid "_Playlist"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:17
+msgid "_Previous"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:18
+msgid "_Remove Song"
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:19
+msgid "_Save Playlist As..."
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:20
+msgid "_Skip to..."
+msgstr ""
+
+#: data/glade/PlaylistWindow.glade.h:21
+msgid "_Song"
+msgstr ""
+
+#: data/glade/ProgressWindow.glade.h:1
+msgid "Loading:"
+msgstr ""
+
+#: data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr ""
+
+#: data/glade/YesNoDialog.glade.h:1
+msgid "Question"
+msgstr ""
+
+#: data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr ""
+
+#: data/muine.desktop.in.h:2 src/PlaylistWindow.cs:624
+msgid "Muine Music Player"
+msgstr ""
+
+#: data/muine.schemas.in.h:1
+msgid "Add album window height."
+msgstr ""
+
+#: data/muine.schemas.in.h:2
+msgid "Add album window width."
+msgstr ""
+
+#: data/muine.schemas.in.h:3
+msgid "Add song window height."
+msgstr ""
+
+#: data/muine.schemas.in.h:4
+msgid "Add song window width."
+msgstr ""
+
+#: data/muine.schemas.in.h:5
+msgid "Default import folder."
+msgstr ""
+
+#: data/muine.schemas.in.h:6
+msgid "Default playlist folder."
+msgstr ""
+
+#: data/muine.schemas.in.h:7
+msgid "First start."
+msgstr ""
+
+#: data/muine.schemas.in.h:8
+msgid "Folders that are monitored for changes."
+msgstr ""
+
+#: data/muine.schemas.in.h:9
+msgid "Information window height."
+msgstr ""
+
+#: data/muine.schemas.in.h:10
+msgid "Information window width."
+msgstr ""
+
+#: data/muine.schemas.in.h:11
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr ""
+
+#: data/muine.schemas.in.h:12
+msgid "Last used folder from the playlist file selectors."
+msgstr ""
+
+#: data/muine.schemas.in.h:13
+msgid "Playlist window height."
+msgstr ""
+
+#: data/muine.schemas.in.h:14
+msgid "Playlist window width."
+msgstr ""
+
+#: data/muine.schemas.in.h:15
+msgid "Repeat mode."
+msgstr ""
+
+#: data/muine.schemas.in.h:16
+msgid "Volume level."
+msgstr ""
+
+#: data/muine.schemas.in.h:17
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr ""
+
+#: data/muine.schemas.in.h:18
+msgid "Watched folders."
+msgstr ""
+
+#: data/muine.schemas.in.h:19
+msgid "Whether or not to enable repeat playlist mode."
+msgstr ""
+
+#: data/muine.schemas.in.h:20
+msgid "false if Muine has been started before."
+msgstr ""
+
+#: src/About.cs:38
+msgid "Jorn Baayen (jbaayen@gnome.org)"
+msgstr ""
+
+#: src/About.cs:39
+msgid "Lee Willis (lee@leewillis.co.uk)"
+msgstr ""
+
+#. please use Vietnamese spelling, if the relevant characters occur in
+#. * your language.
+#: src/About.cs:42
+msgid "Viet Yen Nguyen (nguyen@cs.utwente.nl)"
+msgstr ""
+
+#: src/About.cs:52
+msgid "translator-credits"
+msgstr ""
+
+#: src/About.cs:57
+msgid "Muine"
+msgstr ""
+
+#. please use the UTF-8 copyright symbol in your translation ..
+#: src/About.cs:59
+msgid "Copyright (C) 2003, 2004 Jorn Baayen"
+msgstr ""
+
+#: src/About.cs:60
+msgid "A music player"
+msgstr ""
+
+#: src/About.cs:70
+msgid "Thanks to Amazon.com for providing album cover images!"
+msgstr ""
+
+#: src/AddAlbumWindow.cs:155 src/PlaylistWindow.cs:594
+#, csharp-format
+msgid "Performed by {0}"
+msgstr ""
+
+#. Space-separated list of prefixes that will be taken off the front
+#. * when sorting. For example, "The Beatles" will be sorted as "Beatles",
+#. * if "the" is included in this list. Also include the English "the"
+#. * if English is generally spoken in your country.
+#: src/Album.cs:78
+msgid "the dj"
+msgstr ""
+
+#: src/CoverDatabase.cs:66 src/SongDatabase.cs:76
+#, csharp-format
+msgid "Failed to open database: {0}"
+msgstr ""
+
+#: src/Metadata.cs:165
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr ""
+
+#: src/Muine.cs:79
+#, csharp-format
+msgid ""
+"Failed to load the cover database: {0}\n"
+"Exiting..."
+msgstr ""
+
+#: src/Muine.cs:90
+#, csharp-format
+msgid ""
+"Failed to load the song database: {0}\n"
+"Exiting..."
+msgstr ""
+
+#: src/NotificationAreaIcon.cs:54
+msgid "Muine music player"
+msgstr ""
+
+#: src/NotificationAreaIcon.cs:87
+msgid "_Previous Song"
+msgstr ""
+
+#: src/NotificationAreaIcon.cs:90
+msgid "_Next Song"
+msgstr ""
+
+#: src/NotificationAreaIcon.cs:107
+msgid "Song _Information"
+msgstr ""
+
+#: src/NotificationAreaIcon.cs:114 src/PlaylistWindow.cs:260
+msgid "Show _Window"
+msgstr ""
+
+#: src/Player.cs:155
+msgid "Failed to create Player object"
+msgstr ""
+
+#: src/PlaylistWindow.cs:258
+msgid "Hide _Window"
+msgstr ""
+
+#: src/PlaylistWindow.cs:279
+msgid "Play the previous song"
+msgstr ""
+
+#: src/PlaylistWindow.cs:281
+msgid "Play the next song"
+msgstr ""
+
+#: src/PlaylistWindow.cs:283
+msgid "Add an album to the playlist"
+msgstr ""
+
+#: src/PlaylistWindow.cs:285
+msgid "Add a song to the playlist"
+msgstr ""
+
+#: src/PlaylistWindow.cs:293
+msgid "Change the volume level"
+msgstr ""
+
+#: src/PlaylistWindow.cs:373 src/PlaylistWindow.cs:490
+#: src/PlaylistWindow.cs:514 src/PlaylistWindow.cs:528
+msgid "Playlist"
+msgstr ""
+
+#: src/PlaylistWindow.cs:409
+msgid ""
+"Failed to create the required GStreamer elements.\n"
+"Exiting..."
+msgstr ""
+
+#: src/PlaylistWindow.cs:507
+#, csharp-format
+msgid "Playlist (Repeating {0} hour)"
+msgid_plural "Playlist (Repeating {0} hours)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/PlaylistWindow.cs:510
+#, csharp-format
+msgid "Playlist (Repeating {0} minute)"
+msgid_plural "Playlist (Repeating {0} minutes)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/PlaylistWindow.cs:512
+msgid "Playlist (Repeating)"
+msgstr ""
+
+#: src/PlaylistWindow.cs:521
+#, csharp-format
+msgid "Playlist ({0} hour remaining)"
+msgid_plural "Playlist ({0} hours remaining)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/PlaylistWindow.cs:524
+#, csharp-format
+msgid "Playlist ({0} minute remaining)"
+msgid_plural "Playlist ({0} minutes remaining)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/PlaylistWindow.cs:526
+msgid "Playlist (Less than one minute remaining)"
+msgstr ""
+
+#: src/PlaylistWindow.cs:590
+#, csharp-format
+msgid "From \"{0}\""
+msgstr ""
+
+#: src/PlaylistWindow.cs:592
+msgid "Album unknown"
+msgstr ""
+
+#: src/PlaylistWindow.cs:597
+msgid "Drop an image here to use it as album cover"
+msgstr ""
+
+#: src/PlaylistWindow.cs:608
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr ""
+
+#: src/PlaylistWindow.cs:643
+msgid "Pause music playback"
+msgstr ""
+
+#: src/PlaylistWindow.cs:647 src/PlaylistWindow.cs:650
+msgid "P_ause"
+msgstr ""
+
+#: src/PlaylistWindow.cs:656
+msgid "Resume music playback"
+msgstr ""
+
+#: src/PlaylistWindow.cs:660 src/PlaylistWindow.cs:663
+#: src/PlaylistWindow.cs:671 src/PlaylistWindow.cs:674
+msgid "Pl_ay"
+msgstr ""
+
+#: src/PlaylistWindow.cs:667
+msgid "Start music playback"
+msgstr ""
+
+#: src/PlaylistWindow.cs:729
+#, csharp-format
+msgid "Failed to open {0} for reading"
+msgstr ""
+
+#: src/PlaylistWindow.cs:803
+#, csharp-format
+msgid "Failed to open {0} for writing"
+msgstr ""
+
+#: src/PlaylistWindow.cs:1144
+msgid "Import Folder"
+msgstr ""
+
+#: src/PlaylistWindow.cs:1194
+msgid "Open Playlist"
+msgstr ""
+
+#: src/PlaylistWindow.cs:1209
+msgid "Save Playlist"
+msgstr ""
+
+#: src/PlaylistWindow.cs:1219
+#, csharp-format
+msgid ""
+"File {0} will be overwritten.\n"
+"If you choose yes, the contents will be lost.\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+
+#: src/ProgressWindow.cs:43
+#, csharp-format
+msgid "Importing {0}..."
+msgstr ""
+
+#: src/StringUtils.cs:47
+msgid "Unknown"
+msgstr ""
+
+#: src/StringUtils.cs:51
+#, csharp-format
+msgid "{0} and others"
+msgstr ""
+
+#: src/StringUtils.cs:53
+#, csharp-format
+msgid "{0} and {1}"
+msgstr ""
+

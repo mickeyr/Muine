@@ -1,0 +1,22 @@
+Coding guidelines
+-----------------
+Private variable names should be written like this, e.g.
+	variable_names_like_this 
+
+Property names, and function names should be written like this, e.g.
+	VariableNamesLikeThis
+
+Spaces should be added before brackets/indexes, e.g.
+	SomeFunction (arg1, arg2);
+	urls [1];
+
+Brackets should be on the same line as the statement, apart from functions, e.g.
+
+if {
+	SomeFunction ();
+}
+
+private void SomeFunction ()
+{
+	Foo ();
+}

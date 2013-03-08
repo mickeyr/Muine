@@ -1,0 +1,639 @@
+# Duit PPRT siapa yang kebas????      
+# Copyright (C) 2004 Free Software Foundation, Inc.
+# Hasbullah Bin Pit (sebol) <sebol@my-penguin.org>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-10-17 01:07+0800\n"
+"PO-Revision-Date: 2002-02-04 00:07+0800\n"
+"Last-Translator: Hasbullah Bin Pit <sebol@my-penguin.org>\n"
+"Language-Team: Projek Gabai <gabai-penyumbang@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/glade/AddWindow.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: data/glade/AddWindow.glade.h:2
+msgid "_Play"
+msgstr "_Main"
+
+#: data/glade/AddWindow.glade.h:3
+msgid "_Queue"
+msgstr "_Gilir"
+
+#: data/glade/AddWindow.glade.h:4
+msgid "_Search:"
+msgstr "_Cari:"
+
+#: data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Ralat"
+
+#: data/glade/NoMusicFoundWindow.glade.h:1
+msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+msgstr "<span weight=\"bold\" size=\"larger\">TIada muzik dijumpai</span>"
+
+#: data/glade/NoMusicFoundWindow.glade.h:2
+msgid ""
+"Muine was unable to find your music collection. What would you like me to do?"
+msgstr ""
+"Muine tak dapat menjumpai koleksi muzik anda. Apakah yang anda ingin kami "
+"lakukan?"
+
+#: data/glade/NoMusicFoundWindow.glade.h:3
+msgid ""
+"Muine will create the folders Music and Music/Playlists in your home folder "
+"to store your music files. This option is highly recommended. You can always "
+"import other folders manually."
+msgstr ""
+"Muine akan mencipta folder Muzik dan Muzik/Senaraimain pada folder rumah "
+"untuk menyimpan fail muzik anda. Opsyen ini amat dicadangkan. Anda boleh "
+"import folder lain secara manual."
+
+#: data/glade/NoMusicFoundWindow.glade.h:4
+msgid "No Music Found"
+msgstr "Tiada Muzik Dijumpai"
+
+#: data/glade/NoMusicFoundWindow.glade.h:5
+msgid ""
+"You will have to import your music manually. This is for experienced users "
+"only and therefore not generally recommended."
+msgstr ""
+"Anda akan mengimport muzik anda secara manual. Ini adalah untuk pengguna "
+"berpengalaman sahaja dan selalunya tak dicadangkan."
+
+#: data/glade/NoMusicFoundWindow.glade.h:6
+msgid "_Create an empty music collection"
+msgstr "_Cipta koleksi muzik kosong"
+
+#: data/glade/NoMusicFoundWindow.glade.h:7
+msgid "_Nothing, I will manage my music myself"
+msgstr "_Tiada apa, Saya akan menguruskan muzik saya sendiri"
+
+#: data/glade/PlaylistWindow.glade.h:1
+msgid "P_roperties"
+msgstr "Ci_ri-ciri"
+
+#: data/glade/PlaylistWindow.glade.h:2 src/AddAlbumWindow.cs:65
+msgid "Play Album"
+msgstr "Mainkan Album"
+
+#: data/glade/PlaylistWindow.glade.h:3 src/AddSongWindow.cs:54
+#, fuzzy
+msgid "Play Song"
+msgstr "Main Lagu"
+
+#: data/glade/PlaylistWindow.glade.h:4 src/NotificationAreaIcon.cs:99
+msgid "Play _Album..."
+msgstr "Main _Album..."
+
+#: data/glade/PlaylistWindow.glade.h:5 src/NotificationAreaIcon.cs:96
+msgid "Play _Song..."
+msgstr "Main _Lagu..."
+
+#: data/glade/PlaylistWindow.glade.h:6
+msgid "R_epeat"
+msgstr "_Ulang"
+
+#: data/glade/PlaylistWindow.glade.h:7
+msgid "Remove _Played Songs"
+msgstr "Buang Lagu _telah Dimainkan"
+
+#: data/glade/PlaylistWindow.glade.h:8
+msgid "Skip _Backwards"
+msgstr "Langkah Meng_undur"
+
+#: data/glade/PlaylistWindow.glade.h:9
+msgid "Skip _Forward"
+msgstr "Langkah Ke_depan"
+
+#: data/glade/PlaylistWindow.glade.h:10
+msgid "TMP"
+msgstr "TMP"
+
+#: data/glade/PlaylistWindow.glade.h:11
+msgid "_Clear"
+msgstr "_Kosongkan"
+
+#: data/glade/PlaylistWindow.glade.h:12
+msgid "_Hide Window"
+msgstr "_Sembunyikan Tetingkap"
+
+#: data/glade/PlaylistWindow.glade.h:13
+msgid "_Import Folder..."
+msgstr "_Import Folder..."
+
+#: data/glade/PlaylistWindow.glade.h:14
+msgid "_Next"
+msgstr "_Berikutnya"
+
+#: data/glade/PlaylistWindow.glade.h:15
+msgid "_Open Playlist..."
+msgstr "_Buka Senaraimain..."
+
+#: data/glade/PlaylistWindow.glade.h:16
+msgid "_Playlist"
+msgstr "_Senaraimain"
+
+#: data/glade/PlaylistWindow.glade.h:17
+msgid "_Previous"
+msgstr "_Terdahulu"
+
+#: data/glade/PlaylistWindow.glade.h:18
+msgid "_Remove Song"
+msgstr "_Buang Lagu"
+
+#: data/glade/PlaylistWindow.glade.h:19
+msgid "_Save Playlist As..."
+msgstr "_Simpan Senaraimain sebagai..."
+
+#: data/glade/PlaylistWindow.glade.h:20
+msgid "_Skip to..."
+msgstr "_Langkah ke..."
+
+#: data/glade/PlaylistWindow.glade.h:21
+msgid "_Song"
+msgstr "_Lagu"
+
+#: data/glade/ProgressWindow.glade.h:1
+msgid "Loading:"
+msgstr "Memuatkan:"
+
+#: data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Langkah ke"
+
+#: data/glade/YesNoDialog.glade.h:1
+msgid "Question"
+msgstr "Soalan"
+
+#: data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Dengar muzik anda"
+
+#: data/muine.desktop.in.h:2 src/PlaylistWindow.cs:695
+msgid "Muine Music Player"
+msgstr "Pemain Muzik Muine"
+
+#: data/muine.schemas.in.h:1
+#, fuzzy
+msgid "\"Add album\" window height"
+msgstr "Tinggi tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:2
+#, fuzzy
+msgid "\"Add album\" window width"
+msgstr "Lebar tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:3
+#, fuzzy
+msgid "\"Add song\" window height"
+msgstr "Alih tetingkap ke kanan"
+
+#: data/muine.schemas.in.h:4
+#, fuzzy
+msgid "\"Add song\" window width"
+msgstr "Lebar tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:5
+msgid "Amazon site to use for album images"
+msgstr ""
+
+#: data/muine.schemas.in.h:6
+#, fuzzy
+msgid "Default import folder"
+msgstr "Pencetak default"
+
+#: data/muine.schemas.in.h:7
+#, fuzzy
+msgid "Default playlist folder"
+msgstr "Pencetak default"
+
+#: data/muine.schemas.in.h:8
+#, fuzzy
+msgid "First start"
+msgstr "Peraturan Pertama"
+
+#: data/muine.schemas.in.h:9
+#, fuzzy
+msgid "Folders that are monitored for changes."
+msgstr "Widget akan diperhati untuk perubahan pemecut"
+
+#: data/muine.schemas.in.h:10
+#, fuzzy
+msgid "Height of the \"Add album\" window."
+msgstr "Tinggi tetingkap"
+
+#: data/muine.schemas.in.h:11
+#, fuzzy
+msgid "Height of the \"Add song\" window."
+msgstr "Tinggi tetingkap"
+
+#: data/muine.schemas.in.h:12
+#, fuzzy
+msgid "Height of the information window."
+msgstr "Papar tetingkap utama"
+
+#: data/muine.schemas.in.h:13
+#, fuzzy
+msgid "Height of the playlist window."
+msgstr "Papar tetingkap senarai tag"
+
+#: data/muine.schemas.in.h:14
+#, fuzzy
+msgid "Information window height"
+msgstr "Tinggi tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:15
+#, fuzzy
+msgid "Information window width"
+msgstr "Lebar tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:16
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr ""
+
+#: data/muine.schemas.in.h:17
+msgid "Last used folder from the playlist file selectors."
+msgstr ""
+
+#: data/muine.schemas.in.h:18
+#, fuzzy
+msgid "Playlist window height"
+msgstr "Tinggi tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:19
+#, fuzzy
+msgid "Playlist window width"
+msgstr "Lebar tetingkap utama GnomeICU"
+
+#: data/muine.schemas.in.h:20
+msgid "Repeat mode"
+msgstr "mod ulangan"
+
+#: data/muine.schemas.in.h:21
+#, fuzzy
+msgid "Volume level"
+msgstr "Meter Volum"
+
+#: data/muine.schemas.in.h:22
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr ""
+
+#: data/muine.schemas.in.h:23
+#, fuzzy
+msgid "Watched folders"
+msgstr "Perhati fail"
+
+#: data/muine.schemas.in.h:24
+#, fuzzy
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Samada memainkan bunyi atau tidak."
+
+#: data/muine.schemas.in.h:25
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+
+#: data/muine.schemas.in.h:26
+#, fuzzy
+msgid "Width of the \"Add album\" window."
+msgstr "Lebar tetingkap"
+
+#: data/muine.schemas.in.h:27
+#, fuzzy
+msgid "Width of the \"Add song\" window."
+msgstr "Lebar tetingkap"
+
+#: data/muine.schemas.in.h:28
+#, fuzzy
+msgid "Width of the information window."
+msgstr "Papar tetingkap utama"
+
+#: data/muine.schemas.in.h:29
+#, fuzzy
+msgid "Width of the playlist window."
+msgstr "Papar tetingkap senarai tag"
+
+#: data/muine.schemas.in.h:30
+#, fuzzy
+msgid "false if Muine has been started before."
+msgstr "Jika URI telah dilawati sebelum ini."
+
+#: libmuine/player-gst.c:157
+msgid "Failed to create GstPlay object"
+msgstr "Gagal mencipta objek GstPlay"
+
+#: libmuine/player-gst.c:164
+msgid "Failed to create the required gnomevfssrc GStreamer element"
+msgstr "Gagal mencipta unsur GStreamer gnomevfssrc yg diperlukan"
+
+#: libmuine/player-gst.c:173
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Tak dapat merender sinki output audio GStreamer default"
+
+#: libmuine/player-gst.c:182
+msgid "Could not find the volume element in the GstPlay pipeline"
+msgstr "Tak menjumpai unsur volum pada barispaip GstPlay"
+
+#: libmuine/player-xine.c:283
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Tak dapat memuatkan jurupacu audio '%s'\n"
+"Periksa samada peranti tidak sibuk."
+
+#: libmuine/player-xine.c:378 libmuine/player-xine.c:383
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Tiada plugin yang ada bagi \"%s\"."
+
+#: libmuine/player-xine.c:388
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "Gagal memainkan \"%s\""
+
+#: libmuine/player-xine.c:392
+msgid "Internal error"
+msgstr "Ralat dalaman"
+
+#: libmuine/player-xine.c:401
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Tak dapat memainkan \"%s\""
+
+#: src/About.cs:38
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: src/About.cs:39
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: src/About.cs:40
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: src/About.cs:42
+msgid "Album covers are provided by amazon.com."
+msgstr "Kulit album dibekalkan oleh amazon.com."
+
+#: src/About.cs:52
+msgid "translator-credits"
+msgstr "Hasbullah Bin Pit <sebol@my-penguin.org>"
+
+#: src/About.cs:57
+msgid "Muine"
+msgstr "Muine"
+
+#: src/About.cs:58
+msgid "Copyright © 2003, 2004 Jorn Baayen"
+msgstr "Hakcipta © 2003, 2004 Jorn Baayen"
+
+#: src/About.cs:59
+msgid "A music player"
+msgstr "Pemain muzik"
+
+#: src/AddAlbumWindow.cs:175 src/PlaylistWindow.cs:655
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Dinyanyikan oleh {0}"
+
+#. Space-separated list of prefixes that will be taken off the front
+#. * when sorting. For example, "The Beatles" will be sorted as "Beatles",
+#. * if "the" is included in this list. Also include the English "the"
+#. * if English is generally spoken in your country.
+#: src/Album.cs:83
+msgid "the dj"
+msgstr "the dj Dato Tan Sri Kumpulan"
+
+#: src/Metadata.cs:167
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Gagal memuatkan datameta {0}"
+
+#: src/Muine.cs:94
+#, csharp-format
+msgid ""
+"Failed to load the cover database: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Gagal memuatkan pangkalandata kulit: {0}\n"
+"\n"
+"Keluar..."
+
+#: src/Muine.cs:103
+#, csharp-format
+msgid ""
+"Failed to load the song database: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Gagal memuatkan pangkalandata lagu: {0}\n"
+"\n"
+"Keluar..."
+
+#: src/NotificationAreaIcon.cs:53
+msgid "Muine music player"
+msgstr "Pemain muzik Muine"
+
+#: src/NotificationAreaIcon.cs:86
+msgid "_Previous Song"
+msgstr "Lagu _Terdahulu"
+
+#: src/NotificationAreaIcon.cs:89
+msgid "_Next Song"
+msgstr "Lagu _Berikutnya"
+
+#: src/NotificationAreaIcon.cs:106 src/PlaylistWindow.cs:318
+msgid "Show _Window"
+msgstr "Papar _Tetingkap"
+
+#: src/Player.cs:240
+#, csharp-format
+msgid ""
+"Audio backend error:\n"
+"{0}"
+msgstr ""
+"Ralat belakang audio:\n"
+"{0}"
+
+#: src/PlaylistWindow.cs:316
+msgid "Hide _Window"
+msgstr "Sorok _Tetingkap"
+
+#: src/PlaylistWindow.cs:337
+msgid "Play the previous song"
+msgstr "Main lagu terdahulu"
+
+#: src/PlaylistWindow.cs:339
+msgid "Play the next song"
+msgstr "Main lagu berikutnya"
+
+#: src/PlaylistWindow.cs:341
+msgid "Add an album to the playlist"
+msgstr "Tambah album ke senarai main"
+
+#: src/PlaylistWindow.cs:343
+msgid "Add a song to the playlist"
+msgstr "Tambah lagu ke senarai main"
+
+#: src/PlaylistWindow.cs:351
+msgid "Change the volume level"
+msgstr "Ubah aras volum"
+
+#: src/PlaylistWindow.cs:434 src/PlaylistWindow.cs:552
+#: src/PlaylistWindow.cs:576 src/PlaylistWindow.cs:590
+msgid "Playlist"
+msgstr "Senaraimain"
+
+#: src/PlaylistWindow.cs:470
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Gagal menginitialisasi belakang audio:\n"
+"{0}\n"
+"\n"
+"Keluar..."
+
+#: src/PlaylistWindow.cs:569
+#, csharp-format
+msgid "Playlist (Repeating {0} hour)"
+msgid_plural "Playlist (Repeating {0} hours)"
+msgstr[0] "Senaraimain (Berulang {0} jam)"
+msgstr[1] "Senaraimain (Berulang {0} jam)"
+
+#: src/PlaylistWindow.cs:572
+#, csharp-format
+msgid "Playlist (Repeating {0} minute)"
+msgid_plural "Playlist (Repeating {0} minutes)"
+msgstr[0] "Senaraimain (Berulang {0} minit)"
+msgstr[1] "Senaraimain (Berulang {0} minit)"
+
+#: src/PlaylistWindow.cs:574
+msgid "Playlist (Repeating)"
+msgstr "Senaraimain (Berulang)"
+
+#: src/PlaylistWindow.cs:583
+#, csharp-format
+msgid "Playlist ({0} hour remaining)"
+msgid_plural "Playlist ({0} hours remaining)"
+msgstr[0] "Senaraimain ({0} jam baki)"
+msgstr[1] "Senaraimain ({0} jam baki)"
+
+#: src/PlaylistWindow.cs:586
+#, csharp-format
+msgid "Playlist ({0} minute remaining)"
+msgid_plural "Playlist ({0} minutes remaining)"
+msgstr[0] "Senaraimain ({0} minit baki)"
+msgstr[1] "Senaraimain ({0} minit baki)"
+
+#: src/PlaylistWindow.cs:588
+msgid "Playlist (Less than one minute remaining)"
+msgstr "Senaraimain (Baki kurang daripada satu minit)"
+
+#: src/PlaylistWindow.cs:651
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "Dari \"{0}\""
+
+#: src/PlaylistWindow.cs:653
+msgid "Album unknown"
+msgstr "Album tak diketahui"
+
+#: src/PlaylistWindow.cs:658
+msgid "Drop an image here to use it as album cover"
+msgstr "Jatuhkan imej disini untuk dijadikan kulit album"
+
+#: src/PlaylistWindow.cs:677
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Pemain Muzik Muine"
+
+#: src/PlaylistWindow.cs:715
+msgid "Pause music playback"
+msgstr "Kaku muzik dimainkan"
+
+#: src/PlaylistWindow.cs:719 src/PlaylistWindow.cs:722
+msgid "P_ause"
+msgstr "_Kaku"
+
+#: src/PlaylistWindow.cs:728
+msgid "Resume music playback"
+msgstr "Sambung muzik dimainkan"
+
+#: src/PlaylistWindow.cs:732 src/PlaylistWindow.cs:735
+#: src/PlaylistWindow.cs:743 src/PlaylistWindow.cs:746
+msgid "Pl_ay"
+msgstr "_Main"
+
+#: src/PlaylistWindow.cs:739
+msgid "Start music playback"
+msgstr "Mula memainkan muzik"
+
+#: src/PlaylistWindow.cs:801
+#, csharp-format
+msgid "Failed to open {0} for reading"
+msgstr "Gagal membuka {0} untuk dibaca"
+
+#: src/PlaylistWindow.cs:885
+#, csharp-format
+msgid "Failed to open {0} for writing"
+msgstr "Gagal membuka {0} untuk ditulis"
+
+#: src/PlaylistWindow.cs:1342
+msgid "Import Folder"
+msgstr "Import Folder"
+
+#: src/PlaylistWindow.cs:1388
+msgid "Open Playlist"
+msgstr "Buka Senaraimain"
+
+#: src/PlaylistWindow.cs:1404
+msgid "Save Playlist"
+msgstr "Simpan Senaraimain"
+
+#: src/PlaylistWindow.cs:1419
+#, csharp-format
+msgid ""
+"File {0} will be overwritten.\n"
+"If you choose yes, the contents will be lost.\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"Fail {0} akan ditindih.\n"
+"Jika anda pilih Ya, kandungan akan hilang\n"
+"\n"
+"Adakah anda akan teruskan?"
+
+#: src/ProgressWindow.cs:43
+#, csharp-format
+msgid "Importing {0}..."
+msgstr "Mengimport {0}..."
+
+#: src/StringUtils.cs:45
+msgid "Unknown"
+msgstr "Entah"
+
+#: src/StringUtils.cs:49
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} dan lain-lain"
+
+#: src/StringUtils.cs:51
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} dan {1}"

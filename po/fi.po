@@ -1,0 +1,739 @@
+# Finnish messages for muine
+# Copyright (C) 2004 Free Software Foundation, Inc.
+# This file is distributed under the same license as the muine package.
+# Ilkka Tuohela <hile@iki.fi>, 2004-2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-04 21:50+0300\n"
+"PO-Revision-Date: 2006-04-14 21:50+0300\n"
+"Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
+"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/glade/AddWindow.glade.h:1 ../src/Actions.cs:62
+msgid "_Play"
+msgstr "_Soita"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "_Jonoon"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Etsi:"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Virhe"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "Kirjoita tiedoston päälle?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "Kirjoita _päälle"
+
+#: ../data/glade/PlaylistWindow.glade.h:1 ../src/AddAlbumWindow.cs:40
+msgid "Play Album"
+msgstr "Soita levy"
+
+#: ../data/glade/PlaylistWindow.glade.h:2 ../src/AddSongWindow.cs:40
+msgid "Play Song"
+msgstr "Soita kappale"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Siirry kohtaan"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Kuuntele musiikkia"
+
+#: ../data/muine.desktop.in.h:2 ../src/PlaylistWindow.cs:79
+msgid "Muine Music Player"
+msgstr "Muine-musiikkisoitin"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"Lisää albumi\"-ikkunan korkeus"
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"Lisää albumi\"-ikkunan leveys"
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"Lisää kappale\"-ikkunan korkeus"
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"Lisää kappale\"-ikkunan leveys"
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "Amazonin kehittäjätagi"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "Amazon-sivusto, josta albumikuvat haetaan"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "Tuonnin oletuskansio"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "Soittolistojen oletuskansio"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Kansiot, joiden muutoksia tarkkaillaan."
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "\"Lisää albumi\"-ikkunan leveys."
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "\"Lisää kappale\"-ikkunan korkeus."
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "Soittolista-ikkunan korkeus."
+
+#: ../data/muine.schemas.in.h:13
+msgid "Horizontal position of the playlist window."
+msgstr "Soittolista-ikkunan vaakasuuntainen sijainti."
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Viimeksi käytetty kansio \"Tuo kansio\" ikkunassa."
+
+#: ../data/muine.schemas.in.h:15
+msgid "Last used folder from the playlist file selectors."
+msgstr "Viimeisin käytetty kansio soittolistatiedoston valitsimissa."
+
+#: ../data/muine.schemas.in.h:16
+msgid "Only complete albums"
+msgstr "Vain kokonaiset levyt"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Only deal with complete albums in the interface."
+msgstr "Käsittele käyttöliittymässä vain kokonaisia levyjä."
+
+#: ../data/muine.schemas.in.h:18
+msgid "Playlist window height"
+msgstr "Soittolistaikkunan korkeus"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Playlist window horizontal position"
+msgstr "Soittolistaikkunan vaakasuuntainen sijainti"
+
+#: ../data/muine.schemas.in.h:20
+msgid "Playlist window vertical position"
+msgstr "Soittolistaikkunan pystysuuntainen sijainti"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Playlist window width"
+msgstr "Soittolistaikkunan leveys"
+
+#: ../data/muine.schemas.in.h:22
+msgid "Repeat mode"
+msgstr "Toistotila"
+
+#: ../data/muine.schemas.in.h:23
+msgid "Show Notifications"
+msgstr "Näytä huomautukset"
+
+#: ../data/muine.schemas.in.h:24
+msgid "Vertical position of the playlist window."
+msgstr "Soittolista-ikkunan pystysuuntainen sijainti."
+
+#: ../data/muine.schemas.in.h:25
+msgid "Volume level"
+msgstr "Äänenvoimakkuus"
+
+#: ../data/muine.schemas.in.h:26
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Äänenvoimakkuus. 0 = hiljaisin, 100 = äänekkäin."
+
+#: ../data/muine.schemas.in.h:27
+msgid "Watched folders"
+msgstr "Tarkkailtavat kansiot"
+
+#: ../data/muine.schemas.in.h:28
+msgid "Whether or not the tray icon shows song change notifications"
+msgstr "Näyttääkö ilmoitusalueen kuvake huomautuksen kappaleen vaihtuessa"
+
+#: ../data/muine.schemas.in.h:29
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Käytetäänkö soittolistan uusintasoittoa."
+
+#: ../data/muine.schemas.in.h:30
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"Mitä Amazon-sivustoa käytetään albumikuvien hakemiseen, \"us\", \"uk\", \"de"
+"\" tai \"jp\"."
+
+#: ../data/muine.schemas.in.h:31
+msgid "Width of the \"Add album\" window."
+msgstr "\"Lisää albumi\"-ikkunan leveys."
+
+#: ../data/muine.schemas.in.h:32
+msgid "Width of the \"Add song\" window."
+msgstr "\"Lisää kappale\"-ikkunan leveys."
+
+#: ../data/muine.schemas.in.h:33
+msgid "Width of the playlist window."
+msgstr "Soittolistaikkunan leveys."
+
+#: ../data/muine.schemas.in.h:34
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "Amazonin kehittäjätagisi, jolla kansikuvat haetaan"
+
+#: ../libmuine/player-gst.c:154
+msgid "Failed to create a GStreamer play object"
+msgstr "GStreamerin soitto-olion luonti epäonnistui"
+
+#: ../libmuine/player-gst.c:161
+msgid "Could not render default GStreamer audio output sink"
+msgstr "GStreamer-äänen oletuskohteeseen ei voitu soittaa"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Ääniajuria '%s' ei voitu ladata\n"
+"Tarkista ettei laite ole käytössä."
+
+#: ../libmuine/player-xine.c:384 ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Lisäkettä \"%s\" ei ole käytettävissä"
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "\"%s\" ei voitu soittaa"
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "Sisäinen virhe"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Kappaletta \"%s\" ei voitu soittaa"
+
+#: ../src/About.cs:32
+msgid "translator-credits"
+msgstr "Ilkka Tuohela (hile@iki.fi)"
+
+#: ../src/About.cs:35
+msgid "Muine"
+msgstr "Muine"
+
+#: ../src/About.cs:38
+msgid "Copyright © 2003–2007 Jorn Baayen"
+msgstr "Copyright © 2003-2007 Jorn Baayen"
+
+#: ../src/About.cs:39
+msgid "Copyright © 2006–2008 Various contributors"
+msgstr "Copyright © 2006–2008 useat avustajat"
+
+#: ../src/About.cs:43
+msgid "A music player"
+msgstr "Musiikkisoitin"
+
+#: ../src/About.cs:50
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: ../src/About.cs:51
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: ../src/About.cs:52
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: ../src/About.cs:53
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson <tamara.roberson@gmail.com>"
+
+#: ../src/About.cs:54
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "Peter Johanson <peter@peterjohanson.com>"
+
+#: ../src/About.cs:55
+msgid "Wouter Bolsterlee <wbolster@gnome.org>"
+msgstr "Wouter Bolsterlee <wbolster@gnome.org>"
+
+#: ../src/About.cs:56
+msgid "Luis Medinas <lmedinas@gnome.org>"
+msgstr "Luis Medinas <lmedinas@gnome.org>"
+
+#: ../src/About.cs:57
+msgid "Iain Holmes  <iain@gnome.org>"
+msgstr "Iain Holmes <iain@gnome.org>"
+
+#: ../src/About.cs:59
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "Levyjen kannet haetaan sivuilta amazon.com ja musicbrainz.org."
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "_Tiedosto"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "_Kappale"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "_Soittolista"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "O_hje"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "_Tuo kansio..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "_Avaa..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "_Tallenna nimellä..."
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "Näytä ikkuna"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "_Edellinen"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "_Seuraava"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "_Siirry kohtaan..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "Siirry _taaksepäin"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "Siirry _eteenpäin"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "Soita _kappale..."
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "Soita _levy...."
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "_Poista kappale"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "Poista _soitetut kappaleet"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "_Tyhjennä"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "_Toista"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "_Satunnaistoisto"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "_Tietoja"
+
+#: ../src/AddAlbumWindow.cs:43 ../src/PlaylistWindow.cs:100
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Esittää {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "DJ"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid "Failed to initialize the configuration folder: {0}"
+msgstr "Asetuskansion alustus epäonnistui: {0}"
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid "Failed to initialize the temporary files folder: {0}"
+msgstr "Väliaikaistiedostojen kansion alustus epäonnistui: {0}"
+
+#: ../src/FileUtils.cs:50
+msgid "Exiting..."
+msgstr "Suljetaan..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "D-Bus-olion vienti epäonnistui: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "Levynkansitietokannan lataus epäonnistui: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "Kappaletietokannan lataus epäonnistui: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "Virhe alustettaessa Muinea."
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Tuodaan kansiota"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "_Tuo"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Metatietojen lataus epäonnistui: {0}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Avaa soittolista"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Soittolistan tiedostot"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Kirjoita \"{0}\" päälle?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid ""
+"A file with this name already exists. If you choose to overwrite this file, "
+"the contents will be lost."
+msgstr ""
+"Tämänniminen tiedosto on jo olemassa. Jos haluat ylikirjoittaa tämän "
+"tiedoston, hukataan sen aiempi sisältö."
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "Äänijärjestelmän virhe:"
+
+#: ../src/PlaylistWindow.cs:82
+msgid "Playlist.m3u"
+msgstr "Soittolista.m3u"
+
+#: ../src/PlaylistWindow.cs:85
+msgid "<b>Playlist</b>"
+msgstr "<b>Soittolista</b>"
+
+#: ../src/PlaylistWindow.cs:88
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Soittolista</b> (toistotila)"
+
+#: ../src/PlaylistWindow.cs:91
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Soittolista</b> (vähemmän kuin yksi minuutti jäljellä)"
+
+#: ../src/PlaylistWindow.cs:94
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "\"{0}\":ltä"
+
+#: ../src/PlaylistWindow.cs:97
+msgid "Album unknown"
+msgstr "Tuntematon levy"
+
+#: ../src/PlaylistWindow.cs:104
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Muine musiikkisoitin"
+
+#: ../src/PlaylistWindow.cs:108
+msgid "Switch music playback on or off"
+msgstr "Laita musiikin soitto päälle tai pois päältä"
+
+#: ../src/PlaylistWindow.cs:111
+msgid "Play the previous song"
+msgstr "Soita edellinen kappale"
+
+#: ../src/PlaylistWindow.cs:114
+msgid "Play the next song"
+msgstr "Soita seuraava kappale"
+
+#: ../src/PlaylistWindow.cs:117
+msgid "Add an album to the playlist"
+msgstr "Lisää levy soittolistaan"
+
+#: ../src/PlaylistWindow.cs:120
+msgid "Add a song to the playlist"
+msgstr "Lisää kappale soittolistaan"
+
+#: ../src/PlaylistWindow.cs:123
+msgid "Change the volume level"
+msgstr "Muuta äänenvoimakkuutta"
+
+#: ../src/PlaylistWindow.cs:126
+msgid "Drop an image here to use it as album cover"
+msgstr "Tiputa tähän kuva käyttääksesi sitä levynkantena"
+
+#: ../src/PlaylistWindow.cs:130
+msgid "Failed to initialize the audio backend"
+msgstr "Äänijärjestelmän alustus epäonnistui"
+
+#: ../src/PlaylistWindow.cs:133
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "Luku epäonnistui {0}:"
+
+#: ../src/PlaylistWindow.cs:136
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "Ei voitu sulkea {0}:"
+
+#: ../src/PlaylistWindow.cs:139
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "Ei voitu kirjoittaa {0}:"
+
+#: ../src/PlaylistWindow.cs:1090
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Soittolista</b> (toistotila, {0} tunti)"
+msgstr[1] "<b>Soittolista</b> (toistotila, {0} tuntia)"
+
+#: ../src/PlaylistWindow.cs:1095
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Soittolista</b> (toistotila {0} minuutti)"
+msgstr[1] "<b>Soittolista</b> (toistotila, {0} minuuttia)"
+
+#: ../src/PlaylistWindow.cs:1100
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Soittolista</b> ({0} tunti jäljellä)"
+msgstr[1] "<b>Soittolista</b> ({0} tuntia jäljellä)"
+
+#: ../src/PlaylistWindow.cs:1105
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Soittolista</b> ({0} minuutti jäljellä)"
+msgstr[1] "<b>Soittolista</b> ({0} minuuttia jäljellä)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "Virhe avattaessa liitännäistä {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "Tuodaan \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "Ladataan:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Tallenna soittolista"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Nimeämätön"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} ja muita"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} ja {1}"
+
+#: ../src/VolumeButton.cs:490
+msgid "Muted"
+msgstr "Vaimennettu"
+
+#: ../src/VolumeButton.cs:492
+msgid "Full Volume"
+msgstr "Täysi voimakkuus"
+
+#: ../plugins/TrayIcon.cs:37
+msgid "Muine music player"
+msgstr "Muine musiikkisoitin"
+
+#: ../plugins/TrayIcon.cs:42
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#: ../plugins/TrayIcon.cs:47
+#, csharp-format
+msgid "Now playing: {0}"
+msgstr "Soitetaan: {0}"
+
+#: ../plugins/TrayIcon.cs:52
+#, csharp-format
+msgid "by {0}"
+msgstr "esittäjältä {0}"
+
+#~ msgid "Hide _Window"
+#~ msgstr "Piilota _ikkuna"
+
+#~ msgid "*"
+#~ msgstr "**"
+
+#~ msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+#~ msgstr "<span weight=\"bold\" size=\"larger\">Musiikkia ei löytynyt</span>"
+
+#~ msgid ""
+#~ "Muine was unable to find your music collection. What would you like me to "
+#~ "do?"
+#~ msgstr ""
+#~ "Muine ei voinut löytää musiikkikokoelmaasi. Mitä haluat minun tekevän?"
+
+#~ msgid ""
+#~ "Muine will create the folders Music and Music/Playlists in your home "
+#~ "folder to store your music files. This option is highly recommended. You "
+#~ "can always import other folders manually."
+#~ msgstr ""
+#~ "Muine luo kansiot Musiikki ja Musiikki/Soittolistat kotihakemistoosi "
+#~ "musiikin tallennusta varten. Tätä vaihtoehtoa suositellaan suuresti. Voit "
+#~ "aina tuoda muita kansiota itse."
+
+#~ msgid "No Music Found"
+#~ msgstr "Musiikkia ei löytynyt"
+
+#~ msgid ""
+#~ "You will have to import your music manually. This is for experienced "
+#~ "users only and therefore not generally recommended."
+#~ msgstr ""
+#~ "Sinun täytyy tuoda musiikkisi itse. Tämä toiminto on tarkoitettu vain "
+#~ "kokeneille käyttäjille eikä siten yleensä suositeltavaa."
+
+#~ msgid "_Create an empty music collection"
+#~ msgstr "_Luo tyhjä musiikkikokoelma"
+
+#~ msgid "_Nothing, I will manage my music myself"
+#~ msgstr "_Ei mitään, hallitsen musiikkiani itse"
+
+#~ msgid "P_roperties"
+#~ msgstr "_Ominaisuudet"
+
+#~ msgid "TMP"
+#~ msgstr "TMP"
+
+#~ msgid "_Hide Window"
+#~ msgstr "_Piilota ikkuna"
+
+#~ msgid "Question"
+#~ msgstr "Kysymys"
+
+#~ msgid "First start"
+#~ msgstr "Ensimmäinen käynnistys"
+
+#~ msgid "Height of the information window."
+#~ msgstr "Tietoikkunan korkeus."
+
+#~ msgid "Information window height"
+#~ msgstr "Tietoikkunan korkeus"
+
+#~ msgid "Information window width"
+#~ msgstr "Tietoikkunan leveys"
+
+#~ msgid "Width of the information window."
+#~ msgstr "Tietoikkunan leveys."
+
+#~ msgid "false if Muine has been started before."
+#~ msgstr "epätosi jos Muine on käynnistetty aikaisemmin"
+
+#~ msgid "Failed to create the required gnomevfssrc GStreamer element"
+#~ msgstr "Vaadittavan gnomevfssrc elementin luonti epäonnistui"
+
+#~ msgid "Could not find the volume element in the GstPlay pipeline"
+#~ msgstr "Äänenvoimakkuus-elementtiä ei voitu löytää GstPlay-putkesta"
+
+#~ msgid "_Previous Song"
+#~ msgstr "_Edellinen kappale"
+
+#~ msgid "_Next Song"
+#~ msgstr "_Seuraava kappale"
+
+#~ msgid "Pause music playback"
+#~ msgstr "Pysäytä musiikin toisto§"
+
+#~ msgid "P_ause"
+#~ msgstr "_Pysäytä"
+
+#~ msgid "Resume music playback"
+#~ msgstr "Jatka musiikin toistoa"
+
+#~ msgid "Pl_ay"
+#~ msgstr "_Soita"
+
+#~ msgid "Failed to open {0} for reading"
+#~ msgstr "{0} avaus luettavaksi epäonnistui"
+
+#~ msgid "Failed to open {0} for writing"
+#~ msgstr "{0} avaus kirjoitettavaksi epäonnistui"
+
+#~ msgid ""
+#~ "File {0} will be overwritten.\n"
+#~ "If you choose yes, the contents will be lost.\n"
+#~ "\n"
+#~ "Do you want to continue?"
+#~ msgstr ""
+#~ "Tiedosto {0} ylikirjoitetaan.\n"
+#~ "Jos valitset tämän, tiedoston sisältö hukataan.\n"
+#~ "\n"
+#~ "Haluatko jatkaa?"
+
+#~ msgid "Failed to set up an audio driver"
+#~ msgstr "Ääniajurin asettaminen epäonnistui"

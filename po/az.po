@@ -1,0 +1,627 @@
+# translation of muine.HEAD.az.po to Azerbaijani
+# This file is distributed under the same license as the Muine package.
+# Copyright (C) 2004 Metin Amiroff.
+# Metin Amiroff <metin@karegen.com>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine.HEAD.az\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-06-17 04:29+0200\n"
+"PO-Revision-Date: 2004-06-19 13:28+0300\n"
+"Last-Translator: Metin Amiroff <metin@karegen.com>\n"
+"Language-Team: Azerbaijani <translation-team-az@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.3\n"
+
+#: data/glade/AddWindow.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: data/glade/AddWindow.glade.h:2
+msgid "_Play"
+msgstr "Ç_al"
+
+#: data/glade/AddWindow.glade.h:3
+msgid "_Queue"
+msgstr "_Növbəyə Al"
+
+#: data/glade/AddWindow.glade.h:4
+msgid "_Search:"
+msgstr "_Axtar:"
+
+#: data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Xəta"
+
+#: data/glade/NoMusicFoundWindow.glade.h:1
+msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+msgstr "<span weight=\"bold\" size=\"larger\">Musiqi tapılmadı</span>"
+
+#: data/glade/NoMusicFoundWindow.glade.h:2
+msgid "Muine was unable to find your music collection. What would you like me to do?"
+msgstr "Muine musiqi kolleksiyanızı tapa bilmədi. İndi nə etmək istəyirsiniz?"
+
+#: data/glade/NoMusicFoundWindow.glade.h:3
+msgid ""
+"Muine will create the folders Music and Music/Playlists in your home folder "
+"to store your music files. This option is highly recommended. You can always "
+"import other folders manually."
+msgstr "Muine, ev qovluğunuzda musiqini saxlamaq üçün Music və Music/Playlists qovluqlarını yaradacaqdır. Bu seçim şiddətlə məsləhət edilir. Daha sonra digər qovluqları əllə idxal edə biləcəksiniz."
+
+#: data/glade/NoMusicFoundWindow.glade.h:4
+msgid "No Music Found"
+msgstr "Musiqi Tapıladı"
+
+#: data/glade/NoMusicFoundWindow.glade.h:5
+msgid ""
+"You will have to import your music manually. This is for experienced users "
+"only and therefore not generally recommended."
+msgstr ""
+"Musiqinizi əllə idxal etmək məcburiyyətində olacaqsınız. Bu mütəxəssis istifadəçilər "
+"üçündür və ümumiyyətlə məsləhət edilmir."
+
+#: data/glade/NoMusicFoundWindow.glade.h:6
+msgid "_Create an empty music collection"
+msgstr "Boş bir musiqi kolleksiyası _yarat"
+
+#: data/glade/NoMusicFoundWindow.glade.h:7
+msgid "_Nothing, I will manage my music myself"
+msgstr "_Heçnə, mahnılarımı özüm idarə edəcəm"
+
+#: data/glade/PlaylistWindow.glade.h:1
+msgid "P_roperties"
+msgstr "_Xassələr"
+
+#: data/glade/PlaylistWindow.glade.h:2 src/AddAlbumWindow.cs:65
+msgid "Play Album"
+msgstr "Albomu Çal"
+
+#: data/glade/PlaylistWindow.glade.h:3 src/AddSongWindow.cs:54
+msgid "Play Song"
+msgstr "Mahnını Çal"
+
+#: data/glade/PlaylistWindow.glade.h:4 src/NotificationAreaIcon.cs:99
+msgid "Play _Album..."
+msgstr "_Albomu Çal..."
+
+#: data/glade/PlaylistWindow.glade.h:5 src/NotificationAreaIcon.cs:96
+msgid "Play _Song..."
+msgstr "_Mahnını Çal..."
+
+#: data/glade/PlaylistWindow.glade.h:6
+msgid "R_epeat"
+msgstr "_Təkrarla"
+
+#: data/glade/PlaylistWindow.glade.h:7
+msgid "Remove _Played Songs"
+msgstr "Ç_alınan Mahnıları Sil"
+
+#: data/glade/PlaylistWindow.glade.h:8
+msgid "Skip _Backwards"
+msgstr "_Geri Sar"
+
+#: data/glade/PlaylistWindow.glade.h:9
+msgid "Skip _Forward"
+msgstr "_İrəli Sar"
+
+#: data/glade/PlaylistWindow.glade.h:10
+msgid "TMP"
+msgstr "TMP"
+
+#: data/glade/PlaylistWindow.glade.h:11
+msgid "_Clear"
+msgstr "_Təmizlə"
+
+#: data/glade/PlaylistWindow.glade.h:12
+msgid "_Hide Window"
+msgstr "Pəncərəni _Gizlət"
+
+#: data/glade/PlaylistWindow.glade.h:13
+msgid "_Import Folder..."
+msgstr "Qovluqları _İdxal Et..."
+
+#: data/glade/PlaylistWindow.glade.h:14
+msgid "_Next"
+msgstr "_Sonrakı"
+
+#: data/glade/PlaylistWindow.glade.h:15
+msgid "_Open Playlist..."
+msgstr "Çalğı Siyahısını _Aç..."
+
+#: data/glade/PlaylistWindow.glade.h:16
+msgid "_Playlist"
+msgstr "Çalğı _siyahısı"
+
+#: data/glade/PlaylistWindow.glade.h:17
+msgid "_Previous"
+msgstr "Ə_vvəlki"
+
+#: data/glade/PlaylistWindow.glade.h:18
+msgid "_Remove Song"
+msgstr "Mahnını_Sil"
+
+#: data/glade/PlaylistWindow.glade.h:19
+msgid "_Save Playlist As..."
+msgstr "Çalğı Siyahısını _Fərqli Qeyd Et..."
+
+#: data/glade/PlaylistWindow.glade.h:20
+msgid "_Skip to..."
+msgstr "Buraya _sar..."
+
+#: data/glade/PlaylistWindow.glade.h:21
+msgid "_Song"
+msgstr "_Mahnı"
+
+#: data/glade/ProgressWindow.glade.h:1
+msgid "Loading:"
+msgstr "Yüklənir:"
+
+#: data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Buraya sar"
+
+#: data/glade/YesNoDialog.glade.h:1
+msgid "Question"
+msgstr "Sual"
+
+#: data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Mahnılarınızı dinləyin"
+
+#: data/muine.desktop.in.h:2 src/PlaylistWindow.cs:687
+msgid "Muine Music Player"
+msgstr "Muine Musiqi Çalğıcısı"
+
+#: data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"Albom əlavə et\" pəncərəsinin hündürlüyü"
+
+#: data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"Albom əlavə et\" pəncərəsinin eni"
+
+#: data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"Mahnı əlavə et\" pəncərəsinin hündürlüyü"
+
+#: data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"Mahnı əlavə et\" pəncərəsinin eni"
+
+#: data/muine.schemas.in.h:5
+msgid "Amazon site to use for album images"
+msgstr "Albom rəsmləri üçün işlədiləcək Amazon saylı"
+
+#: data/muine.schemas.in.h:6
+msgid "Default import folder"
+msgstr "Ön qurğulu idxal qovluğu"
+
+#: data/muine.schemas.in.h:7
+msgid "Default playlist folder"
+msgstr "Ön qurğulu çalğı siyahısı qovluğu"
+
+#: data/muine.schemas.in.h:8
+msgid "First start"
+msgstr "İlk işə salış"
+
+#: data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Dəyişiklikləri izlənən qovluqlar."
+
+#: data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "\"Albom əlavə et\" pəncərəsinin hündürlüyü."
+
+#: data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "\"Mahnı əlavə et\" pəncərəsinin hündürlüyü."
+
+#: data/muine.schemas.in.h:12
+msgid "Height of the information window."
+msgstr "Məlumat pəncərəsinin hündürlüyü."
+
+#: data/muine.schemas.in.h:13
+msgid "Height of the playlist window."
+msgstr "Çalğı siyahısı pəncərəsinin hündürlüyü."
+
+#: data/muine.schemas.in.h:14
+msgid "Information window height"
+msgstr "Məlumat pəncərəsinin hündürlüyü"
+
+#: data/muine.schemas.in.h:15
+msgid "Information window width"
+msgstr "Məlumat pəncərəsinin eni"
+
+#: data/muine.schemas.in.h:16
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "\"Qovluq idxal et\" ilə açılan ən son qovluq."
+
+#: data/muine.schemas.in.h:17
+msgid "Last used folder from the playlist file selectors."
+msgstr "Çalğı siyahısı fays seçicisi ilə açılan ən son qovluq."
+
+#: data/muine.schemas.in.h:18
+msgid "Playlist window height"
+msgstr "Çalğı siyahısı pəncərəsinini hündürlüyü"
+
+#: data/muine.schemas.in.h:19
+msgid "Playlist window width"
+msgstr "Çalğı siyahısı pəncərəsinini eni"
+
+#: data/muine.schemas.in.h:20
+msgid "Repeat mode"
+msgstr "Tərkarlama modu"
+
+#: data/muine.schemas.in.h:21
+msgid "Volume level"
+msgstr "Səs səviyyəsi"
+
+#: data/muine.schemas.in.h:22
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Səs səviyyəsi. 0 = ən alçaq, 100 = ən yüksək."
+
+#: data/muine.schemas.in.h:23
+msgid "Watched folders"
+msgstr "İzlənən qovluqlar"
+
+#: data/muine.schemas.in.h:24
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Çalğı siyahısında təktarlama modunun fəal olması."
+
+#: data/muine.schemas.in.h:25
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"Albom rəsmlərinin endiriləcəyi Amazon saytı, \"us\", \"uk\", \"de\", "
+"ya da \"jp\"."
+
+#: data/muine.schemas.in.h:26
+msgid "Width of the \"Add album\" window."
+msgstr "\"Albom əlavə et\" pəncərəsinin eni."
+
+#: data/muine.schemas.in.h:27
+msgid "Width of the \"Add song\" window."
+msgstr "\"Mahnı əlavə et\" pəncərəsinin eni."
+
+#: data/muine.schemas.in.h:28
+msgid "Width of the information window."
+msgstr "Məlumat pəncərəsinin eni."
+
+#: data/muine.schemas.in.h:29
+msgid "Width of the playlist window."
+msgstr "Çalğı siyahısı pəncərəsinini eni."
+
+#: data/muine.schemas.in.h:30
+msgid "false if Muine has been started before."
+msgstr "Muine əvvəlcə başladılıbsa, false"
+
+#: libmuine/player-gst.c:157
+msgid "Failed to create GstPlay object"
+msgstr "GstPlay cismi yaradıla bilmədi"
+
+#: libmuine/player-gst.c:164
+msgid "Failed to create the required gnomevfssrc GStreamer element"
+msgstr "Lazımi gnomevfssrc GStreamer elementi yaradıla bilmədi"
+
+#: libmuine/player-gst.c:173
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Ön qurğulu GStreamer audio çıxışı render edilə bilmədi"
+
+#: libmuine/player-gst.c:182
+msgid "Could not find the volume element in the GstPlay pipeline"
+msgstr "GstPlay boru xətdində səs elementi tapıla bilmədi"
+
+#: libmuine/player-xine.c:283
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"'%s' audio sürücüsü yüklənə bilmədi\n"
+"Avadanlığın məşqul olub olmadığını yoxlayın."
+
+#: libmuine/player-xine.c:378 libmuine/player-xine.c:383
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "\"%s\" üçün əlavə mövcud deyil"
+
+#: libmuine/player-xine.c:388
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "\"%s\" oxuna bilmədi"
+
+#: libmuine/player-xine.c:392
+msgid "Internal error"
+msgstr "Daxili xəta"
+
+#: libmuine/player-xine.c:401
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "\"%s\" çalına bilmədi"
+
+#: src/About.cs:38
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: src/About.cs:39
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: src/About.cs:40
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Viet Yên Nguyen <nguyen@cs.utwente.nl>"
+
+#: src/About.cs:42
+msgid "Album covers are provided by amazon.com."
+msgstr "Albom qapaqları amazon.com tərəfindən təxsis edilmişdir."
+
+#: src/About.cs:52
+msgid "translator-credits"
+msgstr ""
+"Mətin Əmirov <metin@karegen.com>\n"
+"\n"
+"Tərcümə işləri üzrə yazışma siyahısı ünvanımız:\n"
+"<translation-team-az@lists.sourceforge.net> "
+
+#: src/About.cs:57
+msgid "Muine"
+msgstr "Muine"
+
+#: src/About.cs:58
+msgid "Copyright © 2003, 2004 Jorn Baayen"
+msgstr "Müəllif Hüququ © 2003, 2004 Jorn Baayen"
+
+#: src/About.cs:59
+msgid "A music player"
+msgstr "Musiqi çalğıcısı"
+
+#: src/AddAlbumWindow.cs:175 src/PlaylistWindow.cs:655
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "İfa edən: {0}"
+
+#. Space-separated list of prefixes that will be taken off the front
+#. * when sorting. For example, "The Beatles" will be sorted as "Beatles",
+#. * if "the" is included in this list. Also include the English "the"
+#. * if English is generally spoken in your country.
+#: src/Album.cs:83
+msgid "the dj"
+msgstr "the dj"
+
+#: src/Metadata.cs:167
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Metadata yüklənə bilmədi: {0}"
+
+#: src/Muine.cs:83
+#, csharp-format
+msgid ""
+"Failed to load the cover database: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Qapaq məlumat bazası yüklənə bilmədi: {0}\n"
+"\n"
+"Çıxılır..."
+
+#: src/Muine.cs:92
+#, csharp-format
+msgid ""
+"Failed to load the song database: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Mahnı məlumat bazası yüklənə bilmədi: {0}\n"
+"\n"
+"Çıxılır..."
+
+#: src/NotificationAreaIcon.cs:53
+msgid "Muine music player"
+msgstr "Muine musiqi çalğıcısı"
+
+#: src/NotificationAreaIcon.cs:86
+msgid "_Previous Song"
+msgstr "Ə_vvəlki Mahnı"
+
+#: src/NotificationAreaIcon.cs:89
+msgid "_Next Song"
+msgstr "_Sonrakı Mahnı"
+
+#: src/NotificationAreaIcon.cs:106 src/PlaylistWindow.cs:318
+msgid "Show _Window"
+msgstr "Pəncərəni _Göstər "
+
+#: src/Player.cs:53
+#, csharp-format
+msgid ""
+"Error opening {0}:\n"
+"{1}"
+msgstr ""
+"{0} açıla bilmədi:\n"
+"{1}"
+
+#: src/Player.cs:233
+#, csharp-format
+msgid ""
+"Audio backend error:\n"
+"{0}"
+msgstr ""
+"Audio bəkend əxtası:\n"
+"{0}"
+
+#: src/PlaylistWindow.cs:316
+msgid "Hide _Window"
+msgstr "Pəncərəni Gi_zlət"
+
+#: src/PlaylistWindow.cs:337
+msgid "Play the previous song"
+msgstr "Əvvəlki mahnını çal"
+
+#: src/PlaylistWindow.cs:339
+msgid "Play the next song"
+msgstr "Sonrakı mahnını çal"
+
+#: src/PlaylistWindow.cs:341
+msgid "Add an album to the playlist"
+msgstr "Albomu çalğı siyahısına əlavə et"
+
+#: src/PlaylistWindow.cs:343
+msgid "Add a song to the playlist"
+msgstr "Mahnını çalğı siyahısına əlavə et"
+
+#: src/PlaylistWindow.cs:351
+msgid "Change the volume level"
+msgstr "Səs səviyyəsini dəyişdir"
+
+#: src/PlaylistWindow.cs:434 src/PlaylistWindow.cs:552
+#: src/PlaylistWindow.cs:576 src/PlaylistWindow.cs:590
+msgid "Playlist"
+msgstr "Çalğı siyahısı"
+
+#: src/PlaylistWindow.cs:470
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"audio bəkend hazırlana bilmədi:\n"
+"{0}\n"
+"\n"
+"Çıxılır..."
+
+#: src/PlaylistWindow.cs:569
+#, csharp-format
+msgid "Playlist (Repeating {0} hour)"
+msgid_plural "Playlist (Repeating {0} hours)"
+msgstr[0] "Çalğı siyahısı ({0} saatdır təkrarlanır)"
+msgstr[1] "Çalğı siyahısı ({0} saatdır təkrarlanır)"
+
+#: src/PlaylistWindow.cs:572
+#, csharp-format
+msgid "Playlist (Repeating {0} minute)"
+msgid_plural "Playlist (Repeating {0} minutes)"
+msgstr[0] "Çalğı siyahısı ({0} dəqiqədir təkrarlanır)"
+msgstr[1] "Çalğı siyahısı ({0} dəqiqədir təkrarlanır)"
+
+#: src/PlaylistWindow.cs:574
+msgid "Playlist (Repeating)"
+msgstr "Çalğı siyahısı (Təkrarlanır)"
+
+#: src/PlaylistWindow.cs:583
+#, csharp-format
+msgid "Playlist ({0} hour remaining)"
+msgid_plural "Playlist ({0} hours remaining)"
+msgstr[0] "Çalğı siyahısı ({0} saat qalıb)"
+msgstr[1] "Çalğı siyahısı ({0} saat qalıb)"
+
+#: src/PlaylistWindow.cs:586
+#, csharp-format
+msgid "Playlist ({0} minute remaining)"
+msgid_plural "Playlist ({0} minutes remaining)"
+msgstr[0] "Çalğı siyahısı ({0} dəqiqə qalıb)"
+msgstr[1] "Çalğı siyahısı ({0} dəqiqə qalıb)"
+
+#: src/PlaylistWindow.cs:588
+msgid "Playlist (Less than one minute remaining)"
+msgstr "Çalğı siyahısı (Bir dəqiqədən az vaxt qalıb)"
+
+#: src/PlaylistWindow.cs:651
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "Ünvan: \"{0}\""
+
+#: src/PlaylistWindow.cs:653
+msgid "Album unknown"
+msgstr "Namə'lum albom"
+
+#: src/PlaylistWindow.cs:658
+msgid "Drop an image here to use it as album cover"
+msgstr "Rəsmi albomun qapağı olaraq işlətmək üçün onu buraya daşıyıb buraxın"
+
+#: src/PlaylistWindow.cs:669
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Muine Musiqi Çalğıcısı"
+
+#: src/PlaylistWindow.cs:707
+msgid "Pause music playback"
+msgstr "Musiqiyə fasilə ver"
+
+#: src/PlaylistWindow.cs:711 src/PlaylistWindow.cs:714
+msgid "P_ause"
+msgstr "_Fasilə ver"
+
+#: src/PlaylistWindow.cs:720
+msgid "Resume music playback"
+msgstr "Musiqini davam etdir"
+
+#: src/PlaylistWindow.cs:724 src/PlaylistWindow.cs:727
+#: src/PlaylistWindow.cs:735 src/PlaylistWindow.cs:738
+msgid "Pl_ay"
+msgstr "Ç_al"
+
+#: src/PlaylistWindow.cs:731
+msgid "Start music playback"
+msgstr "Musiqini çalmağa başla"
+
+#: src/PlaylistWindow.cs:793
+#, csharp-format
+msgid "Failed to open {0} for reading"
+msgstr "{0} oxunmaq üçün açıla bilmədi"
+
+#: src/PlaylistWindow.cs:877
+#, csharp-format
+msgid "Failed to open {0} for writing"
+msgstr "{0} yazılmaq üçün açıla bilmədi"
+
+#: src/PlaylistWindow.cs:1309
+msgid "Import Folder"
+msgstr "Qovluq İdxal Et"
+
+#: src/PlaylistWindow.cs:1355
+msgid "Open Playlist"
+msgstr "Çalğı Siyahısını Aç"
+
+#: src/PlaylistWindow.cs:1371
+msgid "Save Playlist"
+msgstr "Çalğı Siyahısını Qeyd Et"
+
+#: src/PlaylistWindow.cs:1386
+#, csharp-format
+msgid ""
+"File {0} will be overwritten.\n"
+"If you choose yes, the contents will be lost.\n"
+"\n"
+"Do you want to continue?"
+msgstr ""
+"{0} faylı əvəz ediləcəkdir.\n"
+"Əgər \"bəli\" seçsəniz, məzmun itiriləcəkdir.\n"
+"\n"
+"Davam etmək istəyirsiniz?"
+
+#: src/ProgressWindow.cs:43
+#, csharp-format
+msgid "Importing {0}..."
+msgstr "{0} idxal edilir..."
+
+#: src/StringUtils.cs:45
+msgid "Unknown"
+msgstr "Namə'lum"
+
+#: src/StringUtils.cs:49
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} və başqaları"
+
+#: src/StringUtils.cs:51
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} və {1}"
+

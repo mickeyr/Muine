@@ -1,0 +1,25 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="muine-plugin" Version="1.0.0.0" />
+    <Assembly Name="muine-dbus" Version="1.0.0.0" />
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="Muine.PluginLib">
+      <Type Name="IPlayer" />
+      <Type Name="ISong" />
+      <Type Name="Plugin" />
+      <Type Name="SongChangedEventHandler" />
+      <Type Name="StateChangedEventHandler" />
+      <Type Name="TickEventHandler" />
+      <Type Name="GenericEventHandler" />
+    </Namespace>
+    <Namespace Name="Muine.DBusLib">
+      <Type Name="Player" />
+      <Type Name="SongChangedHandler" />
+      <Type Name="StateChangedHandler" />
+    </Namespace>
+  </Types>
+  <Title>muine-plugin</Title>
+</Overview>

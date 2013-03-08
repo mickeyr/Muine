@@ -1,0 +1,572 @@
+# translation of muine.HEAD.ne.po to Nepali
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+#
+# Pawan Chitrakar <pawan@mpp.org.np>, 2005.
+# Jaydeep Bhusal <zaydeep@hotmail.com>, 2005.
+# Mahesh subedi <submanesh@hotmail.com>, 2006.
+# Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: muine.HEAD.ne\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-08 23:02+0100\n"
+"PO-Revision-Date: 2007-11-14 14:15+0545\n"
+"Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
+"Language-Team: Nepali <info@mpp.org.np>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n !=1\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: ../data/glade/AddWindow.glade.h:1 ../src/Actions.cs:62
+msgid "_Play"
+msgstr "बजाउनुहोस्"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "लाम"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "खोजी:"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "त्रुटि"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "फाइल अधिलेखन गर्नुहुन्छ ?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "अधिलेखन गर्नुहोस्"
+
+#: ../data/glade/PlaylistWindow.glade.h:1 ../src/AddAlbumWindow.cs:40
+msgid "Play Album"
+msgstr "एल्बम बजाउनुहोस्"
+
+#: ../data/glade/PlaylistWindow.glade.h:2 ../src/AddSongWindow.cs:40
+msgid "Play Song"
+msgstr "गीत बजाउनुहोस्"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "यसमा फड्काउनुहोस्"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "तपाईँको सङ्गीत सुन्नुहोस्"
+
+#: ../data/muine.desktop.in.h:2 ../src/PlaylistWindow.cs:73
+msgid "Muine Music Player"
+msgstr "मुइन सङ्गीत प्लेयर"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"एल्बम थप्नुहोस\" सञ्झ्याल उचाइ"
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"एल्बम थप्नुहोस\" सञ्झ्याल चौडाइ"
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"गीत थप्नुहोस\" सञ्झ्याल उचाइ"
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"गीत थप्नुहोस\" सञ्झ्याल चौडाइ"
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "अमेजन देभ ट्याग"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "एल्बम छविहरू प्रयोग गर्नका लागि अमेजन साइट"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "पूर्वनिर्धारित आयात फोल्डर"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "पूर्वनिर्धारित बजाउने सूची फोल्डर"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "परिवर्तनहरूका लागि मोनिटर गरिएको फोल्डरहरू"
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "\"एल्बम थप्नुहोस\" सञ्झ्यालको उचाइ"
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "\"गीत थप्नुहोस\" सञ्झ्यालको उचाइ"
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "बजाउने सूची सञ्झ्याल लुकाउनुहोस्"
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "\"आयात फोल्डर\" संवादबाट अन्त्यमा प्रयोग गरिएको फोल्डर"
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from the playlist file selectors."
+msgstr "बजाउने सूची फाइल चयनकर्ताहरूबाट अन्त्यमा प्रयोग गरिएको फोल्डर"
+
+#: ../data/muine.schemas.in.h:15
+msgid "Playlist window height"
+msgstr "बजाउने सूची सञ्झ्याल उचाइ"
+
+#: ../data/muine.schemas.in.h:16
+msgid "Playlist window width"
+msgstr "बजाउने सूची सञ्झ्याल चौडाइ"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Repeat mode"
+msgstr "दोहोर्याउनुहोस् मोड"
+
+#: ../data/muine.schemas.in.h:18
+msgid "Volume level"
+msgstr "भोल्युम तह"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "भोल्युम तह. ० = सबैभन्दा सानो, १०० = सबैभन्दा ठूलो"
+
+#: ../data/muine.schemas.in.h:20
+msgid "Watched folders"
+msgstr "हेरिएका फोल्डरहरू"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "बजाउने सूची मोड दोहोर्याउनेलाई सक्षम पार्ने कि नपार्ने"
+
+#: ../data/muine.schemas.in.h:22
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"एल्बम छविहरू ल्याउनका लागि कुन एमेजोन साइट प्रयोग गर्ने \"us\", \"uk\", \"de\", अथवा "
+"\"jp\""
+
+#: ../data/muine.schemas.in.h:23
+msgid "Width of the \"Add album\" window."
+msgstr "\"एल्बम थप्नुहोस\" सञ्झ्यालको चौडाइ"
+
+#: ../data/muine.schemas.in.h:24
+msgid "Width of the \"Add song\" window."
+msgstr "\"गीत थप्नुहोस\" सञ्झ्यालको चौडाइ"
+
+#: ../data/muine.schemas.in.h:25
+msgid "Width of the playlist window."
+msgstr "बजाउने सूची सञ्झ्यालको चौडाइ"
+
+#: ../data/muine.schemas.in.h:26
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "एल्बम आवरण कला फेच गर्नका लागि तपाईँको अमेजन देभ ट्याग"
+
+#: ../libmuine/player-gst.c:155
+msgid "Failed to create a GStreamer play object"
+msgstr "जोस्ट्रिमर बजाउने वस्तु सिर्जना गर्न असफल।"
+
+#: ../libmuine/player-gst.c:162
+msgid "Could not render default GStreamer audio output sink"
+msgstr "पूर्वनिर्धारित जिस्ट्रिमर अडियो प्रतिफल समक्रमण रेन्डर गर्न सकेन"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"'%s' अडियो ड्राइभर लोड गर्न सकेन।\n"
+"यन्त्र व्यस्त छैन कि जाँच्नुहोस्"
+
+#: ../libmuine/player-xine.c:384 ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "\"%s\" का लागि प्लगइन उपल्ब्ध छैन"
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "\"%s\" प्ले गर्न असफल"
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "आन्तरिक त्रुटि"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "\"%s\" प्ले गर्न सकेन"
+
+#: ../src/About.cs:32
+msgid "translator-credits"
+msgstr "Mahesh subedi<submanesh@gmail.com> Jaydeep Bhusal <zaydeep@hotmail.com>"
+
+#: ../src/About.cs:35
+msgid "Muine"
+msgstr "मुइन"
+
+#: ../src/About.cs:38
+msgid "Copyright © 2003-2007 Jorn Baayen"
+msgstr "Copyright © 2003-2007 जोर्न बायन"
+
+#: ../src/About.cs:41
+msgid "A music player"
+msgstr "एउटा सङ्गीत प्लेयर"
+
+#: ../src/About.cs:48
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "जोर्न बाएन <jbaayen@gnome.org>"
+
+#: ../src/About.cs:49
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "लि विल्स <lee@leewillis.co.uk>"
+
+#: ../src/About.cs:50
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: ../src/About.cs:51
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "तामरा रोबर्सन <tamara.roberson@gmail.com>"
+
+#: ../src/About.cs:52
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "पिटर जोहान्सन <peter@peterjohanson.com>"
+
+#: ../src/About.cs:54
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "एल्बम आवरणहरू amazon.com र musicbrainz.org बाट प्रदान गरिन्छ।"
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "फाइल"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "गीत"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "बजाउने सूची"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "मद्दत"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "फोल्डर आयात गर्नुहोस्..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "खोल्नुहोस्..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "यसको रूपमा बचत गर्नुहोस्"
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "सञ्झ्याल देखाउनुहोस्"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "अघिल्लो"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "पछिल्लो"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "यसमा फड्किनुहोस्"
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "पछाडिपट्टी फड्किनुहोस्"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "अगाडि फड्किनुहोस्"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "गीत बजाउनुहोस्..."
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "एल्बम बजाउनुहोस्..."
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "गीत हटाउनुहोस्"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "बजेका गीतहरू हटाउनुहोस्"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "खाली गर्नुहोस्"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "दोहार्याउनुहोस्"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "सुफल"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "बारेमा"
+
+#: ../src/AddAlbumWindow.cs:43 ../src/PlaylistWindow.cs:94
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "{0} बाट प्रस्तुत"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "द डिजे"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid "Failed to initialize the configuration folder: {0}"
+msgstr "कन्फिगरेसन फोल्डर सुरुआत गर्न असफल भयो: {0}"
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid "Failed to initialize the temporary files folder: {0}"
+msgstr "अस्थायी फाइल फोल्डर सुरुआत गर्न असफल भयो: {0}"
+
+#: ../src/FileUtils.cs:50
+msgid "Exiting..."
+msgstr "अवस्थित गर्दै..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "डी-बस वस्तु निर्यात गर्न असफल: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "आवरण डाटाबेस लोड गर्न असफल: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "गित डाटाबेस लोड गर्न असफल: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "मुइन सुरुआत गर्न त्रुटि"
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "फोल्डर आयात गर्नुहोस्"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "आयात"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "मेटाडेटा लोड गर्न असफल: {0}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "बजाउने सूची खोल्नुहोस्"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "बजाउने सूची फाइलहरू"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "अधिलेखन \"{0}\"?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid ""
+"A file with this name already exists. If you choose to overwrite this file, "
+"the contents will be lost."
+msgstr ""
+"यो नामको फाइल पहिल्यै अस्तित्वमा छ। यदि तपाईँले यो फाइल अधिलेखन गर्न रोज्नुभयो भने, "
+"सामग्रिहरू हराउँनेछन्"
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "अडियो ब्याकइन्ड त्रुटि:"
+
+#: ../src/PlaylistWindow.cs:76
+msgid "Playlist.m3u"
+msgstr "Playlist.m3u"
+
+#: ../src/PlaylistWindow.cs:79
+msgid "<b>Playlist</b>"
+msgstr "<b>बजाउने सूची</b>"
+
+#: ../src/PlaylistWindow.cs:82
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>बजाउने सूची</b> (दोहोर्याइदै)"
+
+#: ../src/PlaylistWindow.cs:85
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>बजाउने सूची</b> (एक मिनेट भन्दा कम बाँकी)"
+
+#: ../src/PlaylistWindow.cs:88
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "\"{0}\" बाट"
+
+#: ../src/PlaylistWindow.cs:91
+msgid "Album unknown"
+msgstr "अज्ञात एल्बम"
+
+#: ../src/PlaylistWindow.cs:98
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - मुइन सङ्गीत प्लेयर"
+
+#: ../src/PlaylistWindow.cs:102
+msgid "Switch music playback on or off"
+msgstr "सङ्गीत प्लेब्याक चालु अथवा बन्द गर्न स्विच गर्नुहोस्"
+
+#: ../src/PlaylistWindow.cs:105
+msgid "Play the previous song"
+msgstr "अघिल्लो गित बजाउनुहोस्"
+
+#: ../src/PlaylistWindow.cs:108
+msgid "Play the next song"
+msgstr "पछिल्लो गित बजाउनुहोस्"
+
+#: ../src/PlaylistWindow.cs:111
+msgid "Add an album to the playlist"
+msgstr "बजाउने सूचीमा एउटा एल्बम थप्नुहोस्"
+
+#: ../src/PlaylistWindow.cs:114
+msgid "Add a song to the playlist"
+msgstr "बजाउने सूचीमा एउटा गित थप्नुहोस्"
+
+#: ../src/PlaylistWindow.cs:117
+msgid "Change the volume level"
+msgstr "भोल्युम तह परिवर्तन गर्नुहोस्"
+
+#: ../src/PlaylistWindow.cs:120
+msgid "Drop an image here to use it as album cover"
+msgstr "एल्बमको खोलको रूपमा प्रयोग गर्नका लागि एउटा छवि यहाँ छोड्नुहोस्"
+
+#: ../src/PlaylistWindow.cs:124
+msgid "Failed to initialize the audio backend"
+msgstr "अडियो ब्याकइन्ड सुरुआत गर्न असफल भयो"
+
+#: ../src/PlaylistWindow.cs:127
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "पढ्न असफल {0}:"
+
+#: ../src/PlaylistWindow.cs:130
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "बन्द गर्न असफल {0}:"
+
+#: ../src/PlaylistWindow.cs:133
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "लेख्न असफल {0}:"
+
+#: ../src/PlaylistWindow.cs:1083
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>बजाउने सूची</b> (दोहोर्याइंदै {0} घण्टा)"
+msgstr[1] "<b>बजाउने सूची</b> (दोहोर्याइंदै {0} घण्टाहरु)"
+
+#: ../src/PlaylistWindow.cs:1088
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>बजाउने सूची</b> (दोहोर्याइंदै {0} मिनेट)"
+msgstr[1] "<b>बजाउने सूची</b> (दोहोर्याइंदै {0} मिनेटहरु)"
+
+#: ../src/PlaylistWindow.cs:1093
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>बजाउने सूची</b> ({0} घण्टा बाँकी)"
+msgstr[1] "<b>बजाउने सूची</b> ({0} घण्टा बाँकी)"
+
+#: ../src/PlaylistWindow.cs:1098
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>बजाउने सूची</b> ({0} मिनेट बाँकी)"
+msgstr[1] "<b>बजाउने सूची</b> ({0} मिनेट बाँकी)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "प्लगइन लोड गर्दा त्रुटि{0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "\"{0}\"आयात गर्दै"
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "लोड गर्दै"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "बजाउने सूची बचत गर्नुहोस्"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "शीर्षक विहिन"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "अज्ञात"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} र अन्य"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} र {1}"
+
+#: ../src/VolumeButton.cs:490
+msgid "Muted"
+msgstr "मौन गरियो"
+
+#: ../src/VolumeButton.cs:492
+msgid "Full Volume"
+msgstr "पूरा भोल्युम"
+
+#: ../plugins/TrayIcon.cs:35
+msgid "Muine music player"
+msgstr "मुइन सङ्गीत प्लेयर"
+
+#: ../plugins/TrayIcon.cs:40
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+

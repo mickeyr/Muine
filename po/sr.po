@@ -1,0 +1,667 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-03-29 16:58+0200\n"
+"PO-Revision-Date: 2005-03-29 16:57+0200\n"
+"Last-Translator: Данило Шеган <danilo@prevod.org>\n"
+"Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: ../data/glade/AddWindow.glade.h:1 ../src/Actions.cs:65
+msgid "_Play"
+msgstr "_Пусти"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "_Закажи"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Тражи:"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Грешка"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "Пресними датотеку?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "Пре_сними"
+
+#: ../data/glade/PlaylistWindow.glade.h:1
+msgid "Play"
+msgstr "Пусти"
+
+#: ../data/glade/PlaylistWindow.glade.h:2 ../src/AddAlbumWindow.cs:41
+msgid "Play Album"
+msgstr "Пусти албум"
+
+#: ../data/glade/PlaylistWindow.glade.h:3 ../src/AddSongWindow.cs:41
+msgid "Play Song"
+msgstr "Пусти песму"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Прескочи на"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Слушајте вашу музику "
+
+#: ../data/muine.desktop.in.h:2 ../src/PlaylistWindow.cs:68
+msgid "Muine Music Player"
+msgstr "Музички програм Мујна"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "Висина прозора за додавање албума."
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "Ширина прозора за додавање албума."
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "Висина прозора за додавање песме."
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "Ширина прозора за додавање песме."
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon site to use for album images"
+msgstr "Страница Амазона за слике са албума"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Default import folder"
+msgstr "Подразумевани директоријум за увоз"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default playlist folder"
+msgstr "Подразумевани директоријум за списак"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Folders that are monitored for changes."
+msgstr "Директоријуми у којима се прате измене."
+
+#: ../data/muine.schemas.in.h:9
+msgid "Height of the \"Add album\" window."
+msgstr "Висина прозора за додавање албума."
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add song\" window."
+msgstr "Висина прозора за додавање песме."
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the playlist window."
+msgstr "Висина прозора са списком песама."
+
+#: ../data/muine.schemas.in.h:12
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Последње коришћени директоријум из прозорчета „Увези директоријум“."
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from the playlist file selectors."
+msgstr "Последње коришћени директоријум из избирача датотека за списак."
+
+#: ../data/muine.schemas.in.h:14
+msgid "Playlist window height"
+msgstr "Висина прозора списка песама."
+
+#: ../data/muine.schemas.in.h:15
+msgid "Playlist window width"
+msgstr "Ширина прозора списка песама"
+
+#: ../data/muine.schemas.in.h:16
+msgid "Repeat mode"
+msgstr "Режим понављања"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Volume level"
+msgstr "Јачина звука"
+
+#: ../data/muine.schemas.in.h:18
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Јачина звука. 0 = најмања, 100 = највећа."
+
+#: ../data/muine.schemas.in.h:19
+msgid "Watched folders"
+msgstr "Праћени директоријуми"
+
+#: ../data/muine.schemas.in.h:20
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Да ли укључити режим понављања списка песама."
+
+#: ../data/muine.schemas.in.h:21
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"Коју страницу Амазона користити за преузимање слика албума, „us“, „uk“, „de“ "
+"или „jp“."
+
+#: ../data/muine.schemas.in.h:22
+msgid "Width of the \"Add album\" window."
+msgstr "Ширина прозора за додавање албума."
+
+#: ../data/muine.schemas.in.h:23
+msgid "Width of the \"Add song\" window."
+msgstr "Ширина прозора за додавање песме."
+
+#: ../data/muine.schemas.in.h:24
+msgid "Width of the playlist window."
+msgstr "Ширина прозора са списком песама."
+
+#: ../libmuine/player-gst.c:163
+msgid "Failed to create a GStreamer play object"
+msgstr "Неуспешно прављење ГСтример објекта за пуштање"
+
+#: ../libmuine/player-gst.c:170
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Не могу да користим подразумевани звучни излаз ГСтримера"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Не могу да учитам гонич звука „%s“\n"
+"Проверите да уређај није заузет."
+
+#: ../libmuine/player-xine.c:384 ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Није доступан додатак за „%s“"
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "Неуспешно пуштање „%s“"
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "Унутрашња грешка"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Не могу да пустим „%s“"
+
+#: ../src/About.cs:31
+msgid "translator-credits"
+msgstr ""
+"Данило Шеган <danilo@prevod.org>\n"
+"\n"
+"Prevod.org — превод на српски језик."
+
+#: ../src/About.cs:34
+msgid "Muine"
+msgstr "Мујна"
+
+#: ../src/About.cs:37
+msgid "Copyright © 2003, 2004, 2005 Jorn Baayen"
+msgstr "Сва права задржана © 2003, 2004, 2005 Јорн Бајен (Jorn Baayen)"
+
+#: ../src/About.cs:40
+msgid "A music player"
+msgstr "Музички програм"
+
+#: ../src/About.cs:44
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Јорн Бајен (Jorn Baayen — jbaayen@gnome.org)"
+
+#: ../src/About.cs:45
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Ли Вилис (Lee Willis — lee@leewillis.co.uk)"
+
+#: ../src/About.cs:46
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Вијет Јен Нгујен (Việt Yên Nguyễn — nguyen@cs.utwente.nl)"
+
+#: ../src/About.cs:47
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Тамара Роберсон (Tamara Roberson — tamara.roberson@gmail.com)"
+
+#: ../src/About.cs:49
+msgid "Album covers are provided by amazon.com."
+msgstr "Слике албума обезбеђује amazon.com."
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "_Датотека"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "_Песма"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "_Списак песама"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "По_моћ"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "У_вези директоријум..."
+
+#: ../src/Actions.cs:52
+msgid "_Open Playlist..."
+msgstr "_Отвори списак песама..."
+
+#: ../src/Actions.cs:55
+msgid "_Save Playlist As..."
+msgstr "_Сачувај списак песама као..."
+
+#: ../src/Actions.cs:58
+msgid "Hide _Window"
+msgstr "Са_криј прозор"
+
+#: ../src/Actions.cs:61
+msgid "Show _Window"
+msgstr "При_кажи прозор"
+
+#: ../src/Actions.cs:68
+msgid "_Previous"
+msgstr "Пре_тходна"
+
+#: ../src/Actions.cs:71
+msgid "_Next"
+msgstr "Сле_дећа"
+
+#: ../src/Actions.cs:74
+msgid "_Skip to..."
+msgstr "Прескочи _на..."
+
+#: ../src/Actions.cs:77
+msgid "Skip _Backwards"
+msgstr "Прескочи уна_зад"
+
+#: ../src/Actions.cs:80
+msgid "Skip _Forward"
+msgstr "Прескочи унап_ред"
+
+#: ../src/Actions.cs:84
+msgid "Play _Song..."
+msgstr "Пусти _песму..."
+
+#: ../src/Actions.cs:87
+msgid "Play _Album..."
+msgstr "Пусти _албум..."
+
+#: ../src/Actions.cs:90
+msgid "_Remove Song"
+msgstr "У_клони песму"
+
+#: ../src/Actions.cs:93
+msgid "Remove _Played Songs"
+msgstr "Уклони пуш_тене песме"
+
+#: ../src/Actions.cs:96
+msgid "_Clear"
+msgstr "_Очисти"
+
+#: ../src/Actions.cs:99
+msgid "R_epeat"
+msgstr "По_нављај"
+
+#: ../src/Actions.cs:102
+msgid "Shu_ffle"
+msgstr "_Измешај"
+
+#: ../src/Actions.cs:106
+msgid "_About"
+msgstr "_О програму"
+
+#: ../src/AddAlbumWindow.cs:44 ../src/PlaylistWindow.cs:89
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Извео {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "the dj"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid ""
+"Failed to initialize the configuration folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Неуспешно постављање директоријума са подешавањима: {0}\n"
+"\n"
+"Завршавам..."
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid ""
+"Failed to initialize the temporary files folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Неуспешно постављање привременог директоријума: {0}\n"
+"\n"
+"Завршавам..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "Неуспео извоз D-Bus објекта: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "Неуспело учитавање базе слика: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "Неуспело учитавање базе песама: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "Грешка при покретању Мујне."
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Увези директоријум"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "У_вези"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Неуспело учитавање метаподатака: {0}"
+
+#: ../src/NotificationAreaIcon.cs:38
+msgid "Muine music player"
+msgstr "Музички програм Мујна"
+
+#: ../src/NotificationAreaIcon.cs:43
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Отвори списак песама"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Датотеке са списком"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Пресними „{0}“?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid ""
+"A file with this name already exists. If you choose to overwrite this file, "
+"the contents will be lost."
+msgstr ""
+"Датотека овог имена већ постоји. Уколико одлучите да преснимите ову "
+"датотеку, њен садржај ће бити уништен."
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "Грешка звучног излаза:"
+
+#: ../src/PlaylistWindow.cs:71
+msgid "Playlist.m3u"
+msgstr "Spisak-pesama.m3u"
+
+#: ../src/PlaylistWindow.cs:74
+msgid "<b>Playlist</b>"
+msgstr "<b>Списак песама</b>"
+
+#: ../src/PlaylistWindow.cs:77
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Списак песама</b> (понавља)"
+
+#: ../src/PlaylistWindow.cs:80
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Списак песама</b> (преостало мање од минута)"
+
+#: ../src/PlaylistWindow.cs:83
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "Од „{0}“"
+
+#: ../src/PlaylistWindow.cs:86
+msgid "Album unknown"
+msgstr "Непознат албум"
+
+#: ../src/PlaylistWindow.cs:93
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} — музички програм Мујна"
+
+#: ../src/PlaylistWindow.cs:97
+msgid "Switch music playback on or off"
+msgstr "Пусти или искључи музику"
+
+#: ../src/PlaylistWindow.cs:100
+msgid "Play the previous song"
+msgstr "Пусти претходну песму"
+
+#: ../src/PlaylistWindow.cs:103
+msgid "Play the next song"
+msgstr "Пусти следећу песму"
+
+#: ../src/PlaylistWindow.cs:106
+msgid "Add an album to the playlist"
+msgstr "Додај албум у списак песама"
+
+#: ../src/PlaylistWindow.cs:109
+msgid "Add a song to the playlist"
+msgstr "Додај песму у списак песама"
+
+#: ../src/PlaylistWindow.cs:112
+msgid "Change the volume level"
+msgstr "Измени јачину звука"
+
+#: ../src/PlaylistWindow.cs:115
+msgid "Drop an image here to use it as album cover"
+msgstr "Овде превуците слику коју желите да користите за албум"
+
+#: ../src/PlaylistWindow.cs:119
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}"
+msgstr ""
+"Неуспешно постављање звучног излаза:\n"
+"{0}"
+
+#: ../src/PlaylistWindow.cs:122
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "Неуспело читање {0}:"
+
+#: ../src/PlaylistWindow.cs:125
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "Неуспело затварање {0}:"
+
+#: ../src/PlaylistWindow.cs:128
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "Неуспео упис {0}:"
+
+#: ../src/PlaylistWindow.cs:990
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Списак песама</b> (понавља {0} час)"
+msgstr[1] "<b>Списак песама</b> (понавља {0} часа)"
+msgstr[2] "<b>Списак песама</b> (понавља {0} часова)"
+
+#: ../src/PlaylistWindow.cs:995
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Списак песама</b> (понавља {0} минут)"
+msgstr[1] "<b>Списак песама</b> (понавља {0} минута)"
+msgstr[2] "<b>Списак песама</b> (понавља {0} минута)"
+
+#: ../src/PlaylistWindow.cs:1000
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Списак песама</b> (преостао {0} час)"
+msgstr[1] "<b>Списак песама</b> (преостала {0} часа)"
+msgstr[2] "<b>Списак песама</b> (преостало {0} часова)"
+
+#: ../src/PlaylistWindow.cs:1005
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Списак песама</b> (преостао {0} минут)"
+msgstr[1] "<b>Списак песама</b> (преостала {0} минута)"
+msgstr[2] "<b>Списак песама</b> (преостало {0} минута)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "Грешка при учитавању додатка {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "Увозим „{0}“..."
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "Учитавам:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Сачувај списак песама"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Безимена"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Непознат"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} и остали"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} и {1}"
+
+#~ msgid "*"
+#~ msgstr "*"
+
+#~ msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+#~ msgstr "<span weight=\"bold\" size=\"larger\">Музика није нађена</span>"
+
+#~ msgid "Failed to open {0} for reading"
+#~ msgstr "Нисам успео да отворим {0} ради читања"
+
+#~ msgid "Failed to open {0} for writing"
+#~ msgstr "Нисам успео да отворим {0} ради уписа"
+
+#~ msgid ""
+#~ "File {0} will be overwritten.\n"
+#~ "If you choose yes, the contents will be lost.\n"
+#~ "\n"
+#~ "Do you want to continue?"
+#~ msgstr ""
+#~ "Датотека {0} ће бити преснимљена.\n"
+#~ "Ако изаберете да, садржај ће бити изгубљен.\n"
+#~ "\n"
+#~ "Желите ли да наставите?"
+
+#~ msgid "First start."
+#~ msgstr "Прво покретање."
+
+#~ msgid "Information window height."
+#~ msgstr "Висина прозора са подацима."
+
+#~ msgid "Information window width."
+#~ msgstr "Ширина прозора са подацима."
+
+#~ msgid ""
+#~ "Muine was unable to find your music collection. What would you like me to "
+#~ "do?"
+#~ msgstr ""
+#~ "Мујна није успела да нађе вашу музичку колекцију. Шта желите да урадим?"
+
+#~ msgid ""
+#~ "Muine will create the folders Music and Music/Playlists in your home "
+#~ "folder to store your music files. This option is highly recommended. You "
+#~ "can always import other folders manually."
+#~ msgstr ""
+#~ "Мујна ће направити директоријуме „Music“ и „Music/Playlists“ у вашем "
+#~ "личном директоријуму ради смештања музичких датотека. Ова опција се веома "
+#~ "препоручује. Увек можете увући и друге директоријуме ручно."
+
+#~ msgid "No Music Found"
+#~ msgstr "Музика није нађена"
+
+#~ msgid "P_ause"
+#~ msgstr "П_аузирај"
+
+#~ msgid "Pause music playback"
+#~ msgstr "Паузирај пуштање музике"
+
+#~ msgid "Pl_ay"
+#~ msgstr "_Пусти"
+
+#~ msgid "Question"
+#~ msgstr "Питање"
+
+#~ msgid "Resume music playback"
+#~ msgstr "Настави пуштање музике"
+
+#~ msgid "TMP"
+#~ msgstr "ПРИВ"
+
+#~ msgid ""
+#~ "You will have to import your music manually. This is for experienced "
+#~ "users only and therefore not generally recommended."
+#~ msgstr ""
+#~ "Мораћете да увезете вашу музику ручно. Ово је намењено једино вештијим "
+#~ "корисницима и зато се не препоручује у сваком случају."
+
+#~ msgid "_Create an empty music collection "
+#~ msgstr "_Направи праву колекцију музике"
+
+#~ msgid "_Hide Window"
+#~ msgstr "Са_криј прозор"
+
+#~ msgid "_Next Song"
+#~ msgstr "С_ледећа песма"
+
+#~ msgid "_Nothing, I will manage my music myself"
+#~ msgstr "Н_ишта, сам ћу уредити моју музику"
+
+#~ msgid "_Previous Song"
+#~ msgstr "Пре_тходна песма"
+
+#~ msgid "false if Muine has been started before."
+#~ msgstr "„false“ ако је Мујна досад већ покретана."
+
+#~ msgid "<span weight=\"bold\">Playlist</span>"
+#~ msgstr "<span weight=\"bold\">Списак песама</span>"

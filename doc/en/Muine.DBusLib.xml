@@ -1,0 +1,11 @@
+<Namespace Name="Muine.DBusLib" FullName="Muine.DBusLib" FullNameSP="Muine.DBusLib" Maintainer="Mono">
+  <Docs>
+    <summary>Muine D-Bus support library.</summary>
+    <remarks>
+      <para>
+        This library contains the D-Bus object that is exported by the Muine
+	music player.
+      </para>
+    </remarks>
+  </Docs>
+</Namespace>

@@ -1,0 +1,632 @@
+# Arabic translations for THIS package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as THIS package.
+# Automatically generated, 2007.
+# Djihed Afifi <djihed@gmail.com>, 2007
+msgid ""
+msgstr ""
+"Project-Id-Version: Arabic\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-07-31 11:08+0100\n"
+"PO-Revision-Date: 2007-04-14 18:49+0100\n"
+"Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
+"Language-Team: Arabeyes <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/glade/AddWindow.glade.h:1 ../src/Actions.cs:62
+msgid "_Play"
+msgstr "إل_عب"
+
+#: ../data/glade/AddWindow.glade.h:2
+#, fuzzy
+msgid "_Queue"
+msgstr "طابور"
+
+#: ../data/glade/AddWindow.glade.h:3
+#, fuzzy
+msgid "_Search:"
+msgstr "ا_بحث"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "خطأ"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "تنميق الملف؟"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+#, fuzzy
+msgid "_Overwrite"
+msgstr "إحلاله؟"
+
+#: ../data/glade/PlaylistWindow.glade.h:1 ../src/AddAlbumWindow.cs:40
+#, fuzzy
+msgid "Play Album"
+msgstr "عزف ال_كلّ"
+
+#: ../data/glade/PlaylistWindow.glade.h:2 ../src/AddSongWindow.cs:40
+#, fuzzy
+msgid "Play Song"
+msgstr "اعزف صوت"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "تخطّي إلى"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr ""
+
+#: ../data/muine.desktop.in.h:2 ../src/PlaylistWindow.cs:73
+#, fuzzy
+msgid "Muine Music Player"
+msgstr "أظهر مشغل الموسيقى"
+
+#: ../data/muine.schemas.in.h:1
+#, fuzzy
+msgid "\"Add album\" window height"
+msgstr "إرتفاع النّافذة الإفتراضي"
+
+#: ../data/muine.schemas.in.h:2
+#, fuzzy
+msgid "\"Add album\" window width"
+msgstr "عرض النّافذة الإفتراضي"
+
+#: ../data/muine.schemas.in.h:3
+#, fuzzy
+msgid "\"Add song\" window height"
+msgstr "ارتفاع النّافذة"
+
+#: ../data/muine.schemas.in.h:4
+#, fuzzy
+msgid "\"Add song\" window width"
+msgstr "حجم النّافذة"
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr ""
+
+#: ../data/muine.schemas.in.h:6
+#, fuzzy
+msgid "Amazon site to use for album images"
+msgstr "الملف الذي سيستعمل كصورة خلفية"
+
+#: ../data/muine.schemas.in.h:7
+#, fuzzy
+msgid "Default import folder"
+msgstr "ترتيب التصنيف الإفتراضي"
+
+#: ../data/muine.schemas.in.h:8
+#, fuzzy
+msgid "Default playlist folder"
+msgstr "ترتيب التصنيف الإفتراضي"
+
+#: ../data/muine.schemas.in.h:9
+#, fuzzy
+msgid "Folders that are monitored for changes."
+msgstr "القطعة التي ستراقب لتغييرات مفاتيح الاختصار"
+
+#: ../data/muine.schemas.in.h:10
+#, fuzzy
+msgid "Height of the \"Add album\" window."
+msgstr "ارتفاع النّافذة الرّئيسيّة."
+
+#: ../data/muine.schemas.in.h:11
+#, fuzzy
+msgid "Height of the \"Add song\" window."
+msgstr "ارتفاع النّافذة الرّئيسيّة."
+
+#: ../data/muine.schemas.in.h:12
+#, fuzzy
+msgid "Height of the playlist window."
+msgstr "ارتفاع النّافذة الرّئيسيّة."
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr ""
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from the playlist file selectors."
+msgstr ""
+
+#: ../data/muine.schemas.in.h:15
+#, fuzzy
+msgid "Playlist window height"
+msgstr "إرتفاع النّافذة الإفتراضي"
+
+#: ../data/muine.schemas.in.h:16
+#, fuzzy
+msgid "Playlist window width"
+msgstr "عرض النّافذة الإفتراضي"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Repeat mode"
+msgstr "نمط الإعادة"
+
+#: ../data/muine.schemas.in.h:18
+#, fuzzy
+msgid "Volume level"
+msgstr "مقياس شدة الصوت"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr ""
+
+#: ../data/muine.schemas.in.h:20
+#, fuzzy
+msgid "Watched folders"
+msgstr "أنشيء مجلّد"
+
+#: ../data/muine.schemas.in.h:21
+#, fuzzy
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "فيما إذا ستستخدم و تعرض هذا الطور."
+
+#: ../data/muine.schemas.in.h:22
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+
+#: ../data/muine.schemas.in.h:23
+#, fuzzy
+msgid "Width of the \"Add album\" window."
+msgstr "عرض النّافذة"
+
+#: ../data/muine.schemas.in.h:24
+#, fuzzy
+msgid "Width of the \"Add song\" window."
+msgstr "عرض النّافذة"
+
+#: ../data/muine.schemas.in.h:25
+#, fuzzy
+msgid "Width of the playlist window."
+msgstr "عرض نافذة جنبلس"
+
+#: ../data/muine.schemas.in.h:26
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr ""
+
+#: ../libmuine/player-gst.c:154
+#, fuzzy
+msgid "Failed to create a GStreamer play object"
+msgstr "فشل إنشاء دليل مؤقت"
+
+#: ../libmuine/player-gst.c:161
+#, fuzzy
+msgid "Could not render default GStreamer audio output sink"
+msgstr "لا يمكن انشاء ملف خرْج لـGStreamer"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"لم يمكن تحميل المشغّل الصوتي '%s'\n"
+"تأكد من الجهاز ليس شاغلا."
+
+#: ../libmuine/player-xine.c:384 ../libmuine/player-xine.c:389
+#, fuzzy, c-format
+msgid "No plugin available for \"%s\""
+msgstr "لا تتوفّر تلميحة"
+
+#: ../libmuine/player-xine.c:394
+#, fuzzy, c-format
+msgid "Failed playing \"%s\""
+msgstr "فشل فتح العرض \"%s\"\n"
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "خطأ داخلي"
+
+#: ../libmuine/player-xine.c:407
+#, fuzzy, c-format
+msgid "Could not play \"%s\""
+msgstr "لم يمكن فتح \"%s\""
+
+#: ../src/About.cs:32
+#, fuzzy
+msgid "translator-credits"
+msgstr "المترجمون:"
+
+#: ../src/About.cs:35
+#, fuzzy
+msgid "Muine"
+msgstr "ماين"
+
+#: ../src/About.cs:38
+#, fuzzy
+msgid "Copyright © 2003-2007 Jorn Baayen"
+msgstr "حقوق النسخ © 2004-2007 أليكس جرافيلي"
+
+#: ../src/About.cs:41
+#, fuzzy
+msgid "A music player"
+msgstr "أنه مشغل الموسيقى"
+
+#: ../src/About.cs:48
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr ""
+
+#: ../src/About.cs:49
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr ""
+
+#: ../src/About.cs:50
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr ""
+
+#: ../src/About.cs:51
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr ""
+
+#: ../src/About.cs:52
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr ""
+
+#: ../src/About.cs:54
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr ""
+
+#: ../src/Actions.cs:36
+#, fuzzy
+msgid "_File"
+msgstr "/ملف"
+
+#: ../src/Actions.cs:39
+#, fuzzy
+msgid "_Song"
+msgstr "سونغيا"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "_قائمة تشغيل"
+
+#: ../src/Actions.cs:45
+#, fuzzy
+msgid "_Help"
+msgstr "مساعدة"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "ا_ستورد مجلد..."
+
+#: ../src/Actions.cs:52
+#, fuzzy
+msgid "_Open..."
+msgstr "افتح..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "ا_حفظ كـ..."
+
+#: ../src/Actions.cs:58
+#, fuzzy
+msgid "Show _Window"
+msgstr "أظهر النافذة"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "ال_سابق"
+
+#: ../src/Actions.cs:68
+#, fuzzy
+msgid "_Next"
+msgstr "التالي"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "تخ_طّى إلى..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "تخطّى إلى ال_خلف"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "تخطّى إلى الأ_مام"
+
+#: ../src/Actions.cs:81
+#, fuzzy
+msgid "Play _Song..."
+msgstr "عزف...."
+
+#: ../src/Actions.cs:84
+#, fuzzy
+msgid "Play _Album..."
+msgstr "عزف ال_كلّ"
+
+#: ../src/Actions.cs:87
+#, fuzzy
+msgid "_Remove Song"
+msgstr "/_حذف الأيقونة"
+
+#: ../src/Actions.cs:90
+#, fuzzy
+msgid "Remove _Played Songs"
+msgstr "احذف الملوك"
+
+#: ../src/Actions.cs:93
+#, fuzzy
+msgid "_Clear"
+msgstr "ا_مسح"
+
+#: ../src/Actions.cs:96
+#, fuzzy
+msgid "R_epeat"
+msgstr "إعادة"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "اخل_ط"
+
+#: ../src/Actions.cs:103
+#, fuzzy
+msgid "_About"
+msgstr "_6 عن البرنامج"
+
+#: ../src/AddAlbumWindow.cs:43 ../src/PlaylistWindow.cs:94
+#, csharp-format
+msgid "Performed by {0}"
+msgstr ""
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr ""
+
+#: ../src/FileUtils.cs:44
+#, fuzzy, csharp-format
+msgid "Failed to initialize the configuration folder: {0}"
+msgstr "لم يتمكن توتم من تشغيل محرّك الإعداد."
+
+#: ../src/FileUtils.cs:47
+#, fuzzy, csharp-format
+msgid "Failed to initialize the temporary files folder: {0}"
+msgstr ""
+"لم يمكن مسح المجلد المؤقت:\n"
+"%s"
+
+#: ../src/FileUtils.cs:50
+msgid "Exiting..."
+msgstr ""
+
+#: ../src/Global.cs:37
+#, fuzzy, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "فشل طرد {0}"
+
+#: ../src/Global.cs:40
+#, fuzzy, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr ""
+"لم أستطع فتح قاعدة بيانات mork:\n"
+"\n"
+" {0}"
+
+#: ../src/Global.cs:43
+#, fuzzy, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr ""
+"لم أستطع فتح قاعدة بيانات mork:\n"
+"\n"
+" {0}"
+
+#: ../src/Global.cs:46
+#, fuzzy
+msgid "Error initializing Muine."
+msgstr "خطأ أثناء بدأ libnotify\n"
+
+#: ../src/ImportDialog.cs:37
+#, fuzzy
+msgid "Import Folder"
+msgstr "استورد م_جلد"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "استيراد"
+
+#: ../src/Metadata.cs:34
+#, fuzzy, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "فشل في قراءة البيانات العامة من '%s': %s"
+
+#: ../src/OpenDialog.cs:37
+#, fuzzy
+msgid "Open Playlist"
+msgstr "قائمة تشغيل جديدة"
+
+#: ../src/OpenDialog.cs:40
+#, fuzzy
+msgid "Playlist files"
+msgstr "فهرس قائمة التشغيل"
+
+#: ../src/OverwriteDialog.cs:34
+#, fuzzy, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "إحلاله؟"
+
+#: ../src/OverwriteDialog.cs:37
+#, fuzzy
+msgid ""
+"A file with this name already exists. If you choose to overwrite this file, "
+"the contents will be lost."
+msgstr ""
+"هناك ملف موجود مسبقا بنفس الإسم، لا تملك التصاريح اللازمة للكتابة فوقه."
+
+#: ../src/Player.cs:39
+#, fuzzy
+msgid "Audio backend error:"
+msgstr "خطاء Socket"
+
+#: ../src/PlaylistWindow.cs:76
+#, fuzzy
+msgid "Playlist.m3u"
+msgstr "قائمة التشغيل"
+
+#: ../src/PlaylistWindow.cs:79
+#, fuzzy
+msgid "<b>Playlist</b>"
+msgstr "<b>لاعبون</b>"
+
+#: ../src/PlaylistWindow.cs:82
+#, fuzzy
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<big><b>قائمة العزف</b></big>"
+
+#: ../src/PlaylistWindow.cs:85
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr ""
+
+#: ../src/PlaylistWindow.cs:88
+#, csharp-format
+msgid "From \"{0}\""
+msgstr ""
+
+#: ../src/PlaylistWindow.cs:91
+#, fuzzy
+msgid "Album unknown"
+msgstr "مجهول"
+
+#: ../src/PlaylistWindow.cs:98
+#, fuzzy, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "مشغّل موسيقى %s %s"
+
+#: ../src/PlaylistWindow.cs:102
+msgid "Switch music playback on or off"
+msgstr ""
+
+#: ../src/PlaylistWindow.cs:105
+msgid "Play the previous song"
+msgstr "شغّل الأغنية السابقة"
+
+#: ../src/PlaylistWindow.cs:108
+msgid "Play the next song"
+msgstr "شغّل الأغنية السابقة"
+
+#: ../src/PlaylistWindow.cs:111
+#, fuzzy
+msgid "Add an album to the playlist"
+msgstr "أضف بريد إلكتروني للقائمة"
+
+#: ../src/PlaylistWindow.cs:114
+#, fuzzy
+msgid "Add a song to the playlist"
+msgstr "اضف الملفات المختارة الي القائمة الجديدة"
+
+#: ../src/PlaylistWindow.cs:117
+#, fuzzy
+msgid "Change the volume level"
+msgstr "غَيِّر حدة الصوت"
+
+#: ../src/PlaylistWindow.cs:120
+msgid "Drop an image here to use it as album cover"
+msgstr ""
+
+#: ../src/PlaylistWindow.cs:124
+#, fuzzy
+msgid "Failed to initialize the audio backend"
+msgstr "لا يمكن بدأ المنتهى الخلفي لـ libusb - %s"
+
+#: ../src/PlaylistWindow.cs:127
+#, fuzzy, csharp-format
+msgid "Failed to read {0}:"
+msgstr "فشل طرد {0}"
+
+#: ../src/PlaylistWindow.cs:130
+#, fuzzy, csharp-format
+msgid "Failed to close {0}:"
+msgstr "فشل طرد {0}"
+
+#: ../src/PlaylistWindow.cs:133
+#, fuzzy, csharp-format
+msgid "Failed to write {0}:"
+msgstr "فشل طرد {0}"
+
+#: ../src/PlaylistWindow.cs:1083
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/PlaylistWindow.cs:1088
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/PlaylistWindow.cs:1093
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/PlaylistWindow.cs:1098
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/PluginManager.cs:34
+#, fuzzy, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "خطأ عند تحميل الأيقونة: %s"
+
+#: ../src/ProgressWindow.cs:33
+#, fuzzy, csharp-format
+msgid "Importing \"{0}\""
+msgstr "جاري تحديث \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+#, fuzzy
+msgid "Loading:"
+msgstr "جاري التحميل"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "احفظ قائمة التّشغيل"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "بدون عنوان"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "مجهول"
+
+#: ../src/StringUtils.cs:34
+#, fuzzy, csharp-format
+msgid "{0} and others"
+msgstr "{0} دقائق"
+
+#: ../src/StringUtils.cs:37
+#, fuzzy, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} من {1}"
+
+#: ../src/VolumeButton.cs:490
+#, fuzzy
+msgid "Muted"
+msgstr "مورتيد"
+
+#: ../src/VolumeButton.cs:492
+msgid "Full Volume"
+msgstr "أعلى مستوى"
+
+#: ../plugins/TrayIcon.cs:35
+#, fuzzy
+msgid "Muine music player"
+msgstr "أنه مشغل الموسيقى"
+
+#: ../plugins/TrayIcon.cs:40
+#, fuzzy, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} من {1}"

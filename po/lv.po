@@ -1,0 +1,578 @@
+# translation of muine.HEAD.po to Latvian
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Raivis Dejus <orvils@gmail.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine.HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-07-24 16:41+0300\n"
+"PO-Revision-Date: 2006-07-21 13:50+0200\n"
+"Last-Translator: Ingrīda Irguļska <Ingrida.Irgulska@gmail.com>\n"
+"Language-Team: Latvian <locale@laka.lv>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+"X-Generator: KBabel 1.10.2\n"
+
+#: ../data/glade/AddWindow.glade.h:1 ../src/Actions.cs:62
+msgid "_Play"
+msgstr "_Atskaņot"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "_Rinda"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Meklēt:"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Kļūda"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "Pārrakstīt failu?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "_Pārrakstīt"
+
+#: ../data/glade/PlaylistWindow.glade.h:1 ../src/AddAlbumWindow.cs:41
+msgid "Play Album"
+msgstr "Atskaņot albumu"
+
+#: ../data/glade/PlaylistWindow.glade.h:2 ../src/AddSongWindow.cs:41
+msgid "Play Song"
+msgstr "Atskaņot dziesmu"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Pārlekt uz"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Klausīties savu mūziku"
+
+#: ../data/muine.desktop.in.h:2 ../src/PlaylistWindow.cs:68
+msgid "Muine Music Player"
+msgstr "Muine mūzikas atskaņotājs"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"Pievienot albumu\" loga augstums"
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"Pievienot albumu\" loga platums"
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"Pievienot dziesmu\" loga augstums"
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"Pievienot dziesmu\" loga platums"
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "Amazon Dev Tag"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "Amazon vietne, lieto albumu attēliem"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "Noklusētā ieviešanas mape"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "Atskaņojumu saraksta noklusētā mape"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Mapes, kas tiek pārraudzītas izmaiņām."
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "Loga \"Pievienot albumu\" augstums."
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "Loga \"Pievienot dziesmu\" augstums."
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "Atskaņojumu saraksta loga augstums."
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Pedējā izmantotā mape no \"Ieviest mapi\" dialoga."
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from the playlist file selectors."
+msgstr "Pedējā izmantotā mape no atskaņojumu saraksta failu atlasītāja."
+
+#: ../data/muine.schemas.in.h:15
+msgid "Playlist window height"
+msgstr "Atskaņojumu saraksta loga augstums"
+
+#: ../data/muine.schemas.in.h:16
+msgid "Playlist window width"
+msgstr "Atskaņojumu saraksta loga platums"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Repeat mode"
+msgstr "Atkārtošanas režīms"
+
+#: ../data/muine.schemas.in.h:18
+msgid "Volume level"
+msgstr "Skaļuma līmenis"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Skaļuma līmenis. 0 = zemākais ,100 = augstākais."
+
+#: ../data/muine.schemas.in.h:20
+msgid "Watched folders"
+msgstr "Skatītās mapes"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Aktivizēt vai nē, atskaņojumu saraksta atkārtošanas režīmu."
+
+#: ../data/muine.schemas.in.h:22
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"Kuru Amazon vietni izmantot albuma attēlu ienešanai, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+
+#: ../data/muine.schemas.in.h:23
+msgid "Width of the \"Add album\" window."
+msgstr "\"Pievienot albumu\" loga platums."
+
+#: ../data/muine.schemas.in.h:24
+msgid "Width of the \"Add song\" window."
+msgstr "\"Pievienot dziesmu\" loga platums."
+
+#: ../data/muine.schemas.in.h:25
+msgid "Width of the playlist window."
+msgstr "Atskaņojumu saraksta loga platums."
+
+#: ../data/muine.schemas.in.h:26
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "Jūsu Amazon Dev Tag albuma vāku mākslas ienešanai"
+
+#: ../libmuine/player-gst.c:155
+msgid "Failed to create a GStreamer play object"
+msgstr "Neizdevās izveidot GStreamer atskaņošanas objektu"
+
+#: ../libmuine/player-gst.c:162
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Neizdevās sniegt noklusēto GStreamer audio izvades saņēmēju"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Ielādēt '%s' audio dzini neizdevās\n"
+"Pārbaudiet vai ierīce nav pārslogota."
+
+#: ../libmuine/player-xine.c:384 ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Nav pieejams spraudnis priekš \"%s\""
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr " \"%s\" atskaņošana neizdevās"
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "Iekšēja kļūda"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Neizdevās atskaņot  \"%s\""
+
+#: ../src/About.cs:31
+msgid "translator-credits"
+msgstr "Paldies_tulkotājiemСтанислав Мищенко <krigan@balticom.lv>"
+
+#: ../src/About.cs:34
+msgid "Muine"
+msgstr "Muine"
+
+#: ../src/About.cs:37
+msgid "Copyright © 2003-2006 Jorn Baayen"
+msgstr "Copyright © 2003-2006 Jorn Baayen"
+
+#: ../src/About.cs:40
+msgid "A music player"
+msgstr "Mūzikas atskaņotājs"
+
+#: ../src/About.cs:44
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: ../src/About.cs:45
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: ../src/About.cs:46
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: ../src/About.cs:47
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson <tamara.roberson@gmail.com>"
+
+#: ../src/About.cs:48
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "Peter Johanson <peter@peterjohanson.com>"
+
+#: ../src/About.cs:50
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "Albuma vākus piegādā amazon.com and musicbrainz.org."
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "_Fails"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "_Dziesma"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "_Atskaņojumu saraksts"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "_Palīdzība"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "_Importēt mapi..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "_Atvērt..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "_Saglabāt kā..."
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "Rādīt _logu"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "I_epriekšējais"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "_Nākamais"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "_Pārlēkt uz..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "Pārlekt _atpakaļ"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "Pārlekt uz _priekšu"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "Atskaņot _dziesmu..."
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "Atskaņot _albumu..."
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "_Izņemt dziesmu"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "Izņemt _atskaņotās dziesmas"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "_Notīrīt"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "A_tkārtot"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "Jau_kt"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "_Par"
+
+#: ../src/AddAlbumWindow.cs:44 ../src/PlaylistWindow.cs:89
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Izpilda {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "Dj"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid ""
+"Failed to initialize the configuration folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Neizdevās inicializēt konfigurācijas mapi: {0}\n"
+"\n"
+"Iziešana..."
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid ""
+"Failed to initialize the temporary files folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Neizdevās inicializēt pagaidu failu mapi: {0}\n"
+"\n"
+"Iziešana..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "Neizdevās izvest D-Bus objektu: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "Neizdevās ielādēt vāku datu bāzi: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "Neizdevās ielādēt dziesmu datu bāzi: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "Kļūda inicializējot Muine."
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Ieviest mapi"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "_Ieviest"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Neizdevās ielādēt metadatus: {0}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Atvērt atskaņojumu sarakstu"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Atskaņojumu saraksta faili"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Pārrakstīt \"{0}\"?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid ""
+"A file with this name already exists. If you choose to overwrite this file, "
+"the contents will be lost."
+msgstr ""
+"Fails ar šādu nosaukumu jau eksistē. Ja jūs izvēlaties šo failu pārrakstīt, "
+"tā saturs tiks zaudēts."
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "Audio aizmugures kļūda:"
+
+#: ../src/PlaylistWindow.cs:71
+msgid "Playlist.m3u"
+msgstr "Atskaņojumu saraksts.m3u"
+
+#: ../src/PlaylistWindow.cs:74
+msgid "<b>Playlist</b>"
+msgstr "<b>Atskaņojumu saraksts</b>"
+
+#: ../src/PlaylistWindow.cs:77
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Atskaņojumu saraksts</b> (Atkārto)"
+
+#: ../src/PlaylistWindow.cs:80
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Atskaņojumu saraksts</b> (Māzāk par vienu minūti atlicis)"
+
+#: ../src/PlaylistWindow.cs:83
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "No \"{0}\""
+
+#: ../src/PlaylistWindow.cs:86
+msgid "Album unknown"
+msgstr "Nepazīstams albums "
+
+#: ../src/PlaylistWindow.cs:93
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Muine Mūzikas atskaņotājs"
+
+#: ../src/PlaylistWindow.cs:97
+msgid "Switch music playback on or off"
+msgstr "Pārslēgt mūzikas atskaņošanu, ieslēgt vai izslēgt"
+
+#: ../src/PlaylistWindow.cs:100
+msgid "Play the previous song"
+msgstr "Atskaņot iepriekšējo dziesmu"
+
+#: ../src/PlaylistWindow.cs:103
+msgid "Play the next song"
+msgstr "Atskaņot nākamo dziesmu"
+
+#: ../src/PlaylistWindow.cs:106
+msgid "Add an album to the playlist"
+msgstr "Pievienot albumu atskaņojumu sarakstam"
+
+#: ../src/PlaylistWindow.cs:109
+msgid "Add a song to the playlist"
+msgstr "Pievienot dziesmu atskaņojumu sarakstam"
+
+#: ../src/PlaylistWindow.cs:112
+msgid "Change the volume level"
+msgstr "Mainīt skaļuma līmeni"
+
+#: ../src/PlaylistWindow.cs:115
+msgid "Drop an image here to use it as album cover"
+msgstr "Iemest attēlu te, lai izmantot to kā albuma vāku"
+
+#: ../src/PlaylistWindow.cs:119
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}"
+msgstr ""
+"Neizdevās inicializēt audio aizmuguri:\n"
+"{0}"
+
+#: ../src/PlaylistWindow.cs:122
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "Neizdevās nolasīt {0}:"
+
+#: ../src/PlaylistWindow.cs:125
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "Neizdevās aizvērt {0}:"
+
+#: ../src/PlaylistWindow.cs:128
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "Neizdevās rakstīt {0}:"
+
+#: ../src/PlaylistWindow.cs:1029
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Repertuārs</b> (Atkārto {0} stundu)"
+msgstr[1] "<b>Repertuārs</b> (Atkārto {0} stundas)"
+msgstr[2] "<b>Repertuārs</b> (Atkārto {0} stundu)"
+
+#: ../src/PlaylistWindow.cs:1034
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Repertuārs</b> (Atkārto {0} minūti))"
+msgstr[1] "<b>Repertuārs</b> (Atkārto {0} minūtes)"
+msgstr[2] "<b>Repertuārs</b> (Atkārto {0} minūti)"
+
+#: ../src/PlaylistWindow.cs:1039
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Repertuārs</b> (Atlikusi {0} stunda)"
+msgstr[1] "<b>Repertuārs</b> (Atlikušas {0} stundas)"
+msgstr[2] "<b>Repertuārs</b> (Atlikusi {0} stunda)"
+
+#: ../src/PlaylistWindow.cs:1044
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Repertuārs</b> (Atlikusi {0} minūte)"
+msgstr[1] "<b>Repertuārs</b> (Atlikušas {0} minūtes)"
+msgstr[2] "<b>Repertuārs</b> (Atlikusi {0} minūte)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "Kļūda ielādējot spraudni {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "Ievieš \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "Ielādēšana:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Saglabāt atskaņojumu sarakstu"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Nenosaukts"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Nezināms"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} un citi"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} un {1}"
+
+#: ../plugins/TrayIcon.cs:35
+msgid "Muine music player"
+msgstr "Muine mūzikas atskaņotājs"
+
+#: ../plugins/TrayIcon.cs:40
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"

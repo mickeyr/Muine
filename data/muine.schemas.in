@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/muine/playlist_window/width</key>
+      <applyto>/apps/muine/playlist_window/width</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>-1</default>
+      <locale name="C">
+        <short>Playlist window width</short>
+        <long>Width of the playlist window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/playlist_window/height</key>
+      <applyto>/apps/muine/playlist_window/height</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>450</default>
+      <locale name="C">
+        <short>Playlist window height</short>
+        <long>Height of the playlist window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/playlist_window/pos_x</key>
+      <applyto>/apps/muine/playlist_window/pos_x</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Playlist window horizontal position</short>
+        <long>Horizontal position of the playlist window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/playlist_window/pos_y</key>
+      <applyto>/apps/muine/playlist_window/pos_y</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Playlist window vertical position</short>
+        <long>Vertical position of the playlist window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/add_song_window/width</key>
+      <applyto>/apps/muine/add_song_window/width</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>500</default>
+      <locale name="C">
+        <short>"Add song" window width</short>
+        <long>Width of the "Add song" window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/add_song_window/height</key>
+      <applyto>/apps/muine/add_song_window/height</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>450</default>
+      <locale name="C">
+        <short>"Add song" window height</short>
+        <long>Height of the "Add song" window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/add_album_window/width</key>
+      <applyto>/apps/muine/add_album_window/width</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>500</default>
+      <locale name="C">
+        <short>"Add album" window width</short>
+        <long>Width of the "Add album" window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/add_album_window/height</key>
+      <applyto>/apps/muine/add_album_window/height</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>450</default>
+      <locale name="C">
+        <short>"Add album" window height</short>
+        <long>Height of the "Add album" window.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/volume</key>
+      <applyto>/apps/muine/volume</applyto>
+      <owner>muine</owner>
+      <type>int</type>
+      <default>50</default>
+      <locale name="C">
+        <short>Volume level</short>
+        <long>Volume level. 0 = lowest, 100 = highest.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/repeat</key>
+      <applyto>/apps/muine/repeat</applyto>
+      <owner>muine</owner>
+      <type>bool</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Repeat mode</short>
+        <long>Whether or not to enable repeat playlist mode.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/watched_folders</key>
+      <applyto>/apps/muine/watched_folders</applyto>
+      <owner>muine</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
+      <locale name="C">
+        <short>Watched folders</short>
+        <long>Folders that are monitored for changes.</long>
+      </locale>
+    </schema>
+    <schema>
+        <key>/schemas/apps/muine/only_complete_albums</key>
+        <applyto>/apps/muine/only_complete_albums</applyto>
+        <owner>muine</owner>
+        <type>bool</type>
+        <default>1</default>
+        <locale name="C">
+          <short>Only complete albums</short>
+          <long>Only deal with complete albums in the interface.</long>
+        </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/default_import_folder</key>
+      <applyto>/apps/muine/default_import_folder</applyto>
+      <owner>muine</owner>
+      <type>string</type>
+      <default>~/Music/</default>
+      <locale name="C">
+        <short>Default import folder</short>
+        <long>Last used folder from "Import folder" dialog.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/default_playlist_folder</key>
+      <applyto>/apps/muine/default_playlist_folder</applyto>
+      <owner>muine</owner>
+      <type>string</type>
+      <default>~/Music/Playlists/</default>
+      <locale name="C">
+        <short>Default playlist folder</short>
+        <long>Last used folder from the playlist file selectors.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/amazon_locale</key>
+      <applyto>/apps/muine/amazon_locale</applyto>
+      <owner>muine</owner>
+      <type>string</type>
+      <default>us</default>
+      <locale name="C">
+        <short>Amazon site to use for album images</short>
+	<long>Which Amazon site to use for fetching album images, "us", "uk", "de", or "jp".</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/amazon_dev_tag</key>
+      <applyto>/apps/muine/amazon_dev_tag</applyto>
+      <owner>muine</owner>
+      <type>string</type>
+      <default>amazondevtag</default>
+      <locale name="C">
+      	<short>Amazon Dev Tag</short>
+	<long>Your Amazon Dev Tag for fetching album cover art</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/muine/show_notifications</key>
+      <applyto>/apps/muine/show_notifications</applyto>
+      <owner>muine</owner>
+      <type>bool</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Show Notifications</short>
+	<long>Whether or not the tray icon shows song change notifications</long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>

@@ -1,0 +1,582 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-02-13 15:30+0000\n"
+"PO-Revision-Date: 2007-03-26 14:41+0530\n"
+"Last-Translator: sonam pelden <sonaa_peldn@yahoo.com>\n"
+"Language-Team: dzongkha <pgeyleg@dit.gov.bt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Dzongkha\n"
+"X-Poedit-Country: BHUTAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../data/glade/AddWindow.glade.h:1
+#: ../src/Actions.cs:62
+msgid "_Play"
+msgstr "གཏང་།(_P)"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "མི་གྲལ།(_Q)"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "འཚོལ་ཞིབ།(_S):"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "འཛོལ་བ།"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "ཡིག་སྣོད་ཚབ་སྲུང་འབད་ནི་ཨིན་ན?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "ཚབ་སྲུང་འབད་ནི།(_O)"
+
+#: ../data/glade/PlaylistWindow.glade.h:1
+#: ../src/AddAlbumWindow.cs:40
+msgid "Play Album"
+msgstr "གླུ་མཛོད་གཏང་།"
+
+#: ../data/glade/PlaylistWindow.glade.h:2
+#: ../src/AddSongWindow.cs:40
+msgid "Play Song"
+msgstr "ཞབས་ཁྲ་གཏང་།"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "ལུ་གོམ་འགྱོ།"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "ཁྱོད་རའི་སྙན་ཆ་ལུ་ཉན།"
+
+#: ../data/muine.desktop.in.h:2
+#: ../src/PlaylistWindow.cs:73
+msgid "Muine Music Player"
+msgstr "མུའིན་སྙན་ཆ་གཏང་མི།"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"Add album\" ཝིནཌོ་མཐོ་ཚད།"
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"Add album\" ཝིནཌོ་རྒྱ་ཚད།"
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"Add song\" ཝིནཌོ་མཐོ་ཚད།"
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"Add song\" ཝིནཌོ་རྒྱ་ཚད།"
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "ཨེ་མེ་ཇཱོན་ཌེབ་ངོ་རྟགས།"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "གླུ་མཛོད་གཞུགས་བརྙན་ཚུ་གི་དོན་ལུ་ལག་ལེན་འཐབ་ནི་ལུ་ཨེ་མེ་ཛཱོན་ས་ཁོངས།"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "སྔོན་སྒྲིག་ནང་འདྲེན་སྣོད་འཛིན།"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "སྔོན་སྒྲིག་གཏང་ཐོ་སྣོད་འཛིན།"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "བསྒྱུར་བཅོས་ཚུ་གི་དོན་ལུ་གསལ་འཕྲུལ་འབད་ཡོད་མི་སྣོད་འཛིན་ཚུ།"
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "ཝིནཌོ་འདི་གི་ \"Add album\" མཐོ་ཚད།"
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "ཝིནཌོ་འདི་གི་ \"Add song\" མཐོ་ཚད།"
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "གཏང་ཐོ་ཝིནཌོ་འདི་གི་མཐོ་ཚད།"
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "ཌའི་ལོག་ལས་ \"Import folder\" ལག་ལེན་འཐབ་ཡོད་མི་སྣོད་འཛིན་མཇུག"
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from the playlist file selectors."
+msgstr "གཏང་ཐོ་ཡིག་སྣོད་སེལ་འཐུ་འབད་མི་འདི་ལས་ལག་ལེན་འཐབ་ཡོད་མི་སྣོད་འཛིན་མཇུག"
+
+#: ../data/muine.schemas.in.h:15
+msgid "Playlist window height"
+msgstr "གཏང་ཐོ་ཝིནཌོ་མཐོ་ཚད།"
+
+#: ../data/muine.schemas.in.h:16
+msgid "Playlist window width"
+msgstr "གཏང་ཐོ་ཝིནཌོ་རྒྱ་ཚད།"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Repeat mode"
+msgstr "ཡང་བསྐྱར་ཐབས་ལམ།"
+
+#: ../data/muine.schemas.in.h:18
+msgid "Volume level"
+msgstr "སྐད་ཚད་གནས་རིམ།"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "སྐད་ཚད་གནས་རིམ། ༠ =དམའ་ཤོས  ༡༠༠ = མཐོ་ཤོས།"
+
+#: ../data/muine.schemas.in.h:20
+msgid "Watched folders"
+msgstr "བལྟ་ཞིབ་འབད་ཡོད་མི་སྣོད་འཛིན་ཚུ།"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "གཏང་ཐོ་ཐབས་ལམ་ཡང་བསྐྱར་ལྕོགས་ཅན་མེན་རུང་ཡང་ན་ཨིན་རུང་།"
+
+#: ../data/muine.schemas.in.h:22
+msgid "Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", or \"jp\"."
+msgstr "གླུ་མཛོད་གཟུགས་བརྙན་ཚུ་ལེན་ནི་དོན་ལུ་ལག་ལེན་འཐབ་ནི་ལུ་ཨེ་མེ་ཛཱོན་ས་ཁོངས་དེ་ནང་། \"us\", \"uk\", \"de\", or \"jp\"."
+
+#: ../data/muine.schemas.in.h:23
+msgid "Width of the \"Add album\" window."
+msgstr "ཝིནཌོ་འདི་གི་ \"Add album\" རྒྱ་ཚད།"
+
+#: ../data/muine.schemas.in.h:24
+msgid "Width of the \"Add song\" window."
+msgstr "ཝིནཌོ་འདི་གི་ \"Add song\" རྒྱ་ཚད།"
+
+#: ../data/muine.schemas.in.h:25
+msgid "Width of the playlist window."
+msgstr "གཏང་ཐོ་ཝིནཌོ་འདི་གི་རྒྱ་ཚད།"
+
+#: ../data/muine.schemas.in.h:26
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "ཁྱོད་ཀྱི་ཨེ་མེ་ཛཱོན་ཌེབ་ངོ་རྟགས་གློ་མཛོད་ཁེབས་རི་མོ་དོན་ལུ།"
+
+#: ../libmuine/player-gst.c:155
+msgid "Failed to create a GStreamer play object"
+msgstr "ཇི་སི་ཊི་མར་གཏང་དངོས་པོ་ཅིག་གསར་བསྐྲུན་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ།"
+
+#: ../libmuine/player-gst.c:162
+msgid "Could not render default GStreamer audio output sink"
+msgstr "སྔོན་སྒྲིག་ཇི་སི་ཊི་མར་རྣར་ཉན་ཨའུཊི་པུཊི་འཁྱུ་གཞོང་ལྷག་སྟོན་འབད་མ་ཚུགསཔ།"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"རྣར་ཉན་འདྲེན་བྱེད་འདི་ '%s' མངོན་གསལ་འབད་མ་ཚུགསཔ།\n"
+"ཐབས་འཕྲུལ་འདི་ཁོམ་མེདཔ་ཞིབ་དཔྱད་འབད།"
+
+#: ../libmuine/player-xine.c:384
+#: ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "དོན་ལུ་པ་ལག་ཨིན་འཐོབ་མ་ཚུགསཔ \"%s\""
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "གཏང་ནི་འཐུས་ཤོར་ཡོདཔ \"%s\""
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "ནང་འཁོད་འཛོལ་བ།"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "གཏང་མ་ཚུགསཔ \"%s\""
+
+#: ../src/About.cs:32
+msgid "translator-credits"
+msgstr "སྐད་བསྒྱུར་པ་-ངོ་བསྟོད་ཚུ།"
+
+#: ../src/About.cs:35
+msgid "Muine"
+msgstr "མུའིན།"
+
+#: ../src/About.cs:38
+msgid "Copyright © 2003-2007 Jorn Baayen"
+msgstr "འདྲ་བཤུས་དབང་ཆ © ༢༠༠༣-༢༠༠༦ ཇོརན་བཱ་ཡིན་"
+
+#: ../src/About.cs:41
+msgid "A music player"
+msgstr "སྙན་ཆ་ཅིག་གཏང་མི།"
+
+#: ../src/About.cs:48
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: ../src/About.cs:49
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: ../src/About.cs:50
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: ../src/About.cs:51
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson <tamara.roberson@gmail.com>"
+
+#: ../src/About.cs:52
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "Peter Johanson <peter@peterjohanson.com>"
+
+#: ../src/About.cs:54
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "གླུ་མཛོད་ཁེབས་ཚུ་ amazon.com and musicbrainz.org.གིས་བྱིན་ཡོདཔ་ཨིན།"
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "ཡིག་སྣོད།(_F)"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "ཞབས་ཁྲ།(_S)"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "གཏང་ཐོ།(_P)"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "གྲོགས་རམ།(_H)"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "སྣོད་འཛིན་ནང་འདྲེན།(_I)..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "ཁ་ཕྱེ།(_O)..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "བཟུམ་སྦེ་སྲུངས་བཞག(_S)..."
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "ཝིནཌོ་སྟོན།(_W)"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "ཧེ་མ།(_r)"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "ཤུལ་མ།(_N)"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "ལུ་གོམ་འགྱོ།(_S)..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "རྒྱབ་བསྐྱོད་གོམ་འགྱོ།(_B)"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "གདོང་བསྐྱོད་གོམ་འགྱོ།(_F)"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "ཞབས་ཁྲ་གཏང་།(_S)..."
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "གླུ་མཛོད་གཏང་།(_A)..."
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "ཞབས་ཁྲ་རྩ་བསྐྲད་གཏང་།(_R)"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "གཏང་ཚར་མི་ཞབས་ཁྲ་རྩ་བསྐྲད་གཏང་།(_P)"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "བསལ།(_C)"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "ཡང་བསྐྱར།(_e)"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "རིམ་དཀྲུགས།(_f)"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "སྐོར་ལས།(_A)"
+
+#: ../src/AddAlbumWindow.cs:43
+#: ../src/PlaylistWindow.cs:94
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "གིས་ལཱ་འགན་འགྲུབ་ཡོདཔ {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "ཌི་ཇེ་འདི།"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid ""
+"Failed to initialize the configuration folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"རིམ་སྒྲིག་སྣོད་འཛིན་འདི་འགོ་འབྱེད་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ: {0}\n"
+"\n"
+"ཕྱིར་ཐོན་དོ..."
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid ""
+"Failed to initialize the temporary files folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"།གནས་སྐབས་ཡིག་སྣོད་སྣོད་འཛིན་འདི་འགོ་འབྱེད་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ།: {0}\n"
+"\n"
+"ཕྱིར་ཐོན་དོ..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "ཌི-བི་ཡུ་ཨེསི་དངོས་པོ་ཕྱིར་འདྲེན་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "ཁེབས་གནས་སྡུད་གཞི་རྟེན་འདི་མངོན་གསལ་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ།: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "ཞབས་ཁྲ་གནས་སྡུད་གཞི་རྟེན་འདི་མངོན་གསལ་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ།: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "མུའིན་འགོ་འབྱེད་འབད་ནི་འཛོལ་བ།"
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "སྣོད་འཛིན་ནང་འདྲེན་འབད།"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "ནང་འདྲེན་འབད་ནི།(_I)"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "མེ་ཊ་གནད་སྡུད་མངོན་གསལ་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ།: {0}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "གཏང་ཐོ་ཁ་ཕྱེ།"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "གཏང་ཐོ་ཡིག་སྣོད་ཚུ།"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "ཚབ་སྲུང་འབད་ནི \"{0}\"?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid "A file with this name already exists. If you choose to overwrite this file, the contents will be lost."
+msgstr "ཡིག་སྣོད་མིང་དེ་ཧེ་མ་ལས་ཡོདཔ་ཨིན། ཁྱོད་ཀྱིས་ཡིག་སྣོད་འདི་ཚབ་སྲུང་འབད་ནི་ཨིན་པ་ཅིན་ནང་དོན་ཚུ་བརླག་སྟོར་ཞུགསཔ་ཨིན།"
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "རྣར་ཉན་རྒྱབ་མཐའ་འཛོལ་བ།:"
+
+#: ../src/PlaylistWindow.cs:76
+msgid "Playlist.m3u"
+msgstr "གླུ་ཐོ་m3u"
+
+#: ../src/PlaylistWindow.cs:79
+msgid "<b>Playlist</b>"
+msgstr "<b>གཏང་ཐོ།</b>"
+
+#: ../src/PlaylistWindow.cs:82
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>གླུ་ཐོ</b> (ཡང་བསྐྱར་འབད་དོ།)"
+
+#: ../src/PlaylistWindow.cs:85
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>གླུ་ཐོ</b> (སྐར་མ་ལྷག་ལུས་མི་གཅིག་ལས་ཉུང་མི།)"
+
+#: ../src/PlaylistWindow.cs:88
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "ལས \"{0}\""
+
+#: ../src/PlaylistWindow.cs:91
+msgid "Album unknown"
+msgstr "གླུ་མཛོད་མ་ཤེསཔ།"
+
+#: ../src/PlaylistWindow.cs:98
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} -མུའིན་སྙན་ཆ་གཏང་མི།"
+
+#: ../src/PlaylistWindow.cs:102
+msgid "Switch music playback on or off"
+msgstr "སྙན་ཆ་གླུ་གཞས་གཏང་ནི་ཨོན་ཡང་ན་ཨོཕ་སོར་བསྒྱུར་འབད།"
+
+#: ../src/PlaylistWindow.cs:105
+msgid "Play the previous song"
+msgstr "ཧེ་མམ་གྱི་ཞབས་ཁྲ་འདི་གཏང་།"
+
+#: ../src/PlaylistWindow.cs:108
+msgid "Play the next song"
+msgstr "ཤུལ་མམ་གྱི་ཞབས་ཁྲ་འདི་གཏང་།"
+
+#: ../src/PlaylistWindow.cs:111
+msgid "Add an album to the playlist"
+msgstr "གླུ་ཐོ་འདི་ལུ་གླུ་མཛོད་ཅིག་ཁ་སྐོང་རྐྱབས།"
+
+#: ../src/PlaylistWindow.cs:114
+msgid "Add a song to the playlist"
+msgstr "གླུ་ཐོ་འདི་ལུ་ཞབས་ཁྲ་ཅིག་ཁ་སྐོང་རྐྱབས།"
+
+#: ../src/PlaylistWindow.cs:117
+msgid "Change the volume level"
+msgstr "སྐད་ཚད་གནས་རིམ་འདི་སོར།"
+
+#: ../src/PlaylistWindow.cs:120
+msgid "Drop an image here to use it as album cover"
+msgstr "གཟུགས་བརྙན་ཅིག་འདི་ནང་གླུ་མཛོད་ཁེབས་སྦེ་ལག་ལེན་འཐབ་ནི་ལུ་བཀོག་བཞག"
+
+#: ../src/PlaylistWindow.cs:124
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}"
+msgstr ""
+"རྣར་ཉན་རྒྱབ་མཐའ་འདི་འགོ་འབྱེད་འབད་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ།:\n"
+"{0}"
+
+#: ../src/PlaylistWindow.cs:127
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "ལྷག་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ {0}:"
+
+#: ../src/PlaylistWindow.cs:130
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "ཁ་བསྡམས་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ {0}:"
+
+#: ../src/PlaylistWindow.cs:133
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "འབྲི་ནི་ལུ་འཐུས་ཤོར་ཡོདཔ {0}:"
+
+#: ../src/PlaylistWindow.cs:1084
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>གླུ་ཐོ</b> (ཆུ་ཚོད་ {0} ཡང་བསྐྱར་འབད་དོ)"
+msgstr[1] "<b>གླུ་ཐོ</b> (ཆུ་ཚོད་ཚུ་ {0} བསྐྱར་འབད་དོ།)"
+
+#: ../src/PlaylistWindow.cs:1089
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>གླུ་ཐོ</b> (སྐར་མ་ཚུ {0} ཡང་བསྐྱར་འབད་དོ)"
+msgstr[1] "<b>གླུ་ཐོ</b> (སྐར་མ་ཚུ {0} ཡང་བསྐྱར་འབད་དོ།)"
+
+#: ../src/PlaylistWindow.cs:1094
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>གླུ་ཐོ</b> ({0} ཆུ་ཚོད་ཚུ་ལྷག་ལུས་མི།)"
+msgstr[1] "<b>གླུ་ཐོ</b> ({0} ཆུ་ཚོད་ཚུ་ལྷག་ལུས་མི།)"
+
+#: ../src/PlaylistWindow.cs:1099
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>གླུ་ཐོ་</b> ({0} སྐར་མ་ལྷག་ལུས་མི།)"
+msgstr[1] "<b>གླུ་ཐོ་</b> ({0} སྐར་མ་ཚུ་ལྷག་ལུས་མི།)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "པ་ལག་ཨིན་མངོན་གསལ་འབད་ནི་འཛོལ་བ {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "ནང་འདྲེན་འབད་དོ \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "མངོན་གསལ་འབད་དོ།:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "གླུ་ཐོ་སྲུངས་བཞག་འབད།"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "མགོ་མིང་མ་བཏགསཔ།"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "མ་ཤེསཔ།"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} དང་གཞན་ཚུ།"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} དང་ {1}"
+
+#: ../src/VolumeButton.cs:492
+msgid "Muted"
+msgstr "སྐད་མེད་བཟོས་པ་"
+
+#: ../src/VolumeButton.cs:494
+msgid "Full Volume"
+msgstr "སྐད་ཤུགས་"
+
+#: ../plugins/TrayIcon.cs:35
+msgid "Muine music player"
+msgstr "མུའིན་སྙན་ཆ་གཏང་མི།"
+
+#: ../plugins/TrayIcon.cs:40
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+

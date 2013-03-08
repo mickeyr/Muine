@@ -1,0 +1,651 @@
+# Danish translation of muine.
+# Copyright (C) 2007 Kjartan Maraas
+# This file is distributed under the same license as the muine package.
+# Kenneth Christiansen <kenneth@gnome.org>, 2004.
+# David Nielsen <david@lovesunix.net>, 2005.
+# Peter Bach <bach.peter@gmail.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-02-23 16:54+0200\n"
+"PO-Revision-Date: 2007-02-23 16:57+0200\n"
+"Last-Translator: Peter Bach <bach.peter@gmail.com>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/glade/AddWindow.glade.h:1
+#: ../src/Actions.cs:62
+msgid "_Play"
+msgstr "Afs_pil"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "_Kø"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Søg:"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Fejl"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "Overskriv fil?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "_Overskriv"
+
+#: ../data/glade/PlaylistWindow.glade.h:1
+#: ../src/AddAlbumWindow.cs:40
+msgid "Play Album"
+msgstr "Afspil album"
+
+#: ../data/glade/PlaylistWindow.glade.h:2
+#: ../src/AddSongWindow.cs:40
+msgid "Play Song"
+msgstr "Spil sang"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Skift til"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Lyt til din musik"
+
+#: ../data/muine.desktop.in.h:2
+#: ../src/PlaylistWindow.cs:73
+msgid "Muine Music Player"
+msgstr "Muine - musikafspiller"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"Tilføj album\"-vinduets højde"
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"Tilføj album\"-vinduets bredde"
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"Tilføj sang\"-vinduets højde."
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"Tilføj sang\"-vinduets bredde."
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "Amazon-udviklermærke"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "Hvilket Amazon-websted skal bruges til hentning af coverbilleder"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "Standard-importeringsmappe"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "Standard-sætlistemappe"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Mapper som overvåges for ændringer."
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "\"Tilføj album\"-vinduets bredde."
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "\"Tilføj sang\"-vinduets højde."
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "Sætlistevinduets højde"
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Sidste brugte mappe fra \"Importér mappe\"-vinduet."
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from the playlist file selectors."
+msgstr "Sidste brugte mappe fra sætliste-filvælgeren."
+
+#: ../data/muine.schemas.in.h:15
+msgid "Playlist window height"
+msgstr "Sætlistevinduets højde"
+
+#: ../data/muine.schemas.in.h:16
+msgid "Playlist window width"
+msgstr "Sætlistevinduets bredde"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Repeat mode"
+msgstr "Gentagelsestilstand"
+
+#: ../data/muine.schemas.in.h:18
+msgid "Volume level"
+msgstr "Lydstyrkeniveau"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Lydstyrkeniveau. 0 = lavest, 100 = højest."
+
+#: ../data/muine.schemas.in.h:20
+msgid "Watched folders"
+msgstr "Overvågede mapper"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Om gentagelsestilstanden skal slås til eller ej."
+
+#: ../data/muine.schemas.in.h:22
+msgid "Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", or \"jp\"."
+msgstr "Hvilket Amazon-websted skal bruges til hentning af coverbilleder, \"us\", \"uk\", \"de\" eller \"jp\"."
+
+#: ../data/muine.schemas.in.h:23
+msgid "Width of the \"Add album\" window."
+msgstr "\"Tilføj album\"-vinduets bredde."
+
+#: ../data/muine.schemas.in.h:24
+msgid "Width of the \"Add song\" window."
+msgstr "\"Tilføj sang\"-vinduets bredde."
+
+#: ../data/muine.schemas.in.h:25
+msgid "Width of the playlist window."
+msgstr "Sætlistevinduets bredde."
+
+#: ../data/muine.schemas.in.h:26
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "Dit Amazon-udviklermæke for hentning af album-omslagskunst"
+
+#: ../libmuine/player-gst.c:155
+msgid "Failed to create a GStreamer play object"
+msgstr "Det mislykkedes at oprette a GStreamer-afspilningsobjekt"
+
+#: ../libmuine/player-gst.c:162
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Kunne ikke generere standard GSteamer-lyduddataelement"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Kunne ikke indlæse '%s' lydmodulet\n"
+"Kontrollér venligst om enheden er optaget."
+
+#: ../libmuine/player-xine.c:384
+#: ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Intet udvidelsesmodul tilgængeligt til \"%s\""
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "Fejl ved afspilning af \"%s\""
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "Intern fejl"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Kunne ikke afspille \"%s\""
+
+#: ../src/About.cs:32
+msgid "translator-credits"
+msgstr ""
+"Kenneth Christiansen\n"
+"David Nielsen\n"
+"Peter Bach\n"
+"\n"
+"Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
+"Mere info: http://www.dansk-gruppen.dk"
+
+#: ../src/About.cs:35
+msgid "Muine"
+msgstr "Muine"
+
+#: ../src/About.cs:38
+msgid "Copyright © 2003-2007 Jorn Baayen"
+msgstr "Copyright © 2003-07 Jorn Baayen"
+
+#: ../src/About.cs:41
+msgid "A music player"
+msgstr "En musikafspiller"
+
+#: ../src/About.cs:48
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen (jbaayen@gnome.org)"
+
+#: ../src/About.cs:49
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis (lee@leewillis.co.uk)"
+
+#: ../src/About.cs:50
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn (nguyen@cs.utwente.nl)"
+
+#: ../src/About.cs:51
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson (tamara.roberson@gmail.com)"
+
+#: ../src/About.cs:52
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "Peter Johanson <peter@peterjohanson.com>"
+
+#: ../src/About.cs:54
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "Albumcovere leveret af amazon.com og musicbrainz.org."
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "_Fil"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "_Sang"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "S_ætliste"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "_Hjælp"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "_Importér mappe..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "_Åbn..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "_Gem som..."
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "Vis _vindue"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "_Forrige"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "_Næste"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "_Skift til..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "Spring _tilbage"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "Spring _fremad"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "Spil _sang..."
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "Spil _Album"
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "Fje_rn sang"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "Fjern allerede spillede sange"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "_Ryd"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "G_entag"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "_Tilfældig"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "_Om"
+
+#: ../src/AddAlbumWindow.cs:43
+#: ../src/PlaylistWindow.cs:94
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Spillet af {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "DJ'en"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid ""
+"Failed to initialize the configuration folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Det mislykkedes at initialisere konfigurationsmappen: {0}\n"
+"\n"
+"Afslutter..."
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid ""
+"Failed to initialize the temporary files folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Det mislykkedes af initialisere den midlertidige fil mappe {0}\n"
+"\n"
+"Afslutter..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "Det mislykkedes at eksportere D-Bus-objekt: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "Det mislykkedes af indlæse coverdatabasen: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "Det mislykkedes af indlæse sangdatabasen: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "Fejl ved initialisering af Muine."
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Importér mappe"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "_Importér"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Det mislykkedes at indlæse metadata: {0} "
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Åbn Sætliste"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Sætlistefiler"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Overskriv \"{0}\"?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid "A file with this name already exists. If you choose to overwrite this file, the contents will be lost."
+msgstr "En fil med dette navn findes allerede. Hvis du vælger at overskrive denne filvil indholdet gå tabt."
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "Fejl i lydbackend:"
+
+#: ../src/PlaylistWindow.cs:76
+msgid "Playlist.m3u"
+msgstr "Sætliste.m3u"
+
+#: ../src/PlaylistWindow.cs:79
+msgid "<b>Playlist</b>"
+msgstr "<b>Sætliste</b>"
+
+#: ../src/PlaylistWindow.cs:82
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Sætliste</b> (med gentagelse)"
+
+#: ../src/PlaylistWindow.cs:85
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Sætliste</b> (mindre end et minut tilbage)"
+
+#: ../src/PlaylistWindow.cs:88
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "Fra \"{0}\""
+
+#: ../src/PlaylistWindow.cs:91
+msgid "Album unknown"
+msgstr "Ukendt album"
+
+#: ../src/PlaylistWindow.cs:98
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Muine Musikafspiller"
+
+#: ../src/PlaylistWindow.cs:102
+msgid "Switch music playback on or off"
+msgstr "Start eller stop musikafspilning"
+
+#: ../src/PlaylistWindow.cs:105
+msgid "Play the previous song"
+msgstr "Afspil forrige sang"
+
+#: ../src/PlaylistWindow.cs:108
+msgid "Play the next song"
+msgstr "Afspil næste sang"
+
+#: ../src/PlaylistWindow.cs:111
+msgid "Add an album to the playlist"
+msgstr "Tilføj et album til sætlisten"
+
+#: ../src/PlaylistWindow.cs:114
+msgid "Add a song to the playlist"
+msgstr "Tilføj en sang til sætlisten"
+
+#: ../src/PlaylistWindow.cs:117
+msgid "Change the volume level"
+msgstr "Justér lydstyrkeniveauet"
+
+#: ../src/PlaylistWindow.cs:120
+msgid "Drop an image here to use it as album cover"
+msgstr "Slip et billede her for at gøre brug af det som albumcover"
+
+#: ../src/PlaylistWindow.cs:124
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}"
+msgstr ""
+"Fejl ved initialisering af lydbackend:\n"
+"{0}"
+
+#: ../src/PlaylistWindow.cs:127
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "Det mislykkedes at indlæse {0}:"
+
+#: ../src/PlaylistWindow.cs:130
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "Det mislykkedes at lukke {0}:"
+
+#: ../src/PlaylistWindow.cs:133
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "Det mislykkedes at skrive {0}:"
+
+#: ../src/PlaylistWindow.cs:1084
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Sætliste</b> (gentager {0} timers musik)"
+msgstr[1] "<b>Sætliste</b> (gentager {0} timers musik)"
+
+#: ../src/PlaylistWindow.cs:1089
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Sætliste</b> (gentager {0} minut)"
+msgstr[1] "<b>Sætliste</b> (gentager {0} minutter)"
+
+#: ../src/PlaylistWindow.cs:1094
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Sætliste</b> ({0} timer tilbage)"
+msgstr[1] "<b>Sætliste</b> ({0} timer tilbage)"
+
+#: ../src/PlaylistWindow.cs:1099
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Sætliste</b> ({0} minut tilbage)"
+msgstr[1] "<b>Sætliste</b> ({0} minutter tilbage)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "Fejl ved indlæsning af udvidelsesmodul: {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "Importér \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "Indlæser:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Gem sætliste"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Ikke navngiven"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} og andre"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} og {1}"
+
+#: ../src/VolumeButton.cs:490
+msgid "Muted"
+msgstr "Dæmpet"
+
+#: ../src/VolumeButton.cs:492
+msgid "Full Volume"
+msgstr "Fuld lydstyrke"
+
+#: ../plugins/TrayIcon.cs:35
+msgid "Muine music player"
+msgstr "Muine - musikafspiller"
+
+#: ../plugins/TrayIcon.cs:40
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#~ msgid "Hide _Window"
+#~ msgstr "Skjul _vindue"
+#~ msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+#~ msgstr ""
+#~ "<span weight=\"bold\" size=\"larger\">Intet musik blev fundet</span>"
+#~ msgid ""
+#~ "Muine will create the folders Music and Music/Playlists in your home "
+#~ "folder to store your music files. This option is highly recommended. You "
+#~ "can always import other folders manually."
+#~ msgstr ""
+#~ "Muine vil oprette mapperne Music og Music/Playlists i din private "
+#~ "hjemmemappe for at gemme dine musikfiler der. Denne indstilling kan "
+#~ "stærkt anbefales. Du kan altid importerer mapper manuelt."
+#~ msgid "No Music Found"
+#~ msgstr "Intet musik fundet"
+#~ msgid ""
+#~ "You will have to import your music manually. This is for experienced "
+#~ "users only and therefore not generally recommended."
+#~ msgstr ""
+#~ "Du bliver nødt til at importere dit musik manuelt. Dette er kun for øvede "
+#~ "brugere og er derfor ikke anbefalet for alle."
+#~ msgid "_Hide Window"
+#~ msgstr "_Skjul vinduet"
+#~ msgid "Information window height."
+#~ msgstr "Informationsvinduets højde."
+#~ msgid "Information window width."
+#~ msgstr "Informationsvinduets bredde."
+#~ msgid "_Previous Song"
+#~ msgstr "_Forrige sang"
+#~ msgid "_Next Song"
+#~ msgstr "_Næste sang"
+#~ msgid "Pause music playback"
+#~ msgstr "Pause afspilning"
+#~ msgid "P_ause"
+#~ msgstr "P_ause"
+#~ msgid "Resume music playback"
+#~ msgstr "Genoptag afspilning"
+#~ msgid "Pl_ay"
+#~ msgstr "Sp_ill"
+#~ msgid "Failed to open {0} for reading"
+#~ msgstr "Det mislykkedes at åbne {0} for læsning"
+#~ msgid "Failed to open {0} for writing"
+#~ msgstr "Det mislykkedes at åbne {0} for skrivning"
+#~ msgid "<b>Groups</b>"
+#~ msgstr "<b>Grupper</b>"
+#~ msgid "<b>Songs</b> (30 minutes in total)"
+#~ msgstr "<b>Sange</b> (30 minutter alt i alt)"
+#~ msgid "Groups"
+#~ msgstr "Grupper"
+#~ msgid "_Add song"
+#~ msgstr "_Tilføj sang"
+#~ msgid "Play _Album"
+#~ msgstr "Spil pl_ade"
+#~ msgid "Play _Song"
+#~ msgstr "Spil _sang"
+#~ msgid "_Clear Playlist"
+#~ msgstr "_Tøm sætliste..."
+#~ msgid "_Information"
+#~ msgstr "_Information"
+#~ msgid "Orientation"
+#~ msgstr "Orientering"
+#~ msgid "Song _Information"
+#~ msgstr "Sang_information"
+

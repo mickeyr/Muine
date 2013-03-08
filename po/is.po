@@ -1,0 +1,351 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Samúel Jón Gunnarsson  <sammi@techattack.nu>, 2004.
+msgid ""
+msgstr ""
+"Project-Id-Version: Muine 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-10 23:48+0000\n"
+"PO-Revision-Date: 2004-08-10 23:48-0000\n"
+"Last-Translator: Samuel Jon Gunnarsson <sammi@techattack.nu>\n"
+"Language-Team: Icelandic <gnome@techattack.nu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/glade/AddWindow.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: data/glade/AddWindow.glade.h:2
+msgid "_Play"
+msgstr "_Spila"
+
+#: data/glade/AddWindow.glade.h:3
+msgid "_Queue"
+msgstr "_Biðröð"
+
+#: data/glade/AddWindow.glade.h:4
+msgid "_Search:"
+msgstr "_Leita:"
+
+#: data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Villa"
+
+#: data/glade/NoMusicFoundWindow.glade.h:1
+msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+msgstr "<span weight=\"bold\" size=\"larger\">Engin tónlist fannst</span>"
+
+#: data/glade/NoMusicFoundWindow.glade.h:2
+msgid ""
+"Muine was unable to find your music collection. What would you like me to do?"
+msgstr "Muine tókst ekki að finna tónlistarsafn, hvað viltu að ég geri?"
+
+#: data/glade/NoMusicFoundWindow.glade.h:3
+msgid ""
+"Muine will create the folders Music and Music/Playlists in your home folder "
+"to store your music files. This option is highly recommended. You can always "
+"import other folders manually."
+msgstr ""
+"Muine mun stofna möppurnar Music og Music/Playlist innan þíns heimasvæðis "
+"til vistunar á tónlistarskrám. Mælt er með þessum valmöguleika og einnig er "
+"hægt að innflytja möppur handvirkt."
+
+#: data/glade/NoMusicFoundWindow.glade.h:4
+msgid "No Music Found"
+msgstr "Engin tónlist fannst"
+
+#: data/glade/NoMusicFoundWindow.glade.h:5
+msgid ""
+"You will have to import your music manually. This is for experienced users "
+"only and therefore not generally recommended."
+msgstr ""
+"Þú verður að innflytja tónlistina þína handvirkt inn. Þetta er einungis "
+"fyrir reynda notendur og er almennt ekki ráðlagt."
+
+#: data/glade/NoMusicFoundWindow.glade.h:6
+msgid "_Create an empty music collection"
+msgstr "_Stofna nýtt tónlistarsafn"
+
+#: data/glade/NoMusicFoundWindow.glade.h:7
+msgid "_Nothing, I will manage my music myself"
+msgstr "_Ekkert, ég mun sjálf(ur) halda höndum yfir mína tónlist"
+
+#: data/glade/PlaylistWindow.glade.h:1
+#, fuzzy
+msgid "P_roperties"
+msgstr "Stillinga_r"
+
+#: data/glade/PlaylistWindow.glade.h:2
+msgid "Play Album"
+msgstr "Spila albúm"
+
+#: data/glade/PlaylistWindow.glade.h:3
+msgid "Play Song"
+msgstr "Spila lag"
+
+#: data/glade/PlaylistWindow.glade.h:4
+msgid "Play _Album..."
+msgstr "Spila _albúm..."
+
+#: data/glade/PlaylistWindow.glade.h:5
+msgid "Play _Song..."
+msgstr "_Spila lag..."
+
+#: data/glade/PlaylistWindow.glade.h:6
+msgid "R_epeat"
+msgstr "_Endurtaka"
+
+#: data/glade/PlaylistWindow.glade.h:7
+msgid "Remove _Played Songs"
+msgstr "Fjarl_ægja spiluð lög"
+
+#: data/glade/PlaylistWindow.glade.h:8
+msgid "Skip _Backwards"
+msgstr "Hopa til_baka"
+
+#: data/glade/PlaylistWindow.glade.h:9
+msgid "Skip _Forward"
+msgstr "Hopa _fram"
+
+#: data/glade/PlaylistWindow.glade.h:10
+msgid "TMP"
+msgstr "TMP"
+
+#: data/glade/PlaylistWindow.glade.h:11
+msgid "_Clear"
+msgstr "_Hreinsa"
+
+#: data/glade/PlaylistWindow.glade.h:12
+msgid "_Hide Window"
+msgstr "_Fela glugga"
+
+#: data/glade/PlaylistWindow.glade.h:13
+msgid "_Import Folder..."
+msgstr "_Innflytja möppu..."
+
+#: data/glade/PlaylistWindow.glade.h:14
+msgid "_Next"
+msgstr "_Næsta"
+
+#: data/glade/PlaylistWindow.glade.h:15
+msgid "_Open Playlist..."
+msgstr "_Opna afspilunarlista..."
+
+#: data/glade/PlaylistWindow.glade.h:16
+msgid "_Playlist"
+msgstr "Afs_pilunarlisti"
+
+#: data/glade/PlaylistWindow.glade.h:17
+msgid "_Previous"
+msgstr "_Fyrra"
+
+#: data/glade/PlaylistWindow.glade.h:18
+msgid "_Remove Song"
+msgstr "Fja_rlægja lag"
+
+#: data/glade/PlaylistWindow.glade.h:19
+msgid "_Save Playlist As..."
+msgstr "Vi_sta afspilunarlista sem..."
+
+#: data/glade/PlaylistWindow.glade.h:20
+msgid "_Skip to..."
+msgstr "_Hopa að..."
+
+#: data/glade/PlaylistWindow.glade.h:21
+msgid "_Song"
+msgstr "_Lag"
+
+#: data/glade/ProgressWindow.glade.h:1
+msgid "Loading:"
+msgstr "Hleð:"
+
+#: data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Hopa að"
+
+#: data/glade/YesNoDialog.glade.h:1
+msgid "Question"
+msgstr "Spurning"
+
+#: data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Hlusta á mína tónlist"
+
+#: data/muine.desktop.in.h:2
+msgid "Muine Music Player"
+msgstr "Muine tónlistarspilari"
+
+#: data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "Hæð \"bæta við albúm\" glugga."
+
+#: data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "Breidd \"bæta við albúm\" glugga."
+
+#: data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "Hæð \"bæta við lagi\" glugga."
+
+#: data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "Breidd \"bæta við lagi\" glugga"
+
+#: data/muine.schemas.in.h:5
+msgid "Amazon site to use for album images"
+msgstr "Amazon svæði sem nota með myndum yfir albúm"
+
+#: data/muine.schemas.in.h:6
+msgid "Default import folder"
+msgstr "Sjálfgefin innflutningsmappa"
+
+#: data/muine.schemas.in.h:7
+msgid "Default playlist folder"
+msgstr "Sjálfgefin mappa afspilunarlista"
+
+#: data/muine.schemas.in.h:8
+msgid "First start"
+msgstr "Fyrsta keyrsla"
+
+#: data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Möppur sem vaktaðar eftir breytingum."
+
+#: data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "Hæð \"bæta við albúm\" glugga."
+
+#: data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "Hæð \"bæta við lagi\" glugga."
+
+#: data/muine.schemas.in.h:12
+msgid "Height of the information window."
+msgstr "Hæð upplýsingaglugga."
+
+#: data/muine.schemas.in.h:13
+msgid "Height of the playlist window."
+msgstr "Hæð afspilunarglugga."
+
+#: data/muine.schemas.in.h:14
+msgid "Information window height"
+msgstr "Hæð upplýsingaglugga"
+
+#: data/muine.schemas.in.h:15
+msgid "Information window width"
+msgstr "Breidd upplýsingaglugga"
+
+#: data/muine.schemas.in.h:16
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Síðast notaða mappa frá \"Innflytja möppu\" glugganum."
+
+#: data/muine.schemas.in.h:17
+msgid "Last used folder from the playlist file selectors."
+msgstr "Síðast notaða mappa frá afspilunarlista valmynd."
+
+#: data/muine.schemas.in.h:18
+msgid "Playlist window height"
+msgstr "Hæð afspilunarglugga"
+
+#: data/muine.schemas.in.h:19
+msgid "Playlist window width"
+msgstr "Breidd afspilunarglugga"
+
+#: data/muine.schemas.in.h:20
+msgid "Repeat mode"
+msgstr "Endurtaka"
+
+#: data/muine.schemas.in.h:21
+msgid "Volume level"
+msgstr "Hljóðstyrkur"
+
+#: data/muine.schemas.in.h:22
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Hljóðstyrkur, 0 = lágmark, 100 = hámark."
+
+#: data/muine.schemas.in.h:23
+msgid "Watched folders"
+msgstr "Vaktaðar möppur."
+
+#: data/muine.schemas.in.h:24
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Hvort að virkja eigi endurtekningu á afspilunarlista."
+
+#: data/muine.schemas.in.h:25
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"Hvaða Amazon svæði á að nota við niðurhal á myndum yfir albúm, \"us\",\"uk\","
+"\"de\" eða \"jp\"."
+
+#: data/muine.schemas.in.h:26
+msgid "Width of the \"Add album\" window."
+msgstr "Breidd \"Bæta við albúm\" glugga."
+
+#: data/muine.schemas.in.h:27
+msgid "Width of the \"Add song\" window."
+msgstr "Breidd \"Bæta við lagi\" glugga."
+
+#: data/muine.schemas.in.h:28
+msgid "Width of the information window."
+msgstr "Breidd upplýsingaglugga."
+
+#: data/muine.schemas.in.h:29
+msgid "Width of the playlist window."
+msgstr "Breidd afspilunarglugga."
+
+#: data/muine.schemas.in.h:30
+msgid "false if Muine has been started before."
+msgstr "falskt ef Muine hefur ekki verið ræstur upp áður."
+
+#: libmuine/player-gst.c:157
+msgid "Failed to create GstPlay object"
+msgstr "Ekki tókst að stofna GstPlay object"
+
+#: libmuine/player-gst.c:164
+#, fuzzy
+msgid "Failed to create the required gnomevfssrc GStreamer element"
+msgstr "Ekki tókst að stofna"
+
+#: libmuine/player-gst.c:173
+#, fuzzy
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Ekki tókst að render-a sjálfgefna GStreamer hljóð-útgangs-vaskinn"
+
+#: libmuine/player-gst.c:182
+#, fuzzy
+msgid "Could not find the volume element in the GstPlay pipeline"
+msgstr "Ekki tókst að vinna hljóstyrks element í GstPlay pípunni"
+
+#: libmuine/player-xine.c:283
+#, fuzzy, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Ekki tókst að hlaða '%s' hljóðrekli\n"
+"Vinsamlegast athugið hvort eining sé ekki upptekinn."
+
+#: libmuine/player-xine.c:378 libmuine/player-xine.c:383
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Engar viðbætur til staðar fyrir \"%s\""
+
+#: libmuine/player-xine.c:388
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "Ekki tókst að spila \"%s\""
+
+#: libmuine/player-xine.c:392
+msgid "Internal error"
+msgstr "Innri villa"
+
+#: libmuine/player-xine.c:401
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Ekki tókst að spila \"%s\""

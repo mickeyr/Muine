@@ -1,0 +1,642 @@
+0.8.11
+=====
+
+- Various deprecation cleanups [Diego Escalante Urrelo, Jorn Baayen,
+				Luis Medinas, Priit Laes, Wouter Bolsterlee]
+- Use GLib's GSequence API [Scott Robinson, Jorn Baayen, Wouter Bolsterlee]
+- Use GtkMessageDialog instead of Glade-based ones [Priit Laes]
+- Use Gnome.Vfs# instead of P/Invoked functions [Priit Laes]
+- Use taglib-sharp for metadata reading [Vianney le Clément, Priit Laes]
+- Drop gnome-vfs usage [Diego Escalante Urrelo]
+- Drop xine backend [Priit Laes]
+- Various bugs fixes and cleanups [Iain, Iain Lane, Daniel G. Siegel]
+
+Bugs marked as fixed during this release cycle:
+  #553296, #474090, #559631, #560077, #387152, #560115, #464825, #562365,
+  #562901, #564578, #539501, #584702, #573172, #572841, #559892
+
+Updated translations:
+- Basque [Iñaki Larrañaga Murgoitio]
+- Brazilian Portuguese [César Veiga, Vladimir Melo]
+- Finnish [Ilkka Tuohela]
+- German [Mario Blättermann]
+- Japanese [Takeshi AIHANA]
+- Lithuanian [Žygimantas Beručka]
+- Polish [Tomasz Dominikowski]
+- Simplified Chinese [Aron Xu]
+- Spanish [Jorge González]
+- Swedish [Daniel Nylander]
+
+0.8.10
+======
+
+- Notifications using libnotify [Wouter Bolsterlee, Iain Holmes]
+- Improve tray icon usuability [Ryan Lortie, Luis Medinas]
+- Make handling of full albums configurable [Diego Escalante Urrelo]
+- Remember window position between restarts [Adolfo Blásquez]
+- Fix .desktop file validation [Wouter Bolsterlee]
+- Use system inotify headers [Adrian Bunk, Luis Medinas]
+- Missing libid3tag checks in configure [Peter Adolphs]
+- Remove internal NDesk-DBus from the tree [Luis Medinas]
+
+Updated translations:
+- Arabic [Djihed Afifi]
+- Dutch [Wouter Bolsterlee]
+- Polish [Tomasz Dominikowski]
+
+0.8.9
+=====
+
+- Updated Tango-style icons [Hylke Bons]
+- Improved FLAC detection [Wouter Bolsterlee]
+- Don't wakeup the CPU unnecessarily [Wouter Bolsterlee]
+- Build fixes for newer GLib and GTK+ [Wouter Bolsterlee]
+
+Updated translations:
+- Basque [Inaki Larranaga Murgoitio]
+- Brazilian Portuguese [Jonh Wendell ]
+- French [Ivan Buresi, Robert-André Mauchin]
+- Japanese [Takeshi AIHANA]
+- Nepali [Pawan Chitrakar]
+- Occitan [Yannig Marchegay]
+- Polish [Artur Flinta]
+
+0.8.8
+=====
+
+- Removed obsolete GStreamer 0.8 support [Peter Johanson]
+- Use Gtk.AboutDialog [Tamara Roberson, Peter Johanson]
+- Update to recent Flac API [Peter Johanson]
+- Use Bacon volume widget [Aaron Bockover, Peter Johanson, Wouter Bolsterlee]
+- Use external NDesk dbus [Sebastian Dröge, Luis Medinas]
+- Tiny interface changes, e.g. scrollbar and mousewheel [Wouter Bolsterlee]
+- Update to new GSequence API [Scott Robinson, Wouter Bolsterlee]
+- Gendarme-driven code cleanup [Tamara Roberson]
+- Support for MM keys on newer GNOME versions (yanked from Banshee) [Peter
+  Johanson]
+- Updated NDesk managed DBus import [Peter Johanson]
+
+New translations:
+- Italian [Marco Dalla Vecchia]
+
+Updated translations:
+- Arabic [Djihed Afifi]
+- Basque [Inaki Larranaga Murgoitio]
+- British English [David Lodge]
+- Danish [Peter Bach]
+- Dutch [Wouter Bolsterlee]
+- Dzongkha [Pema Geyleg]
+- Finnish [Ilkka Tuohela]
+- French [Jonathan Ernst, Stéphane Raimbault]
+- Japanese [Takeshi Aihana]
+- Norwegian bokmål [Kjartan Maraas]
+- Polish [Artur Flinta]
+- Portuguese [Filipe Gomes]
+- Spanish [Jorge Gonzalez]
+- Swedish [Daniel Nylander]
+
+0.8.7
+=====
+
+- Switch to using the fully managed NDesk dbus-sharp [Peter Johanson, Alp Toker]
+- Switch to using Gtk# 2.6 or newer [Peter Johanson]
+- Make the tray icon transparent [Wouter Bolsterlee]
+- Various bug fixes and cleanup [Iain, Peter Johanson]
+
+New translations:
+- Arabic [Djihed Afifi]
+- Dzongkha [Pema Geyleg]
+- Greek [Athanasios Lefteris, Kostas Papadimas]
+
+0.8.6
+=====
+
+The "Parecía muerto, pero reapareció" release.
+
+- Muine now has Tango style icons [Hylke Bons, Andreas Nilsson,
+  Wouter Bolsterlee]
+- Fixed crasher bug with latest Mono [Peter Johanson]
+- Fixed Gnome-VFS and D-Bus threading issues [Ryan Lortie]
+- Do not monitor trash and lost+found directories [Wouter Bolsterlee]
+- Fixed crasher on malformed ID3 info [Rafael Rodrigues Rezende]
+- Load extra metadata from Ogg/Vorbis files [Wouter Bolsterlee]
+- Various Gnome-VFS related code cleanups [Christian Neumair]
+- Various code cleanups and changes [Tamara Roberson]
+
+Main contributors: Wouter Bolsterlee, Peter Johanson and Tamara Roberson.
+Thanks to all bug reporters and patch contributors!
+
+Bugs marked as fixed during this release cycle:
+  #156276, #165143, #172482, #304446, #305989, #309458, #314323, #320801,
+  #324997, #329925, #339557, #343376, #347703, #350438, #350706, #351435,
+  #355585, #356470, #357213, #357357, #359947, #370788
+
+New translations:
+- Latvian [Raivis Dejus]
+- Macedonian [Jovan Naumovski]
+
+Updated translations:
+- Basque [Inaki Larranaga]
+- British (English) [David Lodge]
+- Bulgarian [Alexander Shopov]
+- French [Haïkel Guémar]
+- Hungarian [Gabor Kelemen]
+- Nepali [Pawan Chitrakar]
+- Russian [Valek Filippov]
+- Spanish [Francisco Javier F. Serrador]
+- Thai [Theppitak Karoonboonyanan]
+
+0.8.5
+=====
+
+- Gstreamer 0.10 support (configurable, 0.8 is still supported) [Iain, Peter
+  Johanson]
+- Small shortcut/mnemonics tweaks [Sebastian Heinlein, Wouter Bolsterlee, Peter
+  Johanson]
+- Fix bug with tray icon not re-appearing after a gnome-panel crash [Ed Catmur,
+  Peter Johanson]
+- Handle large id3 tags properly [Jorn Baayen]
+- Properly raise the window when unhiding [Ryan Lortie]
+- Various build and bugfixes [Peter Johanson]
+
+New translations:
+- Punjabi [Amanpreet Singh Alam]
+- Thai [Isriya Paireepairit]
+
+Updated Translations:
+- Basque [Inaki Larranaga]
+- Czech [Miloslav Trmac]
+- Dutch [Wouter Bolsterlee]
+- Estonian [Priit Laes]
+- Finnish [Ilkka Tuohela]
+- German [Frank Arnold, Hendrik Richter]
+- Japanese [Takeshi AIHANA]
+- Spanish [Francisco Javier F. Serrador]
+- Swedish [Daniel Nylander]
+- Vietnamese [Clytie Siddall]
+
+0.8.4
+=====
+
+- Use musicbrainz + amazon for first album fetching attempts [Yi Qiang, Peter
+  Johanson]
+- If musicbrainz fails, use old amazon API, but now with Amazon devtag found in
+  GConf (needed for amazon API starting last year) [Martin Willis]
+- Add plugin API for adding, removing, and syncing files [James Willcox, Jorn
+  Baayen]
+- Inotify plugin (installed by default) [James Willcox]
+- New "iPod style" play/pause button [Jorn Baayen]
+- Various bugfixes [James WIllcox, Eric Lesh, Götz Waschk, Jorn Baayen, Brian
+  Kerrick Nickel, Peter Johanson]
+- Various docs/autotools updates [Peter Johanson]
+
+New translations:
+- Nepali [Pawan Chitrakar]
+- Slovak [Mário Vrablanský]
+- Ukrainian [Maxim Dziumanenko]
+- Vietnamese [Clytie Siddall]
+
+Updated Translations:
+- Bulgarian [Vladimir Petkov]
+- Canadian English [Adam Weinberger]
+- Czech [Miloslav Trmac]
+- Danish [David Nielsen]
+- Estonian [Priit Laes]
+- Dutch [Tino Meinen]
+- Finnish [Ilkka Tuohela]
+- German [Frank Arnold]
+- Hungarian [Gabor Kelemen]
+- Japanese [Takeshi AIHANA]
+- Korean [Young-Ho Cha]
+- Lithuanian [Žygimantas Beručka]
+- Norwegian bokmål [Kjartan Maraas]
+- Norwegian [Kjartan Maraas]
+- Spanish [Francisco Javier F. Serrador]
+
+0.8.3
+=====
+
+- Added workarounds for the various limitations of the GStreamer backend,
+  the GStreamer backend is now the default [Jorn]
+- The "Add Song", "Add Album" and "Skip To" windows are now dialogs [Jorn]
+- Pluginified tray icon. Not installed by default [Jorn]
+- New AllSongs property on the IPlayer interface [Mark McLauchlan]
+- New PackWidget method on the IPlayer interface [Jorn]
+- Various code cleanups [Tamara Roberson, Jorn]
+- Various small fixes [Peter Johanson, Jeroen Zwartepoorte, Jorn]
+
+New translations:
+- Kinyarwanda [Steve Murphy]
+
+Updated translations:
+- Brazilian Portuguese [Raphael Higino]
+- Canadian English [Adam Weinberger]
+- Catalan [Aleix Badia i Bosch]
+- Estonian [Priit Laes]
+- Norwegian (bokmål) [Kjartan Maraas]
+- Romanian [Spoiala Cristian]
+- Serbian [Danilo Šegan]
+- Spanish [Francisco Javier F. Serrador]
+- Swedish [Christian Rose]
+
+0.8.2
+=====
+
+- A couple of major bugfixes [Jorn Baayen]
+
+0.8.1
+=====
+
+- Only list complete albums in album list [Jorn Baayen, Peter Oliver]
+- Use fixed width tree columns, causes huge performance improvements and
+  thanks to this we can now show all songs in the "Add Song" window
+  [Jorn Baayen]
+- AAC support using faad2 [Peter Johanson]
+- Search improvements; searching for "rem" will now also yield "R.E.M.",
+                                                   [Jorn Baayen]
+- Support DnD-inserting a playlist into the playlist [Jorn Baayen]
+- A new TickEvent on the IPlayer interface [Jorn Baayen]
+- A new GetAlbumCover method on the D-Bus object [Jorn Baayen]
+- Building MP3 support is now optional [Jorn Baayen]
+- A couple of minor UI improvements [Jorn Baayen]
+- Various bugfixes [Mark McLauchlan, Peter Johanson, Jorn Baayen]
+- More code cleanups [Tamara Roberson, Jorn Baayen]
+
+New translations:
+- Estonian [Piret Vacht]
+- Romanian [Spoiala Cristian]
+
+Updated translations:
+- Bulgarian [Rostislav Raykov]
+- Canadian English [Adam Weinberger]
+- Czech [Miloslav Trmac]
+- Dutch [Tino Meinen]
+- French [Christophe Gouyen]
+- German [Frank Arnold]
+- Hungarian [Gabor Kelemen]
+- Lithuanian [Žygimantas Beručka]
+- Russian [Alekseev Vladimir]
+- Spanish [Francisco Javier F. Serrador]
+
+0.8.0
+=====
+
+- Plug-in support [Jorn Baayen]
+- Dashboard support moved into a plug-in [Jorn Baayen]
+- D-Bus interface [Sergio Rubio, Jorn Baayen]
+- Plug-in and D-Bus client development documentation [Jorn Baayen]
+- Change play button text to be less confusing [Piret Vacht, Jorn Baayen]
+- Possible to drag a playlist file from the "Playlist" label [Jorn Baayen]
+- Support for dragging whole albums out of Muine [Jorn Baayen]
+- Playing external files in Muine now adds them to the library [Jorn Baayen]
+- Support for cover images on songs without album information [Jorn Baayen]
+- Major UI responsiveness improvements [Jorn Baayen]
+- Major code cleanups [Tamara Roberson, Jorn Baayen]
+- Various bugfixes [Tamara Roberson, Jorn Baayen]
+
+Updated translations:
+- Canadian English [Adam Weinberger]
+- Czech [Miloslav Trmac]
+- Japanese [Hiroshi Hasebe]
+- Lithuanian [Žygimantas Beručka]
+- Norwegian [Kjartan Maraas]
+- Russian [Alekseev Vladimir]
+
+0.7.1
+=====
+
+- Take disc number into account when sorting album tracks
+                                            [Mariano Suárez-Alvarez]
+- Fix high CPU usage with GStreamer backend [Jorn Baayen]
+- Fix the bug where pressing a multimedia key would crash with mono 1.1.x
+                                            [Jorn Baayen]
+- Remove libgnome dependency [Jorn Baayen]
+- Many code cleanups [Tamara Roberson, Jorn Baayen]
+
+Updated translations:
+- Russian [Alekseev Vladimir]
+
+0.7.0
+=====
+
+- Drag'n'Drop support all over the place [Sean Egan, Jorn Baayen]
+- Shuffle current playlist functionality [Jorn Baayen]
+- Use Gtk# 1.9: new fileselectors and gnome icon theme [Jorn Baayen]
+- Support loading and saving playlists over gnome-vfs [Jorn Baayen]
+- Many bugfixes, optimizations, and UI improvements [Jorn Baayen, Ross Girshick,
+                                                     Lee Willis, Bryan Forbes]
+
+New translations:
+- Finnish [Hile Tuohela]
+- Lithuanian [Žygimantas Beručka]
+- Malay [Hasbullah Bin Pit]
+- Russian [Alekseev Vladimir]
+
+Updated translations:
+- British English [David Lodge]
+- Bulgarian [Vladimir "Kaladan" Petkov]
+- Canadian English [Adam Weinberger]
+- Czech [Miloslav Trmac]
+- Dutch [Tino Meinen]
+- French [Christophe Merlet]
+- German [Matthias Debus]
+- Hungarian [Laszlo Dvornik]
+- Icelandic [Samúel Jón Gunnarsson]
+- Norwegian Bokmål [Sigurd Gartmann]
+- Portuguese [Duarte Loreto]
+- Simplified Chinese [Funda Wang]
+- Spanish [Francisco Javier F. Serrador]
+
+0.6.3
+=====
+
+- Works with Mono Beta 3 [Jeroen Zwartepoorte, Edd Dumbill, Peter Johanson]
+- Support playing files that are not in the library [Jorn Baayen]
+- Basic session management support [Jorn Baayen]
+- Sort by album name if album has > 3 artists [Jorn Baayen]
+
+New translations:
+- Bulgarian [Alexander Shopov]
+- Japanese [Takeshi AIHANA]
+
+Updated translations:
+- Brazilian Portuguese [Raphael Higino]
+- Czech [Miloslav Trmac]
+- French [Vincent Carriere]
+- Hungarian [Andras Timar]
+- Polish [GNOME PL Team]
+
+0.6.2
+=====
+
+- Works with Mono Beta 2 [Fernando Herrera, Peter Johanson, Jorn Baayen]
+- Plays files with unusual characters properly [Lee Willis]
+- DnD'ing folders to the playlist window imports them [iain, Jorn Baayen]
+- Album matching has been made case insensitive [Jorn Baayen]
+- Support non-ASCII filenames in cover image DnD [Jorn Baayen]
+- Code cleanups [Edd Dumbill, Jorn Baayen]
+
+Updated translations:
+- Brazilian Portuguese [Gustavo Maciel Dias Vieira]
+- British English [Gareth Owen]
+- Canadian English [Adam Weinberger]
+- Czech [Miloslav Trmac]
+- Dutch [Tino Meinen]
+- Hungarian [Andras Timar]
+- Spanish [Francisco Javier F. Serrador]
+- Swedish [Christian Rose]
+- Polish [GNOME PL Team]
+- Portuguese [Duarte Loreto]
+
+0.6.1
+=====
+
+- Work around wsdl bug to make AmazonSearchService compilation work for
+  everyone [Jorn Baayen]
+- Compile with Jeroen's Gtk# Gtk 2.4 branch [Jeroen Zwartepoorte]
+- New application icon [Jorn Baayen]
+- Various string fixes [Jorn Baayen, Christian Rose]
+- Exit Muine when clicking the WM close button again [Jorn Baayen]
+- Catch errors when loading folders [Jorn Baayen]
+
+Updated translations:
+- Swedish [Christian Rose]
+
+0.6.0
+=====
+
+- Major speed improvements [Jorn Baayen]
+- Support latest Mono and Gtk# [Jorn Baayen, Peter Johanson]
+- Support album cover drag & drop in the "Play album" window [Lee Willis]
+- New about logo [Andreas Kwiatkowski]
+- Sort songs by title, then by artist [Jorn Baayen]
+- Sort albums by artist, then year, then title [Teemu Tervo]
+- Improved error handling [Jorn Baayen]
+- Keep covers when files from removable media are removed [Jorn Baayen]
+- GConf key for using a different amazon variant [Lee Willis]
+- Pressing the "Stop" multimedia key will pause playback [Crispin Flowerday]
+- A song's associated album name is included in the search key [Jorn Baayen]
+- Audio output driver is configurable in xine-config [Jorn Baayen]
+- Various other fixes [Kenneth Christiansen, Lee Willis, Crispin Flowerday,
+                       Jorn Baayen]
+
+Updated translations:
+- Brazilian Portuguese [Afonso Celso Medina]
+- British English [Gareth Owen]
+- Canadian English [Adam Weinberger]
+- Czech [Miloslav Trmac]
+- Danish [Kenneth Christiansen]
+- Dutch [Tino Meinen]
+- French [Vincent Carriere]
+- German [Matthias Debus]
+- Hungarian [Andras Timar]
+- Icelandic [Samúel Jón Gunnarsson]
+- Polish [Artur Flinta]
+- Spanish [Francisco Javier F. Serrador]
+- Swedish [Johan Hammar]
+
+0.5.3
+=====
+
+- Fix sometimes not all files being loaded by the changes thread [Jorn Baayen]
+- Better Amazon album cover matching [Lee Willis, Jorn Baayen]
+
+Updated translations:
+- German [Matthias Debus]
+- Hungarian [Andras Timar]
+- Spanish [Francisco Javier F. Serrador]
+
+0.5.2
+=====
+
+- Fix compilation with Gnome 2.4 [Jorn Baayen]
+
+0.5.1
+=====
+
+- New xine backend, which is currently built by default [Jorn Baayen]
+- Updated gstreamer backend to work with gstreamer 0.8 and GstPlay [Jorn Baayen]
+- Grab multimedia keys globally [Lee Willis]
+- Major improvements to the db rebuilding and changes handling [Jorn Baayen]
+- Fixes to the replaygain support [Jorn Baayen]
+- Tray icon improvements [Jorn Baayen]
+- Pressing the window close button hides the window [Jorn Baayen]
+- Various other fixes [Edd Dumbill, Jorn Baayen]
+
+Updated translations:
+- Basque [Mikel Olasagasti, Iñaki Larrañaga]
+- Brazilian Portuguese [Everson Santos Araujo]
+- Croatian [Robert Sedak]
+- Czech [Miloslav Trmac]
+- Dutch [Daniel van Eeden, Tino Meinen]
+- French [Vincent Carriere]
+- German [Matthias Debus]
+- Korean [Young-Ho Cha]
+- Norwegian [Kjartan Maraas]
+- Serbian [Danilo Šegan]
+- Spanish [Francisco Javier F. Serrador]
+
+0.5.0
+=====
+
+- Fully translatable
+
+  The following translations are available:
+  
+  Catalan [Aleix Badia i Bosch <abadia@ica.es>]
+  Croatian [Robert Sedak <robert.sedak@sk.tel.hr>]
+  Czech [Miloslav Trmac <mitr@volny.cz>]
+  Dutch [Tino Meinen <a.t.meinen@chello.nl>]
+  German [Matthias Debus <psic4t@netbands.de>]
+  French [Vincent Carriere <carriere_vincent@yahoo.fr>]
+  Portuguese [Duarte Loreto <happyguy_pt@hotmail.com>]
+  Spanish [Francisco Javier F. Serrador <serrador@cvs.gnome.org>]
+  Serbian [Данило Шеган <dsegan@gmx.net>]
+  Swedish [Christian Rose <menthos@menthos.com>]
+
+- The tray menu now features a popdown menu
+- Support for setting custom cover images through Drag'n'Drop
+- Multiple selection is now possible in the playlist window
+- Various major bugfixes
+
+0.4.0
+=====
+
+- Get the album cover from the ID3 tag if available [Lee Willis]
+- Sort artists like "Cardigans, The" instead of "The Cardigans" [Jorn Baayen]
+- Include playlist duration in playlist label when in shuffle mode [Jorn Baayen]
+- Reduce memory footprint [Jorn Baayen]
+- Reduce startup time [Jorn Baayen]
+- Further UI enhancements [Jorn Baayen]
+- Code cleanups [Jorn Baayen]
+- Various bugfixes [Jorn Baayen, Vaclav Slavik]
+- Improved first start window (Disabled for now) [Viet Yen Nguyen]
+
+0.3.2
+=====
+
+- Added a repeat mode [Jorn Baayen]
+- Use Gnome proxy settings [Jorn Baayen]
+- Use Gnome stock icon system whenever possible [Jorn Baayen]
+- Various fixes [Jorn Baayen, Lee Willis]
+
+0.3.1.1
+=======
+
+- Improve cover image fetching code some more [Jorn Baayen]
+- Use a "downloading" image as album cover when relevant [Jorn Baayen]
+- Support mono > 0.29 [Jorn Baayen]
+
+0.3.1
+=====
+
+- Added FLAC support [Jorn Baayen]
+- Improved Amazon cover image fetching code reliability [Lee Willis,
+  Jorn Baayen]
+- Added replaygain support for MP3 files using the RVA2 tag [Jorn Baayen]
+- Added a Dashboard frontend [Lee Willis]
+- Interface enhancements [Jorn Baayen]
+- Various fixes [Jorn Baayen]
+
+0.3.0
+=====
+
+- Automatically fetch missing album cover images from Amazon.com [Lee Willis,
+  Jorn Baayen]
+- Multimedia key support (as configure by acme) [Jorn Baayen]
+- Can now load playlists from the commandline [Jorn Baayen]
+- Added an .applications file, so that Nautilus knows about us [Jorn Baayen]
+- Bugfixes [Jorn Baayen]
+- Tray icon shows playback status [Sergio Rubio, Jorn Baayen]
+- Support replay gain for Ogg Vorbis files [Jorn Baayen]
+- Support performer tags [Jorn Baayen]
+- UI enhancements [Jorn Baayen]
+- Check imported folders for changes on startup [Jorn Baayen]
+
+- New translations (partial):
+   Spanish [Sergio Rubio]
+
+0.2.1
+=====
+
+- UI improvements [Jorn Baayen]
+- Restore playlist on startup [Jorn Baayen]
+- Bugfixes [Jorn Baayen]
+- RPM spec file [Link Dupont]
+
+- Translations (partial):
+   Dutch [Tino Meinen]
+   Czech [Miloslav Trmac]
+   Serbian [Danilo Šegan]
+   Swedish [Christian Rose]
+
+0.2
+===
+
+- Playlist opening and saving [Jorn Baayen]
+- First run "Import music" window [Viet Yen Nguyen, Jorn Baayen]
+- Interface polish [Viet Yen Nguyen, Jorn Baayen]
+- Bugfixes [Jorn Baayen]
+- Build fixes [Jorn Baayen]
+
+0.1.1
+=====
+
+- Bugfixes
+- Polish
+
+0.1
+===
+
+- Music library
+- Bugfixes
+- Polish
+
+0.0.2.5
+=======
+
+- Notification area icon
+
+0.0.2.4
+=======
+
+- Bugfixes
+
+0.0.2.3
+=======
+
+- Code cleanups
+- "Clear Played Songs" menu item
+
+0.0.2.2
+=======
+
+- Fix getting the duration of mp3 files for many cases.
+
+0.0.2.1
+=======
+
+- Major bugfixes
+
+0.0.2
+=====
+
+- Menu items for playing controls
+- Add seeking
+- Add volume control
+- Tooltip on album cover
+- Nicer album cover scaling
+- Support for removing songs from the playlist
+- Major bugfixes
+
+0.0.1.1
+=======
+
+- Add playlist reordering
+- Set window title
+- Minor bugfixes
+
+0.0.1
+=====
+
+- First release

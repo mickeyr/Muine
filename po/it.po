@@ -1,0 +1,580 @@
+# Italian translation of muine.
+# Copyright (C) 2007 Marco Dalla Vecchia
+# This file is distributed under the same license as the muine package.
+# Marco Dalla Vecchia <marco.dave@tin.it>, 2007
+#
+
+msgid ""
+msgstr ""
+"Project-Id-Version: muine HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-09-11 23:05+0100\n"
+"PO-Revision-Date: 2006-09-11 23:05-0000\n"
+"Last-Translator: Marco Dalla Vecchia <marco.dave@tin.it>\n"
+"Language-Team: Italian <it@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=( n!= 1 );\n"
+
+#: ../data/glade/AddWindow.glade.h:1
+#: ../src/Actions.cs:62
+msgid "_Play"
+msgstr "_Riproduci"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "_Accoda"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Cerca:"
+
+#: ../data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Errore"
+
+#: ../data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "Sovrascrivere File?"
+
+#: ../data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "_Sovrascrivi"
+
+#: ../data/glade/PlaylistWindow.glade.h:1
+#: ../src/AddAlbumWindow.cs:40
+msgid "Play Album"
+msgstr "Riproduci Album"
+
+#: ../data/glade/PlaylistWindow.glade.h:2
+#: ../src/AddSongWindow.cs:40
+msgid "Play Song"
+msgstr "Riproduci Canzone"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Salta a"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Ascolta la tua musica"
+
+#: ../data/muine.desktop.in.h:2
+#: ../src/PlaylistWindow.cs:72
+msgid "Muine Music Player"
+msgstr "Riproduttore musicale Muine"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "\"Add album\" window height"
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "\"Add album\" window width"
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "\"Add song\" window height"
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "\"Add song\" window width"
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "Etichetta Amazon Dev"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "Amazon site to use for album images"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "Default import folder"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "Default playlist folder"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Folders that are monitored for changes."
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "Height of the \"Add album\" window."
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "Height of the \"Add song\" window."
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "Height of the playlist window."
+
+#: ../data/muine.schemas.in.h:13
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Last used folder from \"Import folder\" dialogue."
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from the playlist file selectors."
+msgstr "Last used folder from the playlist file selectors."
+
+#: ../data/muine.schemas.in.h:15
+msgid "Playlist window height"
+msgstr "Playlist window height"
+
+#: ../data/muine.schemas.in.h:16
+msgid "Playlist window width"
+msgstr "Playlist window width"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Repeat mode"
+msgstr "Repeat mode"
+
+#: ../data/muine.schemas.in.h:18
+msgid "Volume level"
+msgstr "Volume level"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Volume level. 0 = lowest, 100 = highest."
+
+#: ../data/muine.schemas.in.h:20
+msgid "Watched folders"
+msgstr "Watched folders"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Whether or not to enable repeat playlist mode."
+
+#: ../data/muine.schemas.in.h:22
+msgid "Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", or \"jp\"."
+msgstr "Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", or \"jp\"."
+
+#: ../data/muine.schemas.in.h:23
+msgid "Width of the \"Add album\" window."
+msgstr "Width of the \"Add album\" window."
+
+#: ../data/muine.schemas.in.h:24
+msgid "Width of the \"Add song\" window."
+msgstr "Width of the \"Add song\" window."
+
+#: ../data/muine.schemas.in.h:25
+msgid "Width of the playlist window."
+msgstr "Width of the playlist window."
+
+#: ../data/muine.schemas.in.h:26
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "Your Amazon Dev Tag for fetching album cover art"
+
+#: ../libmuine/player-gst.c:155
+msgid "Failed to create a GStreamer play object"
+msgstr "Failed to create a GStreamer play object"
+
+#: ../libmuine/player-gst.c:162
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Could not render default GStreamer audio output sink"
+
+#: ../libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"Caricamento impossibile del driver audio '%s'\n"
+"Controllare che il dispositivo non sia occupato."
+
+#: ../libmuine/player-xine.c:384
+#: ../libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "Nessun plugin disponibile per \"%s\""
+
+#: ../libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "Riproduzione fallita di \"%s\""
+
+#: ../libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "Errore interno"
+
+#: ../libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "Impossibile riprodurre \"%s\""
+
+#: ../src/About.cs:31
+msgid "translator-credits"
+msgstr ""
+"David Lodge <dave@cirt.net>\n"
+"Jorn Baayen <jbaayen@gnome.org>\n"
+"Gareth Owen <gowen72@yahoo.com>"
+
+#: ../src/About.cs:34
+msgid "Muine"
+msgstr "Muine"
+
+#: ../src/About.cs:37
+msgid "Copyright © 2003-2006 Jorn Baayen"
+msgstr "Copyright © 2003-2006 Jorn Baayen"
+
+#: ../src/About.cs:40
+msgid "A music player"
+msgstr "Un riproduttore musicale"
+
+#: ../src/About.cs:44
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: ../src/About.cs:45
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: ../src/About.cs:46
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: ../src/About.cs:47
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson <tamara.roberson@gmail.com>"
+
+#: ../src/About.cs:48
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "Peter Johanson <peter@peterjohanson.com>"
+
+#: ../src/About.cs:50
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "Le copertine degli album sono offerte da amazon.com e musicbrainz.org."
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "_File"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "_Canzone"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "_Lista di riproduzione"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "A_iuto"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "_Importa cartella..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "_Apri..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "Sa_lva come..."
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "Mostra _finestra"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "P_recedente"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "_Successivo"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "_Salta a..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "Salta _indietro"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "Salta _avanti"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "Riproduci _Canzone"
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "Riproduci _Album..."
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "_Rimuovi Canzone"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "Rimuovi canzoni già ri_prodotte"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "Pulis_ci"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "Rip_eti"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "_Casuale"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "I_nformazioni"
+
+#: ../src/AddAlbumWindow.cs:43
+#: ../src/PlaylistWindow.cs:93
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Eseguita da {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "il dj"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid ""
+"Failed to initialize the configuration folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Inizializzazione della cartella di configurazione fallita: {0}\n"
+"\n"
+"Uscita..."
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid ""
+"Failed to initialize the temporary files folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"Inizializzazione della cartella dei file temporanei fallita: {0}\n"
+"\n"
+"Uscita..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "Esportazione dell'oggetto D-Bus fallita: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "Caricamento del database delle copertine fallito: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "Caricamento del database delle canzoni fallito: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "Errore nell'inizializzazione di Muine."
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Importa cartella"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "_Importa"
+
+#: ../src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Caricamento metadati fallito: {0}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Apri lista di riproduzione"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Liste di riproduzione"
+
+#: ../src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Sovrascrivere \"{0}\"?"
+
+#: ../src/OverwriteDialog.cs:37
+msgid "A file with this name already exists. If you choose to overwrite this file, the contents will be lost."
+msgstr "Un file con questo nome esiste già. Se scegli di sovrascrivere questo file, il suo contenuto sarà perduto"
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "Errore backend audio:"
+
+#: ../src/PlaylistWindow.cs:75
+msgid "Playlist.m3u"
+msgstr "Lista di riproduzione.m3u"
+
+#: ../src/PlaylistWindow.cs:78
+msgid "<b>Playlist</b>"
+msgstr "<b>Lista di riproduzione</b>"
+
+#: ../src/PlaylistWindow.cs:81
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Lista di riproduzione</b> (Ripetuta)"
+
+#: ../src/PlaylistWindow.cs:84
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Lista di riproduzione</b> (Meno di un minuto restante)"
+
+#: ../src/PlaylistWindow.cs:87
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "Da \"{0}\""
+
+#: ../src/PlaylistWindow.cs:90
+msgid "Album unknown"
+msgstr "Album sconosciuto"
+
+#: ../src/PlaylistWindow.cs:97
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Riproduttore musicale Muine"
+
+#: ../src/PlaylistWindow.cs:101
+msgid "Switch music playback on or off"
+msgstr "Accendere o fermare la riproduzione"
+
+#: ../src/PlaylistWindow.cs:104
+msgid "Play the previous song"
+msgstr "Riproduci la canzone precedente"
+
+#: ../src/PlaylistWindow.cs:107
+msgid "Play the next song"
+msgstr "Riproduci la canzone successiva"
+
+#: ../src/PlaylistWindow.cs:110
+msgid "Add an album to the playlist"
+msgstr "Aggiungi un album alla lista di riproduzione"
+
+#: ../src/PlaylistWindow.cs:113
+msgid "Add a song to the playlist"
+msgstr "Aggiungi una canzone alla lista di riproduzione"
+
+#: ../src/PlaylistWindow.cs:116
+msgid "Change the volume level"
+msgstr "Cambia il livello del volume"
+
+#: ../src/PlaylistWindow.cs:119
+msgid "Drop an image here to use it as album cover"
+msgstr "Rilasciare un'immagine qui per usarla come copertina album"
+
+#: ../src/PlaylistWindow.cs:123
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}"
+msgstr ""
+"Inizializzazione del backend audio fallita:\n"
+"{0}"
+
+#: ../src/PlaylistWindow.cs:126
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "Lettura fallita di {0}:"
+
+#: ../src/PlaylistWindow.cs:129
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "Chiusura fallita di {0}:"
+
+#: ../src/PlaylistWindow.cs:132
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "Scrittura fallita di {0}:"
+
+#: ../src/PlaylistWindow.cs:1082
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Lista di riproduzione</b> (Ripetuta per {0} ora)"
+msgstr[1] "<b>Lista di riproduzione</b> (Ripetuta per {0} ore)"
+
+#: ../src/PlaylistWindow.cs:1087
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Lista di riproduzione</b> (Ripetuta per {0} minuto)"
+msgstr[1] "<b>Lista di riproduzione</b> (Ripetuta per {0} minuti)"
+
+#: ../src/PlaylistWindow.cs:1092
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Lista di riproduzione</b> ({0} ora restante)"
+msgstr[1] "<b>Lista di riproduzione</b> ({0} ore restante)"
+
+#: ../src/PlaylistWindow.cs:1097
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Playlist</b> ({0} minuto restante)"
+msgstr[1] "<b>Playlist</b> ({0} minuti restanti)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "Errore nel caricamento del plugin {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "Importazione di \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "Caricamento in corso:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Salva lista di riproduzione"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Senza titolo"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} e altri"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} e {1}"
+
+#: ../plugins/TrayIcon.cs:35
+msgid "Muine music player"
+msgstr "Riproduttore musicale Muine"
+
+#: ../plugins/TrayIcon.cs:40
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#~ msgid "Play"
+#~ msgstr "Play"
+#~ msgid "Hide _Window"
+#~ msgstr "Hide _Window"
+

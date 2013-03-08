@@ -1,0 +1,899 @@
+# Swedish messages for muine.
+# Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+# Christian Rose <menthos@menthos.com>, 2004, 2005.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-09-01 00:30+0200\n"
+"PO-Revision-Date: 2009-09-01 00:30+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/glade/AddWindow.glade.h:1
+#: ../src/Actions.cs:62
+msgid "_Play"
+msgstr "_Spela upp"
+
+#: ../data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "_Kölägg"
+
+#: ../data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Sök:"
+
+#: ../data/glade/PlaylistWindow.glade.h:1
+#: ../src/AddAlbumWindow.cs:42
+msgid "Play Album"
+msgstr "Spela album"
+
+#: ../data/glade/PlaylistWindow.glade.h:2
+#: ../src/AddSongWindow.cs:42
+msgid "Play Song"
+msgstr "Spela låt"
+
+#: ../data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Hoppa till"
+
+#: ../data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Lyssna på din musik"
+
+#: ../data/muine.desktop.in.h:2
+#: ../src/PlaylistWindow.cs:79
+msgid "Muine Music Player"
+msgstr "Musikspelaren Muine"
+
+#: ../data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "Höjd på fönstret \"Lägg till album\""
+
+#: ../data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "Bredd på fönstret \"Lägg till album\""
+
+#: ../data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "Höjd på fönstret \"Lägg till låt\""
+
+#: ../data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "Bredd på fönstret \"Lägg till låt\""
+
+#: ../data/muine.schemas.in.h:5
+msgid "Amazon Dev Tag"
+msgstr "Amazon-utvecklartagg"
+
+#: ../data/muine.schemas.in.h:6
+msgid "Amazon site to use for album images"
+msgstr "Amazon-webbplats att använda för albumbilder"
+
+#: ../data/muine.schemas.in.h:7
+msgid "Default import folder"
+msgstr "Standardmapp för import"
+
+#: ../data/muine.schemas.in.h:8
+msgid "Default playlist folder"
+msgstr "Standardmapp för spellistor"
+
+#: ../data/muine.schemas.in.h:9
+msgid "Folders that are monitored for changes."
+msgstr "Mappar som övervakas för ändringar."
+
+#: ../data/muine.schemas.in.h:10
+msgid "Height of the \"Add album\" window."
+msgstr "Höjd på fönstret \"Lägg till album\"."
+
+#: ../data/muine.schemas.in.h:11
+msgid "Height of the \"Add song\" window."
+msgstr "Höjd på fönstret \"Lägg till låt\"."
+
+#: ../data/muine.schemas.in.h:12
+msgid "Height of the playlist window."
+msgstr "Höjd på spellistefönstret."
+
+#: ../data/muine.schemas.in.h:13
+msgid "Horizontal position of the playlist window."
+msgstr "Horisontell position för spellistefönstret."
+
+#: ../data/muine.schemas.in.h:14
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Senast använda mapp från dialogen \"Importera mapp\"."
+
+#: ../data/muine.schemas.in.h:15
+msgid "Last used folder from the playlist file selectors."
+msgstr "Senast använda mapp från spellistefilväljarna."
+
+#: ../data/muine.schemas.in.h:16
+msgid "Only complete albums"
+msgstr "Endast kompletta album"
+
+#: ../data/muine.schemas.in.h:17
+msgid "Only deal with complete albums in the interface."
+msgstr "Hantera endast kompletta album i gränssnittet."
+
+#: ../data/muine.schemas.in.h:18
+msgid "Playlist window height"
+msgstr "Höjd på spellistefönstret"
+
+#: ../data/muine.schemas.in.h:19
+msgid "Playlist window horizontal position"
+msgstr "Spellistefönstrets horisontella position"
+
+#: ../data/muine.schemas.in.h:20
+msgid "Playlist window vertical position"
+msgstr "Spellistefönstrets vertikala position"
+
+#: ../data/muine.schemas.in.h:21
+msgid "Playlist window width"
+msgstr "Bredd på spellistefönstret"
+
+#: ../data/muine.schemas.in.h:22
+msgid "Repeat mode"
+msgstr "Upprepningsläge"
+
+#: ../data/muine.schemas.in.h:23
+msgid "Show Notifications"
+msgstr "Visa notifieringar"
+
+#: ../data/muine.schemas.in.h:24
+msgid "Vertical position of the playlist window."
+msgstr "Vertikal position för spellistefönstret."
+
+#: ../data/muine.schemas.in.h:25
+msgid "Volume level"
+msgstr "Volymnivå"
+
+#: ../data/muine.schemas.in.h:26
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Volymnivå. 0 = lägsta, 100 = högsta."
+
+#: ../data/muine.schemas.in.h:27
+msgid "Watched folders"
+msgstr "Övervakade mappar"
+
+#: ../data/muine.schemas.in.h:28
+msgid "Whether or not the tray icon shows song change notifications"
+msgstr "Huruvida aktivitetsikonen ska visa notifieringar om låtbyte eller inte"
+
+#: ../data/muine.schemas.in.h:29
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Huruvida läget upprepa spellista är aktiverat eller inte."
+
+#: ../data/muine.schemas.in.h:30
+msgid "Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", or \"jp\"."
+msgstr "Vilken Amazon-webbplats som ska användas för hämtning för albumbilder, \"us\", \"uk\", \"de\", eller \"jp\"."
+
+#: ../data/muine.schemas.in.h:31
+msgid "Width of the \"Add album\" window."
+msgstr "Bredd på fönstret \"Lägg till album\"."
+
+#: ../data/muine.schemas.in.h:32
+msgid "Width of the \"Add song\" window."
+msgstr "Bredd på fönstret \"Lägg till låt\"."
+
+#: ../data/muine.schemas.in.h:33
+msgid "Width of the playlist window."
+msgstr "Bredd på spellistefönstret."
+
+#: ../data/muine.schemas.in.h:34
+msgid "Your Amazon Dev Tag for fetching album cover art"
+msgstr "Din Amazon-utvecklartagg för att hämta albumomslag"
+
+#: ../libmuine/player-gst.c:154
+msgid "Failed to create a GStreamer play object"
+msgstr "Misslyckades med att skapa ett GStreamer-spelobjekt"
+
+#: ../libmuine/player-gst.c:161
+msgid "Could not render default GStreamer audio output sink"
+msgstr "Kunde inte rendera GStreamer-standardutgången för ljudutmatning"
+
+#: ../src/About.cs:32
+msgid "translator-credits"
+msgstr ""
+"Daniel Nylander\n"
+"Christian Rose\n"
+"\n"
+"Skicka synpunkter på översättningen till\n"
+"tp-sv@listor.tp-sv.se"
+
+#: ../src/About.cs:35
+msgid "Muine"
+msgstr "Muine"
+
+#: ../src/About.cs:38
+msgid "Copyright © 2003–2007 Jorn Baayen"
+msgstr "Copyright © 2003–2007 Jorn Baayen"
+
+#: ../src/About.cs:39
+msgid "Copyright © 2006–2008 Various contributors"
+msgstr "Copyright © 2006–2008 Diverse bidragsgivare"
+
+#: ../src/About.cs:43
+msgid "A music player"
+msgstr "En musikspelare"
+
+#: ../src/About.cs:50
+msgid "Jorn Baayen <jorn.baayen@gmail.com>"
+msgstr "Jorn Baayen <jorn.baayen@gmail.com>"
+
+#: ../src/About.cs:51
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: ../src/About.cs:52
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: ../src/About.cs:53
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson <tamara.roberson@gmail.com>"
+
+#: ../src/About.cs:54
+msgid "Peter Johanson <peter@peterjohanson.com>"
+msgstr "Peter Johanson <peter@peterjohanson.com>"
+
+#: ../src/About.cs:55
+msgid "Wouter Bolsterlee <wbolster@gnome.org>"
+msgstr "Wouter Bolsterlee <wbolster@gnome.org>"
+
+#: ../src/About.cs:56
+msgid "Luis Medinas <lmedinas@gnome.org>"
+msgstr "Luis Medinas <lmedinas@gnome.org>"
+
+#: ../src/About.cs:57
+msgid "Iain Holmes  <iain@gnome.org>"
+msgstr "Iain Holmes  <iain@gnome.org>"
+
+#: ../src/About.cs:59
+msgid "Album covers are provided by amazon.com and musicbrainz.org."
+msgstr "Albumomslag tillhandahålls av amazon.com och musicbrainz.org."
+
+#: ../src/Actions.cs:36
+msgid "_File"
+msgstr "_Arkiv"
+
+#: ../src/Actions.cs:39
+msgid "_Song"
+msgstr "_Låt"
+
+#: ../src/Actions.cs:42
+msgid "_Playlist"
+msgstr "_Spellista"
+
+#: ../src/Actions.cs:45
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "_Importera mapp..."
+
+#: ../src/Actions.cs:52
+msgid "_Open..."
+msgstr "_Öppna..."
+
+#: ../src/Actions.cs:55
+msgid "_Save As..."
+msgstr "_Spara som..."
+
+#: ../src/Actions.cs:58
+msgid "Show _Window"
+msgstr "Visa _fönster"
+
+#: ../src/Actions.cs:65
+msgid "P_revious"
+msgstr "Fö_regående"
+
+#: ../src/Actions.cs:68
+msgid "_Next"
+msgstr "_Nästa"
+
+#: ../src/Actions.cs:71
+msgid "_Skip to..."
+msgstr "_Hoppa till..."
+
+#: ../src/Actions.cs:74
+msgid "Skip _Backwards"
+msgstr "Hoppa över _baklänges"
+
+#: ../src/Actions.cs:77
+msgid "Skip _Forward"
+msgstr "Hoppa över _framlänges"
+
+#: ../src/Actions.cs:81
+msgid "Play _Song..."
+msgstr "Spela _låt..."
+
+#: ../src/Actions.cs:84
+msgid "Play _Album..."
+msgstr "Spela _album..."
+
+#: ../src/Actions.cs:87
+msgid "_Remove Song"
+msgstr "_Ta bort låt"
+
+#: ../src/Actions.cs:90
+msgid "Remove _Played Songs"
+msgstr "Ta bort _spelade låtar"
+
+#: ../src/Actions.cs:93
+msgid "_Clear"
+msgstr "_Töm"
+
+#: ../src/Actions.cs:96
+msgid "R_epeat"
+msgstr "_Upprepa"
+
+#: ../src/Actions.cs:99
+msgid "Shu_ffle"
+msgstr "_Blanda"
+
+#: ../src/Actions.cs:103
+msgid "_About"
+msgstr "_Om"
+
+#: ../src/AddAlbumWindow.cs:45
+#: ../src/PlaylistWindow.cs:100
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Spelad av {0}"
+
+#: ../src/Album.cs:44
+msgid "the dj"
+msgstr "the dj"
+
+#: ../src/ErrorDialog.cs:77
+msgid "Error"
+msgstr "Fel"
+
+#: ../src/FileUtils.cs:44
+#, csharp-format
+msgid "Failed to initialize the configuration folder: {0}"
+msgstr "Misslyckades med att initiera konfigurationsmappen: {0}"
+
+#: ../src/FileUtils.cs:47
+#, csharp-format
+msgid "Failed to initialize the temporary files folder: {0}"
+msgstr "Misslyckades med att initiera mapp för temporära filer: {0}"
+
+#: ../src/FileUtils.cs:50
+msgid "Exiting..."
+msgstr "Avslutar..."
+
+#: ../src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "Misslyckades med att exportera D-Bus-objekt: {0}"
+
+#: ../src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "Misslyckades med att läsa in omslagsdatabasen: {0}"
+
+#: ../src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "Misslyckades med att läsa in låtdatabasen: {0}"
+
+#: ../src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "Fel vid initiering av Muine."
+
+#: ../src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Importera mapp"
+
+#: ../src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "_Importera"
+
+#: ../src/Metadata.cs:32
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "Misslyckades med att läsa in metadata: {0}"
+
+#: ../src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Öppna spellista"
+
+#: ../src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Spellistefiler"
+
+#: ../src/OverwriteDialog.cs:34
+msgid "Overwrite File?"
+msgstr "Skriv över fil?"
+
+#: ../src/OverwriteDialog.cs:37
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Skriv över \"{0}\"?"
+
+#: ../src/OverwriteDialog.cs:40
+msgid "A file with this name already exists. If you choose to overwrite this file, the contents will be lost."
+msgstr "En fil med samma namn finns redan. Om du väljer att skriva över denna fil kommer dess innehåll att förloras."
+
+#: ../src/OverwriteDialog.cs:74
+msgid "_Overwrite"
+msgstr "_Skriv över"
+
+#: ../src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "Ljudbakändesfel:"
+
+#: ../src/PlaylistWindow.cs:82
+msgid "Playlist.m3u"
+msgstr "Spellista.m3u"
+
+#: ../src/PlaylistWindow.cs:85
+msgid "<b>Playlist</b>"
+msgstr "<b>Spellista</b>"
+
+#: ../src/PlaylistWindow.cs:88
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Spellista</b> (upprepar)"
+
+#: ../src/PlaylistWindow.cs:91
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Spellista</b> (mindre än en minut återstår)"
+
+#: ../src/PlaylistWindow.cs:94
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "Från \"{0}\""
+
+#: ../src/PlaylistWindow.cs:97
+msgid "Album unknown"
+msgstr "Albumet okänt"
+
+#: ../src/PlaylistWindow.cs:104
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Musikspelaren Muine"
+
+#: ../src/PlaylistWindow.cs:108
+msgid "Switch music playback on or off"
+msgstr "Växla musikuppspelning på eller av"
+
+#: ../src/PlaylistWindow.cs:111
+msgid "Play the previous song"
+msgstr "Spela föregående låt"
+
+#: ../src/PlaylistWindow.cs:114
+msgid "Play the next song"
+msgstr "Spela nästa låt"
+
+#: ../src/PlaylistWindow.cs:117
+msgid "Add an album to the playlist"
+msgstr "Lägg till ett album till spellistan"
+
+#: ../src/PlaylistWindow.cs:120
+msgid "Add a song to the playlist"
+msgstr "Lägg till en låt till spellistan"
+
+#: ../src/PlaylistWindow.cs:123
+msgid "Change the volume level"
+msgstr "Ändra volymnivån"
+
+#: ../src/PlaylistWindow.cs:126
+msgid "Drop an image here to use it as album cover"
+msgstr "Släpp en bild här för att använda den som albumomslag"
+
+#: ../src/PlaylistWindow.cs:130
+msgid "Failed to initialize the audio backend"
+msgstr "Misslyckades med att initiera ljudbakänden"
+
+#: ../src/PlaylistWindow.cs:133
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "Misslyckades med att läsa in {0}:"
+
+#: ../src/PlaylistWindow.cs:136
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "Misslyckades med att stänga {0}:"
+
+#: ../src/PlaylistWindow.cs:139
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "Misslyckades med att skriva {0}:"
+
+#: ../src/PlaylistWindow.cs:1093
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Spellista</b> (upprepar {0} timme)"
+msgstr[1] "<b>Spellista</b> (upprepar {0} timmar)"
+
+#: ../src/PlaylistWindow.cs:1098
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Spellista</b> (upprepar {0} minut)"
+msgstr[1] "<b>Spellista</b> (upprepar {0} minuter)"
+
+#: ../src/PlaylistWindow.cs:1103
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Spellista</b> ({0} timme återstår)"
+msgstr[1] "<b>Spellista</b> ({0} timmar återstår)"
+
+#: ../src/PlaylistWindow.cs:1108
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Spellista</b> ({0} minut återstår)"
+msgstr[1] "<b>Spellista</b> ({0} minuter återstår)"
+
+#: ../src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "Fel vid inläsning av insticksmodulen {0}: {1}"
+
+#: ../src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "Importerar \"{0}\""
+
+#: ../src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "Läser in:"
+
+#: ../src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Spara spellista"
+
+#: ../src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Namnlös"
+
+#: ../src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Okänd"
+
+#: ../src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} med flera"
+
+#: ../src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} och {1}"
+
+#: ../src/VolumeButton.cs:488
+msgid "Muted"
+msgstr "Tyst"
+
+#: ../src/VolumeButton.cs:490
+msgid "Full Volume"
+msgstr "Full volym"
+
+#: ../plugins/TrayIcon.cs:37
+msgid "Muine music player"
+msgstr "Musikspelaren Muine"
+
+#: ../plugins/TrayIcon.cs:42
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#: ../plugins/TrayIcon.cs:47
+#, csharp-format
+msgid "Now playing: {0}"
+msgstr "Spelar nu: {0}"
+
+#: ../plugins/TrayIcon.cs:52
+#, csharp-format
+msgid "by {0}"
+msgstr "av {0}"
+
+#~ msgid ""
+#~ "Couldn't load the '%s' audio driver\n"
+#~ "Check that the device is not busy."
+#~ msgstr ""
+#~ "Kunde inte läsa in ljuddrivrutinen \"%s\"\n"
+#~ "Kontrollera att enheten inte är upptagen."
+#~ msgid "No plugin available for \"%s\""
+#~ msgstr "Ingen insticksmodul tillgänglig för \"%s\""
+#~ msgid "Failed playing \"%s\""
+#~ msgstr "Misslyckades med att spela \"%s\""
+#~ msgid "Internal error"
+#~ msgstr "Internt fel"
+#~ msgid "Could not play \"%s\""
+#~ msgstr "Kunde inte spela \"%s\""
+#~ msgid "Play"
+#~ msgstr "Spela"
+#~ msgid "Copyright © 2003, 2004, 2005 Jorn Baayen"
+#~ msgstr "Copyright © 2003, 2004, 2005 Jorn Baayen"
+#~ msgid "_Save Playlist As..."
+#~ msgstr "_Spara spellista som..."
+#~ msgid "Hide _Window"
+#~ msgstr "Dölj _fönster"
+#~ msgid "_Previous"
+#~ msgstr "_Föregående"
+#~ msgid "Copyright © 2003, 2004, 2005, 2006 Jorn Baayen"
+#~ msgstr "Copyright © 2003, 2004, 2005, 2006 Jorn Baayen"
+#~ msgid "Copyright © 2003, 2004, 2005, 2006, 2007 Jorn Baayen"
+#~ msgstr "Copyright © 2003, 2004, 2005, 2006, 2007 Jorn Baayen"
+#~ msgid "File"
+#~ msgstr "Fil"
+#~ msgid "Help"
+#~ msgstr "Hjälp"
+#~ msgid "Shuffle"
+#~ msgstr "Blanda"
+#~ msgid "About"
+#~ msgstr "Om"
+#~ msgid "Import"
+#~ msgstr "Importera"
+#~ msgid "{0} & {1}"
+#~ msgstr "{0} och {1}"
+#~ msgid "Playlist"
+#~ msgstr "Spellista"
+#~ msgid "*"
+#~ msgstr "*"
+#~ msgid "<span weight=\"bold\" size=\"larger\">No music was found</span>"
+#~ msgstr "<span weight=\"bold\" size=\"larger\">Ingen musik hittades</span>"
+#~ msgid ""
+#~ "Muine was unable to find your music collection. What would you like me to "
+#~ "do?"
+#~ msgstr ""
+#~ "Muine kunde inte hitta din musiksamling. Vad vill du att jag ska göra?"
+#~ msgid ""
+#~ "Muine will create the folders Music and Music/Playlists in your home "
+#~ "folder to store your music files. This option is highly recommended. You "
+#~ "can always import other folders manually."
+#~ msgstr ""
+#~ "Muine kommer att skapa mapparna Music och Music/Playlists i din hemmapp "
+#~ "för att lagra dina musikfiler. Detta alternativ rekommenderas varmt. Du "
+#~ "kan alltid importera andra mappar manuellt."
+#~ msgid "No Music Found"
+#~ msgstr "Ingen musik hittades"
+#~ msgid ""
+#~ "You will have to import your music manually. This is for experienced "
+#~ "users only and therefore not generally recommended."
+#~ msgstr ""
+#~ "Du måste importera din musik manuellt. Detta är endast för erfarna "
+#~ "användare och rekommenderas därför inte i allmänhet."
+#~ msgid "_Create an empty music collection"
+#~ msgstr "_Skapa en tom musiksamling"
+#~ msgid "_Nothing, I will manage my music myself"
+#~ msgstr "_Ingenting, jag kommer att hantera min musik själv"
+#~ msgid "P_roperties"
+#~ msgstr "_Egenskaper"
+#~ msgid "TMP"
+#~ msgstr "TMP"
+#~ msgid "_Hide Window"
+#~ msgstr "_Dölj fönster"
+#~ msgid "Question"
+#~ msgstr "Fråga"
+#~ msgid "First start"
+#~ msgstr "Första start"
+#~ msgid "Height of the information window."
+#~ msgstr "Höjd på informationsfönstret."
+#~ msgid "Information window height"
+#~ msgstr "Höjd på informationsfönstret"
+#~ msgid "Information window width"
+#~ msgstr "Bredd på informationsfönstret"
+#~ msgid "Width of the information window."
+#~ msgstr "Bredd på informationsfönstret."
+#~ msgid "false if Muine has been started before."
+#~ msgstr "falskt om Muine har startats tidigare."
+#~ msgid "Failed to create the required gnomevfssrc GStreamer element"
+#~ msgstr ""
+#~ "Misslyckades med att skapa det nödvändiga GStreamer-elementet gnomevfssrc"
+#~ msgid "Could not find the volume element in the GstPlay pipeline"
+#~ msgstr "Kunde inte hitta volymelementet i GstPlay-rörledningen"
+#~ msgid "_Previous Song"
+#~ msgstr "_Föregående låt"
+#~ msgid "_Next Song"
+#~ msgstr "_Nästa låt"
+#~ msgid "Pause music playback"
+#~ msgstr "Gör paus i musikuppspelningen"
+#~ msgid "P_ause"
+#~ msgstr "Gör p_aus"
+#~ msgid "Resume music playback"
+#~ msgstr "Återuppta musikspelningen"
+#~ msgid "Pl_ay"
+#~ msgstr "Sp_ela"
+#~ msgid "Failed to open {0} for reading"
+#~ msgstr "Misslyckades med att öppna {0} för läsning"
+#~ msgid "Failed to open {0} for writing"
+#~ msgstr "Misslyckades med att öppna {0} för skrivning"
+#~ msgid ""
+#~ "File {0} will be overwritten.\n"
+#~ "If you choose yes, the contents will be lost.\n"
+#~ "\n"
+#~ "Do you want to continue?"
+#~ msgstr ""
+#~ "Filen {0} kommer att skrivas över.\n"
+#~ "Om du väljer ja kommer innehållet att gå förlorat.\n"
+#~ "\n"
+#~ "Vill du fortsätta?"
+#~ msgid "Viet Yen Nguyen (nguyen@cs.utwente.nl)"
+#~ msgstr "Viet Yen Nguyen (nguyen@cs.utwente.nl)"
+#~ msgid "Copyright (C) 2003, 2004 Jorn Baayen"
+#~ msgstr "Copyright © 2003, 2004 Jorn Baayen"
+#~ msgid "Add album window height."
+#~ msgstr "Höjd på fönstret \"lägg till album\"."
+#~ msgid "Add album window width."
+#~ msgstr "Bredd på fönstret \"lägg till album\"."
+#~ msgid "Add song window height."
+#~ msgstr "Höjd på fönstret \"lägg till låt\"."
+#~ msgid "Add song window width."
+#~ msgstr "Bredd på fönstret \"lägg till låt\"."
+#~ msgid "Information window height."
+#~ msgstr "Höjd på informationsfönstret."
+#~ msgid "Information window width."
+#~ msgstr "Bredd på informationsfönstret."
+#~ msgid "Playlist window height."
+#~ msgstr "Höjd på spellistefönstret."
+#~ msgid "Playlist window width."
+#~ msgstr "Bredd på spellistefönstret."
+#~ msgid "A Music Player"
+#~ msgstr "En musikspelare"
+#~ msgid "_Create an empty music collection "
+#~ msgstr "_Skapa en tom musiksamling "
+#~ msgid "Properties"
+#~ msgstr "Egenskaper"
+#~ msgid "Repeat"
+#~ msgstr "Upprepa"
+#~ msgid "Save playlist"
+#~ msgstr "Spara spellista"
+#~ msgid "Song"
+#~ msgstr "Låt"
+#~ msgid "Default import folder."
+#~ msgstr "Standardmapp för import."
+#~ msgid "Default playlist folder."
+#~ msgstr "Standardmapp för spellistor."
+#~ msgid "First start."
+#~ msgstr "Första start."
+#~ msgid "Repeat mode."
+#~ msgstr "Upprepningsläge."
+#~ msgid "Volume level."
+#~ msgstr "Volymnivå."
+#~ msgid "Watched folders."
+#~ msgstr "Övervakade mappar."
+#~ msgid "Music player"
+#~ msgstr "Musikspelare"
+#~ msgid "Groups"
+#~ msgstr "Grupper"
+#~ msgid "_Clear Playlist"
+#~ msgstr "_Töm spellista"
+#~ msgid "Orientation"
+#~ msgstr "Orientering"
+#~ msgid "The orientation of the tray."
+#~ msgstr "Orienteringen på lådan."
+#~ msgid "TITLE"
+#~ msgstr "TITEL"
+#~ msgid "ERROR MESSAGE"
+#~ msgstr "FELMEDDELANDE"
+#~ msgid "Volume _Down"
+#~ msgstr "Volym _ned"
+#~ msgid "Volume _Up"
+#~ msgstr "Volym _upp"
+#~ msgid "_Actions"
+#~ msgstr "_Åtgärder"
+#~ msgid "_Fill queue with random songs from selected groups"
+#~ msgstr "_Fyll kö med slumpmässiga låtar från markerade grupper"
+#~ msgid "_Volume"
+#~ msgstr "_Volym"
+#~ msgid "FILENAME"
+#~ msgstr "FILNAMN"
+#~ msgid "0 seconds"
+#~ msgstr "0 sekunder"
+#~ msgid "_Skip to:"
+#~ msgstr "_Hoppa till:"
+#~ msgid "seconds"
+#~ msgstr "sekunder"
+#~ msgid "Size"
+#~ msgstr "Storlek"
+#~ msgid "Blinking"
+#~ msgstr "Blinkar"
+#~ msgid "Queue"
+#~ msgstr "Kölägg"
+#~ msgid "_Import folder..."
+#~ msgstr "_Importera mapp..."
+#~ msgid "_Remove"
+#~ msgstr "_Ta bort"
+#~ msgid "Repeat _mode"
+#~ msgstr "Upprepnings_läge"
+#~ msgid "Shuf_fle mode"
+#~ msgstr "_Blandningsläge"
+#~ msgid "_Add..."
+#~ msgstr "_Lägg till..."
+#~ msgid "    "
+#~ msgstr "    "
+#~ msgid "0 kbps"
+#~ msgstr "0 kb/s"
+#~ msgid "0 x 0"
+#~ msgstr "0 × 0"
+#~ msgid "<b>Audio</b>"
+#~ msgstr "<b>Ljud</b>"
+#~ msgid "<b>Video</b>"
+#~ msgstr "<b>Video</b>"
+#~ msgid "Artist:"
+#~ msgstr "Artist:"
+#~ msgid "Bitrate:"
+#~ msgstr "Bithastighet:"
+#~ msgid "Codec:"
+#~ msgstr "Komprimeringsmetod:"
+#~ msgid "Dimensions:"
+#~ msgstr "Dimensioner:"
+#~ msgid "Duration:"
+#~ msgstr "Varaktighet:"
+#~ msgid "N/A"
+#~ msgstr "-"
+#~ msgid "Title:"
+#~ msgstr "Titel:"
+#~ msgid "Year:"
+#~ msgstr "År:"
+#~ msgid "Connecting to the server"
+#~ msgstr "Ansluter till servern"
+#~ msgid "Done"
+#~ msgstr "Klar"
+#~ msgid "Downloading the plug-ins"
+#~ msgstr "Hämtar insticksmodulerna"
+#~ msgid "Installing the plug-ins"
+#~ msgstr "Installerar insticksmodulerna"
+#~ msgid "Plug-ins Download"
+#~ msgstr "Hämtning av insticksmoduler"
+#~ msgid "Totem Movie Player"
+#~ msgstr "Filmspelaren Totem"
+#~ msgid "1.5 Mbps T1/Intranet/LAN"
+#~ msgstr "1,5 Mbit/s T1/Intranet/Lokalt nätverk"
+#~ msgid "112 Kbps Dual ISDN/DSL"
+#~ msgstr "112 kbit/s dubbel ISDN/DSL"
+#~ msgid "14.4 Kbps Modem"
+#~ msgstr "14,4 kbit/s-modem"
+#~ msgid "19.2 Kbps Modem"
+#~ msgstr "19,2 kbit/s-modem"
+#~ msgid "256 Kbps DSL/Cable"
+#~ msgstr "256 kbit/s DSL/kabelmodem"
+#~ msgid "28.8 Kbps Modem"
+#~ msgstr "28,8 kbit/s-modem"
+#~ msgid "33.6 Kbps Modem"
+#~ msgstr "33,6 kbit/s-modem"
+#~ msgid "34.4 Kbps Modem"
+#~ msgstr "34,4 kbit/s-modem"
+#~ msgid "384 Kbps DSL/Cable"
+#~ msgstr "384 kbit/s DSL/kabelmodem"
+#~ msgid "4-channel"
+#~ msgstr "4-kanal"
+#~ msgid "5.0-channel"
+#~ msgstr "5.0-kanal"
+#~ msgid "5.1-channel"
+#~ msgstr "5.1-kanal"
+#~ msgid "512 Kbps DSL/Cable"
+#~ msgstr "512 kbit/s DSL/kabelmodem"
+#~ msgid "56 Kbps Modem/ISDN"
+#~ msgstr "56 kbit/s modem/ISDN"
+#~ msgid "<b>Audio Output</b>"
+#~ msgstr "<b>Ljudutmatning</b>"
+#~ msgid "<b>Brightness/Contrast</b>"
+#~ msgstr "<b>Ljusstyrka/Kontrast</b>"
+#~ msgid "<b>Display</b>"
+#~ msgstr "<b>Bild</b>"
+#~ msgid "<b>Networking</b>"
+#~ msgstr "<b>Nätverk</b>"
+#~ msgid "<b>Optical Device</b>"
+#~ msgstr "<b>Optisk enhet</b>"
+#~ msgid "<b>Preview</b>"
+#~ msgstr "<b>Förhandsgranskning</b>"
+#~ msgid "<b>Proprietary Plugins</b>"
+#~ msgstr "<b>Proprietära insticksmoduler</b>"
+#~ msgid "<b>TV-Out</b>"
+#~ msgstr "<b>TV-ut</b>"
+#~ msgid "<b>Visual Effects</b>"
+#~ msgstr "<b>Visuella effekter</b>"
+

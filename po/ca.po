@@ -1,0 +1,691 @@
+# muine translation to Catalan.
+# Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+# Softcatalà <info@softcatala.org>, 2004.
+# Xavier Conde Rueda <xaviconde@eresmas.com>, 2004.
+# Aleix Badia i Bosch <a.badia@callusdigital.org>, 2004, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: muine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-03-26 19:43+0100\n"
+"PO-Revision-Date: 2005-03-28 15:58+0200\n"
+"Last-Translator: Aleix Badia i Bosch <a.badia@callusdigital.org>\n"
+"Language-Team: Catalan <tradgnome@softcatala.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/glade/AddWindow.glade.h:1 src/Actions.cs:65
+msgid "_Play"
+msgstr "Re_produeix"
+
+#: data/glade/AddWindow.glade.h:2
+msgid "_Queue"
+msgstr "En_cua"
+
+#: data/glade/AddWindow.glade.h:3
+msgid "_Search:"
+msgstr "_Cerca:"
+
+#: data/glade/ErrorDialog.glade.h:1
+msgid "Error"
+msgstr "Error"
+
+#: data/glade/OverwriteDialog.glade.h:1
+msgid "Overwrite File?"
+msgstr "Voleu sobreescriure el fitxer?"
+
+#: data/glade/OverwriteDialog.glade.h:2
+msgid "_Overwrite"
+msgstr "S_obreescriu"
+
+#: data/glade/PlaylistWindow.glade.h:1
+msgid "Play"
+msgstr "Reprodueix"
+
+#: data/glade/PlaylistWindow.glade.h:2 src/AddAlbumWindow.cs:41
+msgid "Play Album"
+msgstr "Reprodueix un àlbum"
+
+#: data/glade/PlaylistWindow.glade.h:3 src/AddSongWindow.cs:41
+msgid "Play Song"
+msgstr "Reprodueix una cançó"
+
+#: data/glade/SkipToWindow.glade.h:1
+msgid "Skip to"
+msgstr "Omet fins a"
+
+#: data/muine.desktop.in.h:1
+msgid "Listen to your music"
+msgstr "Escolteu la vostra música"
+
+#: data/muine.desktop.in.h:2 src/PlaylistWindow.cs:68
+msgid "Muine Music Player"
+msgstr "Reproductor de música Muine"
+
+#: data/muine.schemas.in.h:1
+msgid "\"Add album\" window height"
+msgstr "Alçada de la finestra \"Afegeix un àlbum\""
+
+#: data/muine.schemas.in.h:2
+msgid "\"Add album\" window width"
+msgstr "Amplada de la finestra \"Afegeix un àlbum\""
+
+#: data/muine.schemas.in.h:3
+msgid "\"Add song\" window height"
+msgstr "Alçada de la finestra \"Afegeix una cançó\""
+
+#: data/muine.schemas.in.h:4
+msgid "\"Add song\" window width"
+msgstr "Amplada de la finestra \"Afegeix una cançó\""
+
+#: data/muine.schemas.in.h:5
+msgid "Amazon site to use for album images"
+msgstr "Lloc de l'Amazon a utilitzar per a les imatges dels àlbums"
+
+#: data/muine.schemas.in.h:6
+msgid "Default import folder"
+msgstr "Carpeta d'importació predeterminada"
+
+#: data/muine.schemas.in.h:7
+msgid "Default playlist folder"
+msgstr "Carpeta predeterminada de la llista de reproducció"
+
+#: data/muine.schemas.in.h:8
+msgid "Folders that are monitored for changes."
+msgstr "Carpetes on es monitoritzen les modificacions."
+
+#: data/muine.schemas.in.h:9
+msgid "Height of the \"Add album\" window."
+msgstr "Amplada de la finestra \"Afegeix un àlbum\"."
+
+#: data/muine.schemas.in.h:10
+msgid "Height of the \"Add song\" window."
+msgstr "Alçada de la finestra \"Afegeix una cançó\"."
+
+#: data/muine.schemas.in.h:11
+msgid "Height of the playlist window."
+msgstr "Alçada de la finestra de la llista de reproducció."
+
+#: data/muine.schemas.in.h:12
+msgid "Last used folder from \"Import folder\" dialog."
+msgstr "Última carpeta utilitzada del diàleg \"Importa carpeta\"."
+
+#: data/muine.schemas.in.h:13
+msgid "Last used folder from the playlist file selectors."
+msgstr ""
+"Última carpeta utilitzada pels selectors de fitxers de la llista de "
+"reproducció."
+
+#: data/muine.schemas.in.h:14
+msgid "Playlist window height"
+msgstr "Alçada de la finestra de la llista de reproducció."
+
+#: data/muine.schemas.in.h:15
+msgid "Playlist window width"
+msgstr "Amplada de la finestra de la llista de reproducció."
+
+#: data/muine.schemas.in.h:16
+msgid "Repeat mode"
+msgstr "Mode de repetició"
+
+#: data/muine.schemas.in.h:17
+msgid "Volume level"
+msgstr "Nivell del volum"
+
+#: data/muine.schemas.in.h:18
+msgid "Volume level. 0 = lowest, 100 = highest."
+msgstr "Nivell del volum. 0=mínim, 100=màxim."
+
+#: data/muine.schemas.in.h:19
+msgid "Watched folders"
+msgstr "Carpetes monitoritzades"
+
+#: data/muine.schemas.in.h:20
+msgid "Whether or not to enable repeat playlist mode."
+msgstr "Si habilitar el mode de repetició de la llista de reproducció."
+
+#: data/muine.schemas.in.h:21
+msgid ""
+"Which Amazon site to use for fetching album images, \"us\", \"uk\", \"de\", "
+"or \"jp\"."
+msgstr ""
+"De quin lloc de l'Amazon obtenir les imatges dels àlbums, \"us\", \"uk\", "
+"\"de\" o \"jp\"."
+
+#: data/muine.schemas.in.h:22
+msgid "Width of the \"Add album\" window."
+msgstr "Amplada de la finestra \"Afegeix un àlbum\"."
+
+#: data/muine.schemas.in.h:23
+msgid "Width of the \"Add song\" window."
+msgstr "Amplada de la finestra \"Afegeix una cançó\"."
+
+#: data/muine.schemas.in.h:24
+msgid "Width of the playlist window."
+msgstr "Amplada de la finestra de la llista de reproducció."
+
+#: libmuine/player-gst.c:163
+msgid "Failed to create a GStreamer play object"
+msgstr "S'ha produït un error en crear l'objecte de reproducció del GStreamer"
+
+#: libmuine/player-gst.c:170
+msgid "Could not render default GStreamer audio output sink"
+msgstr ""
+
+#: libmuine/player-xine.c:290
+#, c-format
+msgid ""
+"Couldn't load the '%s' audio driver\n"
+"Check that the device is not busy."
+msgstr ""
+"No s'ha pogut carregar el controlador d'àudio '%s'\n"
+"Comproveu que el dispositiu no estigui ocupat."
+
+#: libmuine/player-xine.c:384 libmuine/player-xine.c:389
+#, c-format
+msgid "No plugin available for \"%s\""
+msgstr "No hi ha cap connector disponible per a \"%s\""
+
+#: libmuine/player-xine.c:394
+#, c-format
+msgid "Failed playing \"%s\""
+msgstr "S'ha produït un error en executar \"%s\""
+
+#: libmuine/player-xine.c:398
+msgid "Internal error"
+msgstr "S'ha produït un error intern"
+
+#: libmuine/player-xine.c:407
+#, c-format
+msgid "Could not play \"%s\""
+msgstr "No s'ha pogut reproduir \"%s\""
+
+#: src/About.cs:31
+msgid "translator-credits"
+msgstr ""
+"Xavier Conde Rueda <xaviconde@eresmas.com>, 2004.\n"
+"Aleix Badia i Bosch <a.badia@callusdigital.org>, 2004, 2005."
+
+#: src/About.cs:34
+msgid "Muine"
+msgstr "Muine"
+
+#: src/About.cs:37
+msgid "Copyright © 2003, 2004, 2005 Jorn Baayen"
+msgstr "Copyright © 2003, 2004, 2005 Jorn Baayen"
+
+#: src/About.cs:40
+msgid "A music player"
+msgstr "Un reproductor de música"
+
+#: src/About.cs:44
+msgid "Jorn Baayen <jbaayen@gnome.org>"
+msgstr "Jorn Baayen <jbaayen@gnome.org>"
+
+#: src/About.cs:45
+msgid "Lee Willis <lee@leewillis.co.uk>"
+msgstr "Lee Willis <lee@leewillis.co.uk>"
+
+#: src/About.cs:46
+msgid "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+msgstr "Việt Yên Nguyễn <nguyen@cs.utwente.nl>"
+
+#: src/About.cs:47
+msgid "Tamara Roberson <tamara.roberson@gmail.com>"
+msgstr "Tamara Roberson <tamara.roberson@gmail.com>"
+
+#: src/About.cs:49
+msgid "Album covers are provided by amazon.com."
+msgstr "Les portades dels àlbums els proporciona amazon.com."
+
+#: src/Actions.cs:36
+msgid "_File"
+msgstr "_Fitxer"
+
+#: src/Actions.cs:39
+msgid "_Song"
+msgstr "_Cançó"
+
+#: src/Actions.cs:42
+msgid "_Playlist"
+msgstr "Llista de re_producció"
+
+#: src/Actions.cs:45
+msgid "_Help"
+msgstr "A_juda"
+
+#: src/Actions.cs:49
+msgid "_Import Folder..."
+msgstr "_Importa una carpeta..."
+
+#: src/Actions.cs:52
+msgid "_Open Playlist..."
+msgstr "_Obre una llista..."
+
+#: src/Actions.cs:55
+msgid "_Save Playlist As..."
+msgstr "Anomena i de_sa la llista..."
+
+#: src/Actions.cs:58
+msgid "Hide _Window"
+msgstr "Amaga la _finestra"
+
+#: src/Actions.cs:61
+msgid "Show _Window"
+msgstr "Mostra la _finestra"
+
+#: src/Actions.cs:68
+msgid "_Previous"
+msgstr "An_terior"
+
+#: src/Actions.cs:71
+msgid "_Next"
+msgstr "Següe_nt"
+
+#: src/Actions.cs:74
+msgid "_Skip to..."
+msgstr "_Salta fins a...."
+
+#: src/Actions.cs:77
+msgid "Skip _Backwards"
+msgstr "S_alta cap a endarrere"
+
+#: src/Actions.cs:80
+msgid "Skip _Forward"
+msgstr "Salta cap a _endavant"
+
+#: src/Actions.cs:84
+msgid "Play _Song..."
+msgstr "Reprodueix una _cançó..."
+
+#: src/Actions.cs:87
+msgid "Play _Album..."
+msgstr "Reprodueix un à_lbum..."
+
+#: src/Actions.cs:90
+msgid "_Remove Song"
+msgstr "Sup_rimeix la cançó"
+
+#: src/Actions.cs:93
+msgid "Remove _Played Songs"
+msgstr "Suprimeix les cançons re_produïdes"
+
+#: src/Actions.cs:96
+msgid "_Clear"
+msgstr "_Neteja"
+
+#: src/Actions.cs:99
+msgid "R_epeat"
+msgstr "R_epeteix"
+
+#: src/Actions.cs:102
+msgid "Shu_ffle"
+msgstr "Barre_ja"
+
+#: src/Actions.cs:106
+msgid "_About"
+msgstr "_Quant a"
+
+#: src/AddAlbumWindow.cs:44 src/PlaylistWindow.cs:89
+#, csharp-format
+msgid "Performed by {0}"
+msgstr "Realitzat per {0}"
+
+#: src/Album.cs:44
+msgid "the dj"
+msgstr "el dj"
+
+#: src/FileUtils.cs:44
+#, csharp-format
+msgid ""
+"Failed to initialize the configuration folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"S'ha produït un error en inicialitzar la carpeta de configuració: {0}\n"
+"\n"
+"S'està sortint..."
+
+#: src/FileUtils.cs:47
+#, csharp-format
+msgid ""
+"Failed to initialize the temporary files folder: {0}\n"
+"\n"
+"Exiting..."
+msgstr ""
+"S'ha produït un error en incialitzar la carpeta de fitxers temporals: {0}\n"
+"\n"
+"S'està sortint..."
+
+#: src/Global.cs:37
+#, csharp-format
+msgid "Failed to export D-Bus object: {0}"
+msgstr "S'ha produït un error en exportar l'objecte del D-BUS: {0}"
+
+#: src/Global.cs:40
+#, csharp-format
+msgid "Failed to load the cover database: {0}"
+msgstr "S'ha produït un error en carregar la base de dades de portades: {0}"
+
+#: src/Global.cs:43
+#, csharp-format
+msgid "Failed to load the song database: {0}"
+msgstr "S'ha produït un error en carregar la base de dade de cançons: {0}"
+
+#: src/Global.cs:46
+msgid "Error initializing Muine."
+msgstr "S'ha produït un error en inicialitzar el Muine."
+
+#: src/ImportDialog.cs:37
+msgid "Import Folder"
+msgstr "Importa una carpeta"
+
+#: src/ImportDialog.cs:40
+msgid "_Import"
+msgstr "_Importa"
+
+#: src/Metadata.cs:34
+#, csharp-format
+msgid "Failed to load metadata: {0}"
+msgstr "S'ha produït un error en carregar les metadades: {0}"
+
+#: src/NotificationAreaIcon.cs:38
+msgid "Muine music player"
+msgstr "Reproductor de música Muine"
+
+#: src/NotificationAreaIcon.cs:43
+#, csharp-format
+msgid "{0} - {1}"
+msgstr "{0} - {1}"
+
+#: src/OpenDialog.cs:37
+msgid "Open Playlist"
+msgstr "Obre una llista de reproducció"
+
+#: src/OpenDialog.cs:40
+msgid "Playlist files"
+msgstr "Fitxers de la llista de reproducció"
+
+#: src/OverwriteDialog.cs:34
+#, csharp-format
+msgid "Overwrite \"{0}\"?"
+msgstr "Voleu sobreescriure \"{0}\"?"
+
+#: src/OverwriteDialog.cs:37
+msgid ""
+"A file with this name already exists. If you choose to overwrite this file, "
+"the contents will be lost."
+msgstr ""
+"Ja existeix un fitxer amb aquest nom, si decidiu sobreescriure'l es perdran "
+"els continguts."
+
+#: src/Player.cs:39
+msgid "Audio backend error:"
+msgstr "S'ha produït en el rerefons de l'àudio:"
+
+#: src/PlaylistWindow.cs:71
+msgid "Playlist.m3u"
+msgstr "Playlist.m3u"
+
+#: src/PlaylistWindow.cs:74
+msgid "<b>Playlist</b>"
+msgstr "<b>Llista de reproducció</b>"
+
+#: src/PlaylistWindow.cs:77
+msgid "<b>Playlist</b> (Repeating)"
+msgstr "<b>Llista de reproducció</b> (S'està repetint)"
+
+#: src/PlaylistWindow.cs:80
+msgid "<b>Playlist</b> (Less than one minute remaining)"
+msgstr "<b>Llista de reproducció</b> (Queda menys d'un minut)"
+
+#: src/PlaylistWindow.cs:83
+#, csharp-format
+msgid "From \"{0}\""
+msgstr "De \"{0}\""
+
+#: src/PlaylistWindow.cs:86
+msgid "Album unknown"
+msgstr "L'àlbum és desconegut"
+
+#: src/PlaylistWindow.cs:93
+#, csharp-format
+msgid "{0} - Muine Music Player"
+msgstr "{0} - Reproductor de música Muine"
+
+#: src/PlaylistWindow.cs:97
+msgid "Switch music playback on or off"
+msgstr "Commuta la reproducció de la música"
+
+#: src/PlaylistWindow.cs:100
+msgid "Play the previous song"
+msgstr "Reprodueix la cançó anterior"
+
+#: src/PlaylistWindow.cs:103
+msgid "Play the next song"
+msgstr "Reprodueix la canço següent"
+
+#: src/PlaylistWindow.cs:106
+msgid "Add an album to the playlist"
+msgstr "Afegeix un àlbum a la llista de reproducció"
+
+#: src/PlaylistWindow.cs:109
+msgid "Add a song to the playlist"
+msgstr "Afegeix una cançó a la llista de reproducció"
+
+#: src/PlaylistWindow.cs:112
+msgid "Change the volume level"
+msgstr "Modifica el nivell del volum."
+
+#: src/PlaylistWindow.cs:115
+msgid "Drop an image here to use it as album cover"
+msgstr "Arrossegueu aquí una imatge per utilitzar-la com a portada de l'àlbum"
+
+#: src/PlaylistWindow.cs:119
+#, csharp-format
+msgid ""
+"Failed to initialize the audio backend:\n"
+"{0}"
+msgstr ""
+"S'ha produït un error en inicialitzar el rerefons de l'àudio:\n"
+"{0}"
+
+#: src/PlaylistWindow.cs:122
+#, csharp-format
+msgid "Failed to read {0}:"
+msgstr "S'ha produït un error en llegir {0}:"
+
+#: src/PlaylistWindow.cs:125
+#, csharp-format
+msgid "Failed to close {0}:"
+msgstr "S'ha produït un error en tancar {0}:"
+
+#: src/PlaylistWindow.cs:128
+#, csharp-format
+msgid "Failed to write {0}:"
+msgstr "S'ha produït un error en escriure {0}:"
+
+#: src/PlaylistWindow.cs:990
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} hour)"
+msgid_plural "<b>Playlist</b> (Repeating {0} hours)"
+msgstr[0] "<b>Llista de reproducció</b> (Repetint {0} hora)"
+msgstr[1] "<b>Llista de reproducció</b> (Repetint {0} hores)"
+
+#: src/PlaylistWindow.cs:995
+#, csharp-format
+msgid "<b>Playlist</b> (Repeating {0} minute)"
+msgid_plural "<b>Playlist</b> (Repeating {0} minutes)"
+msgstr[0] "<b>Llista de reproducció</b> (Repetint {0} minut)"
+msgstr[1] "<b>Llista de reproducció</b> (Repetint {0} minuts)"
+
+#: src/PlaylistWindow.cs:1000
+#, csharp-format
+msgid "<b>Playlist</b> ({0} hour remaining)"
+msgid_plural "<b>Playlist</b> ({0} hours remaining)"
+msgstr[0] "<b>Llista de reproducció</b> (Queda {0} hora)"
+msgstr[1] "<b>Llista de reproducció</b> (Queden {0} hores)"
+
+#: src/PlaylistWindow.cs:1005
+#, csharp-format
+msgid "<b>Playlist</b> ({0} minute remaining)"
+msgid_plural "<b>Playlist</b> ({0} minutes remaining)"
+msgstr[0] "<b>Llista de reproducció</b> (Queda {0} hora)"
+msgstr[1] "<b>Llista de reproducció</b> (Queden {0} hores)"
+
+#: src/PluginManager.cs:34
+#, csharp-format
+msgid "Error loading plug-in {0}: {1}"
+msgstr "S'ha produït un error en carregar el connector {0}: {1}"
+
+#: src/ProgressWindow.cs:33
+#, csharp-format
+msgid "Importing \"{0}\""
+msgstr "S'està important \"{0}\""
+
+#: src/ProgressWindow.cs:36
+msgid "Loading:"
+msgstr "S'està carregant:"
+
+#: src/SaveDialog.cs:37
+msgid "Save Playlist"
+msgstr "Desa la llista de reproducció"
+
+#: src/SaveDialog.cs:40
+msgid "Untitled"
+msgstr "Sense títol"
+
+#: src/StringUtils.cs:31
+msgid "Unknown"
+msgstr "Desconegut"
+
+#: src/StringUtils.cs:34
+#, csharp-format
+msgid "{0} and others"
+msgstr "{0} i d'altres"
+
+#: src/StringUtils.cs:37
+#, csharp-format
+msgid "{0} and {1}"
+msgstr "{0} i {1}"
+
+#~ msgid "*"
+#~ msgstr "*"
+
+#~ msgid "TMP"
+#~ msgstr "TEMP"
+
+#~ msgid "_Hide Window"
+#~ msgstr "Amaga la _finestra"
+
+#~ msgid "Question"
+#~ msgstr "Pregunta"
+
+#, fuzzy
+#~ msgid "Information window height."
+#~ msgstr "Alçada de la finestra de la llista."
+
+#, fuzzy
+#~ msgid "Information window width."
+#~ msgstr "Amplada de la finestra de la llista."
+
+#, fuzzy
+#~ msgid "_Previous Song"
+#~ msgstr "A_nterior"
+
+#, fuzzy
+#~ msgid "_Next Song"
+#~ msgstr "_Cançó"
+
+#~ msgid "TITLE"
+#~ msgstr "TÍTOL"
+
+#~ msgid "ERROR MESSAGE"
+#~ msgstr "MISSATGE D'ERROR"
+
+#~ msgid "<b>Groups</b>"
+#~ msgstr "<b>Grups</b>"
+
+#~ msgid "Groups"
+#~ msgstr "Grups"
+
+#~ msgid "_Add song"
+#~ msgstr "_Afegeix una cançó"
+
+#~ msgid "Add _Song"
+#~ msgstr "Afegeix una _cançó"
+
+#~ msgid "_Clear Playlist"
+#~ msgstr "Neteja la llista de reprodu_cció"
+
+#~ msgid "_Fill queue with random songs from selected groups"
+#~ msgstr "Omple la cua amb cançons aleatòries dels _grups seleccionats"
+
+#~ msgid "_Groups"
+#~ msgstr "_Grups"
+
+#~ msgid "Search for Music"
+#~ msgstr "Cerca música"
+
+#~ msgid "Welcome to Muine"
+#~ msgstr "Benvingut al Muine"
+
+#~ msgid "Default \"Save Playlist As\" folder."
+#~ msgstr "Carpeta predeterminada per a l'acció \"Anomena i desa la llista\"."
+
+#~ msgid "Last used folder from \"Save Playlist As\" dialog."
+#~ msgstr "Última carpeta utilitza pel diàleg \"Anomena i desa la llista\"."
+
+#~ msgid "Playlist window visibility."
+#~ msgstr "Visibilitat de la finestra de la llista."
+
+#~ msgid "Playlist window visible (true) or not (false)."
+#~ msgstr "Si la finestra de la llista de reproducció és visible"
+
+#~ msgid "Pixbuf"
+#~ msgstr "Memòria intermitja de píxels"
+
+#~ msgid "A GdkPixbuf to display"
+#~ msgstr "Un GdkPixbuf a mostrar"
+
+#~ msgid "Filename to load and display"
+#~ msgstr "Fitxer per carregar i visualitzar"
+
+#~ msgid "Stock ID"
+#~ msgstr "Stock ID"
+
+#~ msgid "Stock ID for a stock image to display"
+#~ msgstr "Stock ID és l'identificador d'aquesta imatge"
+
+#~ msgid "Animation"
+#~ msgstr "Animació"
+
+#~ msgid "GdkPixbufAnimation to display"
+#~ msgstr "GdkPixbufAnimation que es mostrarà"
+
+#~ msgid "Image type"
+#~ msgstr "Tipus d'imatge"
+
+#~ msgid "The representation being used for image data"
+#~ msgstr "La representació usada per les dades de la imatge"
+
+#~ msgid "Size"
+#~ msgstr "Mida"
+
+#~ msgid "The size of the icon"
+#~ msgstr "Mida de la icona"
+
+#~ msgid "Blinking"
+#~ msgstr "Parpellejant"
+
+#~ msgid "Whether or not the status icon is blinking"
+#~ msgstr "Si la icona d'estat està parpellejant"
+
+#~ msgid "Orientation"
+#~ msgstr "Orientació"
+
+#~ msgid "The orientation of the tray."
+#~ msgstr "L'orientació de la safata."
