@@ -20,29 +20,6 @@ the code is written in C#, with some additions/bindings/glue in plain C. Muine
 was originally written by Jorn Baayen, but now maintained mostly by others.
 
 
-Learn more about Muine
-======================
-
-Our website (including Wiki) can be found here:
-  http://www.muine-player.org/
-
-Additionally, see the files MAINTAINERS, AUTHORS, HACKING and PLUGINS in the
-Muine package for more information about Muine (and development).
-
-We have a mailing list, which can be reached at the following address:
-  muine-list@gnome.org
-More information (archives, subscription, etc) can be found here:
-  http://mail.gnome.org/mailman/listinfo/muine-list
-
-Bugs should be reported at bugzilla.gnome.org, product Muine:
-  http://bugzilla.gnome.org/enter_bug.cgi?product=muine
-
-Our IRC channel is #muine on irc.gnome.org. Don't expect an immediate reply.
-Just drop your message and wait patiently. We're all busy people :)
-
-Thanks for using Muine!
-
-
 Build and Installation Requirements
 ===================================
 
