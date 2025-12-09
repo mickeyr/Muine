@@ -2,6 +2,8 @@ using Muine.Core.Models;
 using TagLib;
 using TagLib.Id3v2;
 using TagLib.Ogg;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Muine.Core.Services;
 
@@ -156,18 +158,40 @@ public class MetadataService
                 Directory.CreateDirectory(cacheDir);
             }
 
-            // Create a unique filename based on the song's album and folder
-            var hash = Math.Abs(song.AlbumKey.GetHashCode());
+            // Create a unique filename based on the song's album and folder using SHA256
+            // This ensures unique cache files without collisions
+            var hashInput = song.AlbumKey;
+            var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(hashInput));
+            var hashString = Convert.ToHexString(hashBytes)[..16]; // Use first 16 chars for reasonable length
+            
             var extension = GetImageExtension(picture.MimeType);
-            var artPath = Path.Combine(cacheDir, $"embedded_{hash}{extension}");
+            var artPath = Path.Combine(cacheDir, $"embedded_{hashString}{extension}");
 
-            // Save the image data to disk
-            System.IO.File.WriteAllBytes(artPath, picture.Data.Data);
+            // Only write if file doesn't exist or content is different (optimization)
+            if (!System.IO.File.Exists(artPath) || !AreFilesEqual(artPath, picture.Data.Data))
+            {
+                System.IO.File.WriteAllBytes(artPath, picture.Data.Data);
+            }
+            
             song.CoverImagePath = artPath;
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine($"Warning: Could not save embedded album art: {ex.Message}");
+        }
+    }
+
+    private static bool AreFilesEqual(string filePath, byte[] newData)
+    {
+        try
+        {
+            var existingData = System.IO.File.ReadAllBytes(filePath);
+            return existingData.SequenceEqual(newData);
+        }
+        catch
+        {
+            // If we can't read the file, assume they're different
+            return false;
         }
     }
 
