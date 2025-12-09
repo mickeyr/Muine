@@ -12,7 +12,7 @@ public class MusicDatabaseServiceTests : IDisposable
     {
         _testDbPath = Path.Combine(Path.GetTempPath(), $"test_muine_{Guid.NewGuid()}.db");
         _service = new MusicDatabaseService(_testDbPath);
-        _service.InitializeAsync().Wait();
+        _service.InitializeAsync().GetAwaiter().GetResult();
     }
 
     [Fact]
