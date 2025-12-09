@@ -9,6 +9,13 @@ namespace Muine.Core.Services;
 
 public class MetadataService
 {
+    // ReplayGain field names for Vorbis/Xiph comments (FLAC, OGG)
+    private static readonly string[] ReplayGainGainFields = 
+        { "replaygain_track_gain", "replaygain_album_gain", "rg_audiophile", "rg_radio" };
+    
+    private static readonly string[] ReplayGainPeakFields = 
+        { "replaygain_track_peak", "replaygain_album_peak", "rg_peak" };
+
     public Song? ReadSongMetadata(string filename)
     {
         if (!System.IO.File.Exists(filename))
@@ -74,10 +81,7 @@ public class MetadataService
             if (xiphComment != null)
             {
                 // Try different ReplayGain field names (in order of preference)
-                string[] gainFields = { "replaygain_track_gain", "replaygain_album_gain", "rg_audiophile", "rg_radio" };
-                string[] peakFields = { "replaygain_track_peak", "replaygain_album_peak", "rg_peak" };
-
-                foreach (var fieldName in gainFields)
+                foreach (var fieldName in ReplayGainGainFields)
                 {
                     var values = xiphComment.GetField(fieldName);
                     if (values != null && values.Length > 0)
@@ -90,7 +94,7 @@ public class MetadataService
                     }
                 }
 
-                foreach (var fieldName in peakFields)
+                foreach (var fieldName in ReplayGainPeakFields)
                 {
                     var values = xiphComment.GetField(fieldName);
                     if (values != null && values.Length > 0)
