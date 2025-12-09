@@ -125,6 +125,7 @@ public partial class MainWindowViewModel : ViewModelBase
             if (result.Errors.Count > 0)
             {
                 var firstErrors = string.Join(", ", result.Errors.Take(3));
+                // TODO: Replace with proper logging framework or user notification
                 Console.WriteLine($"Errors during scan: {firstErrors}");
             }
         }

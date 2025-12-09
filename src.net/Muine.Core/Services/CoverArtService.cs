@@ -54,6 +54,7 @@ public class CoverArtService
         }
         catch (Exception ex)
         {
+            // TODO: Replace with proper logging framework (ILogger) in future
             Console.Error.WriteLine($"Error searching for cover art in {song.Folder}: {ex.Message}");
         }
 
@@ -91,6 +92,7 @@ public class CoverArtService
         }
         catch (Exception ex)
         {
+            // TODO: Replace with proper logging framework (ILogger) in future
             Console.Error.WriteLine($"Error searching for cover art in {album.Folder}: {ex.Message}");
         }
 
