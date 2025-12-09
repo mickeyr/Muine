@@ -15,7 +15,14 @@ public partial class MainWindow : Window
     {
         if (DataContext is MainWindowViewModel viewModel)
         {
-            await viewModel.ImportMusicFolderCommand.ExecuteAsync(StorageProvider);
+            try
+            {
+                await viewModel.ImportMusicFolderCommand.ExecuteAsync(StorageProvider);
+            }
+            catch
+            {
+                // ViewModel handles error display via StatusMessage
+            }
         }
     }
 
@@ -23,7 +30,14 @@ public partial class MainWindow : Window
     {
         if (DataContext is MainWindowViewModel viewModel)
         {
-            await viewModel.AddMusicFilesCommand.ExecuteAsync(StorageProvider);
+            try
+            {
+                await viewModel.AddMusicFilesCommand.ExecuteAsync(StorageProvider);
+            }
+            catch
+            {
+                // ViewModel handles error display via StatusMessage
+            }
         }
     }
 }
