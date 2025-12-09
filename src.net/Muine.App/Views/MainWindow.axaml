@@ -7,7 +7,8 @@
         x:Class="Muine.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Muine Music Player - .NET 10">
+        Title="Muine Music Player - .NET 10"
+        Width="1000" Height="600">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -17,8 +18,10 @@
         <!-- Menu Bar -->
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open Music Folder"/>
-                <MenuItem Header="_Import Music"/>
+                <MenuItem Header="_Import Music Folder..." 
+                          Click="OnImportMusicFolderClick"/>
+                <MenuItem Header="_Add Music Files..." 
+                          Click="OnAddMusicFilesClick"/>
                 <Separator/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
@@ -38,22 +41,73 @@
             <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="10">
                 <StackPanel>
                     <TextBlock Text="Albums" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-                    <TextBlock Text="No albums loaded" Foreground="Gray" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding TotalSongs, StringFormat='{}{0} songs in library'}" 
+                               Foreground="Gray" 
+                               Margin="0,0,0,10"/>
                 </StackPanel>
             </Border>
 
-            <!-- Main Area - Playlist and Controls -->
+            <!-- Main Area - Song List and Controls -->
             <Grid Grid.Column="1" RowDefinitions="*,Auto">
-                <!-- Playlist -->
+                <!-- Song List -->
                 <Border Grid.Row="0" Padding="10">
-                    <StackPanel>
-                        <TextBlock Text="Playlist" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-                        <TextBlock Text="Playlist is empty. Add some music to get started!" 
+                    <Grid RowDefinitions="Auto,*">
+                        <TextBlock Grid.Row="0" 
+                                   Text="Music Library" 
+                                   FontSize="16" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,10"/>
+                        
+                        <!-- Progress indicator during scanning -->
+                        <StackPanel Grid.Row="1" 
+                                    IsVisible="{Binding IsScanning}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="Scanning music library..." 
+                                       FontSize="14" 
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding ScanProgress}" 
+                                       HorizontalAlignment="Center"
+                                       Foreground="Gray"/>
+                        </StackPanel>
+
+                        <!-- Song List -->
+                        <ListBox Grid.Row="1" 
+                                 ItemsSource="{Binding Songs}"
+                                 IsVisible="{Binding !IsScanning}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock Text="{Binding DisplayName}" 
+                                                   FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding ArtistsString}" 
+                                                   FontSize="11" 
+                                                   Foreground="Gray"/>
+                                        <TextBlock Text="{Binding Album}" 
+                                                   FontSize="11" 
+                                                   Foreground="Gray"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <!-- Empty state -->
+                        <TextBlock Grid.Row="1"
+                                   IsVisible="{Binding !IsScanning}"
+                                   Text="No music in library. Use File → Import Music Folder to add music!" 
                                    Foreground="Gray" 
                                    TextWrapping="Wrap"
                                    HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
+                                   VerticalAlignment="Center">
+                            <TextBlock.IsVisible>
+                                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                    <Binding Path="!IsScanning"/>
+                                    <Binding Path="Songs.Count" Converter="{x:Static ObjectConverters.Equal}" ConverterParameter="0"/>
+                                </MultiBinding>
+                            </TextBlock.IsVisible>
+                        </TextBlock>
+                    </Grid>
                 </Border>
 
                 <!-- Player Controls -->
@@ -86,7 +140,7 @@
 
         <!-- Status Bar -->
         <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="5">
-            <TextBlock Text="Ready - Muine Music Player running on .NET 10 with Avalonia UI" 
+            <TextBlock Text="{Binding StatusMessage}" 
                        FontSize="10" 
                        Foreground="Gray"/>
         </Border>
