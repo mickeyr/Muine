@@ -136,7 +136,8 @@ public class MetadataServiceTests : IDisposable
         // Create a minimal valid MP3 frame
         using var fs = File.Create(path);
         
-        // MP3 frame sync word (0xFFE or 0xFFF for MPEG version 1 Layer 3)
+        // MP3 frame sync word (0xFFB = MPEG-1 Layer 3, no CRC)
+        // Format: 0xFFB with specific bit patterns for MPEG version and layer
         byte[] header = { 0xFF, 0xFB, 0x90, 0x00 };
         fs.Write(header, 0, header.Length);
         

@@ -166,7 +166,7 @@ public class MetadataService
             // This ensures unique cache files without collisions
             var hashInput = song.AlbumKey;
             var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(hashInput));
-            var hashString = Convert.ToHexString(hashBytes)[..16]; // Use first 16 chars for reasonable length
+            var hashString = Convert.ToHexString(hashBytes)[..32]; // Use first 32 chars (128 bits) for collision resistance
             
             var extension = GetImageExtension(picture.MimeType);
             var artPath = Path.Combine(cacheDir, $"embedded_{hashString}{extension}");
@@ -189,6 +189,12 @@ public class MetadataService
     {
         try
         {
+            // Quick optimization: compare file sizes first
+            var fileInfo = new FileInfo(filePath);
+            if (fileInfo.Length != newData.Length)
+                return false;
+
+            // If sizes match, compare content
             var existingData = System.IO.File.ReadAllBytes(filePath);
             return existingData.SequenceEqual(newData);
         }
