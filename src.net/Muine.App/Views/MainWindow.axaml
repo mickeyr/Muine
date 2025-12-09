@@ -19,11 +19,9 @@
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
                 <MenuItem Header="_Import Music Folder..." 
-                          Command="{Binding ImportMusicFolderCommand}"
-                          CommandParameter="{Binding $parent[Window].StorageProvider}"/>
+                          Click="OnImportMusicFolderClick"/>
                 <MenuItem Header="_Add Music Files..." 
-                          Command="{Binding AddMusicFilesCommand}"
-                          CommandParameter="{Binding $parent[Window].StorageProvider}"/>
+                          Click="OnAddMusicFilesClick"/>
                 <Separator/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
