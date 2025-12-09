@@ -6,11 +6,16 @@ public class LibraryScannerService
 {
     private readonly MetadataService _metadataService;
     private readonly MusicDatabaseService _databaseService;
+    private readonly CoverArtService _coverArtService;
 
-    public LibraryScannerService(MetadataService metadataService, MusicDatabaseService databaseService)
+    public LibraryScannerService(
+        MetadataService metadataService, 
+        MusicDatabaseService databaseService,
+        CoverArtService coverArtService)
     {
         _metadataService = metadataService;
         _databaseService = databaseService;
+        _coverArtService = coverArtService;
     }
 
     public async Task<ScanResult> ScanDirectoryAsync(string directory, IProgress<ScanProgress>? progress = null)
@@ -37,6 +42,9 @@ public class LibraryScannerService
                 var song = _metadataService.ReadSongMetadata(file);
                 if (song != null)
                 {
+                    // Find and set cover art for the song
+                    _coverArtService.UpdateSongCoverArt(song);
+                    
                     await _databaseService.SaveSongAsync(song);
                     result.SuccessCount++;
                 }
