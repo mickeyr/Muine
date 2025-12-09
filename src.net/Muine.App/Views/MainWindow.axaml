@@ -3,18 +3,93 @@
         xmlns:vm="using:Muine.App.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
         x:Class="Muine.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Muine.App">
+        Title="Muine Music Player - .NET 10">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Menu Bar -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open Music Folder"/>
+                <MenuItem Header="_Import Music"/>
+                <Separator/>
+                <MenuItem Header="E_xit"/>
+            </MenuItem>
+            <MenuItem Header="_Playlist">
+                <MenuItem Header="_Add Song"/>
+                <MenuItem Header="Add _Album"/>
+                <MenuItem Header="_Clear Playlist"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" ColumnDefinitions="250,*">
+            <!-- Sidebar - Album List -->
+            <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Albums" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TextBlock Text="No albums loaded" Foreground="Gray" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Main Area - Playlist and Controls -->
+            <Grid Grid.Column="1" RowDefinitions="*,Auto">
+                <!-- Playlist -->
+                <Border Grid.Row="0" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Playlist" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Playlist is empty. Add some music to get started!" 
+                                   Foreground="Gray" 
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Player Controls -->
+                <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="10">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <!-- Play/Pause/Stop Buttons -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
+                            <Button Content="⏮" Width="40" Height="40" ToolTip.Tip="Previous"/>
+                            <Button Content="⏯" Width="40" Height="40" ToolTip.Tip="Play/Pause"/>
+                            <Button Content="⏹" Width="40" Height="40" ToolTip.Tip="Stop"/>
+                            <Button Content="⏭" Width="40" Height="40" ToolTip.Tip="Next"/>
+                        </StackPanel>
+
+                        <!-- Song Info -->
+                        <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
+                            <TextBlock Text="No song playing" FontWeight="Bold"/>
+                            <Slider IsEnabled="False" Margin="0,5,0,0"/>
+                            <TextBlock Text="0:00 / 0:00" FontSize="10" Foreground="Gray"/>
+                        </StackPanel>
+
+                        <!-- Volume Control -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5">
+                            <TextBlock Text="🔊" VerticalAlignment="Center"/>
+                            <Slider Width="100" Minimum="0" Maximum="100" Value="50" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="5">
+            <TextBlock Text="Ready - Muine Music Player running on .NET 10 with Avalonia UI" 
+                       FontSize="10" 
+                       Foreground="Gray"/>
+        </Border>
+    </Grid>
 
 </Window>
