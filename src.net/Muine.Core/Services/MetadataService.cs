@@ -163,10 +163,10 @@ public class MetadataService
             }
 
             // Create a unique filename based on the song's album and folder using SHA256
-            // This ensures unique cache files without collisions
+            // Use first 32 hex chars (128 bits) of the 256-bit hash for collision resistance
             var hashInput = song.AlbumKey;
             var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(hashInput));
-            var hashString = Convert.ToHexString(hashBytes)[..32]; // Use first 32 chars (128 bits) for collision resistance
+            var hashString = Convert.ToHexString(hashBytes)[..32]; // 32 hex chars = 128 bits
             
             var extension = GetImageExtension(picture.MimeType);
             var artPath = Path.Combine(cacheDir, $"embedded_{hashString}{extension}");

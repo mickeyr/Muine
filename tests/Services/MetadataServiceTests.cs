@@ -157,7 +157,7 @@ public class MetadataServiceTests : IDisposable
             0x49, 0x44, 0x33, // "ID3"
             0x03, 0x00,       // Version 2.3.0
             0x00,             // Flags
-            0x00, 0x00, 0x00, 0x0A // Size (synchsafe integer, small for minimal test)
+            0x00, 0x00, 0x00, 0x0A // Size field (value 10 for minimal test)
         };
         fs.Write(id3Header, 0, id3Header.Length);
         
