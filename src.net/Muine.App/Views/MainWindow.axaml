@@ -80,10 +80,10 @@
                 <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Margin="10,5,10,10">
                     <!-- Play/Pause/Stop Buttons -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
-                        <Button Content="⏮" Width="40" Height="40" ToolTip.Tip="Previous" Command="{Binding PlayPreviousCommand}"/>
-                        <Button Content="⏯" Width="40" Height="40" ToolTip.Tip="Play/Pause" Command="{Binding TogglePlayPauseCommand}"/>
-                        <Button Content="⏹" Width="40" Height="40" ToolTip.Tip="Stop" Command="{Binding StopCommand}"/>
-                        <Button Content="⏭" Width="40" Height="40" ToolTip.Tip="Next" Command="{Binding PlayNextCommand}"/>
+                        <Button Content="◀◀" Width="40" Height="40" FontSize="12" ToolTip.Tip="Previous" Command="{Binding PlayPreviousCommand}"/>
+                        <Button Content="▶⏸" Width="40" Height="40" FontSize="14" ToolTip.Tip="Play/Pause" Command="{Binding TogglePlayPauseCommand}"/>
+                        <Button Content="■" Width="40" Height="40" FontSize="16" ToolTip.Tip="Stop" Command="{Binding StopCommand}"/>
+                        <Button Content="▶▶" Width="40" Height="40" FontSize="12" ToolTip.Tip="Next" Command="{Binding PlayNextCommand}"/>
                     </StackPanel>
 
                     <!-- Song Info -->

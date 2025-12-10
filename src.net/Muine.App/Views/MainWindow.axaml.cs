@@ -44,12 +44,18 @@ public partial class MainWindow : Window
         }
     }
 
-    private void OnLibrarySongDoubleClick(object? sender, Song song)
+    private async void OnLibrarySongDoubleClick(object? sender, Song song)
     {
         if (DataContext is MainWindowViewModel viewModel)
         {
             viewModel.AddSongToPlaylist(song);
             viewModel.SelectedTabIndex = 1; // Switch to playlist tab
+            
+            // Auto-start playback if not already playing
+            if (!viewModel.IsPlaying)
+            {
+                await viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
+            }
         }
     }
 
@@ -84,7 +90,7 @@ public partial class MainWindow : Window
                 if (index >= 0)
                 {
                     viewModel.PlaylistViewModel.MoveTo(index);
-                    await viewModel.PlaySelectedSongCommand.ExecuteAsync(null);
+                    await viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
                 }
             }
             catch

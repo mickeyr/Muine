@@ -397,10 +397,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         try
         {
-            if (_playbackService.CurrentSong == null && SelectedSong != null)
+            if (_playbackService.CurrentSong == null)
             {
-                // If no song is playing, play the selected song
-                _ = PlaySongAsync(SelectedSong);
+                // If no song is playing, play from playlist
+                _ = PlayFromPlaylistAsync();
             }
             else
             {
@@ -496,6 +496,30 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         PlaylistViewModel.AddSongs(songs);
         StatusMessage = $"Added album to playlist";
+    }
+
+    [RelayCommand]
+    private async Task PlayFromPlaylistAsync()
+    {
+        var currentSong = PlaylistViewModel.GetCurrentSong();
+        if (currentSong != null)
+        {
+            await PlaySongAsync(currentSong);
+        }
+        else if (PlaylistViewModel.Songs.Count > 0)
+        {
+            // If no current song, start from the beginning
+            PlaylistViewModel.MoveTo(0);
+            currentSong = PlaylistViewModel.GetCurrentSong();
+            if (currentSong != null)
+            {
+                await PlaySongAsync(currentSong);
+            }
+        }
+        else
+        {
+            StatusMessage = "Playlist is empty";
+        }
     }
 
     [RelayCommand]
