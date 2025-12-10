@@ -23,6 +23,11 @@
                 <MenuItem Header="_Add Music Files..." 
                           Click="OnAddMusicFilesClick"/>
                 <Separator/>
+                <MenuItem Header="_Refresh Selected Song Metadata" 
+                          Click="OnRefreshSelectedSongClick"/>
+                <MenuItem Header="Refresh _All Metadata..." 
+                          Click="OnRefreshAllMetadataClick"/>
+                <Separator/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
             <MenuItem Header="_Playlist">

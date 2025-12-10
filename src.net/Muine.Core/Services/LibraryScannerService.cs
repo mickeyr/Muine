@@ -70,6 +70,72 @@ public class LibraryScannerService
 
         return result;
     }
+
+    public async Task<RefreshResult> RefreshSongAsync(Song song)
+    {
+        var result = new RefreshResult();
+        await RefreshSingleSongInternalAsync(song, result);
+        return result;
+    }
+
+    public async Task<RefreshResult> RefreshAllSongsAsync(IProgress<ScanProgress>? progress = null)
+    {
+        var result = new RefreshResult();
+        
+        var songs = await _databaseService.GetAllSongsAsync();
+        result.TotalFiles = songs.Count;
+
+        for (int i = 0; i < songs.Count; i++)
+        {
+            var song = songs[i];
+            await RefreshSingleSongInternalAsync(song, result);
+
+            progress?.Report(new ScanProgress
+            {
+                CurrentFile = song.Filename,
+                ProcessedFiles = i + 1,
+                TotalFiles = songs.Count
+            });
+        }
+
+        return result;
+    }
+
+    private async Task RefreshSingleSongInternalAsync(Song song, RefreshResult result)
+    {
+        if (!System.IO.File.Exists(song.Filename))
+        {
+            result.Errors.Add($"File not found: {song.Filename}");
+            result.FailureCount++;
+            return;
+        }
+
+        try
+        {
+            var refreshedSong = _metadataService.ReadSongMetadata(song.Filename);
+            if (refreshedSong != null)
+            {
+                // Preserve the original ID
+                refreshedSong.Id = song.Id;
+                
+                // Find and set cover art for the song
+                _coverArtService.UpdateSongCoverArt(refreshedSong);
+                
+                await _databaseService.SaveSongAsync(refreshedSong);
+                result.SuccessCount++;
+            }
+            else
+            {
+                result.Errors.Add($"Failed to read metadata: {song.Filename}");
+                result.FailureCount++;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.Errors.Add($"Error refreshing {song.Filename}: {ex.Message}");
+            result.FailureCount++;
+        }
+    }
 }
 
 public class ScanResult
@@ -86,4 +152,12 @@ public class ScanProgress
     public int ProcessedFiles { get; set; }
     public int TotalFiles { get; set; }
     public double PercentComplete => TotalFiles > 0 ? (ProcessedFiles * 100.0 / TotalFiles) : 0;
+}
+
+public class RefreshResult
+{
+    public int TotalFiles { get; set; }
+    public int SuccessCount { get; set; }
+    public int FailureCount { get; set; }
+    public List<string> Errors { get; set; } = new();
 }

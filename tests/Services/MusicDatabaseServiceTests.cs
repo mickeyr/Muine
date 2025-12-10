@@ -73,6 +73,61 @@ public class MusicDatabaseServiceTests : IDisposable
         Assert.Empty(songs);
     }
 
+    [Fact]
+    public async Task GetSongByIdAsync_ShouldReturnSong_WhenExists()
+    {
+        var song = new Song
+        {
+            Filename = "/music/test.mp3",
+            Title = "Test Song",
+            Artists = new[] { "Test Artist" },
+            Duration = 180
+        };
+
+        var id = await _service.SaveSongAsync(song);
+        
+        var retrieved = await _service.GetSongByIdAsync(id);
+        
+        Assert.NotNull(retrieved);
+        Assert.Equal(id, retrieved.Id);
+        Assert.Equal(song.Filename, retrieved.Filename);
+        Assert.Equal(song.Title, retrieved.Title);
+    }
+
+    [Fact]
+    public async Task GetSongByIdAsync_ShouldReturnNull_WhenNotExists()
+    {
+        var retrieved = await _service.GetSongByIdAsync(999);
+        Assert.Null(retrieved);
+    }
+
+    [Fact]
+    public async Task GetSongByFilenameAsync_ShouldReturnSong_WhenExists()
+    {
+        var song = new Song
+        {
+            Filename = "/music/specific.mp3",
+            Title = "Specific Song",
+            Artists = new[] { "Artist" },
+            Duration = 200
+        };
+
+        await _service.SaveSongAsync(song);
+        
+        var retrieved = await _service.GetSongByFilenameAsync("/music/specific.mp3");
+        
+        Assert.NotNull(retrieved);
+        Assert.Equal(song.Filename, retrieved.Filename);
+        Assert.Equal(song.Title, retrieved.Title);
+    }
+
+    [Fact]
+    public async Task GetSongByFilenameAsync_ShouldReturnNull_WhenNotExists()
+    {
+        var retrieved = await _service.GetSongByFilenameAsync("/music/nonexistent.mp3");
+        Assert.Null(retrieved);
+    }
+
     public void Dispose()
     {
         _service.Dispose();
