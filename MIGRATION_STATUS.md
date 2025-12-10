@@ -3,9 +3,9 @@
 ## Overview
 This document tracks the progress of migrating Muine music player from Mono/GTK# to .NET 10 with Avalonia UI.
 
-**Status**: Foundation Complete ✅  
-**Last Updated**: December 9, 2025  
-**Completion**: ~40% (2 of 5 major phases complete)
+**Status**: Playback Implemented ✅  
+**Last Updated**: December 10, 2025  
+**Completion**: ~55% (3 of 5 major phases complete)
 
 ## Phase Status
 
@@ -28,42 +28,57 @@ All core services and models implemented with comprehensive tests:
 - `MusicDatabaseService.cs`: SQLite database CRUD operations
 - `LibraryScannerService.cs`: Directory scanning and music import
 
-**Tests:** 17 tests, all passing
+**Tests:** 46 tests, all passing
 - Song model: 8 tests
 - Album model: 6 tests
 - Database service: 3 tests
+- Metadata service: 9 tests
+- Cover art service: 5 tests
+- Library scanner: 8 tests
+- Playback service: 7 tests
 
-### 🟡 Phase 3: Audio Backend (NOT STARTED)
-**Priority**: HIGH - This is the next critical component
-
-Needed:
-- Cross-platform audio playback engine
-- Options to evaluate:
-  - LibVLCSharp (VLC backend, very robust)
-  - NAudio (Windows-focused but has cross-platform options)
-  - PortAudio wrapper
-  - OpenAL wrapper
-- Player service with play/pause/stop/seek
-- Volume control
-- Playlist queue management
-- ReplayGain support
-
-### 🟡 Phase 4: UI Implementation (LAYOUT ONLY)
-**Status**: Basic layout created, needs implementation
+### ✅ Phase 3: Audio Backend (COMPLETE)
+**Status**: LibVLCSharp integration complete
 
 **Completed:**
-- Main window XAML layout
-- Player controls UI design
-- Menu structure
-- Album sidebar layout
+- ✅ LibVLCSharp cross-platform audio library integration
+- ✅ PlaybackService with play/pause/stop/seek functionality
+- ✅ Volume control
+- ✅ Position/duration tracking for progress display
+- ✅ PlaybackState management (Playing, Paused, Stopped)
+- ✅ ReplayGain support from metadata
+- ✅ Event-driven architecture for state changes
+- ✅ Comprehensive unit tests (7 tests)
+- ✅ Graceful handling when LibVLC is not available
+
+**Technical Details:**
+- Uses LibVLCSharp 3.9.0 with native libraries for Windows/Mac/Linux
+- Timer-based position updates (100ms interval)
+- Automatic ReplayGain application from song metadata
+- Disposed properly to release resources
+
+### 🟡 Phase 4: UI Implementation (PARTIAL)
+**Status**: Playback UI complete, other features pending
+
+**Completed:**
+- ✅ Main window XAML layout
+- ✅ Player controls UI with functional bindings
+- ✅ Play/Pause/Stop buttons with commands
+- ✅ Progress slider with position tracking
+- ✅ Time display (current/total duration)
+- ✅ Volume slider
+- ✅ Song selection and double-click to play
+- ✅ Current song display
+- ✅ Menu structure
+- ✅ Music import functionality (folder and files)
+- ✅ Song list display
 
 **Needed:**
-- ViewModel implementation with MVVM pattern
-- Data binding for song/album lists
-- Event handlers for player controls
-- Additional dialogs (Add Music, Progress, About)
-- Cover art display
-- Playlist visualization
+- Additional dialogs (About)
+- Cover art display in player
+- Playlist visualization and management
+- Album sidebar implementation
+- Previous/Next track functionality
 
 ### 🔴 Phase 5: Configuration & Platform Integration (NOT STARTED)
 **Priority**: MEDIUM
@@ -111,30 +126,31 @@ Muine/
 
 ## Next Steps (Priority Order)
 
-1. **Audio Playback Engine** (Phase 3)
-   - Research and select cross-platform audio library
-   - Implement Player service
-   - Add audio playback tests
-   - Integrate with UI
-
-2. **ViewModel Implementation** (Phase 4)
-   - Create MainWindowViewModel with data binding
-   - Implement commands for player controls
-   - Connect services to UI
-
-3. **Playlist Management** (Phase 4)
+1. **Playlist Management** (Phase 4)
    - Implement playlist queue
    - Add/remove songs functionality
+   - Previous/Next track navigation
    - Save/load playlists
+
+2. **Album View** (Phase 4)
+   - Populate album sidebar
+   - Group songs by album
+   - Album selection and playback
+
+3. **Cover Art Display** (Phase 4)
+   - Display cover art in player
+   - Implement cover art downloading (MusicBrainz/Amazon)
+   - Album art grid view
 
 4. **Configuration System** (Phase 5)
    - Create settings service
    - Implement preferences dialog
-   - Store user settings
+   - Store user settings (volume, last played, etc.)
 
-5. **Cover Art** (Phase 4)
-   - Implement cover art display
-   - Add MusicBrainz/Amazon integration for downloading
+5. **Platform Integration** (Phase 5)
+   - Media keys support
+   - System notifications
+   - System tray integration
 
 ## Technical Decisions Made
 
@@ -167,6 +183,9 @@ None currently. All tests passing, code review clean, security scan passed.
 <!-- Core Library -->
 <PackageReference Include="TagLibSharp" Version="2.3.0" />
 <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.1" />
+<PackageReference Include="LibVLCSharp" Version="3.9.0" />
+<PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
+<PackageReference Include="VideoLAN.LibVLC.Mac" Version="3.0.21" />
 
 <!-- Application -->
 <PackageReference Include="Avalonia" Version="11.3.9" />

@@ -47,24 +47,29 @@ dotnet run
 - [x] .NET 10 project structure
 - [x] Modern C# models for Song and Album
 - [x] TagLib-Sharp integration for metadata reading
-- [x] Avalonia UI application scaffolding
-- [x] Unit tests for core models
-- [x] Basic UI layout with music player controls
+- [x] SQLite database integration
+- [x] Music library scanning (folders and files)
+- [x] Cover art extraction and caching
+- [x] Avalonia UI application
+- [x] Audio playback engine (LibVLCSharp)
+- [x] Play/Pause/Stop controls
+- [x] Progress tracking with seek
+- [x] Volume control
+- [x] ReplayGain support
+- [x] Unit tests for all services (46 tests passing)
 
 ### 🚧 In Progress
-- [ ] SQLite database integration
-- [ ] Audio playback engine (replacing GStreamer)
-- [ ] Album cover management
-- [ ] Playlist management
-- [ ] Configuration system (replacing GConf)
+- [ ] Playlist queue management
+- [ ] Previous/Next track navigation
+- [ ] Album view and grouping
 
 ### 📋 Planned
-- [ ] Full UI implementation
+- [ ] Cover art display in UI
+- [ ] Cover art downloading (MusicBrainz/Amazon)
+- [ ] Configuration system (replacing GConf)
 - [ ] Plugin system for .NET 10
-- [ ] Music library scanning
-- [ ] ReplayGain support
-- [ ] Cover art downloading
 - [ ] Keyboard shortcuts
+- [ ] Media key integration
 
 ## Technology Stack
 
@@ -72,7 +77,8 @@ dotnet run
 - **UI**: Avalonia 11.3.9 (cross-platform XAML)
 - **Audio Metadata**: TagLib-Sharp 2.3.0
 - **Database**: SQLite (via Microsoft.Data.Sqlite 10.0.1)
-- **Audio Playback**: TBD (considering LibVLCSharp, NAudio, or similar)
+- **Audio Playback**: LibVLCSharp 3.9.0 with VLC 3.0.21
+- **MVVM**: CommunityToolkit.Mvvm 8.2.1
 - **Testing**: xUnit
 
 ## Differences from Original
