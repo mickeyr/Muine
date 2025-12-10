@@ -107,6 +107,40 @@ public class MusicDatabaseService : IDisposable
         return songs;
     }
 
+    public async Task<Song?> GetSongByIdAsync(int id)
+    {
+        const string sql = "SELECT * FROM Songs WHERE Id = @Id";
+
+        using var cmd = _connection!.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue("@Id", id);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return ReadSong(reader);
+        }
+
+        return null;
+    }
+
+    public async Task<Song?> GetSongByFilenameAsync(string filename)
+    {
+        const string sql = "SELECT * FROM Songs WHERE Filename = @Filename";
+
+        using var cmd = _connection!.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue("@Filename", filename);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return ReadSong(reader);
+        }
+
+        return null;
+    }
+
     private static Song ReadSong(SqliteDataReader reader)
     {
         return new Song

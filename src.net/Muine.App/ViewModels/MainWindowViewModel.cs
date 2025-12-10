@@ -186,6 +186,98 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
+    private async Task RefreshSelectedSongMetadataAsync()
+    {
+        if (SelectedSong == null)
+        {
+            StatusMessage = "No song selected";
+            return;
+        }
+
+        await RefreshSongMetadataAsync(SelectedSong);
+    }
+
+    private async Task RefreshSongMetadataAsync(Song song)
+    {
+        IsScanning = true;
+        StatusMessage = $"Refreshing metadata for: {song.DisplayName}";
+
+        try
+        {
+            var result = await _scannerService.RefreshSongAsync(song);
+
+            // Reload songs from database to update UI
+            await LoadSongsAsync();
+
+            if (result.SuccessCount > 0)
+            {
+                StatusMessage = $"Metadata refreshed for: {song.DisplayName}";
+            }
+            else
+            {
+                StatusMessage = $"Failed to refresh metadata: {song.DisplayName}";
+                if (result.Errors.Count > 0)
+                {
+                    Console.WriteLine($"Refresh error: {result.Errors[0]}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error refreshing metadata: {ex.Message}";
+        }
+        finally
+        {
+            IsScanning = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task RefreshAllMetadataAsync()
+    {
+        if (Songs.Count == 0)
+        {
+            StatusMessage = "No songs in library to refresh";
+            return;
+        }
+
+        IsScanning = true;
+        StatusMessage = "Refreshing metadata for all songs...";
+        ScanProgress = "Starting refresh...";
+
+        try
+        {
+            var progress = new Progress<ScanProgress>(p =>
+            {
+                ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
+                StatusMessage = $"Refreshing: {Path.GetFileName(p.CurrentFile)}";
+            });
+
+            var result = await _scannerService.RefreshAllSongsAsync(progress);
+
+            // Reload songs from database
+            await LoadSongsAsync();
+
+            StatusMessage = $"Refresh complete: {result.SuccessCount} songs updated, {result.FailureCount} failed";
+            
+            if (result.Errors.Count > 0)
+            {
+                var firstErrors = string.Join(", ", result.Errors.Take(3));
+                Console.WriteLine($"Errors during refresh: {firstErrors}");
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error refreshing metadata: {ex.Message}";
+        }
+        finally
+        {
+            IsScanning = false;
+            ScanProgress = string.Empty;
+        }
+    }
+
+    [RelayCommand]
     private async Task AddMusicFilesAsync(IStorageProvider? storageProvider)
     {
         if (storageProvider == null)

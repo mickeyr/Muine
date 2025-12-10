@@ -58,6 +58,36 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void OnRefreshSelectedSongClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            try
+            {
+                await viewModel.RefreshSelectedSongMetadataCommand.ExecuteAsync(null);
+            }
+            catch
+            {
+                // ViewModel handles error display via StatusMessage
+            }
+        }
+    }
+
+    private async void OnRefreshAllMetadataClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            try
+            {
+                await viewModel.RefreshAllMetadataCommand.ExecuteAsync(null);
+            }
+            catch
+            {
+                // ViewModel handles error display via StatusMessage
+            }
+        }
+    }
+
     private void OnSliderPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
         if (e.Property == Slider.ValueProperty && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
