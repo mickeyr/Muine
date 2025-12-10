@@ -526,6 +526,22 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
     }
 
+    public MetadataEditorViewModel CreateMetadataEditor(Song song)
+    {
+        var editorVm = new MetadataEditorViewModel(_metadataService, _databaseService, _coverArtService);
+        editorVm.LoadSong(song);
+        return editorVm;
+    }
+
+    public async Task RefreshAfterMetadataEdit()
+    {
+        await LoadSongsAsync();
+        if (MusicLibraryViewModel != null)
+        {
+            await MusicLibraryViewModel.LoadLibraryAsync();
+        }
+    }
+
     private static string FormatTime(TimeSpan time)
     {
         if (time.TotalHours >= 1)

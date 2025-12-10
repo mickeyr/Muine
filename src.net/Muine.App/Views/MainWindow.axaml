@@ -44,7 +44,9 @@
             <!-- Music Library Tab -->
             <TabItem Header="Music Library">
                 <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
-                                        SongDoubleClicked="OnLibrarySongDoubleClick"/>
+                                        SongDoubleClicked="OnLibrarySongDoubleClick"
+                                        AddToPlaylistRequested="OnLibrarySongDoubleClick"
+                                        EditMetadataRequested="OnEditMetadataRequested"/>
             </TabItem>
             
             <!-- Playlist Tab -->

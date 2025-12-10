@@ -1,0 +1,124 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Muine.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+        x:Class="Muine.App.Views.MetadataEditorWindow"
+        x:DataType="vm:MetadataEditorViewModel"
+        Title="Edit Metadata"
+        Width="500" Height="600"
+        WindowStartupLocation="CenterOwner">
+
+    <Design.DataContext>
+        <vm:MetadataEditorViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <!-- Form Fields -->
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Spacing="15">
+                <!-- File Path (Read-only) -->
+                <StackPanel>
+                    <TextBlock Text="File:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding Filename}" 
+                               TextWrapping="Wrap"
+                               Foreground="Gray"
+                               FontSize="11"/>
+                </StackPanel>
+
+                <!-- Cover Art -->
+                <StackPanel>
+                    <TextBlock Text="Cover Art:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+                        <Border Grid.Column="0" Grid.RowSpan="2"
+                                Width="150" 
+                                Height="150" 
+                                CornerRadius="4"
+                                ClipToBounds="True"
+                                Margin="0,0,15,0">
+                            <Panel>
+                                <Image Source="{Binding CoverImagePath}" 
+                                       Stretch="UniformToFill"
+                                       IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                <Image Source="/Assets/default-cover.svg" 
+                                       Stretch="UniformToFill"
+                                       IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
+                            </Panel>
+                        </Border>
+                        
+                        <Button Grid.Column="1" Grid.Row="0"
+                                Content="Select Image..."
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Click="OnSelectCoverImageClick"/>
+                        
+                        <TextBlock Grid.Column="1" Grid.Row="1"
+                                   Text="{Binding CoverImagePath}"
+                                   TextWrapping="Wrap"
+                                   Foreground="Gray"
+                                   FontSize="11"
+                                   Margin="0,10,0,0"
+                                   VerticalAlignment="Bottom"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Title -->
+                <StackPanel>
+                    <TextBlock Text="Title:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding Title}"/>
+                </StackPanel>
+
+                <!-- Artist(s) -->
+                <StackPanel>
+                    <TextBlock Text="Artist(s):" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding ArtistsString}" 
+                             Watermark="Separate multiple artists with commas"/>
+                </StackPanel>
+
+                <!-- Album -->
+                <StackPanel>
+                    <TextBlock Text="Album:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding Album}"/>
+                </StackPanel>
+
+                <!-- Year -->
+                <StackPanel>
+                    <TextBlock Text="Year:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding Year}" 
+                             Watermark="e.g., 2024"/>
+                </StackPanel>
+
+                <!-- Track Number -->
+                <StackPanel>
+                    <TextBlock Text="Track Number:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <NumericUpDown Value="{Binding TrackNumber}" 
+                                   Minimum="0"
+                                   Maximum="999"
+                                   FormatString="0"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Action Buttons -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,20,0,0">
+            <TextBlock Grid.Column="0"
+                       Text="* Changes will be saved to the database"
+                       FontSize="11"
+                       Foreground="Gray"
+                       VerticalAlignment="Center"/>
+            
+            <Button Grid.Column="1"
+                    Content="Cancel"
+                    Width="100"
+                    Margin="0,0,10,0"
+                    Click="OnCancelClick"/>
+            
+            <Button Grid.Column="2"
+                    Content="Save"
+                    Width="100"
+                    Click="OnSaveClick"
+                    IsEnabled="{Binding HasChanges}"/>
+        </Grid>
+    </Grid>
+</Window>

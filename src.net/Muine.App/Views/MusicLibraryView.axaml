@@ -113,6 +113,12 @@
                      SelectedItem="{Binding SelectedSong}"
                      IsVisible="{Binding !IsGroupedView}"
                      DoubleTapped="OnSongDoubleClick">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add to Playlist" Click="OnAddToPlaylistClick"/>
+                        <MenuItem Header="Edit Metadata..." Click="OnEditMetadataClick"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="Auto,*" Margin="5">

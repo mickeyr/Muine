@@ -53,6 +53,26 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void OnEditMetadataRequested(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            var editorVm = viewModel.CreateMetadataEditor(song);
+            var editorWindow = new MetadataEditorWindow
+            {
+                DataContext = editorVm
+            };
+
+            var result = await editorWindow.ShowDialog<bool?>(this);
+            
+            if (result == true)
+            {
+                await viewModel.RefreshAfterMetadataEdit();
+                viewModel.StatusMessage = "Metadata updated successfully";
+            }
+        }
+    }
+
     private async void OnPlaylistSongDoubleClick(object? sender, Song song)
     {
         if (DataContext is MainWindowViewModel viewModel)
