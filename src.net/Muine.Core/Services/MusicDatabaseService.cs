@@ -141,6 +141,79 @@ public class MusicDatabaseService : IDisposable
         return null;
     }
 
+    public async Task<Dictionary<string, List<Album>>> GetSongsGroupedByArtistAndAlbumAsync()
+    {
+        var songs = await GetAllSongsAsync();
+        var result = new Dictionary<string, List<Album>>();
+
+        // Group songs by artist
+        var artistGroups = songs
+            .SelectMany(song => song.Artists.Select(artist => new { Artist = artist, Song = song }))
+            .GroupBy(x => x.Artist);
+
+        foreach (var artistGroup in artistGroups)
+        {
+            var artist = string.IsNullOrEmpty(artistGroup.Key) ? "Unknown Artist" : artistGroup.Key;
+            
+            // Group songs by album for this artist
+            var albumGroups = artistGroup
+                .GroupBy(x => new { x.Song.Album, x.Song.AlbumKey });
+
+            var albums = new List<Album>();
+            foreach (var albumGroup in albumGroups)
+            {
+                var albumSongs = albumGroup.Select(x => x.Song).ToList();
+                var firstSong = albumSongs.First();
+                
+                var album = new Album
+                {
+                    Name = string.IsNullOrEmpty(albumGroup.Key.Album) ? "Unknown Album" : albumGroup.Key.Album,
+                    Artists = new List<string> { artist },
+                    Year = firstSong.Year,
+                    Folder = firstSong.Folder,
+                    Songs = albumSongs,
+                    CoverImagePath = firstSong.CoverImagePath,
+                    TotalTracks = albumSongs.Max(s => s.NAlbumTracks)
+                };
+                
+                albums.Add(album);
+            }
+
+            result[artist] = albums.OrderBy(a => a.Year).ThenBy(a => a.Name).ToList();
+        }
+
+        return result;
+    }
+
+    public async Task<List<Song>> SearchSongsAsync(string searchQuery)
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            return await GetAllSongsAsync();
+        }
+
+        var sql = @"
+            SELECT * FROM Songs 
+            WHERE Title LIKE @Query 
+               OR Artists LIKE @Query 
+               OR Album LIKE @Query
+               OR Performers LIKE @Query
+            ORDER BY Artists, Album, DiscNumber, TrackNumber";
+
+        var songs = new List<Song>();
+        using var cmd = _connection!.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue("@Query", $"%{searchQuery}%");
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            songs.Add(ReadSong(reader));
+        }
+
+        return songs;
+    }
+
     private static Song ReadSong(SqliteDataReader reader)
     {
         return new Song
