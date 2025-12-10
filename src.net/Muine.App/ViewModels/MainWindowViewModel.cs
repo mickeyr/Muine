@@ -173,7 +173,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 SetOperationStatus($"Scanning: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
             });
 
-            var result = await _scannerService.ScanDirectoryAsync(folderPath, progress);
+            // Run the scan in a background thread to avoid blocking the UI
+            var result = await Task.Run(() => _scannerService.ScanDirectoryAsync(folderPath, progress));
 
             // Reload songs from database
             await LoadSongsAsync();
@@ -235,7 +236,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
         try
         {
-            var result = await _scannerService.RefreshSongAsync(song);
+            // Run the refresh in a background thread to avoid blocking the UI
+            var result = await Task.Run(() => _scannerService.RefreshSongAsync(song));
 
             // Reload songs from database to update UI
             await LoadSongsAsync();
@@ -289,7 +291,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 SetOperationStatus($"Refreshing: {p.PercentComplete:F0}%");
             });
 
-            var result = await _scannerService.RefreshAllSongsAsync(progress);
+            // Run the metadata refresh in a background thread to avoid blocking the UI
+            var result = await Task.Run(() => _scannerService.RefreshAllSongsAsync(progress));
 
             // Reload songs from database
             await LoadSongsAsync();
