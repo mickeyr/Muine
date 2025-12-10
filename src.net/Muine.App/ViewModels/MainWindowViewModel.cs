@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Muine.Core.Models;
@@ -21,6 +23,12 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
+
+    [ObservableProperty]
+    private string _operationStatus = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasOperationStatus;
 
     [ObservableProperty]
     private bool _isScanning;
@@ -58,6 +66,17 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [ObservableProperty]
     private float _volume = 50;
 
+    [ObservableProperty]
+    private MusicLibraryViewModel? _musicLibraryViewModel;
+
+    [ObservableProperty]
+    private PlaylistViewModel _playlistViewModel = new();
+
+    [ObservableProperty]
+    private int _selectedTabIndex = 0;
+
+    private System.Diagnostics.Stopwatch? _operationStopwatch;
+
     public MainWindowViewModel()
     {
         // Initialize services
@@ -79,6 +98,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _databaseService = new MusicDatabaseService(databasePath);
         _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
         
+        // Initialize view models
+        MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
+        PlaylistViewModel = new PlaylistViewModel();
+        
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
         _playbackService.PositionChanged += OnPlaybackPositionChanged;
@@ -94,6 +117,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _databaseService.InitializeAsync();
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
             StatusMessage = $"Ready - {TotalSongs} songs in library";
         }
         catch (Exception ex)
@@ -135,7 +162,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private async Task ScanFolderAsync(string folderPath)
     {
         IsScanning = true;
-        StatusMessage = $"Scanning {folderPath}...";
+        SetOperationStatus($"Scanning {folderPath}...");
         ScanProgress = "Starting scan...";
 
         try
@@ -143,15 +170,20 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                StatusMessage = $"Scanning: {Path.GetFileName(p.CurrentFile)}";
+                SetOperationStatus($"Scanning: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
             });
 
-            var result = await _scannerService.ScanDirectoryAsync(folderPath, progress);
+            // Run the scan in a background thread to avoid blocking the UI
+            var result = await Task.Run(() => _scannerService.ScanDirectoryAsync(folderPath, progress));
 
             // Reload songs from database
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
 
-            StatusMessage = $"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed";
+            SetOperationStatus($"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed", autoHideAfter: 5000);
             
             if (result.Errors.Count > 0)
             {
@@ -162,7 +194,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error scanning folder: {ex.Message}";
+            SetOperationStatus($"Error scanning folder: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
@@ -200,22 +232,27 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private async Task RefreshSongMetadataAsync(Song song)
     {
         IsScanning = true;
-        StatusMessage = $"Refreshing metadata for: {song.DisplayName}";
+        SetOperationStatus($"Refreshing metadata for: {song.DisplayName}");
 
         try
         {
-            var result = await _scannerService.RefreshSongAsync(song);
+            // Run the refresh in a background thread to avoid blocking the UI
+            var result = await Task.Run(() => _scannerService.RefreshSongAsync(song));
 
             // Reload songs from database to update UI
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
 
             if (result.SuccessCount > 0)
             {
-                StatusMessage = $"Metadata refreshed for: {song.DisplayName}";
+                SetOperationStatus($"Metadata refreshed for: {song.DisplayName}", autoHideAfter: 3000);
             }
             else
             {
-                StatusMessage = $"Failed to refresh metadata: {song.DisplayName}";
+                SetOperationStatus($"Failed to refresh metadata: {song.DisplayName}", autoHideAfter: 5000);
                 if (result.Errors.Count > 0)
                 {
                     Console.WriteLine($"Refresh error: {result.Errors[0]}");
@@ -224,7 +261,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error refreshing metadata: {ex.Message}";
+            SetOperationStatus($"Error refreshing metadata: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
@@ -237,12 +274,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         if (Songs.Count == 0)
         {
-            StatusMessage = "No songs in library to refresh";
+            SetOperationStatus("No songs in library to refresh", autoHideAfter: 3000);
             return;
         }
 
         IsScanning = true;
-        StatusMessage = "Refreshing metadata for all songs...";
+        _operationStopwatch = System.Diagnostics.Stopwatch.StartNew();
+        SetOperationStatus("Refreshing metadata...");
         ScanProgress = "Starting refresh...";
 
         try
@@ -250,15 +288,26 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                StatusMessage = $"Refreshing: {Path.GetFileName(p.CurrentFile)}";
+                SetOperationStatus($"Refreshing: {p.PercentComplete:F0}%");
             });
 
-            var result = await _scannerService.RefreshAllSongsAsync(progress);
+            // Run the metadata refresh in a background thread to avoid blocking the UI
+            var result = await Task.Run(() => _scannerService.RefreshAllSongsAsync(progress));
 
             // Reload songs from database
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
 
-            StatusMessage = $"Refresh complete: {result.SuccessCount} songs updated, {result.FailureCount} failed";
+            _operationStopwatch.Stop();
+            var elapsed = _operationStopwatch.Elapsed;
+            var timeString = elapsed.TotalMinutes >= 1 
+                ? $"{elapsed.Minutes}m {elapsed.Seconds}s"
+                : $"{elapsed.TotalSeconds:F1}s";
+            
+            SetOperationStatus($"Refresh complete in {timeString}", autoHideAfter: 3000);
             
             if (result.Errors.Count > 0)
             {
@@ -268,12 +317,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error refreshing metadata: {ex.Message}";
+            SetOperationStatus($"Error: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
             IsScanning = false;
             ScanProgress = string.Empty;
+            _operationStopwatch = null;
         }
     }
 
@@ -375,10 +425,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         try
         {
-            if (_playbackService.CurrentSong == null && SelectedSong != null)
+            if (_playbackService.CurrentSong == null || _playbackService.State == PlaybackState.Stopped)
             {
-                // If no song is playing, play the selected song
-                _ = PlaySongAsync(SelectedSong);
+                // If no song is playing or playback is stopped, play from playlist
+                _ = PlayFromPlaylistAsync();
             }
             else
             {
@@ -464,6 +514,90 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
     }
 
+    public void AddSongToPlaylist(Song song)
+    {
+        PlaylistViewModel.AddSong(song);
+        StatusMessage = $"Added '{song.DisplayName}' to playlist";
+    }
+
+    public void AddAlbumToPlaylist(IEnumerable<Song> songs)
+    {
+        PlaylistViewModel.AddSongs(songs);
+        StatusMessage = $"Added album to playlist";
+    }
+
+    [RelayCommand]
+    private async Task PlayFromPlaylistAsync()
+    {
+        // Check if we should start from the beginning
+        // This happens when stopped or when there's no current song
+        var currentSong = PlaylistViewModel.GetCurrentSong();
+        
+        if (currentSong != null && _playbackService.State != PlaybackState.Stopped)
+        {
+            // Play the current song in the playlist (resume case)
+            await PlaySongAsync(currentSong);
+        }
+        else if (PlaylistViewModel.Songs.Count > 0)
+        {
+            // If stopped or no current song is set, start from the beginning
+            PlaylistViewModel.MoveTo(0);
+            currentSong = PlaylistViewModel.GetCurrentSong();
+            if (currentSong != null)
+            {
+                await PlaySongAsync(currentSong);
+            }
+        }
+        else
+        {
+            StatusMessage = "Playlist is empty";
+        }
+    }
+
+    [RelayCommand]
+    private async Task PlayNextAsync()
+    {
+        var nextSong = PlaylistViewModel.GetNextSong();
+        if (nextSong != null)
+        {
+            await PlaySongAsync(nextSong);
+        }
+        else
+        {
+            StatusMessage = "No more songs in playlist";
+        }
+    }
+
+    [RelayCommand]
+    private async Task PlayPreviousAsync()
+    {
+        var prevSong = PlaylistViewModel.GetPreviousSong();
+        if (prevSong != null)
+        {
+            await PlaySongAsync(prevSong);
+        }
+        else
+        {
+            StatusMessage = "No previous song in playlist";
+        }
+    }
+
+    public MetadataEditorViewModel CreateMetadataEditor(Song song)
+    {
+        var editorVm = new MetadataEditorViewModel(_metadataService, _databaseService, _coverArtService);
+        editorVm.LoadSong(song);
+        return editorVm;
+    }
+
+    public async Task RefreshAfterMetadataEdit()
+    {
+        await LoadSongsAsync();
+        if (MusicLibraryViewModel != null)
+        {
+            await MusicLibraryViewModel.LoadLibraryAsync();
+        }
+    }
+
     private static string FormatTime(TimeSpan time)
     {
         if (time.TotalHours >= 1)
@@ -471,6 +605,43 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             return time.ToString(@"h\:mm\:ss");
         }
         return time.ToString(@"m\:ss");
+    }
+
+    private void SetOperationStatus(string message, int autoHideAfter = 0)
+    {
+        // Ensure we're on the UI thread
+        if (!Dispatcher.UIThread.CheckAccess())
+        {
+            Dispatcher.UIThread.Post(() => SetOperationStatus(message, autoHideAfter));
+            return;
+        }
+
+        OperationStatus = message;
+        HasOperationStatus = !string.IsNullOrEmpty(message);
+
+        if (autoHideAfter > 0)
+        {
+            Task.Delay(autoHideAfter).ContinueWith(_ =>
+            {
+                Dispatcher.UIThread.Post(() =>
+                {
+                    if (OperationStatus == message) // Only hide if it's still the same message
+                    {
+                        OperationStatus = string.Empty;
+                        HasOperationStatus = false;
+                    }
+                });
+            });
+        }
+    }
+
+    [RelayCommand]
+    private void SelectTab(string tabIndex)
+    {
+        if (int.TryParse(tabIndex, out int index))
+        {
+            SelectedTabIndex = index;
+        }
     }
 
     public void Dispose()
