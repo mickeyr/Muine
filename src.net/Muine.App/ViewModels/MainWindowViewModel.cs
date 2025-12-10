@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -58,6 +59,15 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [ObservableProperty]
     private float _volume = 50;
 
+    [ObservableProperty]
+    private MusicLibraryViewModel? _musicLibraryViewModel;
+
+    [ObservableProperty]
+    private PlaylistViewModel _playlistViewModel = new();
+
+    [ObservableProperty]
+    private int _selectedTabIndex = 0;
+
     public MainWindowViewModel()
     {
         // Initialize services
@@ -79,6 +89,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _databaseService = new MusicDatabaseService(databasePath);
         _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
         
+        // Initialize view models
+        MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
+        PlaylistViewModel = new PlaylistViewModel();
+        
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
         _playbackService.PositionChanged += OnPlaybackPositionChanged;
@@ -94,6 +108,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _databaseService.InitializeAsync();
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
             StatusMessage = $"Ready - {TotalSongs} songs in library";
         }
         catch (Exception ex)
@@ -150,6 +168,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
             // Reload songs from database
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
 
             StatusMessage = $"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed";
             
@@ -461,6 +483,46 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         else
         {
             CurrentSongDisplay = "No song playing";
+        }
+    }
+
+    public void AddSongToPlaylist(Song song)
+    {
+        PlaylistViewModel.AddSong(song);
+        StatusMessage = $"Added '{song.DisplayName}' to playlist";
+    }
+
+    public void AddAlbumToPlaylist(IEnumerable<Song> songs)
+    {
+        PlaylistViewModel.AddSongs(songs);
+        StatusMessage = $"Added album to playlist";
+    }
+
+    [RelayCommand]
+    private async Task PlayNextAsync()
+    {
+        var nextSong = PlaylistViewModel.GetNextSong();
+        if (nextSong != null)
+        {
+            await PlaySongAsync(nextSong);
+        }
+        else
+        {
+            StatusMessage = "No more songs in playlist";
+        }
+    }
+
+    [RelayCommand]
+    private async Task PlayPreviousAsync()
+    {
+        var prevSong = PlaylistViewModel.GetPreviousSong();
+        if (prevSong != null)
+        {
+            await PlaySongAsync(prevSong);
+        }
+        else
+        {
+            StatusMessage = "No previous song in playlist";
         }
     }
 

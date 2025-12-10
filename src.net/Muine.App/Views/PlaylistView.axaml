@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Muine.App.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="Muine.App.Views.PlaylistView"
+             x:DataType="vm:PlaylistViewModel">
+    
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="10">
+            <TextBlock Grid.Column="0" 
+                       Text="{Binding Count, StringFormat='Playlist ({0} songs)'}"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+            <Button Grid.Column="1"
+                    Content="Clear Playlist"
+                    Command="{Binding ClearPlaylistCommand}"/>
+        </Grid>
+
+        <!-- Playlist Items -->
+        <Grid Grid.Row="1" Margin="10,0,10,10">
+            <ListBox ItemsSource="{Binding Songs}"
+                     SelectedItem="{Binding SelectedSong}"
+                     DoubleTapped="OnSongDoubleClick">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,Auto,*,Auto" Margin="5">
+                            <!-- Playing Indicator -->
+                            <TextBlock Grid.Column="0"
+                                       Text="▶"
+                                       FontWeight="Bold"
+                                       Foreground="Green"
+                                       Margin="0,0,10,0"
+                                       VerticalAlignment="Center"
+                                       IsVisible="False"/>
+                            
+                            <!-- Cover Art -->
+                            <Border Grid.Column="1" 
+                                    Width="50" 
+                                    Height="50" 
+                                    CornerRadius="4"
+                                    ClipToBounds="True"
+                                    Margin="0,0,10,0">
+                                <Panel>
+                                    <Image Source="{Binding CoverImagePath}" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                    <Image Source="/Assets/default-cover.svg" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
+                                </Panel>
+                            </Border>
+                            
+                            <!-- Song Info -->
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding DisplayName}" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="{Binding ArtistsString}" 
+                                           FontSize="11" 
+                                           Foreground="Gray"/>
+                                <TextBlock Text="{Binding Album}" 
+                                           FontSize="11" 
+                                           Foreground="Gray"/>
+                            </StackPanel>
+                            
+                            <!-- Remove Button -->
+                            <Button Grid.Column="3"
+                                    Content="✕"
+                                    VerticalAlignment="Center"
+                                    Click="OnRemoveSongClick"
+                                    ToolTip.Tip="Remove from playlist"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Empty State -->
+            <TextBlock IsVisible="{Binding Count, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=0}"
+                       Text="Playlist is empty. Double-click songs in the Music Library to add them!" 
+                       Foreground="Gray" 
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

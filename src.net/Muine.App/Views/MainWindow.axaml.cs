@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Muine.App.ViewModels;
+using Muine.Core.Models;
 
 namespace Muine.App.Views;
 
@@ -43,13 +44,28 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void OnSongDoubleClick(object? sender, TappedEventArgs e)
+    private void OnLibrarySongDoubleClick(object? sender, Song song)
     {
-        if (DataContext is MainWindowViewModel viewModel && viewModel.SelectedSong != null)
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.AddSongToPlaylist(song);
+            viewModel.SelectedTabIndex = 1; // Switch to playlist tab
+        }
+    }
+
+    private async void OnPlaylistSongDoubleClick(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
         {
             try
             {
-                await viewModel.PlaySelectedSongCommand.ExecuteAsync(null);
+                // Find the index of the song in the playlist and play it
+                var index = viewModel.PlaylistViewModel.Songs.IndexOf(song);
+                if (index >= 0)
+                {
+                    viewModel.PlaylistViewModel.MoveTo(index);
+                    await viewModel.PlaySelectedSongCommand.ExecuteAsync(null);
+                }
             }
             catch
             {

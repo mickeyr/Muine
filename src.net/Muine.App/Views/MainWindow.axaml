@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Muine.App.ViewModels"
+        xmlns:views="using:Muine.App.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
@@ -31,9 +32,7 @@
                 <MenuItem Header="E_xit"/>
             </MenuItem>
             <MenuItem Header="_Playlist">
-                <MenuItem Header="_Add Song"/>
-                <MenuItem Header="Add _Album"/>
-                <MenuItem Header="_Clear Playlist"/>
+                <MenuItem Header="_Clear Playlist" Command="{Binding PlaylistViewModel.ClearPlaylistCommand}"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About"/>
@@ -41,124 +40,67 @@
         </Menu>
 
         <!-- Main Content -->
-        <Grid Grid.Row="1" ColumnDefinitions="250,*">
-            <!-- Sidebar - Album List -->
-            <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,0" Padding="10">
-                <StackPanel>
-                    <TextBlock Text="Albums" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding TotalSongs, StringFormat='{}{0} songs in library'}" 
-                               Foreground="Gray" 
-                               Margin="0,0,0,10"/>
-                </StackPanel>
-            </Border>
+        <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedTabIndex}">
+            <!-- Music Library Tab -->
+            <TabItem Header="Music Library">
+                <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
+                                        SongDoubleClicked="OnLibrarySongDoubleClick"/>
+            </TabItem>
+            
+            <!-- Playlist Tab -->
+            <TabItem Header="Playlist">
+                <views:PlaylistView DataContext="{Binding PlaylistViewModel}"
+                                    SongDoubleClicked="OnPlaylistSongDoubleClick"/>
+            </TabItem>
+        </TabControl>
 
-            <!-- Main Area - Song List and Controls -->
-            <Grid Grid.Column="1" RowDefinitions="*,Auto">
-                <!-- Song List -->
-                <Border Grid.Row="0" Padding="10">
-                    <Grid RowDefinitions="Auto,*">
-                        <TextBlock Grid.Row="0" 
-                                   Text="Music Library" 
-                                   FontSize="16" 
-                                   FontWeight="Bold" 
-                                   Margin="0,0,0,10"/>
-                        
-                        <!-- Progress indicator during scanning -->
-                        <StackPanel Grid.Row="1" 
-                                    IsVisible="{Binding IsScanning}"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center">
-                            <TextBlock Text="Scanning music library..." 
-                                       FontSize="14" 
-                                       HorizontalAlignment="Center"
-                                       Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding ScanProgress}" 
-                                       HorizontalAlignment="Center"
-                                       Foreground="Gray"/>
-                        </StackPanel>
+        <!-- Player Controls -->
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0">
+            <Grid RowDefinitions="Auto,Auto">
+                <!-- Progress Bar and Time -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="10,10,10,5">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <Slider Minimum="0" 
+                                Maximum="{Binding MaxPosition}" 
+                                Value="{Binding CurrentPosition}"
+                                IsEnabled="{Binding IsPlaying}"
+                                PropertyChanged="OnSliderPropertyChanged"/>
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" 
+                               Text="{Binding TimeDisplay}" 
+                               FontSize="10" 
+                               Foreground="Gray"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0"/>
+                </Grid>
 
-                        <!-- Song List -->
-                        <ListBox Grid.Row="1" 
-                                 ItemsSource="{Binding Songs}"
-                                 SelectedItem="{Binding SelectedSong}"
-                                 IsVisible="{Binding !IsScanning}"
-                                 DoubleTapped="OnSongDoubleClick">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="5">
-                                        <TextBlock Text="{Binding DisplayName}" 
-                                                   FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding ArtistsString}" 
-                                                   FontSize="11" 
-                                                   Foreground="Gray"/>
-                                        <TextBlock Text="{Binding Album}" 
-                                                   FontSize="11" 
-                                                   Foreground="Gray"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                <!-- Controls and Status -->
+                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Margin="10,5,10,10">
+                    <!-- Play/Pause/Stop Buttons -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
+                        <Button Content="⏮" Width="40" Height="40" ToolTip.Tip="Previous" Command="{Binding PlayPreviousCommand}"/>
+                        <Button Content="⏯" Width="40" Height="40" ToolTip.Tip="Play/Pause" Command="{Binding TogglePlayPauseCommand}"/>
+                        <Button Content="⏹" Width="40" Height="40" ToolTip.Tip="Stop" Command="{Binding StopCommand}"/>
+                        <Button Content="⏭" Width="40" Height="40" ToolTip.Tip="Next" Command="{Binding PlayNextCommand}"/>
+                    </StackPanel>
 
-                        <!-- Empty state -->
-                        <TextBlock Grid.Row="1"
-                                   IsVisible="{Binding !IsScanning}"
-                                   Text="No music in library. Use File → Import Music Folder to add music!" 
-                                   Foreground="Gray" 
-                                   TextWrapping="Wrap"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center">
-                            <TextBlock.IsVisible>
-                                <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                    <Binding Path="!IsScanning"/>
-                                    <Binding Path="Songs.Count" Converter="{x:Static ObjectConverters.Equal}" ConverterParameter="0"/>
-                                </MultiBinding>
-                            </TextBlock.IsVisible>
-                        </TextBlock>
-                    </Grid>
-                </Border>
+                    <!-- Song Info -->
+                    <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding CurrentSongDisplay}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding StatusMessage}" FontSize="10" Foreground="Gray"/>
+                    </StackPanel>
 
-                <!-- Player Controls -->
-                <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="10">
-                    <Grid ColumnDefinitions="Auto,*,Auto">
-                        <!-- Play/Pause/Stop Buttons -->
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
-                            <Button Content="⏮" Width="40" Height="40" ToolTip.Tip="Previous" IsEnabled="False"/>
-                            <Button Content="⏯" Width="40" Height="40" ToolTip.Tip="Play/Pause" Command="{Binding TogglePlayPauseCommand}"/>
-                            <Button Content="⏹" Width="40" Height="40" ToolTip.Tip="Stop" Command="{Binding StopCommand}"/>
-                            <Button Content="⏭" Width="40" Height="40" ToolTip.Tip="Next" IsEnabled="False"/>
-                        </StackPanel>
-
-                        <!-- Song Info -->
-                        <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding CurrentSongDisplay}" FontWeight="Bold"/>
-                            <Slider Minimum="0" 
-                                    Maximum="{Binding MaxPosition}" 
-                                    Value="{Binding CurrentPosition}"
-                                    IsEnabled="{Binding IsPlaying}"
-                                    Margin="0,5,0,0"
-                                    PropertyChanged="OnSliderPropertyChanged"/>
-                            <TextBlock Text="{Binding TimeDisplay}" FontSize="10" Foreground="Gray"/>
-                        </StackPanel>
-
-                        <!-- Volume Control -->
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5">
-                            <TextBlock Text="🔊" VerticalAlignment="Center"/>
-                            <Slider Width="100" 
-                                    Minimum="0" 
-                                    Maximum="100" 
-                                    Value="{Binding Volume}" 
-                                    VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                    <!-- Volume Control -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5">
+                        <TextBlock Text="🔊" VerticalAlignment="Center"/>
+                        <Slider Width="100" 
+                                Minimum="0" 
+                                Maximum="100" 
+                                Value="{Binding Volume}" 
+                                VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
-        </Grid>
-
-        <!-- Status Bar -->
-        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="5">
-            <TextBlock Text="{Binding StatusMessage}" 
-                       FontSize="10" 
-                       Foreground="Gray"/>
         </Border>
     </Grid>
 
