@@ -99,17 +99,13 @@
                                                          DoubleTapped="OnSongDoubleClick">
                                                     <ListBox.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <Grid ColumnDefinitions="Auto,*">
                                                                 <TextBlock Grid.Column="0" 
                                                                            Text="{Binding TrackNumber}" 
                                                                            Width="30"
                                                                            Foreground="Gray"/>
                                                                 <TextBlock Grid.Column="1" 
                                                                            Text="{Binding DisplayName}"/>
-                                                                <TextBlock Grid.Column="2" 
-                                                                           Text="{Binding Duration, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                                                           Foreground="Gray"
-                                                                           Margin="10,0,0,0"/>
                                                             </Grid>
                                                         </DataTemplate>
                                                     </ListBox.ItemTemplate>

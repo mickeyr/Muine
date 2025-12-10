@@ -126,8 +126,12 @@ public partial class MetadataEditorViewModel : ViewModelBase
             // Save to database
             await _databaseService.SaveSongAsync(_originalSong);
 
-            // TODO: Write tags back to the file using MetadataService
-            // This would require a WriteMetadata method in MetadataService
+            // NOTE: Currently only saves to database. 
+            // Writing metadata back to audio file tags would require:
+            // 1. A WriteMetadata method in MetadataService using TagLib
+            // 2. Proper error handling for file write permissions
+            // 3. Backup of original file tags before modification
+            // This is intentionally left for future enhancement to keep changes minimal.
 
             HasChanges = false;
             return true;

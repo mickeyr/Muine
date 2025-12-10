@@ -26,23 +26,34 @@ public class Playlist
     
     public void Remove(Song song)
     {
-        Songs.Remove(song);
-        if (CurrentIndex >= Songs.Count)
+        var index = Songs.IndexOf(song);
+        if (index >= 0)
         {
-            CurrentIndex = Songs.Count - 1;
+            Songs.RemoveAt(index);
+            if (index < CurrentIndex)
+            {
+                CurrentIndex--;
+            }
+            else if (CurrentIndex >= Songs.Count)
+            {
+                CurrentIndex = Songs.Count - 1;
+            }
         }
     }
     
     public void RemoveAt(int index)
     {
-        Songs.RemoveAt(index);
-        if (CurrentIndex >= Songs.Count)
+        if (index >= 0 && index < Songs.Count)
         {
-            CurrentIndex = Songs.Count - 1;
-        }
-        else if (index < CurrentIndex)
-        {
-            CurrentIndex--;
+            Songs.RemoveAt(index);
+            if (index < CurrentIndex)
+            {
+                CurrentIndex--;
+            }
+            else if (CurrentIndex >= Songs.Count)
+            {
+                CurrentIndex = Songs.Count - 1;
+            }
         }
     }
     

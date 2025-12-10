@@ -106,7 +106,9 @@ public partial class MusicLibraryViewModel : ViewModelBase
 
     partial void OnSearchQueryChanged(string value)
     {
-        _ = SearchAsync();
+        // Fire-and-forget is acceptable here as this is triggered by user input
+        // and SearchAsync handles its own errors internally
+        _ = Task.Run(async () => await SearchAsync());
     }
 
     [RelayCommand]

@@ -173,7 +173,7 @@ public class MusicDatabaseService : IDisposable
                     Folder = firstSong.Folder,
                     Songs = albumSongs,
                     CoverImagePath = firstSong.CoverImagePath,
-                    TotalTracks = albumSongs.Max(s => s.NAlbumTracks)
+                    TotalTracks = albumSongs.Any() ? albumSongs.Max(s => s.NAlbumTracks) : 0
                 };
                 
                 albums.Add(album);
