@@ -336,12 +336,6 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _playbackService.Volume = value;
     }
 
-    partial void OnSelectedSongChanged(Song? value)
-    {
-        // When a song is double-clicked, play it
-        // Note: This will be triggered by double-click in the UI
-    }
-
     private void OnPlaybackStateChanged(object? sender, PlaybackState state)
     {
         IsPlaying = state == PlaybackState.Playing;

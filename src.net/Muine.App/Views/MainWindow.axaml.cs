@@ -60,7 +60,7 @@ public partial class MainWindow : Window
 
     private void OnSliderPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
-        if (e.Property.Name == "Value" && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        if (e.Property == Slider.ValueProperty && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
             // Only seek if the user is manually changing the slider, not if it's updating from playback
             if (slider.IsPointerOver && viewModel.IsPlaying)

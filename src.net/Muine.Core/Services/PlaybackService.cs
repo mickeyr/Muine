@@ -108,7 +108,7 @@ public class PlaybackService : IDisposable
         {
             Stop();
 
-            using var media = new Media(_libVLC!, song.Filename, FromType.FromPath);
+            var media = new Media(_libVLC!, song.Filename, FromType.FromPath);
             _mediaPlayer.Media = media;
 
             // Apply ReplayGain if available
