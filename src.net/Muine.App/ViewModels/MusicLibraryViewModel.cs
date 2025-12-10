@@ -22,6 +22,9 @@ public partial class MusicLibraryViewModel : ViewModelBase
     private ObservableCollection<AlbumViewModel> _albums = new();
 
     [ObservableProperty]
+    private ObservableCollection<Song> _songs = new();
+
+    [ObservableProperty]
     private ObservableCollection<Song> _allSongs = new();
 
     [ObservableProperty]
@@ -34,13 +37,25 @@ public partial class MusicLibraryViewModel : ViewModelBase
     private AlbumViewModel? _selectedAlbum;
 
     [ObservableProperty]
+    private Song? _selectedSong;
+
+    [ObservableProperty]
     private bool _isArtistView = true;
+
+    [ObservableProperty]
+    private bool _isAlbumView = false;
+
+    [ObservableProperty]
+    private bool _isSongView = false;
 
     [ObservableProperty]
     private bool _isLoading;
 
     [ObservableProperty]
     private string _currentFilteredArtist = string.Empty;
+
+    [ObservableProperty]
+    private string _currentFilteredAlbum = string.Empty;
 
     public int TotalSongs => AllSongs.Count;
     public int ArtistCount => Artists.Count;
@@ -111,6 +126,8 @@ public partial class MusicLibraryViewModel : ViewModelBase
     {
         SelectedArtist = artist;
         IsArtistView = false;
+        IsAlbumView = true;
+        IsSongView = false;
         
         if (artist != null)
         {
@@ -126,11 +143,33 @@ public partial class MusicLibraryViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void SelectAlbum(AlbumViewModel? album)
+    {
+        SelectedAlbum = album;
+        IsArtistView = false;
+        IsAlbumView = false;
+        IsSongView = true;
+        
+        if (album != null)
+        {
+            CurrentFilteredAlbum = album.Name;
+            Songs = new ObservableCollection<Song>(album.Songs.OrderBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber));
+        }
+        else
+        {
+            CurrentFilteredAlbum = string.Empty;
+            Songs = new ObservableCollection<Song>();
+        }
+    }
+
+    [RelayCommand]
     private void ShowAllAlbums()
     {
         SelectedArtist = null;
         CurrentFilteredArtist = string.Empty;
         IsArtistView = false;
+        IsAlbumView = true;
+        IsSongView = false;
         Albums = new ObservableCollection<AlbumViewModel>(_allAlbums.OrderBy(a => a.Artist).ThenBy(a => a.Name));
     }
 
@@ -138,8 +177,33 @@ public partial class MusicLibraryViewModel : ViewModelBase
     private void BackToArtists()
     {
         IsArtistView = true;
+        IsAlbumView = false;
+        IsSongView = false;
         SelectedArtist = null;
+        SelectedAlbum = null;
         CurrentFilteredArtist = string.Empty;
+        CurrentFilteredAlbum = string.Empty;
+    }
+
+    [RelayCommand]
+    private void BackToAlbums()
+    {
+        IsArtistView = false;
+        IsAlbumView = true;
+        IsSongView = false;
+        SelectedAlbum = null;
+        CurrentFilteredAlbum = string.Empty;
+        
+        // Restore the previous album list (filtered or all)
+        if (!string.IsNullOrEmpty(CurrentFilteredArtist))
+        {
+            Albums = new ObservableCollection<AlbumViewModel>(
+                _allAlbums.Where(a => a.Artist == CurrentFilteredArtist).OrderBy(a => a.Name));
+        }
+        else
+        {
+            Albums = new ObservableCollection<AlbumViewModel>(_allAlbums.OrderBy(a => a.Artist).ThenBy(a => a.Name));
+        }
     }
 
     partial void OnSearchQueryChanged(string value)
@@ -151,12 +215,17 @@ public partial class MusicLibraryViewModel : ViewModelBase
             {
                 Artists = new ObservableCollection<ArtistViewModel>(Artists);
             }
-            else if (!string.IsNullOrEmpty(CurrentFilteredArtist))
+            else if (IsSongView && SelectedAlbum != null)
+            {
+                Songs = new ObservableCollection<Song>(
+                    SelectedAlbum.Songs.OrderBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber));
+            }
+            else if (IsAlbumView && !string.IsNullOrEmpty(CurrentFilteredArtist))
             {
                 Albums = new ObservableCollection<AlbumViewModel>(
                     _allAlbums.Where(a => a.Artist == CurrentFilteredArtist).OrderBy(a => a.Name));
             }
-            else
+            else if (IsAlbumView)
             {
                 Albums = new ObservableCollection<AlbumViewModel>(_allAlbums.OrderBy(a => a.Artist).ThenBy(a => a.Name));
             }
@@ -170,7 +239,14 @@ public partial class MusicLibraryViewModel : ViewModelBase
                     a.Name.Contains(value, StringComparison.OrdinalIgnoreCase)).ToList();
                 Artists = new ObservableCollection<ArtistViewModel>(filtered);
             }
-            else
+            else if (IsSongView && SelectedAlbum != null)
+            {
+                var filtered = SelectedAlbum.Songs.Where(s =>
+                    s.Title.Contains(value, StringComparison.OrdinalIgnoreCase) ||
+                    s.ArtistsString.Contains(value, StringComparison.OrdinalIgnoreCase)).ToList();
+                Songs = new ObservableCollection<Song>(filtered);
+            }
+            else if (IsAlbumView)
             {
                 var filtered = Albums.Where(a => 
                     a.Name.Contains(value, StringComparison.OrdinalIgnoreCase) ||

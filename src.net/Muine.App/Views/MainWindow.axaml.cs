@@ -44,18 +44,31 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void OnLibraryAlbumDoubleClick(object? sender, AlbumViewModel album)
+    private void OnLibrarySongDoubleClick(object? sender, Song song)
     {
         if (DataContext is MainWindowViewModel viewModel)
         {
-            viewModel.AddAlbumToPlaylist(album.Songs);
+            viewModel.AddSongToPlaylist(song);
             viewModel.SelectedTabIndex = 1; // Switch to playlist tab
             
             // Auto-start playback if not already playing
             if (!viewModel.IsPlaying)
             {
-                await viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
+                _ = viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
             }
+        }
+    }
+
+    private async void OnLibraryAlbumDoubleClick(object? sender, AlbumViewModel album)
+    {
+        // No longer auto-adds - now navigates to song list in the MusicLibraryView code-behind
+    }
+
+    private void OnLibraryAddSongToPlaylistRequested(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.AddSongToPlaylist(song);
         }
     }
 

@@ -16,6 +16,9 @@ public partial class MusicLibraryView : UserControl
     public event EventHandler<ArtistViewModel>? ArtistDoubleClicked;
     public event EventHandler<AlbumViewModel>? AlbumDoubleClicked;
     public event EventHandler<AlbumViewModel>? AddAlbumToPlaylistRequested;
+    public event EventHandler<Song>? SongDoubleClicked;
+    public event EventHandler<Song>? AddSongToPlaylistRequested;
+    public event EventHandler<Song>? EditMetadataRequested;
 
     private void OnArtistDoubleClick(object? sender, RoutedEventArgs e)
     {
@@ -28,9 +31,10 @@ public partial class MusicLibraryView : UserControl
 
     private void OnAlbumDoubleClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is ListBox listBox && listBox.SelectedItem is AlbumViewModel album)
+        if (sender is ListBox listBox && listBox.SelectedItem is AlbumViewModel album && DataContext is MusicLibraryViewModel viewModel)
         {
-            AlbumDoubleClicked?.Invoke(this, album);
+            // Navigate to songs view for this album
+            viewModel.SelectAlbumCommand.Execute(album);
         }
     }
 
@@ -39,6 +43,30 @@ public partial class MusicLibraryView : UserControl
         if (sender is MenuItem menuItem && menuItem.DataContext is AlbumViewModel album)
         {
             AddAlbumToPlaylistRequested?.Invoke(this, album);
+        }
+    }
+
+    private void OnSongDoubleClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is ListBox listBox && listBox.SelectedItem is Song song)
+        {
+            SongDoubleClicked?.Invoke(this, song);
+        }
+    }
+
+    private void OnAddSongToPlaylistClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem menuItem && menuItem.DataContext is Song song)
+        {
+            AddSongToPlaylistRequested?.Invoke(this, song);
+        }
+    }
+
+    private void OnEditMetadataClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem menuItem && menuItem.DataContext is Song song)
+        {
+            EditMetadataRequested?.Invoke(this, song);
         }
     }
 }

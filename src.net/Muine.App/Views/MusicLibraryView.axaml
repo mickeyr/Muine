@@ -10,11 +10,18 @@
     <Grid RowDefinitions="Auto,*">
         <!-- Header with Search and Navigation -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="10">
-            <!-- Back Button (visible when viewing albums) -->
+            <!-- Back to Albums Button (visible when viewing songs) -->
+            <Button Grid.Column="0" 
+                    Content="◀ Albums"
+                    Command="{Binding BackToAlbumsCommand}"
+                    IsVisible="{Binding IsSongView}"
+                    Margin="0,0,10,0"/>
+            
+            <!-- Back to Artists Button (visible when viewing albums) -->
             <Button Grid.Column="0" 
                     Content="◀ Artists"
                     Command="{Binding BackToArtistsCommand}"
-                    IsVisible="{Binding !IsArtistView}"
+                    IsVisible="{Binding IsAlbumView}"
                     Margin="0,0,10,0"/>
             
             <!-- Search Box -->
@@ -23,11 +30,11 @@
                      Text="{Binding SearchQuery}"
                      Margin="0,0,10,0"/>
             
-            <!-- Show All Albums Button (visible when viewing albums) -->
+            <!-- Show All Albums Button (visible when viewing albums only) -->
             <Button Grid.Column="2" 
                     Content="All Albums"
                     Command="{Binding ShowAllAlbumsCommand}"
-                    IsVisible="{Binding !IsArtistView}"/>
+                    IsVisible="{Binding IsAlbumView}"/>
         </Grid>
 
         <!-- Content Area -->
@@ -95,7 +102,7 @@
                 <ListBox.IsVisible>
                     <MultiBinding Converter="{x:Static BoolConverters.And}">
                         <Binding Path="!IsLoading"/>
-                        <Binding Path="!IsArtistView"/>
+                        <Binding Path="IsAlbumView"/>
                     </MultiBinding>
                 </ListBox.IsVisible>
                 <ListBox.ContextMenu>
@@ -134,6 +141,73 @@
                                            FontSize="11" 
                                            Foreground="Gray"/>
                             </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Song List View -->
+            <ListBox ItemsSource="{Binding Songs}"
+                     SelectedItem="{Binding SelectedSong}"
+                     DoubleTapped="OnSongDoubleClick">
+                <ListBox.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!IsLoading"/>
+                        <Binding Path="IsSongView"/>
+                    </MultiBinding>
+                </ListBox.IsVisible>
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add to Playlist" Click="OnAddSongToPlaylistClick"/>
+                        <MenuItem Header="Edit Metadata" Click="OnEditMetadataClick"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,Auto,*,Auto" Margin="5">
+                            <!-- Track Number -->
+                            <TextBlock Grid.Column="0" 
+                                       Text="{Binding TrackNumber}" 
+                                       FontSize="11" 
+                                       Foreground="Gray"
+                                       Width="30"
+                                       TextAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+                            
+                            <!-- Cover Art -->
+                            <Border Grid.Column="1" 
+                                    Width="40" 
+                                    Height="40" 
+                                    CornerRadius="4"
+                                    ClipToBounds="True"
+                                    Margin="0,0,10,0">
+                                <Panel>
+                                    <Image Source="{Binding CoverImagePath}" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                    <Image Source="/Assets/default-cover.png" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
+                                </Panel>
+                            </Border>
+                            
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" 
+                                           FontWeight="Bold"
+                                           FontSize="12"/>
+                                <TextBlock Text="{Binding ArtistsString}" 
+                                           FontSize="10" 
+                                           Foreground="Gray"/>
+                            </StackPanel>
+                            
+                            <!-- Duration -->
+                            <TextBlock Grid.Column="3" 
+                                       Text="{Binding Duration, StringFormat='{}{0}s'}"
+                                       FontSize="11" 
+                                       Foreground="Gray"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
