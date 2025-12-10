@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Muine.Core.Models;
@@ -605,6 +606,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private void SetOperationStatus(string message, int autoHideAfter = 0)
     {
+        // Ensure we're on the UI thread
+        if (!Dispatcher.UIThread.CheckAccess())
+        {
+            Dispatcher.UIThread.Post(() => SetOperationStatus(message, autoHideAfter));
+            return;
+        }
+
         OperationStatus = message;
         HasOperationStatus = !string.IsNullOrEmpty(message);
 
@@ -612,12 +620,15 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             Task.Delay(autoHideAfter).ContinueWith(_ =>
             {
-                if (OperationStatus == message) // Only hide if it's still the same message
+                Dispatcher.UIThread.Post(() =>
                 {
-                    OperationStatus = string.Empty;
-                    HasOperationStatus = false;
-                }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                    if (OperationStatus == message) // Only hide if it's still the same message
+                    {
+                        OperationStatus = string.Empty;
+                        HasOperationStatus = false;
+                    }
+                });
+            });
         }
     }
 
