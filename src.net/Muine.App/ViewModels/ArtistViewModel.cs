@@ -14,8 +14,16 @@ public partial class ArtistViewModel : ViewModelBase
     private ObservableCollection<AlbumViewModel> _albums = new();
     
     [ObservableProperty]
-    private bool _isExpanded = false;
+    private string? _coverImagePath;
     
     public int TotalSongs => Albums.Sum(a => a.Songs.Count);
     public int AlbumCount => Albums.Count;
+    
+    /// <summary>
+    /// Gets the cover image path from the first album with cover art, or null if none found
+    /// </summary>
+    public void UpdateCoverArt()
+    {
+        CoverImagePath = Albums.FirstOrDefault(a => !string.IsNullOrEmpty(a.CoverImagePath))?.CoverImagePath;
+    }
 }

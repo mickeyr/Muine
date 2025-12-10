@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Muine.App.ViewModels;
 using Muine.Core.Models;
 
 namespace Muine.App.Views;
@@ -12,31 +13,32 @@ public partial class MusicLibraryView : UserControl
         InitializeComponent();
     }
 
-    public event EventHandler<Song>? SongDoubleClicked;
-    public event EventHandler<Song>? AddToPlaylistRequested;
-    public event EventHandler<Song>? EditMetadataRequested;
+    public event EventHandler<ArtistViewModel>? ArtistDoubleClicked;
+    public event EventHandler<AlbumViewModel>? AlbumDoubleClicked;
+    public event EventHandler<AlbumViewModel>? AddAlbumToPlaylistRequested;
 
-    private void OnSongDoubleClick(object? sender, RoutedEventArgs e)
+    private void OnArtistDoubleClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is ListBox listBox && listBox.SelectedItem is Song song)
+        if (sender is ListBox listBox && listBox.SelectedItem is ArtistViewModel artist && DataContext is MusicLibraryViewModel viewModel)
         {
-            SongDoubleClicked?.Invoke(this, song);
+            // Navigate to albums view for this artist
+            viewModel.SelectArtistCommand.Execute(artist);
         }
     }
 
-    private void OnAddToPlaylistClick(object? sender, RoutedEventArgs e)
+    private void OnAlbumDoubleClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is MenuItem menuItem && menuItem.DataContext is Song song)
+        if (sender is ListBox listBox && listBox.SelectedItem is AlbumViewModel album)
         {
-            AddToPlaylistRequested?.Invoke(this, song);
+            AlbumDoubleClicked?.Invoke(this, album);
         }
     }
 
-    private void OnEditMetadataClick(object? sender, RoutedEventArgs e)
+    private void OnAddAlbumToPlaylistClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is MenuItem menuItem && menuItem.DataContext is Song song)
+        if (sender is MenuItem menuItem && menuItem.DataContext is AlbumViewModel album)
         {
-            EditMetadataRequested?.Invoke(this, song);
+            AddAlbumToPlaylistRequested?.Invoke(this, album);
         }
     }
 }

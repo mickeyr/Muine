@@ -501,17 +501,18 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [RelayCommand]
     private async Task PlayFromPlaylistAsync()
     {
-        // Try to get the current song from the playlist
+        // Check if we should start from the beginning
+        // This happens when stopped or when there's no current song
         var currentSong = PlaylistViewModel.GetCurrentSong();
         
-        if (currentSong != null)
+        if (currentSong != null && _playbackService.State != PlaybackState.Stopped)
         {
-            // Play the current song in the playlist
+            // Play the current song in the playlist (resume case)
             await PlaySongAsync(currentSong);
         }
         else if (PlaylistViewModel.Songs.Count > 0)
         {
-            // If no current song is set, start from the beginning
+            // If stopped or no current song is set, start from the beginning
             PlaylistViewModel.MoveTo(0);
             currentSong = PlaylistViewModel.GetCurrentSong();
             if (currentSong != null)

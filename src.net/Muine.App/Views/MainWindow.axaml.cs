@@ -44,11 +44,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void OnLibrarySongDoubleClick(object? sender, Song song)
+    private async void OnLibraryAlbumDoubleClick(object? sender, AlbumViewModel album)
     {
         if (DataContext is MainWindowViewModel viewModel)
         {
-            viewModel.AddSongToPlaylist(song);
+            viewModel.AddAlbumToPlaylist(album.Songs);
             viewModel.SelectedTabIndex = 1; // Switch to playlist tab
             
             // Auto-start playback if not already playing
@@ -56,6 +56,14 @@ public partial class MainWindow : Window
             {
                 await viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
             }
+        }
+    }
+
+    private void OnLibraryAddAlbumToPlaylistRequested(object? sender, AlbumViewModel album)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.AddAlbumToPlaylist(album.Songs);
         }
     }
 

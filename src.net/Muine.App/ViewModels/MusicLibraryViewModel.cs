@@ -13,30 +13,38 @@ namespace Muine.App.ViewModels;
 public partial class MusicLibraryViewModel : ViewModelBase
 {
     private readonly MusicDatabaseService _databaseService;
+    private List<AlbumViewModel> _allAlbums = new();
 
     [ObservableProperty]
     private ObservableCollection<ArtistViewModel> _artists = new();
 
     [ObservableProperty]
-    private ObservableCollection<Song> _allSongs = new();
+    private ObservableCollection<AlbumViewModel> _albums = new();
 
     [ObservableProperty]
-    private ObservableCollection<Song> _filteredSongs = new();
+    private ObservableCollection<Song> _allSongs = new();
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
 
     [ObservableProperty]
-    private Song? _selectedSong;
+    private ArtistViewModel? _selectedArtist;
 
     [ObservableProperty]
-    private bool _isGroupedView = true;
+    private AlbumViewModel? _selectedAlbum;
+
+    [ObservableProperty]
+    private bool _isArtistView = true;
 
     [ObservableProperty]
     private bool _isLoading;
 
+    [ObservableProperty]
+    private string _currentFilteredArtist = string.Empty;
+
     public int TotalSongs => AllSongs.Count;
     public int ArtistCount => Artists.Count;
+    public int AlbumCount => _allAlbums.Count;
 
     public MusicLibraryViewModel(MusicDatabaseService databaseService)
     {
@@ -52,9 +60,9 @@ public partial class MusicLibraryViewModel : ViewModelBase
             var allSongs = await _databaseService.GetAllSongsAsync();
             
             AllSongs = new ObservableCollection<Song>(allSongs);
-            FilteredSongs = new ObservableCollection<Song>(allSongs);
             
             var artistViewModels = new List<ArtistViewModel>();
+            var allAlbumsList = new List<AlbumViewModel>();
 
             foreach (var kvp in songsGrouped.OrderBy(x => x.Key))
             {
@@ -76,14 +84,21 @@ public partial class MusicLibraryViewModel : ViewModelBase
                     };
 
                     artistVm.Albums.Add(albumVm);
+                    allAlbumsList.Add(albumVm);
                 }
 
+                // Set cover art from first album with cover
+                artistVm.UpdateCoverArt();
                 artistViewModels.Add(artistVm);
             }
 
             Artists = new ObservableCollection<ArtistViewModel>(artistViewModels);
+            _allAlbums = allAlbumsList;
+            Albums = new ObservableCollection<AlbumViewModel>(allAlbumsList.OrderBy(a => a.Artist).ThenBy(a => a.Name));
+            
             OnPropertyChanged(nameof(TotalSongs));
             OnPropertyChanged(nameof(ArtistCount));
+            OnPropertyChanged(nameof(AlbumCount));
         }
         finally
         {
@@ -91,29 +106,77 @@ public partial class MusicLibraryViewModel : ViewModelBase
         }
     }
 
-    private async Task SearchAsync()
+    [RelayCommand]
+    private void SelectArtist(ArtistViewModel? artist)
     {
-        if (string.IsNullOrWhiteSpace(SearchQuery))
+        SelectedArtist = artist;
+        IsArtistView = false;
+        
+        if (artist != null)
         {
-            FilteredSongs = new ObservableCollection<Song>(AllSongs);
+            CurrentFilteredArtist = artist.Name;
+            Albums = new ObservableCollection<AlbumViewModel>(
+                _allAlbums.Where(a => a.Artist == artist.Name).OrderBy(a => a.Name));
         }
         else
         {
-            var results = await _databaseService.SearchSongsAsync(SearchQuery);
-            FilteredSongs = new ObservableCollection<Song>(results);
+            CurrentFilteredArtist = string.Empty;
+            Albums = new ObservableCollection<AlbumViewModel>(_allAlbums.OrderBy(a => a.Artist).ThenBy(a => a.Name));
         }
+    }
+
+    [RelayCommand]
+    private void ShowAllAlbums()
+    {
+        SelectedArtist = null;
+        CurrentFilteredArtist = string.Empty;
+        IsArtistView = false;
+        Albums = new ObservableCollection<AlbumViewModel>(_allAlbums.OrderBy(a => a.Artist).ThenBy(a => a.Name));
+    }
+
+    [RelayCommand]
+    private void BackToArtists()
+    {
+        IsArtistView = true;
+        SelectedArtist = null;
+        CurrentFilteredArtist = string.Empty;
     }
 
     partial void OnSearchQueryChanged(string value)
     {
-        // Fire-and-forget is acceptable here as this is triggered by user input
-        // and SearchAsync handles its own errors internally
-        _ = Task.Run(async () => await SearchAsync());
-    }
-
-    [RelayCommand]
-    private void ToggleView()
-    {
-        IsGroupedView = !IsGroupedView;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            // Reset to current view
+            if (IsArtistView)
+            {
+                Artists = new ObservableCollection<ArtistViewModel>(Artists);
+            }
+            else if (!string.IsNullOrEmpty(CurrentFilteredArtist))
+            {
+                Albums = new ObservableCollection<AlbumViewModel>(
+                    _allAlbums.Where(a => a.Artist == CurrentFilteredArtist).OrderBy(a => a.Name));
+            }
+            else
+            {
+                Albums = new ObservableCollection<AlbumViewModel>(_allAlbums.OrderBy(a => a.Artist).ThenBy(a => a.Name));
+            }
+        }
+        else
+        {
+            // Filter based on current view
+            if (IsArtistView)
+            {
+                var filtered = Artists.Where(a => 
+                    a.Name.Contains(value, StringComparison.OrdinalIgnoreCase)).ToList();
+                Artists = new ObservableCollection<ArtistViewModel>(filtered);
+            }
+            else
+            {
+                var filtered = Albums.Where(a => 
+                    a.Name.Contains(value, StringComparison.OrdinalIgnoreCase) ||
+                    a.Artist.Contains(value, StringComparison.OrdinalIgnoreCase)).ToList();
+                Albums = new ObservableCollection<AlbumViewModel>(filtered);
+            }
+        }
     }
 }
