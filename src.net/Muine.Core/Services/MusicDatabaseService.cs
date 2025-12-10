@@ -155,9 +155,9 @@ public class MusicDatabaseService : IDisposable
         {
             var artist = string.IsNullOrEmpty(artistGroup.Key) ? "Unknown Artist" : artistGroup.Key;
             
-            // Group songs by album for this artist
+            // Group songs by album name AND folder (not AlbumKey) to combine multi-disc albums
             var albumGroups = artistGroup
-                .GroupBy(x => new { x.Song.Album, x.Song.AlbumKey });
+                .GroupBy(x => new { x.Song.Album, x.Song.Folder });
 
             var albums = new List<Album>();
             foreach (var albumGroup in albumGroups)

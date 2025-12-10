@@ -74,6 +74,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [ObservableProperty]
     private int _selectedTabIndex = 0;
 
+    private System.Diagnostics.Stopwatch? _operationStopwatch;
+
     public MainWindowViewModel()
     {
         // Initialize services
@@ -274,7 +276,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
 
         IsScanning = true;
-        SetOperationStatus("Refreshing metadata for all songs...");
+        _operationStopwatch = System.Diagnostics.Stopwatch.StartNew();
+        SetOperationStatus("Refreshing metadata...");
         ScanProgress = "Starting refresh...";
 
         try
@@ -282,7 +285,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                SetOperationStatus($"Refreshing: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
+                SetOperationStatus($"Refreshing: {p.PercentComplete:F0}%");
             });
 
             var result = await _scannerService.RefreshAllSongsAsync(progress);
@@ -294,7 +297,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 await MusicLibraryViewModel.LoadLibraryAsync();
             }
 
-            SetOperationStatus($"Refresh complete: {result.SuccessCount} songs updated, {result.FailureCount} failed", autoHideAfter: 5000);
+            _operationStopwatch.Stop();
+            var elapsed = _operationStopwatch.Elapsed;
+            var timeString = elapsed.TotalMinutes >= 1 
+                ? $"{elapsed.Minutes}m {elapsed.Seconds}s"
+                : $"{elapsed.TotalSeconds:F1}s";
+            
+            SetOperationStatus($"Refresh complete in {timeString}", autoHideAfter: 3000);
             
             if (result.Errors.Count > 0)
             {
@@ -304,12 +313,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            SetOperationStatus($"Error refreshing metadata: {ex.Message}", autoHideAfter: 5000);
+            SetOperationStatus($"Error: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
             IsScanning = false;
             ScanProgress = string.Empty;
+            _operationStopwatch = null;
         }
     }
 
@@ -607,7 +617,16 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                     OperationStatus = string.Empty;
                     HasOperationStatus = false;
                 }
-            });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+    }
+
+    [RelayCommand]
+    private void SelectTab(string tabIndex)
+    {
+        if (int.TryParse(tabIndex, out int index))
+        {
+            SelectedTabIndex = index;
         }
     }
 

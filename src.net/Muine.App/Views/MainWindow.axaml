@@ -11,6 +11,19 @@
         Title="Muine Music Player - .NET 10"
         Width="1000" Height="600">
 
+    <Window.Styles>
+        <Style Selector="RadioButton.TabButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="RadioButton.TabButton:checked">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1,1,1,0"/>
+        </Style>
+    </Window.Styles>
+
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
@@ -39,43 +52,65 @@
             </MenuItem>
         </Menu>
 
-        <!-- Tab Control with inline Operation Status -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
-            <TabControl Grid.Column="0" SelectedIndex="{Binding SelectedTabIndex}">
+        <!-- Tab Control with Operation Status -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,*">
+            <!-- Tab Headers Row with inline status -->
+            <Border Grid.Row="0" Background="#F0F0F0" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+                <Grid ColumnDefinitions="*,Auto">
+                    <!-- Tab Headers (manual, for precise layout control) -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Button Content="Music Library" 
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="0"
+                                Padding="16,8"
+                                Background="{Binding SelectedTabIndex, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=0, FallbackValue=Transparent}"
+                                Margin="2,0"/>
+                        <Button Content="Playlist" 
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="1"
+                                Padding="16,8"
+                                Background="{Binding SelectedTabIndex, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=1, FallbackValue=Transparent}"
+                                Margin="2,0"/>
+                    </StackPanel>
+                    
+                    <!-- Inline Operation Status (right-aligned, compact) -->
+                    <StackPanel Grid.Column="1" 
+                                Orientation="Horizontal" 
+                                Spacing="5"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0"
+                                IsVisible="{Binding HasOperationStatus}">
+                        <TextBlock Text="⚙" 
+                                   FontSize="10"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding OperationStatus}" 
+                                   FontSize="10"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"
+                                   MaxWidth="200"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            
+            <!-- Tab Content -->
+            <Grid Grid.Row="1">
                 <!-- Music Library Tab -->
-                <TabItem Header="Music Library">
+                <Panel IsVisible="{Binding SelectedTabIndex, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=0}">
                     <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
                                             SongDoubleClicked="OnLibrarySongDoubleClick"
                                             AddSongToPlaylistRequested="OnLibraryAddSongToPlaylistRequested"
                                             AddAlbumToPlaylistRequested="OnLibraryAddAlbumToPlaylistRequested"
                                             EditMetadataRequested="OnEditMetadataRequested"/>
-                </TabItem>
+                </Panel>
                 
                 <!-- Playlist Tab -->
-                <TabItem Header="Playlist">
+                <Panel IsVisible="{Binding SelectedTabIndex, Converter={x:Static ObjectConverters.Equal}, ConverterParameter=1}">
                     <views:PlaylistView DataContext="{Binding PlaylistViewModel}"
                                         SongDoubleClicked="OnPlaylistSongDoubleClick"/>
-                </TabItem>
-            </TabControl>
-
-            <!-- Inline Operation Status (right-aligned, same row as tabs) -->
-            <Border Grid.Column="1" 
-                    Padding="15,8,15,8"
-                    VerticalAlignment="Center"
-                    IsVisible="{Binding HasOperationStatus}">
-                <StackPanel Orientation="Horizontal" Spacing="6">
-                    <TextBlock Text="⚙" 
-                               VerticalAlignment="Center" 
-                               FontSize="12"
-                               Foreground="#666666"/>
-                    <TextBlock Text="{Binding OperationStatus}" 
-                               FontSize="11"
-                               Foreground="#666666"
-                               VerticalAlignment="Center"
-                               MaxWidth="300"
-                               TextTrimming="CharacterEllipsis"/>
-                </StackPanel>
-            </Border>
+                </Panel>
+            </Grid>
         </Grid>
 
         <!-- Player Controls -->
