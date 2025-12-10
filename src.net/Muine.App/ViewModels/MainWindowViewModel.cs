@@ -11,12 +11,13 @@ using Muine.Core.Services;
 
 namespace Muine.App.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase, IDisposable
 {
     private readonly MetadataService _metadataService;
     private readonly MusicDatabaseService _databaseService;
     private readonly LibraryScannerService _scannerService;
     private readonly CoverArtService _coverArtService;
+    private readonly PlaybackService _playbackService;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -33,11 +34,36 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<Song> _songs = new();
 
+    [ObservableProperty]
+    private Song? _selectedSong;
+
+    [ObservableProperty]
+    private string _currentSongDisplay = "No song playing";
+
+    [ObservableProperty]
+    private bool _isPlaying;
+
+    [ObservableProperty]
+    private bool _isPaused;
+
+    [ObservableProperty]
+    private double _currentPosition;
+
+    [ObservableProperty]
+    private double _maxPosition = 100;
+
+    [ObservableProperty]
+    private string _timeDisplay = "0:00 / 0:00";
+
+    [ObservableProperty]
+    private float _volume = 50;
+
     public MainWindowViewModel()
     {
         // Initialize services
         _metadataService = new MetadataService();
         _coverArtService = new CoverArtService();
+        _playbackService = new PlaybackService();
         
         var databasePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -52,6 +78,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
         _databaseService = new MusicDatabaseService(databasePath);
         _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
+        
+        // Subscribe to playback events
+        _playbackService.StateChanged += OnPlaybackStateChanged;
+        _playbackService.PositionChanged += OnPlaybackPositionChanged;
+        _playbackService.CurrentSongChanged += OnCurrentSongChanged;
         
         // Initialize database asynchronously
         _ = InitializeDatabaseAsync();
@@ -220,6 +251,146 @@ public partial class MainWindowViewModel : ViewModelBase
             StatusMessage = $"Error importing files: {ex.Message}";
             IsScanning = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task PlaySelectedSongAsync()
+    {
+        if (SelectedSong == null)
+        {
+            StatusMessage = "No song selected";
+            return;
+        }
+
+        await PlaySongAsync(SelectedSong);
+    }
+
+    private async Task PlaySongAsync(Song song)
+    {
+        try
+        {
+            await _playbackService.PlayAsync(song);
+            StatusMessage = $"Playing: {song.DisplayName}";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error playing song: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private void TogglePlayPause()
+    {
+        try
+        {
+            if (_playbackService.CurrentSong == null && SelectedSong != null)
+            {
+                // If no song is playing, play the selected song
+                _ = PlaySongAsync(SelectedSong);
+            }
+            else
+            {
+                _playbackService.TogglePlayPause();
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private void Stop()
+    {
+        try
+        {
+            _playbackService.Stop();
+            StatusMessage = "Playback stopped";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error stopping playback: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private void Seek(double position)
+    {
+        try
+        {
+            var duration = _playbackService.Duration;
+            if (duration.TotalSeconds > 0)
+            {
+                var seekPosition = TimeSpan.FromSeconds(position);
+                _playbackService.Seek(seekPosition);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error seeking: {ex.Message}";
+        }
+    }
+
+    partial void OnVolumeChanged(float value)
+    {
+        _playbackService.Volume = value;
+    }
+
+    partial void OnSelectedSongChanged(Song? value)
+    {
+        // When a song is double-clicked, play it
+        // Note: This will be triggered by double-click in the UI
+    }
+
+    private void OnPlaybackStateChanged(object? sender, PlaybackState state)
+    {
+        IsPlaying = state == PlaybackState.Playing;
+        IsPaused = state == PlaybackState.Paused;
+    }
+
+    private void OnPlaybackPositionChanged(object? sender, TimeSpan position)
+    {
+        var duration = _playbackService.Duration;
+        
+        if (duration.TotalSeconds > 0)
+        {
+            CurrentPosition = position.TotalSeconds;
+            MaxPosition = duration.TotalSeconds;
+            TimeDisplay = $"{FormatTime(position)} / {FormatTime(duration)}";
+        }
+        else
+        {
+            CurrentPosition = 0;
+            MaxPosition = 100;
+            TimeDisplay = "0:00 / 0:00";
+        }
+    }
+
+    private void OnCurrentSongChanged(object? sender, Song? song)
+    {
+        if (song != null)
+        {
+            CurrentSongDisplay = $"{song.DisplayName} - {song.ArtistsString}";
+        }
+        else
+        {
+            CurrentSongDisplay = "No song playing";
+        }
+    }
+
+    private static string FormatTime(TimeSpan time)
+    {
+        if (time.TotalHours >= 1)
+        {
+            return time.ToString(@"h\:mm\:ss");
+        }
+        return time.ToString(@"m\:ss");
+    }
+
+    public void Dispose()
+    {
+        _playbackService?.Dispose();
+        _databaseService?.Dispose();
     }
 }
 

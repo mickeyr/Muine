@@ -75,7 +75,9 @@
                         <!-- Song List -->
                         <ListBox Grid.Row="1" 
                                  ItemsSource="{Binding Songs}"
-                                 IsVisible="{Binding !IsScanning}">
+                                 SelectedItem="{Binding SelectedSong}"
+                                 IsVisible="{Binding !IsScanning}"
+                                 DoubleTapped="OnSongDoubleClick">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="5">
@@ -115,23 +117,32 @@
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <!-- Play/Pause/Stop Buttons -->
                         <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
-                            <Button Content="⏮" Width="40" Height="40" ToolTip.Tip="Previous"/>
-                            <Button Content="⏯" Width="40" Height="40" ToolTip.Tip="Play/Pause"/>
-                            <Button Content="⏹" Width="40" Height="40" ToolTip.Tip="Stop"/>
-                            <Button Content="⏭" Width="40" Height="40" ToolTip.Tip="Next"/>
+                            <Button Content="⏮" Width="40" Height="40" ToolTip.Tip="Previous" IsEnabled="False"/>
+                            <Button Content="⏯" Width="40" Height="40" ToolTip.Tip="Play/Pause" Command="{Binding TogglePlayPauseCommand}"/>
+                            <Button Content="⏹" Width="40" Height="40" ToolTip.Tip="Stop" Command="{Binding StopCommand}"/>
+                            <Button Content="⏭" Width="40" Height="40" ToolTip.Tip="Next" IsEnabled="False"/>
                         </StackPanel>
 
                         <!-- Song Info -->
                         <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
-                            <TextBlock Text="No song playing" FontWeight="Bold"/>
-                            <Slider IsEnabled="False" Margin="0,5,0,0"/>
-                            <TextBlock Text="0:00 / 0:00" FontSize="10" Foreground="Gray"/>
+                            <TextBlock Text="{Binding CurrentSongDisplay}" FontWeight="Bold"/>
+                            <Slider Minimum="0" 
+                                    Maximum="{Binding MaxPosition}" 
+                                    Value="{Binding CurrentPosition}"
+                                    IsEnabled="{Binding IsPlaying}"
+                                    Margin="0,5,0,0"
+                                    PropertyChanged="OnSliderPropertyChanged"/>
+                            <TextBlock Text="{Binding TimeDisplay}" FontSize="10" Foreground="Gray"/>
                         </StackPanel>
 
                         <!-- Volume Control -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5">
                             <TextBlock Text="🔊" VerticalAlignment="Center"/>
-                            <Slider Width="100" Minimum="0" Maximum="100" Value="50" VerticalAlignment="Center"/>
+                            <Slider Width="100" 
+                                    Minimum="0" 
+                                    Maximum="100" 
+                                    Value="{Binding Volume}" 
+                                    VerticalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
                 </Border>
