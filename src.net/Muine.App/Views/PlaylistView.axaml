@@ -48,7 +48,7 @@
                                     <Image Source="{Binding CoverImagePath}" 
                                            Stretch="UniformToFill"
                                            IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-                                    <Image Source="/Assets/default-cover.svg" 
+                                    <Image Source="/Assets/default-cover.png" 
                                            Stretch="UniformToFill"
                                            IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
                                 </Panel>
