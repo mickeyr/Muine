@@ -22,17 +22,20 @@ public class CoverArtService
 
     /// <summary>
     /// Finds cover art in the directory of the given song.
-    /// Looks for common cover art filenames (cover.jpg, folder.jpg, etc.)
-    /// and embedded album art in the audio file itself.
+    /// Prioritizes embedded album art, then looks for common cover art filenames.
     /// </summary>
     /// <param name="song">The song to find cover art for</param>
     /// <returns>Path to the cover art file, or null if not found</returns>
     public string? FindCoverArt(Song song)
     {
+        // If embedded album art was already extracted, use it (highest priority)
+        if (!string.IsNullOrEmpty(song.CoverImagePath) && File.Exists(song.CoverImagePath))
+            return song.CoverImagePath;
+
         if (string.IsNullOrEmpty(song.Folder))
             return null;
 
-        // First, check for common cover art filenames
+        // Second, check for common cover art filenames
         foreach (var filename in CoverFilenames)
         {
             var coverPath = Path.Combine(song.Folder, filename);
