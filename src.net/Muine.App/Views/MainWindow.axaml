@@ -15,7 +15,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
         <!-- Menu Bar -->
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
@@ -39,8 +39,25 @@
             </MenuItem>
         </Menu>
 
+        <!-- Status Bar for Operations (shown when there's a status message) -->
+        <Border Grid.Row="1" 
+                Background="#F0F0F0" 
+                BorderBrush="Gray" 
+                BorderThickness="0,0,0,1"
+                Padding="10,5"
+                IsVisible="{Binding HasOperationStatus}">
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Grid.Column="0" Text="⚙" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="14"/>
+                <TextBlock Grid.Column="1" 
+                           Text="{Binding OperationStatus}" 
+                           FontSize="11"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
+
         <!-- Main Content -->
-        <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedTabIndex}">
+        <TabControl Grid.Row="2" SelectedIndex="{Binding SelectedTabIndex}">
             <!-- Music Library Tab -->
             <TabItem Header="Music Library">
                 <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
@@ -58,7 +75,7 @@
         </TabControl>
 
         <!-- Player Controls -->
-        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0">
+        <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0">
             <Grid RowDefinitions="Auto,Auto">
                 <!-- Progress Bar and Time -->
                 <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="10,10,10,5">
@@ -87,10 +104,9 @@
                         <Button Content="▶▶" Width="40" Height="40" FontSize="12" ToolTip.Tip="Next" Command="{Binding PlayNextCommand}"/>
                     </StackPanel>
 
-                    <!-- Song Info -->
+                    <!-- Song Info (no status messages here) -->
                     <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding CurrentSongDisplay}" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding StatusMessage}" FontSize="10" Foreground="Gray"/>
                     </StackPanel>
 
                     <!-- Volume Control -->
@@ -104,6 +120,17 @@
                     </StackPanel>
                 </Grid>
             </Grid>
+        </Border>
+
+        <!-- Bottom Status Bar -->
+        <Border Grid.Row="4" 
+                Background="#F8F8F8" 
+                BorderBrush="Gray" 
+                BorderThickness="0,1,0,0"
+                Padding="10,3">
+            <TextBlock Text="{Binding StatusMessage}" 
+                       FontSize="10" 
+                       Foreground="#666666"/>
         </Border>
     </Grid>
 

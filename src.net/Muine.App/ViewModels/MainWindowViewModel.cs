@@ -24,6 +24,12 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private string _statusMessage = "Ready - Muine Music Player";
 
     [ObservableProperty]
+    private string _operationStatus = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasOperationStatus;
+
+    [ObservableProperty]
     private bool _isScanning;
 
     [ObservableProperty]
@@ -153,7 +159,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private async Task ScanFolderAsync(string folderPath)
     {
         IsScanning = true;
-        StatusMessage = $"Scanning {folderPath}...";
+        SetOperationStatus($"Scanning {folderPath}...");
         ScanProgress = "Starting scan...";
 
         try
@@ -161,7 +167,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                StatusMessage = $"Scanning: {Path.GetFileName(p.CurrentFile)}";
+                SetOperationStatus($"Scanning: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
             });
 
             var result = await _scannerService.ScanDirectoryAsync(folderPath, progress);
@@ -173,7 +179,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 await MusicLibraryViewModel.LoadLibraryAsync();
             }
 
-            StatusMessage = $"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed";
+            SetOperationStatus($"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed", autoHideAfter: 5000);
             
             if (result.Errors.Count > 0)
             {
@@ -184,7 +190,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error scanning folder: {ex.Message}";
+            SetOperationStatus($"Error scanning folder: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
@@ -222,7 +228,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private async Task RefreshSongMetadataAsync(Song song)
     {
         IsScanning = true;
-        StatusMessage = $"Refreshing metadata for: {song.DisplayName}";
+        SetOperationStatus($"Refreshing metadata for: {song.DisplayName}");
 
         try
         {
@@ -230,14 +236,18 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
             // Reload songs from database to update UI
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
 
             if (result.SuccessCount > 0)
             {
-                StatusMessage = $"Metadata refreshed for: {song.DisplayName}";
+                SetOperationStatus($"Metadata refreshed for: {song.DisplayName}", autoHideAfter: 3000);
             }
             else
             {
-                StatusMessage = $"Failed to refresh metadata: {song.DisplayName}";
+                SetOperationStatus($"Failed to refresh metadata: {song.DisplayName}", autoHideAfter: 5000);
                 if (result.Errors.Count > 0)
                 {
                     Console.WriteLine($"Refresh error: {result.Errors[0]}");
@@ -246,7 +256,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error refreshing metadata: {ex.Message}";
+            SetOperationStatus($"Error refreshing metadata: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
@@ -259,12 +269,12 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         if (Songs.Count == 0)
         {
-            StatusMessage = "No songs in library to refresh";
+            SetOperationStatus("No songs in library to refresh", autoHideAfter: 3000);
             return;
         }
 
         IsScanning = true;
-        StatusMessage = "Refreshing metadata for all songs...";
+        SetOperationStatus("Refreshing metadata for all songs...");
         ScanProgress = "Starting refresh...";
 
         try
@@ -272,15 +282,19 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                StatusMessage = $"Refreshing: {Path.GetFileName(p.CurrentFile)}";
+                SetOperationStatus($"Refreshing: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
             });
 
             var result = await _scannerService.RefreshAllSongsAsync(progress);
 
             // Reload songs from database
             await LoadSongsAsync();
+            if (MusicLibraryViewModel != null)
+            {
+                await MusicLibraryViewModel.LoadLibraryAsync();
+            }
 
-            StatusMessage = $"Refresh complete: {result.SuccessCount} songs updated, {result.FailureCount} failed";
+            SetOperationStatus($"Refresh complete: {result.SuccessCount} songs updated, {result.FailureCount} failed", autoHideAfter: 5000);
             
             if (result.Errors.Count > 0)
             {
@@ -290,7 +304,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error refreshing metadata: {ex.Message}";
+            SetOperationStatus($"Error refreshing metadata: {ex.Message}", autoHideAfter: 5000);
         }
         finally
         {
@@ -577,6 +591,24 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             return time.ToString(@"h\:mm\:ss");
         }
         return time.ToString(@"m\:ss");
+    }
+
+    private void SetOperationStatus(string message, int autoHideAfter = 0)
+    {
+        OperationStatus = message;
+        HasOperationStatus = !string.IsNullOrEmpty(message);
+
+        if (autoHideAfter > 0)
+        {
+            Task.Delay(autoHideAfter).ContinueWith(_ =>
+            {
+                if (OperationStatus == message) // Only hide if it's still the same message
+                {
+                    OperationStatus = string.Empty;
+                    HasOperationStatus = false;
+                }
+            });
+        }
     }
 
     public void Dispose()

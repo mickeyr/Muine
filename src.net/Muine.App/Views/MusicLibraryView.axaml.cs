@@ -13,8 +13,6 @@ public partial class MusicLibraryView : UserControl
         InitializeComponent();
     }
 
-    public event EventHandler<ArtistViewModel>? ArtistDoubleClicked;
-    public event EventHandler<AlbumViewModel>? AlbumDoubleClicked;
     public event EventHandler<AlbumViewModel>? AddAlbumToPlaylistRequested;
     public event EventHandler<Song>? SongDoubleClicked;
     public event EventHandler<Song>? AddSongToPlaylistRequested;
