@@ -397,9 +397,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         try
         {
-            if (_playbackService.CurrentSong == null)
+            if (_playbackService.CurrentSong == null || _playbackService.State == PlaybackState.Stopped)
             {
-                // If no song is playing, play from playlist
+                // If no song is playing or playback is stopped, play from playlist
                 _ = PlayFromPlaylistAsync();
             }
             else
@@ -501,14 +501,17 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [RelayCommand]
     private async Task PlayFromPlaylistAsync()
     {
+        // Try to get the current song from the playlist
         var currentSong = PlaylistViewModel.GetCurrentSong();
+        
         if (currentSong != null)
         {
+            // Play the current song in the playlist
             await PlaySongAsync(currentSong);
         }
         else if (PlaylistViewModel.Songs.Count > 0)
         {
-            // If no current song, start from the beginning
+            // If no current song is set, start from the beginning
             PlaylistViewModel.MoveTo(0);
             currentSong = PlaylistViewModel.GetCurrentSong();
             if (currentSong != null)
