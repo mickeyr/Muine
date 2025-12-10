@@ -15,7 +15,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
         <!-- Menu Bar -->
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
@@ -39,43 +39,47 @@
             </MenuItem>
         </Menu>
 
-        <!-- Status Bar for Operations (shown when there's a status message) -->
-        <Border Grid.Row="1" 
-                Background="#F0F0F0" 
-                BorderBrush="Gray" 
-                BorderThickness="0,0,0,1"
-                Padding="10,5"
-                IsVisible="{Binding HasOperationStatus}">
-            <Grid ColumnDefinitions="Auto,*">
-                <TextBlock Grid.Column="0" Text="⚙" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="14"/>
-                <TextBlock Grid.Column="1" 
-                           Text="{Binding OperationStatus}" 
-                           FontSize="11"
-                           VerticalAlignment="Center"
-                           TextWrapping="Wrap"/>
-            </Grid>
-        </Border>
+        <!-- Tab Control with inline Operation Status -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
+            <TabControl Grid.Column="0" SelectedIndex="{Binding SelectedTabIndex}">
+                <!-- Music Library Tab -->
+                <TabItem Header="Music Library">
+                    <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
+                                            SongDoubleClicked="OnLibrarySongDoubleClick"
+                                            AddSongToPlaylistRequested="OnLibraryAddSongToPlaylistRequested"
+                                            AddAlbumToPlaylistRequested="OnLibraryAddAlbumToPlaylistRequested"
+                                            EditMetadataRequested="OnEditMetadataRequested"/>
+                </TabItem>
+                
+                <!-- Playlist Tab -->
+                <TabItem Header="Playlist">
+                    <views:PlaylistView DataContext="{Binding PlaylistViewModel}"
+                                        SongDoubleClicked="OnPlaylistSongDoubleClick"/>
+                </TabItem>
+            </TabControl>
 
-        <!-- Main Content -->
-        <TabControl Grid.Row="2" SelectedIndex="{Binding SelectedTabIndex}">
-            <!-- Music Library Tab -->
-            <TabItem Header="Music Library">
-                <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
-                                        SongDoubleClicked="OnLibrarySongDoubleClick"
-                                        AddSongToPlaylistRequested="OnLibraryAddSongToPlaylistRequested"
-                                        AddAlbumToPlaylistRequested="OnLibraryAddAlbumToPlaylistRequested"
-                                        EditMetadataRequested="OnEditMetadataRequested"/>
-            </TabItem>
-            
-            <!-- Playlist Tab -->
-            <TabItem Header="Playlist">
-                <views:PlaylistView DataContext="{Binding PlaylistViewModel}"
-                                    SongDoubleClicked="OnPlaylistSongDoubleClick"/>
-            </TabItem>
-        </TabControl>
+            <!-- Inline Operation Status (right-aligned, same row as tabs) -->
+            <Border Grid.Column="1" 
+                    Padding="15,8,15,8"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding HasOperationStatus}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="⚙" 
+                               VerticalAlignment="Center" 
+                               FontSize="12"
+                               Foreground="#666666"/>
+                    <TextBlock Text="{Binding OperationStatus}" 
+                               FontSize="11"
+                               Foreground="#666666"
+                               VerticalAlignment="Center"
+                               MaxWidth="300"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Border>
+        </Grid>
 
         <!-- Player Controls -->
-        <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0">
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0">
             <Grid RowDefinitions="Auto,Auto">
                 <!-- Progress Bar and Time -->
                 <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="10,10,10,5">
@@ -123,7 +127,7 @@
         </Border>
 
         <!-- Bottom Status Bar -->
-        <Border Grid.Row="4" 
+        <Border Grid.Row="3"
                 Background="#F8F8F8" 
                 BorderBrush="Gray" 
                 BorderThickness="0,1,0,0"
