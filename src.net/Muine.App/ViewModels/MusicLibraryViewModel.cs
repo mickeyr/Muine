@@ -32,6 +32,9 @@ public partial class MusicLibraryViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isGroupedView = true;
 
+    [ObservableProperty]
+    private bool _isLoading;
+
     public int TotalSongs => AllSongs.Count;
     public int ArtistCount => Artists.Count;
 
@@ -42,42 +45,50 @@ public partial class MusicLibraryViewModel : ViewModelBase
 
     public async Task LoadLibraryAsync()
     {
-        var songsGrouped = await _databaseService.GetSongsGroupedByArtistAndAlbumAsync();
-        var allSongs = await _databaseService.GetAllSongsAsync();
-        
-        AllSongs = new ObservableCollection<Song>(allSongs);
-        FilteredSongs = new ObservableCollection<Song>(allSongs);
-        
-        var artistViewModels = new List<ArtistViewModel>();
-
-        foreach (var kvp in songsGrouped.OrderBy(x => x.Key))
+        IsLoading = true;
+        try
         {
-            var artistVm = new ArtistViewModel
-            {
-                Name = kvp.Key,
-                Albums = new ObservableCollection<AlbumViewModel>()
-            };
+            var songsGrouped = await _databaseService.GetSongsGroupedByArtistAndAlbumAsync();
+            var allSongs = await _databaseService.GetAllSongsAsync();
+            
+            AllSongs = new ObservableCollection<Song>(allSongs);
+            FilteredSongs = new ObservableCollection<Song>(allSongs);
+            
+            var artistViewModels = new List<ArtistViewModel>();
 
-            foreach (var album in kvp.Value)
+            foreach (var kvp in songsGrouped.OrderBy(x => x.Key))
             {
-                var albumVm = new AlbumViewModel
+                var artistVm = new ArtistViewModel
                 {
-                    Name = album.Name,
-                    Artist = kvp.Key,
-                    Year = album.Year,
-                    CoverImagePath = album.CoverImagePath,
-                    Songs = new ObservableCollection<Song>(album.Songs.OrderBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber))
+                    Name = kvp.Key,
+                    Albums = new ObservableCollection<AlbumViewModel>()
                 };
 
-                artistVm.Albums.Add(albumVm);
+                foreach (var album in kvp.Value)
+                {
+                    var albumVm = new AlbumViewModel
+                    {
+                        Name = album.Name,
+                        Artist = kvp.Key,
+                        Year = album.Year,
+                        CoverImagePath = album.CoverImagePath,
+                        Songs = new ObservableCollection<Song>(album.Songs.OrderBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber))
+                    };
+
+                    artistVm.Albums.Add(albumVm);
+                }
+
+                artistViewModels.Add(artistVm);
             }
 
-            artistViewModels.Add(artistVm);
+            Artists = new ObservableCollection<ArtistViewModel>(artistViewModels);
+            OnPropertyChanged(nameof(TotalSongs));
+            OnPropertyChanged(nameof(ArtistCount));
         }
-
-        Artists = new ObservableCollection<ArtistViewModel>(artistViewModels);
-        OnPropertyChanged(nameof(TotalSongs));
-        OnPropertyChanged(nameof(ArtistCount));
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     private async Task SearchAsync()

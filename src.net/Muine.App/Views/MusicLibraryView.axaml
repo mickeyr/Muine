@@ -22,9 +22,25 @@
 
         <!-- Content Area -->
         <Grid Grid.Row="1" Margin="10,0,10,10">
+            <!-- Loading Indicator -->
+            <StackPanel IsVisible="{Binding IsLoading}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                <TextBlock Text="Loading library..." 
+                          FontSize="14" 
+                          HorizontalAlignment="Center"
+                          Margin="0,0,0,10"/>
+            </StackPanel>
+
             <!-- Grouped View (Artist -> Album -> Song) -->
             <ScrollViewer IsVisible="{Binding IsGroupedView}">
                 <ItemsControl ItemsSource="{Binding Artists}">
+                    <ItemsControl.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.And}">
+                            <Binding Path="!IsLoading"/>
+                            <Binding Path="IsGroupedView"/>
+                        </MultiBinding>
+                    </ItemsControl.IsVisible>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="vm:ArtistViewModel">
                             <Expander IsExpanded="{Binding IsExpanded}" Margin="0,5">
@@ -111,8 +127,13 @@
             <!-- List View (All Songs) -->
             <ListBox ItemsSource="{Binding FilteredSongs}"
                      SelectedItem="{Binding SelectedSong}"
-                     IsVisible="{Binding !IsGroupedView}"
                      DoubleTapped="OnSongDoubleClick">
+                <ListBox.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!IsLoading"/>
+                        <Binding Path="!IsGroupedView"/>
+                    </MultiBinding>
+                </ListBox.IsVisible>
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add to Playlist" Click="OnAddToPlaylistClick"/>
