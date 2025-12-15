@@ -175,11 +175,16 @@ public class PlaybackService : IDisposable
             throw new InvalidOperationException("Media player not initialized.");
         }
 
+        if (_currentSong == null)
+        {
+            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
+        }
+
         if (State == PlaybackState.Playing)
         {
             Pause();
         }
-        else if (State == PlaybackState.Paused && _currentSong != null)
+        else if (State == PlaybackState.Paused)
         {
             Play();
         }
@@ -194,7 +199,7 @@ public class PlaybackService : IDisposable
 
         if (_currentSong == null)
         {
-            throw new InvalidOperationException("No song loaded.");
+            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
         }
 
         _mediaPlayer.Time = (long)position.TotalMilliseconds;
