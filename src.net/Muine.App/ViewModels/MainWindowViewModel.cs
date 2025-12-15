@@ -660,6 +660,20 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _isUserSeeking = true;
     }
 
+    public void UpdateSeekPreview(double position)
+    {
+        // Update the time display to show where we'll seek to
+        if (_isUserSeeking)
+        {
+            var duration = _playbackService.Duration;
+            if (duration.TotalSeconds > 0)
+            {
+                var previewPosition = TimeSpan.FromSeconds(position);
+                TimeDisplay = $"{FormatTime(previewPosition)} / {FormatTime(duration)}";
+            }
+        }
+    }
+
     public void EndSeeking(double position)
     {
         _isUserSeeking = false;

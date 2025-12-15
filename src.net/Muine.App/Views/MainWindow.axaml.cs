@@ -153,9 +153,21 @@ public partial class MainWindow : Window
 
     private void OnSliderPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        if (DataContext is MainWindowViewModel viewModel)
+        if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
             viewModel.BeginSeeking();
+        }
+    }
+
+    private void OnSliderPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        {
+            // Update the time display while dragging
+            if (e.GetCurrentPoint(slider).Properties.IsLeftButtonPressed)
+            {
+                viewModel.UpdateSeekPreview(slider.Value);
+            }
         }
     }
 

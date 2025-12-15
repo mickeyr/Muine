@@ -65,10 +65,11 @@
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
                         <Slider Minimum="0" 
                                 Maximum="{Binding MaxPosition}" 
-                                Value="{Binding CurrentPosition}"
+                                Value="{Binding CurrentPosition, Mode=OneWay}"
                                 IsEnabled="{Binding CanSeek}"
                                 PointerPressed="OnSliderPointerPressed"
-                                PointerReleased="OnSliderPointerReleased"/>
+                                PointerReleased="OnSliderPointerReleased"
+                                PointerMoved="OnSliderPointerMoved"/>
                     </StackPanel>
                     <TextBlock Grid.Column="1" 
                                Text="{Binding TimeDisplay}" 
