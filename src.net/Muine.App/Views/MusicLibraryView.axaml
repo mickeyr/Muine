@@ -1,11 +1,16 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:Muine.App.ViewModels"
+             xmlns:converters="using:Muine.App.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="Muine.App.Views.MusicLibraryView"
              x:DataType="vm:MusicLibraryViewModel">
+    
+    <UserControl.Resources>
+        <converters:PathToBitmapConverter x:Key="PathToBitmapConverter"/>
+    </UserControl.Resources>
     
     <Grid RowDefinitions="Auto,*">
         <!-- Header with Search and Navigation -->
@@ -70,7 +75,7 @@
                                     ClipToBounds="True"
                                     Margin="0,0,15,0">
                                 <Panel>
-                                    <Image Source="{Binding CoverImagePath}" 
+                                    <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}" 
                                            Stretch="UniformToFill"
                                            IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                                     <Image Source="/Assets/default-cover.png" 
@@ -121,7 +126,7 @@
                                     ClipToBounds="True"
                                     Margin="0,0,15,0">
                                 <Panel>
-                                    <Image Source="{Binding CoverImagePath}" 
+                                    <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}" 
                                            Stretch="UniformToFill"
                                            IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                                     <Image Source="/Assets/default-cover.png" 
@@ -183,7 +188,7 @@
                                     ClipToBounds="True"
                                     Margin="0,0,10,0">
                                 <Panel>
-                                    <Image Source="{Binding CoverImagePath}" 
+                                    <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}" 
                                            Stretch="UniformToFill"
                                            IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                                     <Image Source="/Assets/default-cover.png" 
