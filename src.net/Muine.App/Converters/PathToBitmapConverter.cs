@@ -16,13 +16,6 @@ public class PathToBitmapConverter : IValueConverter
         {
             try
             {
-                // Handle embedded resource paths (starting with /)
-                if (path.StartsWith("/"))
-                {
-                    var uri = new Uri($"avares://Muine.App{path}");
-                    return new Bitmap(AssetLoader.Open(uri));
-                }
-                
                 // Handle file system paths
                 if (File.Exists(path))
                 {
