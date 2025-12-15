@@ -151,11 +151,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private void OnSliderPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-    {
-        // This handler is no longer needed - we'll use pointer events instead
-    }
-
     private void OnSliderPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (DataContext is MainWindowViewModel viewModel)

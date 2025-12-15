@@ -79,7 +79,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private int _selectedTabIndex = 0;
 
     private System.Diagnostics.Stopwatch? _operationStopwatch;
-    private bool _isUserSeeking = false;
+    private bool _isUserSeeking;
 
     public MainWindowViewModel()
     {
