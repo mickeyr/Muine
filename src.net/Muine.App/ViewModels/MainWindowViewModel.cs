@@ -55,6 +55,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private bool _isPaused;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanSeek))]
     private double _currentPosition;
 
     [ObservableProperty]
@@ -66,6 +67,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [ObservableProperty]
     private float _volume = 50;
 
+    public bool CanSeek => _playbackService.CurrentSong != null;
+
     [ObservableProperty]
     private MusicLibraryViewModel? _musicLibraryViewModel;
 
@@ -76,6 +79,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private int _selectedTabIndex = 0;
 
     private System.Diagnostics.Stopwatch? _operationStopwatch;
+    private bool _isUserSeeking = false;
 
     public MainWindowViewModel()
     {
@@ -486,6 +490,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private void OnPlaybackPositionChanged(object? sender, TimeSpan position)
     {
+        // Don't update the slider position if the user is currently seeking
+        if (_isUserSeeking)
+            return;
+            
         var duration = _playbackService.Duration;
         
         if (duration.TotalSeconds > 0)
@@ -512,6 +520,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             CurrentSongDisplay = "No song playing";
         }
+        
+        // Notify that CanSeek property has changed
+        OnPropertyChanged(nameof(CanSeek));
     }
 
     public void AddSongToPlaylist(Song song)
@@ -641,6 +652,31 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         if (int.TryParse(tabIndex, out int index))
         {
             SelectedTabIndex = index;
+        }
+    }
+
+    public void BeginSeeking()
+    {
+        _isUserSeeking = true;
+    }
+
+    public void EndSeeking(double position)
+    {
+        _isUserSeeking = false;
+        
+        // Perform the actual seek
+        try
+        {
+            var duration = _playbackService.Duration;
+            if (duration.TotalSeconds > 0)
+            {
+                var seekPosition = TimeSpan.FromSeconds(position);
+                _playbackService.Seek(seekPosition);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error seeking: {ex.Message}";
         }
     }
 

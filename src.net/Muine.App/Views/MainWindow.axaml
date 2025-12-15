@@ -66,8 +66,9 @@
                         <Slider Minimum="0" 
                                 Maximum="{Binding MaxPosition}" 
                                 Value="{Binding CurrentPosition}"
-                                IsEnabled="{Binding IsPlaying}"
-                                PropertyChanged="OnSliderPropertyChanged"/>
+                                IsEnabled="{Binding CanSeek}"
+                                PointerPressed="OnSliderPointerPressed"
+                                PointerReleased="OnSliderPointerReleased"/>
                     </StackPanel>
                     <TextBlock Grid.Column="1" 
                                Text="{Binding TimeDisplay}" 

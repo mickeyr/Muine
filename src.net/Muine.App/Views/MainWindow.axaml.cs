@@ -153,13 +153,22 @@ public partial class MainWindow : Window
 
     private void OnSliderPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
-        if (e.Property == Slider.ValueProperty && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        // This handler is no longer needed - we'll use pointer events instead
+    }
+
+    private void OnSliderPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
         {
-            // Only seek if the user is manually changing the slider, not if it's updating from playback
-            if (slider.IsPointerOver && viewModel.IsPlaying)
-            {
-                viewModel.SeekCommand.Execute(slider.Value);
-            }
+            viewModel.BeginSeeking();
+        }
+    }
+
+    private void OnSliderPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.EndSeeking(slider.Value);
         }
     }
 }
