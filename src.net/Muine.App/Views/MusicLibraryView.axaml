@@ -1,0 +1,236 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Muine.App.ViewModels"
+             xmlns:converters="using:Muine.App.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="Muine.App.Views.MusicLibraryView"
+             x:DataType="vm:MusicLibraryViewModel">
+    
+    <UserControl.Resources>
+        <converters:PathToBitmapConverter x:Key="PathToBitmapConverter"/>
+    </UserControl.Resources>
+    
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header with Search and Navigation -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="10">
+            <!-- Back to Albums Button (visible when viewing songs) -->
+            <Button Grid.Column="0" 
+                    Content="◀ Albums"
+                    Command="{Binding BackToAlbumsCommand}"
+                    IsVisible="{Binding IsSongView}"
+                    Margin="0,0,10,0"/>
+            
+            <!-- Back to Artists Button (visible when viewing albums) -->
+            <Button Grid.Column="0" 
+                    Content="◀ Artists"
+                    Command="{Binding BackToArtistsCommand}"
+                    IsVisible="{Binding IsAlbumView}"
+                    Margin="0,0,10,0"/>
+            
+            <!-- Search Box -->
+            <TextBox Grid.Column="1" 
+                     Watermark="Search..."
+                     Text="{Binding SearchQuery}"
+                     Margin="0,0,10,0"/>
+            
+            <!-- Show All Albums Button (visible when viewing albums only) -->
+            <Button Grid.Column="2" 
+                    Content="All Albums"
+                    Command="{Binding ShowAllAlbumsCommand}"
+                    IsVisible="{Binding IsAlbumView}"/>
+        </Grid>
+
+        <!-- Content Area -->
+        <Grid Grid.Row="1" Margin="10,0,10,10">
+            <!-- Loading Indicator -->
+            <StackPanel IsVisible="{Binding IsLoading}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                <TextBlock Text="Loading library..." 
+                          FontSize="14" 
+                          HorizontalAlignment="Center"
+                          Margin="0,0,0,10"/>
+            </StackPanel>
+
+            <!-- Artist List View -->
+            <ListBox ItemsSource="{Binding Artists}"
+                     SelectedItem="{Binding SelectedArtist}"
+                     DoubleTapped="OnArtistDoubleClick">
+                <ListBox.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!IsLoading"/>
+                        <Binding Path="IsArtistView"/>
+                    </MultiBinding>
+                </ListBox.IsVisible>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="vm:ArtistViewModel">
+                        <Grid ColumnDefinitions="Auto,*" Margin="5">
+                            <!-- Cover Art -->
+                            <Border Grid.Column="0" 
+                                    Width="60" 
+                                    Height="60" 
+                                    CornerRadius="4"
+                                    ClipToBounds="True"
+                                    Margin="0,0,15,0">
+                                <Panel>
+                                    <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                    <Image Source="/Assets/default-cover.png" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
+                                </Panel>
+                            </Border>
+                            
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" 
+                                           FontWeight="Bold"
+                                           FontSize="14"/>
+                                <TextBlock Text="{Binding AlbumCount, StringFormat='{}{0} albums'}" 
+                                           FontSize="11" 
+                                           Foreground="Gray"/>
+                                <TextBlock Text="{Binding TotalSongs, StringFormat='{}{0} songs'}" 
+                                           FontSize="11" 
+                                           Foreground="Gray"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Album List View -->
+            <ListBox ItemsSource="{Binding Albums}"
+                     SelectedItem="{Binding SelectedAlbum}"
+                     DoubleTapped="OnAlbumDoubleClick">
+                <ListBox.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!IsLoading"/>
+                        <Binding Path="IsAlbumView"/>
+                    </MultiBinding>
+                </ListBox.IsVisible>
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add Album to Playlist" Click="OnAddAlbumToPlaylistClick"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="vm:AlbumViewModel">
+                        <Grid ColumnDefinitions="Auto,*" Margin="5">
+                            <!-- Cover Art -->
+                            <Border Grid.Column="0" 
+                                    Width="60" 
+                                    Height="60" 
+                                    CornerRadius="4"
+                                    ClipToBounds="True"
+                                    Margin="0,0,15,0">
+                                <Panel>
+                                    <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                    <Image Source="/Assets/default-cover.png" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
+                                </Panel>
+                            </Border>
+                            
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" 
+                                           FontWeight="Bold"
+                                           FontSize="14"/>
+                                <TextBlock Text="{Binding Artist}" 
+                                           FontSize="11" 
+                                           Foreground="Gray"/>
+                                <TextBlock Text="{Binding TrackCount, StringFormat='{}{0} tracks'}" 
+                                           FontSize="11" 
+                                           Foreground="Gray"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Song List View -->
+            <ListBox ItemsSource="{Binding Songs}"
+                     SelectedItem="{Binding SelectedSong}"
+                     DoubleTapped="OnSongDoubleClick">
+                <ListBox.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!IsLoading"/>
+                        <Binding Path="IsSongView"/>
+                    </MultiBinding>
+                </ListBox.IsVisible>
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add to Playlist" Click="OnAddSongToPlaylistClick"/>
+                        <MenuItem Header="Edit Metadata" Click="OnEditMetadataClick"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,Auto,*,Auto" Margin="5">
+                            <!-- Track Number -->
+                            <TextBlock Grid.Column="0" 
+                                       Text="{Binding TrackNumber}" 
+                                       FontSize="11" 
+                                       Foreground="Gray"
+                                       Width="30"
+                                       TextAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+                            
+                            <!-- Cover Art -->
+                            <Border Grid.Column="1" 
+                                    Width="40" 
+                                    Height="40" 
+                                    CornerRadius="4"
+                                    ClipToBounds="True"
+                                    Margin="0,0,10,0">
+                                <Panel>
+                                    <Image Source="{Binding CoverImagePath, Converter={StaticResource PathToBitmapConverter}}" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                    <Image Source="/Assets/default-cover.png" 
+                                           Stretch="UniformToFill"
+                                           IsVisible="{Binding CoverImagePath, Converter={x:Static ObjectConverters.IsNull}}"/>
+                                </Panel>
+                            </Border>
+                            
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" 
+                                           FontWeight="Bold"
+                                           FontSize="12"/>
+                                <TextBlock Text="{Binding ArtistsString}" 
+                                           FontSize="10" 
+                                           Foreground="Gray"/>
+                            </StackPanel>
+                            
+                            <!-- Duration -->
+                            <TextBlock Grid.Column="3" 
+                                       Text="{Binding Duration, StringFormat='{}{0}s'}"
+                                       FontSize="11" 
+                                       Foreground="Gray"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Empty State -->
+            <TextBlock Text="No music in library. Use File → Import Music Folder to add music!" 
+                       Foreground="Gray" 
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <TextBlock.IsVisible>
+                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                        <Binding Path="!IsLoading"/>
+                        <Binding Path="Artists.Count" Converter="{x:Static ObjectConverters.Equal}" ConverterParameter="0"/>
+                    </MultiBinding>
+                </TextBlock.IsVisible>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

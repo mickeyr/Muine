@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Muine.App.ViewModels;
+using Muine.Core.Models;
 
 namespace Muine.App.Views;
 
@@ -43,13 +44,75 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void OnSongDoubleClick(object? sender, TappedEventArgs e)
+    private void OnLibrarySongDoubleClick(object? sender, Song song)
     {
-        if (DataContext is MainWindowViewModel viewModel && viewModel.SelectedSong != null)
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.AddSongToPlaylist(song);
+            viewModel.SelectedTabIndex = 1; // Switch to playlist tab
+            
+            // Auto-start playback if not already playing
+            if (!viewModel.IsPlaying)
+            {
+                _ = viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
+            }
+        }
+    }
+
+    private async void OnLibraryAlbumDoubleClick(object? sender, AlbumViewModel album)
+    {
+        // No longer auto-adds - now navigates to song list in the MusicLibraryView code-behind
+    }
+
+    private void OnLibraryAddSongToPlaylistRequested(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.AddSongToPlaylist(song);
+        }
+    }
+
+    private void OnLibraryAddAlbumToPlaylistRequested(object? sender, AlbumViewModel album)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.AddAlbumToPlaylist(album.Songs);
+        }
+    }
+
+    private async void OnEditMetadataRequested(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            var editorVm = viewModel.CreateMetadataEditor(song);
+            var editorWindow = new MetadataEditorWindow
+            {
+                DataContext = editorVm
+            };
+
+            var result = await editorWindow.ShowDialog<bool?>(this);
+            
+            if (result == true)
+            {
+                await viewModel.RefreshAfterMetadataEdit();
+                viewModel.StatusMessage = "Metadata updated successfully";
+            }
+        }
+    }
+
+    private async void OnPlaylistSongDoubleClick(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
         {
             try
             {
-                await viewModel.PlaySelectedSongCommand.ExecuteAsync(null);
+                // Find the index of the song in the playlist and play it
+                var index = viewModel.PlaylistViewModel.Songs.IndexOf(song);
+                if (index >= 0)
+                {
+                    viewModel.PlaylistViewModel.MoveTo(index);
+                    await viewModel.PlayFromPlaylistCommand.ExecuteAsync(null);
+                }
             }
             catch
             {
