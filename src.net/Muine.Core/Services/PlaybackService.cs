@@ -177,7 +177,7 @@ public class PlaybackService : IDisposable
 
         if (_currentSong == null)
         {
-            throw new InvalidOperationException("No song loaded.");
+            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
         }
 
         if (State == PlaybackState.Playing)
@@ -199,7 +199,7 @@ public class PlaybackService : IDisposable
 
         if (_currentSong == null)
         {
-            throw new InvalidOperationException("No song loaded.");
+            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
         }
 
         _mediaPlayer.Time = (long)position.TotalMilliseconds;
