@@ -14,14 +14,11 @@ namespace Muine.App.Views;
 
 public partial class MainWindow : Window
 {
-    private bool _isSliderPressed = false;
     private bool _isDraggingThumb = false;
     private Thumb? _sliderThumb;
     private Slider? _positionSlider;
-    private double _pressedSliderValue;
     private double _lastProgrammaticValue = 0;
     private DateTime _lastPointerSeekTime = DateTime.MinValue;
-    private bool _hasMovedDuringPress = false;
 
     public MainWindow()
     {
@@ -62,7 +59,6 @@ public partial class MainWindow : Window
     private void OnThumbDragStarted(object? sender, VectorEventArgs e)
     {
         Console.WriteLine("OnThumbDragStarted called");
-        _isSliderPressed = true;
         _isDraggingThumb = true;
         if (DataContext is MainWindowViewModel viewModel)
         {
@@ -72,7 +68,7 @@ public partial class MainWindow : Window
 
     private void OnThumbDragDelta(object? sender, VectorEventArgs e)
     {
-        if (_isSliderPressed && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
+        if (_isDraggingThumb && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
             Console.WriteLine($"OnThumbDragDelta: Value={_positionSlider.Value}");
             viewModel.UpdateSeekPreview(_positionSlider.Value);
@@ -82,9 +78,8 @@ public partial class MainWindow : Window
     private void OnThumbDragCompleted(object? sender, VectorEventArgs e)
     {
         Console.WriteLine("OnThumbDragCompleted called");
-        if (_isSliderPressed && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
+        if (_isDraggingThumb && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
-            _isSliderPressed = false;
             _isDraggingThumb = false;
             
             // Set timestamp BEFORE calling EndSeeking to prevent ValueChanged from detecting this as a track click
@@ -100,10 +95,10 @@ public partial class MainWindow : Window
         if (sender is not Slider slider || DataContext is not MainWindowViewModel viewModel)
             return;
 
-        // Ignore if we're in the middle of dragging or already handling a press
-        if (_isDraggingThumb || _isSliderPressed)
+        // Ignore if we're in the middle of dragging the thumb
+        if (_isDraggingThumb)
         {
-            Console.WriteLine($"OnSliderValueChanged: Ignoring during drag/press (_isDraggingThumb={_isDraggingThumb}, _isSliderPressed={_isSliderPressed})");
+            Console.WriteLine($"OnSliderValueChanged: Ignoring during thumb drag");
             return;
         }
 
@@ -277,76 +272,5 @@ public partial class MainWindow : Window
     }
 
     // Keep fallback pointer handlers in case Thumb events don't work
-    private void OnSliderPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        Console.WriteLine($"OnSliderPointerPressed called (fallback)");
-        if (!_isDraggingThumb && !_isSliderPressed && sender is Slider slider)
-        {
-            // This is a click, possibly start of a drag
-            _isSliderPressed = true;
-            _hasMovedDuringPress = false;
-            _pressedSliderValue = slider.Value;
-            Console.WriteLine($"Track click detected at value: {slider.Value}");
-            
-            // Don't call BeginSeeking() yet - wait to see if this is a drag or just a click
-            // If we call it now, it stops position updates and slider shows stale value
-        }
-    }
 
-    private void OnSliderPointerMoved(object? sender, PointerEventArgs e)
-    {
-        if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
-        {
-            // First movement - now we know it's a drag, start seeking mode
-            if (!_hasMovedDuringPress)
-            {
-                viewModel.BeginSeeking();
-            }
-            
-            _hasMovedDuringPress = true;
-            Console.WriteLine($"OnSliderPointerMoved: Value={slider.Value}");
-            viewModel.UpdateSeekPreview(slider.Value);
-        }
-    }
-
-    private void OnSliderPointerReleased(object? sender, PointerReleasedEventArgs e)
-    {
-        Console.WriteLine($"OnSliderPointerReleased called (fallback), _isSliderPressed={_isSliderPressed}, _isDraggingThumb={_isDraggingThumb}");
-        if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
-        {
-            _isSliderPressed = false;
-            
-            // Set timestamp BEFORE calling EndSeeking to prevent ValueChanged from detecting this as a track click
-            _lastPointerSeekTime = DateTime.Now;
-            
-            // If there was no movement, this was a click (not a drag)
-            // If there was movement, seek to the final position
-            if (_hasMovedDuringPress)
-            {
-                // Drag - seek to final position
-                Console.WriteLine($"OnSliderPointerReleased: Drag completed, slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
-                viewModel.EndSeeking(slider.Value);
-            }
-            else
-            {
-                // Click - perform immediate seek to clicked position
-                Console.WriteLine($"OnSliderPointerReleased: Click detected, seekValue={_pressedSliderValue}, slider.Maximum={slider.Maximum}");
-                viewModel.BeginSeeking();
-                viewModel.EndSeeking(_pressedSliderValue);
-            }
-            
-            _hasMovedDuringPress = false;
-        }
-    }
-
-    private void OnSliderPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
-    {
-        Console.WriteLine($"OnSliderPointerCaptureLost called, _isSliderPressed={_isSliderPressed}, _isDraggingThumb={_isDraggingThumb}");
-        if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
-        {
-            _isSliderPressed = false;
-            Console.WriteLine($"OnSliderPointerCaptureLost: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
-            viewModel.EndSeeking(slider.Value);
-        }
-    }
 }
