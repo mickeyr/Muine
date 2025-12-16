@@ -1,8 +1,12 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
 using Muine.App.ViewModels;
 using Muine.Core.Models;
 
@@ -10,9 +14,81 @@ namespace Muine.App.Views;
 
 public partial class MainWindow : Window
 {
+    private bool _isSliderPressed = false;
+    private Thumb? _sliderThumb;
+
     public MainWindow()
     {
         InitializeComponent();
+        
+        // Hook into the slider's Loaded event to find and attach to the Thumb
+        this.Loaded += OnWindowLoaded;
+    }
+
+    private void OnWindowLoaded(object? sender, RoutedEventArgs e)
+    {
+        // Find the slider and its thumb
+        var slider = this.FindControl<Slider>("PositionSlider");
+        if (slider != null)
+        {
+            // Find the Thumb within the slider's visual tree
+            _sliderThumb = FindThumbInSlider(slider);
+            if (_sliderThumb != null)
+            {
+                Console.WriteLine("Found slider thumb, attaching events");
+                _sliderThumb.DragStarted += OnThumbDragStarted;
+                _sliderThumb.DragDelta += OnThumbDragDelta;
+                _sliderThumb.DragCompleted += OnThumbDragCompleted;
+            }
+            else
+            {
+                Console.WriteLine("Could not find slider thumb, using fallback approach");
+            }
+        }
+    }
+
+    private Thumb? FindThumbInSlider(Slider slider)
+    {
+        // Search the visual tree for a Thumb control
+        return slider.GetVisualDescendants().OfType<Thumb>().FirstOrDefault();
+    }
+
+    private void OnThumbDragStarted(object? sender, VectorEventArgs e)
+    {
+        Console.WriteLine("OnThumbDragStarted called");
+        _isSliderPressed = true;
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.BeginSeeking();
+        }
+    }
+
+    private void OnThumbDragDelta(object? sender, VectorEventArgs e)
+    {
+        if (_isSliderPressed && DataContext is MainWindowViewModel viewModel)
+        {
+            var slider = this.FindControl<Slider>("PositionSlider");
+            if (slider != null)
+            {
+                Console.WriteLine($"OnThumbDragDelta: Value={slider.Value}");
+                viewModel.UpdateSeekPreview(slider.Value);
+            }
+        }
+    }
+
+    private void OnThumbDragCompleted(object? sender, VectorEventArgs e)
+    {
+        Console.WriteLine("OnThumbDragCompleted called");
+        if (_isSliderPressed && DataContext is MainWindowViewModel viewModel)
+        {
+            _isSliderPressed = false;
+            var slider = this.FindControl<Slider>("PositionSlider");
+            if (slider != null)
+            {
+                Console.WriteLine($"OnThumbDragCompleted: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
+                viewModel.EndSeeking(slider.Value);
+            }
+        }
     }
 
     private async void OnImportMusicFolderClick(object? sender, RoutedEventArgs e)
@@ -152,31 +228,49 @@ public partial class MainWindow : Window
         }
     }
 
+    // Keep fallback pointer handlers in case Thumb events don't work
     private void OnSliderPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        Console.WriteLine($"OnSliderPointerPressed called (fallback)");
+        if (!_isSliderPressed)
         {
-            viewModel.BeginSeeking();
+            _isSliderPressed = true;
+            if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+            {
+                viewModel.BeginSeeking();
+                e.Pointer.Capture(slider);
+            }
         }
     }
 
     private void OnSliderPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        if (_isSliderPressed && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
-            // Update the time display while dragging
-            if (e.GetCurrentPoint(slider).Properties.IsLeftButtonPressed)
-            {
-                viewModel.UpdateSeekPreview(slider.Value);
-            }
+            Console.WriteLine($"OnSliderPointerMoved: Value={slider.Value}");
+            viewModel.UpdateSeekPreview(slider.Value);
         }
     }
 
     private void OnSliderPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        Console.WriteLine($"OnSliderPointerReleased called (fallback), _isSliderPressed={_isSliderPressed}");
+        if (_isSliderPressed && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
+            _isSliderPressed = false;
             Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
+            viewModel.EndSeeking(slider.Value);
+            e.Pointer.Capture(null);
+        }
+    }
+
+    private void OnSliderPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
+    {
+        Console.WriteLine($"OnSliderPointerCaptureLost called, _isSliderPressed={_isSliderPressed}");
+        if (_isSliderPressed && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        {
+            _isSliderPressed = false;
+            Console.WriteLine($"OnSliderPointerCaptureLost: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
             viewModel.EndSeeking(slider.Value);
         }
     }
