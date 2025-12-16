@@ -15,8 +15,10 @@ namespace Muine.App.Views;
 public partial class MainWindow : Window
 {
     private bool _isSliderPressed = false;
+    private bool _isDraggingThumb = false;
     private Thumb? _sliderThumb;
     private Slider? _positionSlider;
+    private double _pressedSliderValue;
 
     public MainWindow()
     {
@@ -58,6 +60,7 @@ public partial class MainWindow : Window
     {
         Console.WriteLine("OnThumbDragStarted called");
         _isSliderPressed = true;
+        _isDraggingThumb = true;
         if (DataContext is MainWindowViewModel viewModel)
         {
             viewModel.BeginSeeking();
@@ -79,6 +82,7 @@ public partial class MainWindow : Window
         if (_isSliderPressed && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
             _isSliderPressed = false;
+            _isDraggingThumb = false;
             Console.WriteLine($"OnThumbDragCompleted: slider.Value={_positionSlider.Value}, slider.Maximum={_positionSlider.Maximum}");
             viewModel.EndSeeking(_positionSlider.Value);
         }
@@ -225,20 +229,23 @@ public partial class MainWindow : Window
     private void OnSliderPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         Console.WriteLine($"OnSliderPointerPressed called (fallback)");
-        if (!_isSliderPressed)
+        if (!_isDraggingThumb && !_isSliderPressed && sender is Slider slider)
         {
+            // This is a click on the track, not the thumb
             _isSliderPressed = true;
-            if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+            _pressedSliderValue = slider.Value;
+            Console.WriteLine($"Track click detected at value: {slider.Value}");
+            
+            if (DataContext is MainWindowViewModel viewModel)
             {
                 viewModel.BeginSeeking();
-                e.Pointer.Capture(slider);
             }
         }
     }
 
     private void OnSliderPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (_isSliderPressed && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
             Console.WriteLine($"OnSliderPointerMoved: Value={slider.Value}");
             viewModel.UpdateSeekPreview(slider.Value);
@@ -247,20 +254,19 @@ public partial class MainWindow : Window
 
     private void OnSliderPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        Console.WriteLine($"OnSliderPointerReleased called (fallback), _isSliderPressed={_isSliderPressed}");
-        if (_isSliderPressed && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        Console.WriteLine($"OnSliderPointerReleased called (fallback), _isSliderPressed={_isSliderPressed}, _isDraggingThumb={_isDraggingThumb}");
+        if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
             _isSliderPressed = false;
             Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
             viewModel.EndSeeking(slider.Value);
-            e.Pointer.Capture(null);
         }
     }
 
     private void OnSliderPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        Console.WriteLine($"OnSliderPointerCaptureLost called, _isSliderPressed={_isSliderPressed}");
-        if (_isSliderPressed && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
+        Console.WriteLine($"OnSliderPointerCaptureLost called, _isSliderPressed={_isSliderPressed}, _isDraggingThumb={_isDraggingThumb}");
+        if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
             _isSliderPressed = false;
             Console.WriteLine($"OnSliderPointerCaptureLost: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
