@@ -490,23 +490,29 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private void OnPlaybackPositionChanged(object? sender, TimeSpan position)
     {
-        // Don't update the slider position if the user is currently seeking
-        if (_isUserSeeking)
-            return;
-            
         var duration = _playbackService.Duration;
         
+        // Always update MaxPosition and Duration even during seeking, as we need this for the seek operation
         if (duration.TotalSeconds > 0)
         {
-            CurrentPosition = position.TotalSeconds;
             MaxPosition = duration.TotalSeconds;
-            TimeDisplay = $"{FormatTime(position)} / {FormatTime(duration)}";
+            
+            // Only update CurrentPosition if not seeking (to avoid fighting with user interaction)
+            if (!_isUserSeeking)
+            {
+                CurrentPosition = position.TotalSeconds;
+                TimeDisplay = $"{FormatTime(position)} / {FormatTime(duration)}";
+            }
         }
         else
         {
-            CurrentPosition = 0;
             MaxPosition = 100;
-            TimeDisplay = "0:00 / 0:00";
+            
+            if (!_isUserSeeking)
+            {
+                CurrentPosition = 0;
+                TimeDisplay = "0:00 / 0:00";
+            }
         }
     }
 
