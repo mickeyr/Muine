@@ -309,8 +309,8 @@ public class RadioStationService : IDisposable
             Bitrate = reader.GetInt32(reader.GetOrdinal("Bitrate")),
             Category = reader.IsDBNull(reader.GetOrdinal("Category")) ? string.Empty : reader.GetString(reader.GetOrdinal("Category")),
             ParentCategory = reader.IsDBNull(reader.GetOrdinal("ParentCategory")) ? string.Empty : reader.GetString(reader.GetOrdinal("ParentCategory")),
-            DateAdded = DateTime.Parse(reader.GetString(reader.GetOrdinal("DateAdded"))),
-            LastPlayed = reader.IsDBNull(reader.GetOrdinal("LastPlayed")) ? null : DateTime.Parse(reader.GetString(reader.GetOrdinal("LastPlayed")))
+            DateAdded = DateTime.ParseExact(reader.GetString(reader.GetOrdinal("DateAdded")), "o", System.Globalization.CultureInfo.InvariantCulture),
+            LastPlayed = reader.IsDBNull(reader.GetOrdinal("LastPlayed")) ? null : DateTime.ParseExact(reader.GetString(reader.GetOrdinal("LastPlayed")), "o", System.Globalization.CultureInfo.InvariantCulture)
         };
     }
 

@@ -176,7 +176,7 @@ public class RadioMetadataService
             if (!string.IsNullOrEmpty(path))
             {
                 var segments = path.Split('/');
-                var lastSegment = segments[^1];
+                var lastSegment = segments[segments.Length - 1];
                 
                 // Remove common file extensions
                 lastSegment = Regex.Replace(lastSegment, @"\.(pls|m3u|m3u8)$", "", RegexOptions.IgnoreCase);
