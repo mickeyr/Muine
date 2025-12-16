@@ -285,10 +285,8 @@ public partial class MainWindow : Window
             _pressedSliderValue = slider.Value;
             Console.WriteLine($"Track click detected at value: {slider.Value}");
             
-            if (DataContext is MainWindowViewModel viewModel)
-            {
-                viewModel.BeginSeeking();
-            }
+            // Don't call BeginSeeking() yet - wait to see if this is a drag or just a click
+            // If we call it now, it stops position updates and slider shows stale value
         }
     }
 
@@ -296,6 +294,12 @@ public partial class MainWindow : Window
     {
         if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
+            // First movement - now we know it's a drag, start seeking mode
+            if (!_hasMovedDuringPress)
+            {
+                viewModel.BeginSeeking();
+            }
+            
             _hasMovedDuringPress = true;
             Console.WriteLine($"OnSliderPointerMoved: Value={slider.Value}");
             viewModel.UpdateSeekPreview(slider.Value);
@@ -309,12 +313,22 @@ public partial class MainWindow : Window
         {
             _isSliderPressed = false;
             
-            // If there was no movement, this was a click (not a drag), so seek immediately to pressed value
+            // If there was no movement, this was a click (not a drag)
             // If there was movement, seek to the final position
-            var seekValue = _hasMovedDuringPress ? slider.Value : _pressedSliderValue;
+            if (_hasMovedDuringPress)
+            {
+                // Drag - seek to final position
+                Console.WriteLine($"OnSliderPointerReleased: Drag completed, slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
+                viewModel.EndSeeking(slider.Value);
+            }
+            else
+            {
+                // Click - perform immediate seek to clicked position
+                Console.WriteLine($"OnSliderPointerReleased: Click detected, seekValue={_pressedSliderValue}, slider.Maximum={slider.Maximum}");
+                viewModel.BeginSeeking();
+                viewModel.EndSeeking(_pressedSliderValue);
+            }
             
-            Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, seekValue={seekValue}, hasMovedDuringPress={_hasMovedDuringPress}, slider.Maximum={slider.Maximum}");
-            viewModel.EndSeeking(seekValue);
             _lastPointerSeekTime = DateTime.Now;
             _hasMovedDuringPress = false;
         }
