@@ -202,8 +202,23 @@ public class PlaybackService : IDisposable
             throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
         }
 
-        _mediaPlayer.Time = (long)position.TotalMilliseconds;
-        Position = position;
+        // Check if media is seekable
+        if (!_mediaPlayer.IsSeekable)
+        {
+            Console.WriteLine("Warning: Media is not seekable");
+            throw new InvalidOperationException("Media is not seekable");
+        }
+
+        Console.WriteLine($"PlaybackService.Seek: Seeking to {position.TotalMilliseconds}ms (current: {_mediaPlayer.Time}ms)");
+        
+        var targetMs = (long)position.TotalMilliseconds;
+        _mediaPlayer.Time = targetMs;
+        
+        // Read back the actual position set
+        var actualMs = _mediaPlayer.Time;
+        Console.WriteLine($"PlaybackService.Seek: After seek, Time is now {actualMs}ms");
+        
+        Position = TimeSpan.FromMilliseconds(actualMs);
         PositionChanged?.Invoke(this, Position);
     }
 

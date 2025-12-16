@@ -55,6 +55,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private bool _isPaused;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanSeek))]
     private double _currentPosition;
 
     [ObservableProperty]
@@ -66,6 +67,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     [ObservableProperty]
     private float _volume = 50;
 
+    public bool CanSeek => _playbackService.CurrentSong != null;
+
     [ObservableProperty]
     private MusicLibraryViewModel? _musicLibraryViewModel;
 
@@ -76,6 +79,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private int _selectedTabIndex = 0;
 
     private System.Diagnostics.Stopwatch? _operationStopwatch;
+    private bool _isUserSeeking;
 
     public MainWindowViewModel()
     {
@@ -488,17 +492,27 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         var duration = _playbackService.Duration;
         
+        // Always update MaxPosition and Duration even during seeking, as we need this for the seek operation
         if (duration.TotalSeconds > 0)
         {
-            CurrentPosition = position.TotalSeconds;
             MaxPosition = duration.TotalSeconds;
-            TimeDisplay = $"{FormatTime(position)} / {FormatTime(duration)}";
+            
+            // Only update CurrentPosition if not seeking (to avoid fighting with user interaction)
+            if (!_isUserSeeking)
+            {
+                CurrentPosition = position.TotalSeconds;
+                TimeDisplay = $"{FormatTime(position)} / {FormatTime(duration)}";
+            }
         }
         else
         {
-            CurrentPosition = 0;
             MaxPosition = 100;
-            TimeDisplay = "0:00 / 0:00";
+            
+            if (!_isUserSeeking)
+            {
+                CurrentPosition = 0;
+                TimeDisplay = "0:00 / 0:00";
+            }
         }
     }
 
@@ -512,6 +526,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             CurrentSongDisplay = "No song playing";
         }
+        
+        // Notify that CanSeek property has changed
+        OnPropertyChanged(nameof(CanSeek));
     }
 
     public void AddSongToPlaylist(Song song)
@@ -641,6 +658,58 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         if (int.TryParse(tabIndex, out int index))
         {
             SelectedTabIndex = index;
+        }
+    }
+
+    public void BeginSeeking()
+    {
+        _isUserSeeking = true;
+    }
+
+    public void UpdateSeekPreview(double position)
+    {
+        // Update the time display to show where we'll seek to
+        if (_isUserSeeking)
+        {
+            var duration = _playbackService.Duration;
+            if (duration.TotalSeconds > 0)
+            {
+                var previewPosition = TimeSpan.FromSeconds(position);
+                TimeDisplay = $"{FormatTime(previewPosition)} / {FormatTime(duration)}";
+            }
+        }
+    }
+
+    public void EndSeeking(double position)
+    {
+        try
+        {
+            var duration = _playbackService.Duration;
+            Console.WriteLine($"EndSeeking: position={position}, duration={duration.TotalSeconds}, CurrentSong={_playbackService.CurrentSong?.DisplayName}");
+            
+            if (duration.TotalSeconds > 0)
+            {
+                var seekPosition = TimeSpan.FromSeconds(position);
+                Console.WriteLine($"Seeking to: {seekPosition}");
+                _playbackService.Seek(seekPosition);
+                
+                // Update UI immediately after seek
+                _isUserSeeking = false;
+                CurrentPosition = position;
+                TimeDisplay = $"{FormatTime(seekPosition)} / {FormatTime(duration)}";
+                StatusMessage = $"Seeked to {FormatTime(seekPosition)}";
+            }
+            else
+            {
+                Console.WriteLine("Cannot seek: duration is 0");
+                _isUserSeeking = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Seek error: {ex.Message}");
+            StatusMessage = $"Error seeking: {ex.Message}";
+            _isUserSeeking = false;
         }
     }
 

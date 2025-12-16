@@ -63,11 +63,12 @@
                 <!-- Progress Bar and Time -->
                 <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="10,10,10,5">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <Slider Minimum="0" 
+                        <Slider Name="PositionSlider"
+                                Minimum="0" 
                                 Maximum="{Binding MaxPosition}" 
-                                Value="{Binding CurrentPosition}"
-                                IsEnabled="{Binding IsPlaying}"
-                                PropertyChanged="OnSliderPropertyChanged"/>
+                                Value="{Binding CurrentPosition, Mode=OneWay}"
+                                IsEnabled="{Binding CanSeek}"
+                                ValueChanged="OnSliderValueChanged"/>
                     </StackPanel>
                     <TextBlock Grid.Column="1" 
                                Text="{Binding TimeDisplay}" 
