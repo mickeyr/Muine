@@ -50,10 +50,11 @@ public partial class RadioViewModel : ViewModelBase
         try
         {
             var stations = await _radioStationService.GetAllStationsAsync();
-            Stations = new ObservableCollection<RadioStation>(stations);
             
             await BuildCategoryTreeAsync();
             
+            // Initially show all stations
+            Stations = new ObservableCollection<RadioStation>(stations);
             StatusMessage = $"Loaded {stations.Count} radio stations";
         }
         catch (Exception ex)
@@ -173,6 +174,7 @@ public partial class RadioViewModel : ViewModelBase
         if (value != null)
         {
             Stations = new ObservableCollection<RadioStation>(value.Stations);
+            StatusMessage = $"Showing {value.Stations.Count} stations in '{value.Name}'";
         }
     }
 }
