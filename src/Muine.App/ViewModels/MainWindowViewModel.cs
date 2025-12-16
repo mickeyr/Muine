@@ -189,12 +189,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
             SetOperationStatus($"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed", autoHideAfter: 5000);
             
-            if (result.Errors.Count > 0)
-            {
-                var firstErrors = string.Join(", ", result.Errors.Take(3));
-                // TODO: Replace with proper logging framework or user notification
-                Console.WriteLine($"Errors during scan: {firstErrors}");
-            }
+            // Errors are already tracked in result.Errors for logging if needed
         }
         catch (Exception ex)
         {
@@ -257,10 +252,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             else
             {
                 SetOperationStatus($"Failed to refresh metadata: {song.DisplayName}", autoHideAfter: 5000);
-                if (result.Errors.Count > 0)
-                {
-                    Console.WriteLine($"Refresh error: {result.Errors[0]}");
-                }
+                // Errors are already tracked in result.Errors for logging if needed
             }
         }
         catch (Exception ex)
@@ -313,11 +305,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             
             SetOperationStatus($"Refresh complete in {timeString}", autoHideAfter: 3000);
             
-            if (result.Errors.Count > 0)
-            {
-                var firstErrors = string.Join(", ", result.Errors.Take(3));
-                Console.WriteLine($"Errors during refresh: {firstErrors}");
-            }
+            // Errors are already tracked in result.Errors for logging if needed
         }
         catch (Exception ex)
         {
@@ -685,12 +673,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         try
         {
             var duration = _playbackService.Duration;
-            Console.WriteLine($"EndSeeking: position={position}, duration={duration.TotalSeconds}, CurrentSong={_playbackService.CurrentSong?.DisplayName}");
             
             if (duration.TotalSeconds > 0)
             {
                 var seekPosition = TimeSpan.FromSeconds(position);
-                Console.WriteLine($"Seeking to: {seekPosition}");
                 _playbackService.Seek(seekPosition);
                 
                 // Update UI immediately after seek
@@ -701,13 +687,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             }
             else
             {
-                Console.WriteLine("Cannot seek: duration is 0");
                 _isUserSeeking = false;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Seek error: {ex.Message}");
             StatusMessage = $"Error seeking: {ex.Message}";
             _isUserSeeking = false;
         }

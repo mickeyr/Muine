@@ -60,10 +60,9 @@ public class PlaybackService : IDisposable
             // Start position update timer
             _positionTimer = new Timer(UpdatePosition, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Warning: Could not initialize LibVLC: {ex.Message}");
-            Console.WriteLine("Playback functionality will not be available.");
+            // LibVLC not available - playback functionality will not work
         }
     }
 
@@ -205,18 +204,14 @@ public class PlaybackService : IDisposable
         // Check if media is seekable
         if (!_mediaPlayer.IsSeekable)
         {
-            Console.WriteLine("Warning: Media is not seekable");
             throw new InvalidOperationException("Media is not seekable");
         }
-
-        Console.WriteLine($"PlaybackService.Seek: Seeking to {position.TotalMilliseconds}ms (current: {_mediaPlayer.Time}ms)");
         
         var targetMs = (long)position.TotalMilliseconds;
         _mediaPlayer.Time = targetMs;
         
         // Read back the actual position set
         var actualMs = _mediaPlayer.Time;
-        Console.WriteLine($"PlaybackService.Seek: After seek, Time is now {actualMs}ms");
         
         Position = TimeSpan.FromMilliseconds(actualMs);
         PositionChanged?.Invoke(this, Position);

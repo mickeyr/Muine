@@ -38,14 +38,9 @@ public partial class MainWindow : Window
             _sliderThumb = FindThumbInSlider(_positionSlider);
             if (_sliderThumb != null)
             {
-                Console.WriteLine("Found slider thumb, attaching events");
                 _sliderThumb.DragStarted += OnThumbDragStarted;
                 _sliderThumb.DragDelta += OnThumbDragDelta;
                 _sliderThumb.DragCompleted += OnThumbDragCompleted;
-            }
-            else
-            {
-                Console.WriteLine("Could not find slider thumb, using fallback approach");
             }
         }
     }
@@ -58,7 +53,6 @@ public partial class MainWindow : Window
 
     private void OnThumbDragStarted(object? sender, VectorEventArgs e)
     {
-        Console.WriteLine("OnThumbDragStarted called");
         _isDraggingThumb = true;
         if (DataContext is MainWindowViewModel viewModel)
         {
@@ -70,14 +64,12 @@ public partial class MainWindow : Window
     {
         if (_isDraggingThumb && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
-            Console.WriteLine($"OnThumbDragDelta: Value={_positionSlider.Value}");
             viewModel.UpdateSeekPreview(_positionSlider.Value);
         }
     }
 
     private void OnThumbDragCompleted(object? sender, VectorEventArgs e)
     {
-        Console.WriteLine("OnThumbDragCompleted called");
         if (_isDraggingThumb && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
             _isDraggingThumb = false;
@@ -85,7 +77,6 @@ public partial class MainWindow : Window
             // Set timestamp BEFORE calling EndSeeking to prevent ValueChanged from detecting this as a track click
             _lastPointerSeekTime = DateTime.Now;
             
-            Console.WriteLine($"OnThumbDragCompleted: slider.Value={_positionSlider.Value}, slider.Maximum={_positionSlider.Maximum}");
             viewModel.EndSeeking(_positionSlider.Value);
         }
     }
@@ -98,7 +89,6 @@ public partial class MainWindow : Window
         // Ignore if we're in the middle of dragging the thumb
         if (_isDraggingThumb)
         {
-            Console.WriteLine($"OnSliderValueChanged: Ignoring during thumb drag");
             return;
         }
 
@@ -107,7 +97,6 @@ public partial class MainWindow : Window
         var timeSinceLastPointerSeek = DateTime.Now - _lastPointerSeekTime;
         if (timeSinceLastPointerSeek.TotalMilliseconds < 100)
         {
-            Console.WriteLine($"OnSliderValueChanged: Ignoring, recent pointer seek ({timeSinceLastPointerSeek.TotalMilliseconds}ms ago)");
             _lastProgrammaticValue = e.NewValue;
             return;
         }
@@ -119,14 +108,12 @@ public partial class MainWindow : Window
         // User clicks typically make larger jumps
         if (valueDiff < 0.5)
         {
-            Console.WriteLine($"OnSliderValueChanged: Ignoring small change ({valueDiff}s), likely playback update");
             _lastProgrammaticValue = e.NewValue;
             return;
         }
 
         // This is likely a track click - significant value change without drag/press events
         // This happens when clicking directly on the slider track
-        Console.WriteLine($"OnSliderValueChanged: Detected track click, oldValue={e.OldValue}, newValue={e.NewValue}, diff={valueDiff}");
         
         // Perform the seek immediately for track clicks
         _lastProgrammaticValue = e.NewValue;
