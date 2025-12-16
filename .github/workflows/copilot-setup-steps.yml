@@ -33,6 +33,7 @@ jobs:
           ref: main
       
       - name: Build AvaloniaUI.MCP
+        working-directory: ${{ github.workspace }}
         run: |
           cd AvaloniaUI.MCP
           dotnet build AvaloniaUI.MCP.sln -c Release
