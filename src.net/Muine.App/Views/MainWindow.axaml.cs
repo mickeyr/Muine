@@ -86,9 +86,12 @@ public partial class MainWindow : Window
         {
             _isSliderPressed = false;
             _isDraggingThumb = false;
+            
+            // Set timestamp BEFORE calling EndSeeking to prevent ValueChanged from detecting this as a track click
+            _lastPointerSeekTime = DateTime.Now;
+            
             Console.WriteLine($"OnThumbDragCompleted: slider.Value={_positionSlider.Value}, slider.Maximum={_positionSlider.Maximum}");
             viewModel.EndSeeking(_positionSlider.Value);
-            _lastPointerSeekTime = DateTime.Now;
         }
     }
 
@@ -313,6 +316,9 @@ public partial class MainWindow : Window
         {
             _isSliderPressed = false;
             
+            // Set timestamp BEFORE calling EndSeeking to prevent ValueChanged from detecting this as a track click
+            _lastPointerSeekTime = DateTime.Now;
+            
             // If there was no movement, this was a click (not a drag)
             // If there was movement, seek to the final position
             if (_hasMovedDuringPress)
@@ -329,7 +335,6 @@ public partial class MainWindow : Window
                 viewModel.EndSeeking(_pressedSliderValue);
             }
             
-            _lastPointerSeekTime = DateTime.Now;
             _hasMovedDuringPress = false;
         }
     }
