@@ -349,24 +349,24 @@ public async Task WriteMetadataAsync(Song song)
 ## File Summary
 
 ### Created Files (16)
-- `src.net/Muine.Core/Models/Playlist.cs`
-- `src.net/Muine.App/ViewModels/ArtistViewModel.cs`
-- `src.net/Muine.App/ViewModels/AlbumViewModel.cs`
-- `src.net/Muine.App/ViewModels/MusicLibraryViewModel.cs`
-- `src.net/Muine.App/ViewModels/PlaylistViewModel.cs`
-- `src.net/Muine.App/ViewModels/MetadataEditorViewModel.cs`
-- `src.net/Muine.App/Views/MusicLibraryView.axaml`
-- `src.net/Muine.App/Views/MusicLibraryView.axaml.cs`
-- `src.net/Muine.App/Views/PlaylistView.axaml`
-- `src.net/Muine.App/Views/PlaylistView.axaml.cs`
-- `src.net/Muine.App/Views/MetadataEditorWindow.axaml`
-- `src.net/Muine.App/Views/MetadataEditorWindow.axaml.cs`
-- `src.net/Muine.App/Assets/default-cover.svg`
+- `src/Muine.Core/Models/Playlist.cs`
+- `src/Muine.App/ViewModels/ArtistViewModel.cs`
+- `src/Muine.App/ViewModels/AlbumViewModel.cs`
+- `src/Muine.App/ViewModels/MusicLibraryViewModel.cs`
+- `src/Muine.App/ViewModels/PlaylistViewModel.cs`
+- `src/Muine.App/ViewModels/MetadataEditorViewModel.cs`
+- `src/Muine.App/Views/MusicLibraryView.axaml`
+- `src/Muine.App/Views/MusicLibraryView.axaml.cs`
+- `src/Muine.App/Views/PlaylistView.axaml`
+- `src/Muine.App/Views/PlaylistView.axaml.cs`
+- `src/Muine.App/Views/MetadataEditorWindow.axaml`
+- `src/Muine.App/Views/MetadataEditorWindow.axaml.cs`
+- `src/Muine.App/Assets/default-cover.svg`
 
 ### Modified Files (3)
-- `src.net/Muine.Core/Services/MusicDatabaseService.cs` - Added grouping and search
-- `src.net/Muine.App/ViewModels/MainWindowViewModel.cs` - Added playlist integration
-- `src.net/Muine.App/Views/MainWindow.axaml` - Added tab navigation
+- `src/Muine.Core/Services/MusicDatabaseService.cs` - Added grouping and search
+- `src/Muine.App/ViewModels/MainWindowViewModel.cs` - Added playlist integration
+- `src/Muine.App/Views/MainWindow.axaml` - Added tab navigation
 
 ## Conclusion
 
