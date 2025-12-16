@@ -16,6 +16,7 @@ public partial class MainWindow : Window
 {
     private bool _isSliderPressed = false;
     private Thumb? _sliderThumb;
+    private Slider? _positionSlider;
 
     public MainWindow()
     {
@@ -28,11 +29,11 @@ public partial class MainWindow : Window
     private void OnWindowLoaded(object? sender, RoutedEventArgs e)
     {
         // Find the slider and its thumb
-        var slider = this.FindControl<Slider>("PositionSlider");
-        if (slider != null)
+        _positionSlider = this.FindControl<Slider>("PositionSlider");
+        if (_positionSlider != null)
         {
             // Find the Thumb within the slider's visual tree
-            _sliderThumb = FindThumbInSlider(slider);
+            _sliderThumb = FindThumbInSlider(_positionSlider);
             if (_sliderThumb != null)
             {
                 Console.WriteLine("Found slider thumb, attaching events");
@@ -65,29 +66,21 @@ public partial class MainWindow : Window
 
     private void OnThumbDragDelta(object? sender, VectorEventArgs e)
     {
-        if (_isSliderPressed && DataContext is MainWindowViewModel viewModel)
+        if (_isSliderPressed && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
-            var slider = this.FindControl<Slider>("PositionSlider");
-            if (slider != null)
-            {
-                Console.WriteLine($"OnThumbDragDelta: Value={slider.Value}");
-                viewModel.UpdateSeekPreview(slider.Value);
-            }
+            Console.WriteLine($"OnThumbDragDelta: Value={_positionSlider.Value}");
+            viewModel.UpdateSeekPreview(_positionSlider.Value);
         }
     }
 
     private void OnThumbDragCompleted(object? sender, VectorEventArgs e)
     {
         Console.WriteLine("OnThumbDragCompleted called");
-        if (_isSliderPressed && DataContext is MainWindowViewModel viewModel)
+        if (_isSliderPressed && _positionSlider != null && DataContext is MainWindowViewModel viewModel)
         {
             _isSliderPressed = false;
-            var slider = this.FindControl<Slider>("PositionSlider");
-            if (slider != null)
-            {
-                Console.WriteLine($"OnThumbDragCompleted: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
-                viewModel.EndSeeking(slider.Value);
-            }
+            Console.WriteLine($"OnThumbDragCompleted: slider.Value={_positionSlider.Value}, slider.Maximum={_positionSlider.Maximum}");
+            viewModel.EndSeeking(_positionSlider.Value);
         }
     }
 
