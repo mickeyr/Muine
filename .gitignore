@@ -109,3 +109,6 @@ UpgradeLog*.XML
 bin/
 obj/
 *.user
+
+# Ignore AvaloniaUI.MCP directory (appears to be a submodule/external tool)
+AvaloniaUI.MCP/

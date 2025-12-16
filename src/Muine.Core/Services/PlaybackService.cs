@@ -18,6 +18,7 @@ public class PlaybackService : IDisposable
     private readonly LibVLC? _libVLC;
     private readonly MediaPlayer? _mediaPlayer;
     private Song? _currentSong;
+    private RadioStation? _currentRadioStation;
     private Timer? _positionTimer;
     private bool _disposed;
     private float _volume = 50f;
@@ -25,9 +26,12 @@ public class PlaybackService : IDisposable
     public event EventHandler<PlaybackState>? StateChanged;
     public event EventHandler<TimeSpan>? PositionChanged;
     public event EventHandler<Song?>? CurrentSongChanged;
+    public event EventHandler<RadioStation?>? CurrentRadioStationChanged;
 
     public PlaybackState State { get; private set; } = PlaybackState.Stopped;
     public Song? CurrentSong => _currentSong;
+    public RadioStation? CurrentRadioStation => _currentRadioStation;
+    public bool IsPlayingRadio => _currentRadioStation != null;
     public TimeSpan Position { get; private set; }
     public TimeSpan Duration { get; private set; }
     public float Volume
@@ -121,9 +125,46 @@ public class PlaybackService : IDisposable
                 var newVolume = (int)(100 * linearGain);
                 _mediaPlayer.Volume = Math.Clamp(newVolume, 0, 200);
             }
+            else
+            {
+                _mediaPlayer.Volume = (int)_volume;
+            }
 
             _currentSong = song;
+            _currentRadioStation = null;
             CurrentSongChanged?.Invoke(this, _currentSong);
+            CurrentRadioStationChanged?.Invoke(this, null);
+
+            _mediaPlayer.Play();
+        });
+    }
+
+    public async Task PlayRadioAsync(RadioStation station)
+    {
+        if (_mediaPlayer == null)
+        {
+            throw new InvalidOperationException("Media player not initialized. LibVLC may not be available on this system.");
+        }
+
+        ArgumentNullException.ThrowIfNull(station);
+
+        if (string.IsNullOrEmpty(station.Url))
+        {
+            throw new ArgumentException("Radio station URL cannot be empty.");
+        }
+
+        await Task.Run(() =>
+        {
+            Stop();
+
+            var media = new Media(_libVLC!, station.Url, FromType.FromLocation);
+            _mediaPlayer.Media = media;
+            _mediaPlayer.Volume = (int)_volume;
+
+            _currentRadioStation = station;
+            _currentSong = null;
+            CurrentRadioStationChanged?.Invoke(this, _currentRadioStation);
+            CurrentSongChanged?.Invoke(this, null);
 
             _mediaPlayer.Play();
         });
@@ -136,9 +177,9 @@ public class PlaybackService : IDisposable
             throw new InvalidOperationException("Media player not initialized.");
         }
 
-        if (_currentSong == null)
+        if (_currentSong == null && _currentRadioStation == null)
         {
-            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
+            throw new InvalidOperationException("No media loaded. Call PlayAsync or PlayRadioAsync first.");
         }
 
         _mediaPlayer.Play();
@@ -174,9 +215,9 @@ public class PlaybackService : IDisposable
             throw new InvalidOperationException("Media player not initialized.");
         }
 
-        if (_currentSong == null)
+        if (_currentSong == null && _currentRadioStation == null)
         {
-            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
+            throw new InvalidOperationException("No media loaded. Call PlayAsync or PlayRadioAsync first.");
         }
 
         if (State == PlaybackState.Playing)
@@ -196,9 +237,15 @@ public class PlaybackService : IDisposable
             throw new InvalidOperationException("Media player not initialized.");
         }
 
-        if (_currentSong == null)
+        if (_currentSong == null && _currentRadioStation == null)
         {
-            throw new InvalidOperationException("No song loaded. Call PlayAsync first.");
+            throw new InvalidOperationException("No media loaded. Call PlayAsync or PlayRadioAsync first.");
+        }
+
+        // Radio streams are typically not seekable
+        if (_currentRadioStation != null)
+        {
+            throw new InvalidOperationException("Cannot seek in radio streams");
         }
 
         // Check if media is seekable

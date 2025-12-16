@@ -1,0 +1,139 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Muine.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+        x:Class="Muine.App.Views.AddRadioStationWindow"
+        x:DataType="vm:AddRadioStationViewModel"
+        Title="{Binding WindowTitle}"
+        Width="600" Height="500"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <!-- Form -->
+        <ScrollViewer Grid.Row="0">
+            <StackPanel Spacing="15">
+                <!-- URL -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Stream URL *" FontWeight="Bold"/>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBox Grid.Column="0" 
+                                 Text="{Binding Url}" 
+                                 Watermark="http://example.com/stream or .pls/.m3u URL"/>
+                        <Button Grid.Column="1" 
+                                Name="ExtractMetadataButton"
+                                Content="Extract Metadata" 
+                                Click="OnExtractMetadataClick"
+                                IsEnabled="{Binding !IsExtracting}"
+                                Margin="10,0,0,0"
+                                Width="140"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Name -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Station Name *" FontWeight="Bold"/>
+                    <TextBox Text="{Binding Name}" Watermark="Enter station name"/>
+                </StackPanel>
+
+                <!-- Genre -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Genre" FontWeight="Bold"/>
+                    <TextBox Text="{Binding Genre}" Watermark="e.g., Rock, Jazz, News"/>
+                </StackPanel>
+
+                <!-- Location -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Location" FontWeight="Bold"/>
+                    <TextBox Text="{Binding Location}" Watermark="e.g., Nashville, Atlanta"/>
+                </StackPanel>
+
+                <!-- Category -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <StackPanel Grid.Column="0" Spacing="5">
+                        <TextBlock Text="Parent Category" FontWeight="Bold"/>
+                        <ComboBox ItemsSource="{Binding AvailableParentCategories}"
+                                  SelectedItem="{Binding ParentCategory}"
+                                  IsEditable="True"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock Text="e.g., Sports, Music" 
+                                   Foreground="Gray" 
+                                   FontSize="10"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Spacing="5">
+                        <TextBlock Text="Sub Category" FontWeight="Bold"/>
+                        <ComboBox ItemsSource="{Binding AvailableCategories}"
+                                  SelectedItem="{Binding Category}"
+                                  IsEditable="True"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock Text="e.g., Nashville, Atlanta" 
+                                   Foreground="Gray" 
+                                   FontSize="10"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Description -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Description" FontWeight="Bold"/>
+                    <TextBox Text="{Binding Description}" 
+                             Watermark="Optional description"
+                             Height="60"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Website -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Website" FontWeight="Bold"/>
+                    <TextBox Text="{Binding Website}" Watermark="https://..."/>
+                </StackPanel>
+
+                <!-- Bitrate -->
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Bitrate (kbps)" FontWeight="Bold"/>
+                    <NumericUpDown Value="{Binding Bitrate}" 
+                                   Minimum="0" 
+                                   Maximum="999"
+                                   Increment="32"
+                                   FormatString="0"/>
+                </StackPanel>
+
+                <!-- Status Message -->
+                <TextBlock Text="{Binding StatusMessage}" 
+                           Foreground="{Binding IsExtracting, Converter={StaticResource BoolToColorConverter}}"
+                           FontStyle="Italic"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Spacing="10"
+                    Margin="0,20,0,0">
+            <Button Content="Save" 
+                    Name="SaveButton"
+                    Width="100"
+                    Click="OnSaveClick"/>
+            <Button Content="Cancel" 
+                    Name="CancelButton"
+                    Width="100"
+                    Click="OnCancelClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

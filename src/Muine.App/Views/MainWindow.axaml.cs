@@ -258,6 +258,67 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void OnRadioStationDoubleClick(object? sender, RadioStation station)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            try
+            {
+                await viewModel.PlayRadioStationAsync(station);
+            }
+            catch
+            {
+                // ViewModel handles error display via StatusMessage
+            }
+        }
+    }
+
+    private async void OnAddRadioStationRequested(object? sender, EventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            var editorVm = viewModel.CreateRadioStationEditor();
+            var editorWindow = new AddRadioStationWindow
+            {
+                DataContext = editorVm
+            };
+
+            await editorWindow.ShowDialog(this);
+            
+            if (editorWindow.WasSaved)
+            {
+                await viewModel.RefreshRadioStationsAsync();
+            }
+        }
+    }
+
+    private async void OnEditRadioStationRequested(object? sender, RadioStation station)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            var editorVm = viewModel.CreateRadioStationEditor(station);
+            var editorWindow = new AddRadioStationWindow
+            {
+                DataContext = editorVm
+            };
+
+            await editorWindow.ShowDialog(this);
+            
+            if (editorWindow.WasSaved)
+            {
+                await viewModel.RefreshRadioStationsAsync();
+            }
+        }
+    }
+
+    private async void OnRadioRefreshRequested(object? sender, EventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            await viewModel.RefreshRadioStationsAsync();
+        }
+    }
+
     // Keep fallback pointer handlers in case Thumb events don't work
 
 }
