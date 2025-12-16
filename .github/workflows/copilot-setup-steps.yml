@@ -27,9 +27,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      - name: Checkout code
-        uses: actions/checkout@v5
         with:
           repository: decriptor/AvaloniaUI.MCP.git
           path: AvaloniaUI.MCP     
