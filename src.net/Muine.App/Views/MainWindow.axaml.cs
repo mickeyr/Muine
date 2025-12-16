@@ -21,6 +21,7 @@ public partial class MainWindow : Window
     private double _pressedSliderValue;
     private double _lastProgrammaticValue = 0;
     private DateTime _lastPointerSeekTime = DateTime.MinValue;
+    private bool _hasMovedDuringPress = false;
 
     public MainWindow()
     {
@@ -278,8 +279,9 @@ public partial class MainWindow : Window
         Console.WriteLine($"OnSliderPointerPressed called (fallback)");
         if (!_isDraggingThumb && !_isSliderPressed && sender is Slider slider)
         {
-            // This is a click on the track, not the thumb
+            // This is a click, possibly start of a drag
             _isSliderPressed = true;
+            _hasMovedDuringPress = false;
             _pressedSliderValue = slider.Value;
             Console.WriteLine($"Track click detected at value: {slider.Value}");
             
@@ -294,6 +296,7 @@ public partial class MainWindow : Window
     {
         if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
+            _hasMovedDuringPress = true;
             Console.WriteLine($"OnSliderPointerMoved: Value={slider.Value}");
             viewModel.UpdateSeekPreview(slider.Value);
         }
@@ -305,9 +308,15 @@ public partial class MainWindow : Window
         if (_isSliderPressed && !_isDraggingThumb && sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
             _isSliderPressed = false;
-            Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
-            viewModel.EndSeeking(slider.Value);
+            
+            // If there was no movement, this was a click (not a drag), so seek immediately to pressed value
+            // If there was movement, seek to the final position
+            var seekValue = _hasMovedDuringPress ? slider.Value : _pressedSliderValue;
+            
+            Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, seekValue={seekValue}, hasMovedDuringPress={_hasMovedDuringPress}, slider.Maximum={slider.Maximum}");
+            viewModel.EndSeeking(seekValue);
             _lastPointerSeekTime = DateTime.Now;
+            _hasMovedDuringPress = false;
         }
     }
 
