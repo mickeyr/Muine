@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -175,6 +176,7 @@ public partial class MainWindow : Window
     {
         if (sender is Slider slider && DataContext is MainWindowViewModel viewModel)
         {
+            Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
             viewModel.EndSeeking(slider.Value);
         }
     }

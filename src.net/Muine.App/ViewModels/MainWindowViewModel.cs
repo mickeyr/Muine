@@ -676,21 +676,34 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public void EndSeeking(double position)
     {
-        _isUserSeeking = false;
-        
-        // Perform the actual seek
         try
         {
             var duration = _playbackService.Duration;
+            Console.WriteLine($"EndSeeking: position={position}, duration={duration.TotalSeconds}, CurrentSong={_playbackService.CurrentSong?.DisplayName}");
+            
             if (duration.TotalSeconds > 0)
             {
                 var seekPosition = TimeSpan.FromSeconds(position);
+                Console.WriteLine($"Seeking to: {seekPosition}");
                 _playbackService.Seek(seekPosition);
+                
+                // Update UI immediately after seek
+                _isUserSeeking = false;
+                CurrentPosition = position;
+                TimeDisplay = $"{FormatTime(seekPosition)} / {FormatTime(duration)}";
+                StatusMessage = $"Seeked to {FormatTime(seekPosition)}";
+            }
+            else
+            {
+                Console.WriteLine("Cannot seek: duration is 0");
+                _isUserSeeking = false;
             }
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"Seek error: {ex.Message}");
             StatusMessage = $"Error seeking: {ex.Message}";
+            _isUserSeeking = false;
         }
     }
 
