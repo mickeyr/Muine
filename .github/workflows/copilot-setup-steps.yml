@@ -30,6 +30,7 @@ jobs:
         with:
           repository: decriptor/AvaloniaUI.MCP.git
           path: AvaloniaUI.MCP     
+          ref: main
       
       - name: Build AvaloniaUI.MCP
         run: |
