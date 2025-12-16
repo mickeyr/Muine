@@ -89,7 +89,7 @@ Needed:
 - Platform integration (media keys, notifications)
 - Plugin system modernization
 
-## Quick Start for Developers
+### Quick Start for Developers
 
 ### Build & Test
 ```bash
@@ -100,14 +100,14 @@ dotnet test
 
 ### Run Application
 ```bash
-cd src.net/Muine.App
+cd src/Muine.App
 dotnet run
 ```
 
 ### Project Structure
 ```
 Muine/
-├── src.net/
+├── src/
 │   ├── Muine.App/              # Avalonia UI
 │   │   ├── Views/              # XAML views
 │   │   └── ViewModels/         # View models (basic scaffolding)

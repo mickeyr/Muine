@@ -1,8 +1,0 @@
-prefix=@prefix@
-exec_prefix=${prefix}
-libdir=@libdir@
-                                                                                
-Name: Muine
-Description: Muine - GNOME music player
-Version: @VERSION@
-Libs: -r:${libdir}/muine/muine-dbus.dll

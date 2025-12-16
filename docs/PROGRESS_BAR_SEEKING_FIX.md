@@ -79,19 +79,19 @@ Changed the binding mode to prevent playback updates from affecting user interac
 - **Eliminates VLC errors**: The "Invalid PCR" errors are eliminated because we no longer seek continuously
 
 ## Files Modified
-1. `src.net/Muine.App/ViewModels/MainWindowViewModel.cs`
+1. `src/Muine.App/ViewModels/MainWindowViewModel.cs`
    - Added `_isUserSeeking` flag
    - Added `CanSeek` property
    - Added `BeginSeeking()`, `UpdateSeekPreview()`, and `EndSeeking()` methods
    - Modified `OnPlaybackPositionChanged()` to respect seeking state
    - Modified `OnCurrentSongChanged()` to notify CanSeek changes
 
-2. `src.net/Muine.App/Views/MainWindow.axaml`
+2. `src/Muine.App/Views/MainWindow.axaml`
    - Changed slider binding from TwoWay to OneWay
    - Added PointerPressed, PointerMoved, and PointerReleased event handlers
    - Changed IsEnabled from IsPlaying to CanSeek
 
-3. `src.net/Muine.App/Views/MainWindow.axaml.cs`
+3. `src/Muine.App/Views/MainWindow.axaml.cs`
    - Added `OnSliderPointerPressed`, `OnSliderPointerMoved`, and `OnSliderPointerReleased` handlers
 
 ## Testing
