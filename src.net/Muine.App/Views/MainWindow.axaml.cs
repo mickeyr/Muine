@@ -20,6 +20,7 @@ public partial class MainWindow : Window
     private Slider? _positionSlider;
     private double _pressedSliderValue;
     private double _lastProgrammaticValue = 0;
+    private DateTime _lastPointerSeekTime = DateTime.MinValue;
 
     public MainWindow()
     {
@@ -86,6 +87,7 @@ public partial class MainWindow : Window
             _isDraggingThumb = false;
             Console.WriteLine($"OnThumbDragCompleted: slider.Value={_positionSlider.Value}, slider.Maximum={_positionSlider.Maximum}");
             viewModel.EndSeeking(_positionSlider.Value);
+            _lastPointerSeekTime = DateTime.Now;
         }
     }
 
@@ -98,6 +100,16 @@ public partial class MainWindow : Window
         if (_isDraggingThumb || _isSliderPressed)
         {
             Console.WriteLine($"OnSliderValueChanged: Ignoring during drag/press (_isDraggingThumb={_isDraggingThumb}, _isSliderPressed={_isSliderPressed})");
+            return;
+        }
+
+        // Ignore if we just completed a pointer-based seek within the last 100ms
+        // This prevents double-seeking when pointer events trigger a value change
+        var timeSinceLastPointerSeek = DateTime.Now - _lastPointerSeekTime;
+        if (timeSinceLastPointerSeek.TotalMilliseconds < 100)
+        {
+            Console.WriteLine($"OnSliderValueChanged: Ignoring, recent pointer seek ({timeSinceLastPointerSeek.TotalMilliseconds}ms ago)");
+            _lastProgrammaticValue = e.NewValue;
             return;
         }
 
@@ -295,6 +307,7 @@ public partial class MainWindow : Window
             _isSliderPressed = false;
             Console.WriteLine($"OnSliderPointerReleased: slider.Value={slider.Value}, slider.Maximum={slider.Maximum}");
             viewModel.EndSeeking(slider.Value);
+            _lastPointerSeekTime = DateTime.Now;
         }
     }
 
