@@ -28,15 +28,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Checkout code
-        uses: actions/checkout@v5
-        with:
-          repository: decriptor/AvaloniaUI.MCP.git
-          path: AvaloniaUI.MCP     
-      
-      - name: Build AvaloniaUI.MCP
-        run: |
-          cd AvaloniaUI.MCP
-          dotnet build AvaloniaUI.MCP.sln -c Release
+      # - name: Checkout code
+      #   uses: actions/checkout@v5
+      #   with:
+      #     repository: decriptor/AvaloniaUI.MCP.git
+      #     path: AvaloniaUI.MCP
 
-
+      # - name: Build AvaloniaUI.MCP
+      #   run: |
+      #     cd AvaloniaUI.MCP
+      #     dotnet build AvaloniaUI.MCP.sln -c Release
