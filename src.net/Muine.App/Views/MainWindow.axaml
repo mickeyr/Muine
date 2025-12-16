@@ -68,6 +68,7 @@
                                 Maximum="{Binding MaxPosition}" 
                                 Value="{Binding CurrentPosition, Mode=OneWay}"
                                 IsEnabled="{Binding CanSeek}"
+                                ValueChanged="OnSliderValueChanged"
                                 PointerPressed="OnSliderPointerPressed"
                                 PointerMoved="OnSliderPointerMoved"
                                 PointerReleased="OnSliderPointerReleased"

@@ -19,6 +19,7 @@ public partial class MainWindow : Window
     private Thumb? _sliderThumb;
     private Slider? _positionSlider;
     private double _pressedSliderValue;
+    private double _lastProgrammaticValue = 0;
 
     public MainWindow()
     {
@@ -86,6 +87,40 @@ public partial class MainWindow : Window
             Console.WriteLine($"OnThumbDragCompleted: slider.Value={_positionSlider.Value}, slider.Maximum={_positionSlider.Maximum}");
             viewModel.EndSeeking(_positionSlider.Value);
         }
+    }
+
+    private void OnSliderValueChanged(object? sender, Avalonia.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        if (sender is not Slider slider || DataContext is not MainWindowViewModel viewModel)
+            return;
+
+        // Ignore if we're in the middle of dragging or already handling a press
+        if (_isDraggingThumb || _isSliderPressed)
+        {
+            Console.WriteLine($"OnSliderValueChanged: Ignoring during drag/press (_isDraggingThumb={_isDraggingThumb}, _isSliderPressed={_isSliderPressed})");
+            return;
+        }
+
+        // Check if this is a small change that's likely from playback updates
+        var valueDiff = Math.Abs(e.NewValue - e.OldValue);
+        
+        // If the change is very small (< 0.5 seconds), it's likely a playback update
+        // User clicks typically make larger jumps
+        if (valueDiff < 0.5)
+        {
+            Console.WriteLine($"OnSliderValueChanged: Ignoring small change ({valueDiff}s), likely playback update");
+            _lastProgrammaticValue = e.NewValue;
+            return;
+        }
+
+        // This is likely a track click - significant value change without drag/press events
+        // This happens when clicking directly on the slider track
+        Console.WriteLine($"OnSliderValueChanged: Detected track click, oldValue={e.OldValue}, newValue={e.NewValue}, diff={valueDiff}");
+        
+        // Perform the seek immediately for track clicks
+        _lastProgrammaticValue = e.NewValue;
+        viewModel.BeginSeeking();
+        viewModel.EndSeeking(e.NewValue);
     }
 
     private async void OnImportMusicFolderClick(object? sender, RoutedEventArgs e)
