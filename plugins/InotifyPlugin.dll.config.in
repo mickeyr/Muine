@@ -1,3 +1,0 @@
-<configuration>
-  <dllmap dll="libinotifyglue" target="@pkglibdir@/libinotifyglue.so"/>
-</configuration>

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src.net\Muine.Core\Muine.Core.csproj" />
+    <ProjectReference Include="..\src\Muine.Core\Muine.Core.csproj" />
   </ItemGroup>
 
 </Project>

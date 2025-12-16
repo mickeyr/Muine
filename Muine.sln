@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src.net", "src.net", "{412DFD30-B640-BE0F-5CED-9B08EC57C601}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{412DFD30-B640-BE0F-5CED-9B08EC57C601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muine.App", "src.net\Muine.App\Muine.App.csproj", "{CBDDD12B-436D-4BF1-9E05-FA30A2B9962E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muine.App", "src\Muine.App\Muine.App.csproj", "{CBDDD12B-436D-4BF1-9E05-FA30A2B9962E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muine.Core", "src.net\Muine.Core\Muine.Core.csproj", "{B89AD4A5-8059-4057-A63C-98A7A47BE540}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Muine.Core", "src\Muine.Core\Muine.Core.csproj", "{B89AD4A5-8059-4057-A63C-98A7A47BE540}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
 EndProject
