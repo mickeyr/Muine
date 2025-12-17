@@ -208,35 +208,78 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         {
             Console.WriteLine($"[MPRIS] Emitting PropertyChanged signal for {interfaceName} with {changedProperties.Count} properties to {watchers.Count} watchers");
             
-            // After research: WatchPropertiesAsync handlers are for RECEIVING signals from other objects,
-            // not for emitting them. Invoking these handlers won't emit D-Bus signals.
-            // 
-            // The correct approach for server-side signal emission in Tmds.DBus is to:
-            // 1. Implement a signal event/action that Tmds.DBus can hook into
-            // 2. OR use a MessageWriter to manually construct and send the signal
-            // 3. OR rely on Tmds.DBus's automatic signal generation (if supported)
+            // CRITICAL INSIGHT from stack trace:
+            // Tmds.DBus generated MprisObjectAdapter.Emitorg_mpris_MediaPlayer2_Player_Properties(PropertyChanges)
+            // The signal emission mechanism IS working, we just need a valid PropertyChanges struct.
             //
-            // For now, let's try invoking the watchers with proper exception logging
-            // to understand what's failing
+            // PropertyChanges struct must have:
+            // - Changed: IDictionary<string, object>  
+            // - Invalidated: string[]
+            //
+            // Let's use RuntimeHelpers.GetUninitializedObject (not obsolete) to create the struct
+            // and then set the backing fields via reflection
             
-            var changes = default(PropertyChanges);
-            
-            foreach (var watcher in watchers.ToArray())
+            try
             {
-                try
+                var propertyChangesType = typeof(PropertyChanges);
+                
+                // Create uninitialized instance
+                var changes = (PropertyChanges)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(propertyChangesType);
+                
+                // Find and set the backing fields
+                // Try both with and without the compiler-generated naming pattern
+                var allFields = propertyChangesType.GetFields(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                
+                Console.WriteLine($"[MPRIS] PropertyChanges has {allFields.Length} fields");
+                foreach (var field in allFields)
                 {
-                    watcher(changes);
-                    Console.WriteLine($"[MPRIS] Successfully invoked property watcher for {interfaceName}");
+                    Console.WriteLine($"[MPRIS]   Field: {field.Name}, Type: {field.FieldType.Name}");
                 }
-                catch (Exception ex)
+                
+                var changedField = allFields.FirstOrDefault(f => f.Name.Contains("Changed"));
+                var invalidatedField = allFields.FirstOrDefault(f => f.Name.Contains("Invalidated"));
+                
+                if (changedField != null)
                 {
-                    Console.WriteLine($"[MPRIS] Error invoking property watcher: {ex.GetType().Name}: {ex.Message}");
-                    if (ex.InnerException != null)
+                    changedField.SetValue(changes, changedProperties);
+                    Console.WriteLine($"[MPRIS] ✓ Set Changed field with {changedProperties.Count} properties");
+                }
+                else
+                {
+                    Console.WriteLine("[MPRIS] ✗ Could not find Changed field");
+                }
+                
+                if (invalidatedField != null)
+                {
+                    invalidatedField.SetValue(changes, Array.Empty<string>());
+                    Console.WriteLine("[MPRIS] ✓ Set Invalidated field");
+                }
+                else
+                {
+                    Console.WriteLine("[MPRIS] ✗ Could not find Invalidated field");
+                }
+                
+                // Invoke watchers with the constructed PropertyChanges
+                foreach (var watcher in watchers.ToArray())
+                {
+                    try
                     {
-                        Console.WriteLine($"[MPRIS]   Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                        watcher(changes);
+                        Console.WriteLine($"[MPRIS] ✓ Successfully emitted PropertyChanged signal for {interfaceName}");
                     }
-                    Console.WriteLine($"[MPRIS]   Stack: {ex.StackTrace}");
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[MPRIS] ✗ Error invoking watcher: {ex.GetType().Name}: {ex.Message}");
+                        if (ex.InnerException != null)
+                        {
+                            Console.WriteLine($"[MPRIS]   Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[MPRIS] ✗ Error creating PropertyChanges: {ex.GetType().Name}: {ex.Message}");
             }
         }
         else
