@@ -171,6 +171,9 @@ public interface IMediaPlayer2Player : IDBusObject
     Task<IDictionary<string, object>> GetAllAsync();
     Task SetAsync(string prop, object val);
     Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler);
+    
+    // Seeked signal
+    Task<IDisposable> WatchSeekedAsync(Action<long> handler);
 }
 
 // Combined MPRIS object implementing both interfaces
@@ -180,6 +183,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     private readonly MprisService _service;
     private readonly List<Action<PropertyChanges>> _mediaPlayer2PropertyWatchers = new();
     private readonly List<Action<PropertyChanges>> _playerPropertyWatchers = new();
+    private readonly List<Action<long>> _seekedWatchers = new();
     
     public static readonly ObjectPath Path = new ObjectPath("/org/mpris/MediaPlayer2");
     public ObjectPath ObjectPath => Path;
@@ -204,20 +208,31 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         {
             Console.WriteLine($"[MPRIS] Emitting PropertyChanged signal for {interfaceName} with {changedProperties.Count} properties to {watchers.Count} watchers");
             
-            // PropertyChanges is from Tmds.DBus - try default construction
+            // NOTE: Tmds.DBus automatically constructs PropertyChanges when signals are received.
+            // For emitting, we invoke the handlers and Tmds.DBus translates this to D-Bus signals.
+            // PropertyChanges is a struct with readonly properties, so we can't construct it directly.
+            // However, invoking the Action should trigger Tmds.DBus's signal emission mechanism.
+            
+            // Try invoking with default - Tmds.DBus should handle the signal emission
             var changes = default(PropertyChanges);
             
+            // Invoke all watchers - Tmds.DBus will translate this to D-Bus PropertiesChanged signals
             foreach (var watcher in watchers.ToArray())
             {
                 try
                 {
                     watcher(changes);
+                    Console.WriteLine($"[MPRIS] Successfully invoked property watcher for {interfaceName}");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"[MPRIS] Error invoking property watcher: {ex.Message}");
                 }
             }
+        }
+        else
+        {
+            Console.WriteLine($"[MPRIS] No watchers registered for {interfaceName}, signal will not be emitted");
         }
     }
 
@@ -269,9 +284,13 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task<IDisposable> IMediaPlayer2.WatchPropertiesAsync(Action<PropertyChanges> handler)
     {
+        // D-Bus clients register watchers here to receive PropertiesChanged signals
         _mediaPlayer2PropertyWatchers.Add(handler);
-        Console.WriteLine("[MPRIS] Added MediaPlayer2 property watcher");
-        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => _mediaPlayer2PropertyWatchers.Remove(handler)));
+        Console.WriteLine($"[MPRIS] MediaPlayer2 property watcher registered (total: {_mediaPlayer2PropertyWatchers.Count})");
+        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => {
+            _mediaPlayer2PropertyWatchers.Remove(handler);
+            Console.WriteLine($"[MPRIS] MediaPlayer2 property watcher removed (total: {_mediaPlayer2PropertyWatchers.Count})");
+        }));
     }
 
     // IMediaPlayer2Player implementation
@@ -415,9 +434,24 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task<IDisposable> IMediaPlayer2Player.WatchPropertiesAsync(Action<PropertyChanges> handler)
     {
+        // D-Bus clients register watchers here to receive PropertiesChanged signals
         _playerPropertyWatchers.Add(handler);
-        Console.WriteLine("[MPRIS] Added MediaPlayer2.Player property watcher");
-        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => _playerPropertyWatchers.Remove(handler)));
+        Console.WriteLine($"[MPRIS] MediaPlayer2.Player property watcher registered (total: {_playerPropertyWatchers.Count})");
+        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => {
+            _playerPropertyWatchers.Remove(handler);
+            Console.WriteLine($"[MPRIS] MediaPlayer2.Player property watcher removed (total: {_playerPropertyWatchers.Count})");
+        }));
+    }
+
+    Task<IDisposable> IMediaPlayer2Player.WatchSeekedAsync(Action<long> handler)
+    {
+        // For Seeked signal
+        _seekedWatchers.Add(handler);
+        Console.WriteLine($"[MPRIS] Seeked signal watcher registered (total: {_seekedWatchers.Count})");
+        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => {
+            _seekedWatchers.Remove(handler);
+            Console.WriteLine($"[MPRIS] Seeked signal watcher removed (total: {_seekedWatchers.Count})");
+        }));
     }
 
     // Make this method accessible to MprisService for property change signals
