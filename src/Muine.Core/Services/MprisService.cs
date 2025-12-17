@@ -208,15 +208,19 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         {
             Console.WriteLine($"[MPRIS] Emitting PropertyChanged signal for {interfaceName} with {changedProperties.Count} properties to {watchers.Count} watchers");
             
-            // NOTE: Tmds.DBus automatically constructs PropertyChanges when signals are received.
-            // For emitting, we invoke the handlers and Tmds.DBus translates this to D-Bus signals.
-            // PropertyChanges is a struct with readonly properties, so we can't construct it directly.
-            // However, invoking the Action should trigger Tmds.DBus's signal emission mechanism.
+            // After research: WatchPropertiesAsync handlers are for RECEIVING signals from other objects,
+            // not for emitting them. Invoking these handlers won't emit D-Bus signals.
+            // 
+            // The correct approach for server-side signal emission in Tmds.DBus is to:
+            // 1. Implement a signal event/action that Tmds.DBus can hook into
+            // 2. OR use a MessageWriter to manually construct and send the signal
+            // 3. OR rely on Tmds.DBus's automatic signal generation (if supported)
+            //
+            // For now, let's try invoking the watchers with proper exception logging
+            // to understand what's failing
             
-            // Try invoking with default - Tmds.DBus should handle the signal emission
             var changes = default(PropertyChanges);
             
-            // Invoke all watchers - Tmds.DBus will translate this to D-Bus PropertiesChanged signals
             foreach (var watcher in watchers.ToArray())
             {
                 try
@@ -226,7 +230,12 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[MPRIS] Error invoking property watcher: {ex.Message}");
+                    Console.WriteLine($"[MPRIS] Error invoking property watcher: {ex.GetType().Name}: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        Console.WriteLine($"[MPRIS]   Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                    }
+                    Console.WriteLine($"[MPRIS]   Stack: {ex.StackTrace}");
                 }
             }
         }
