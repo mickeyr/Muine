@@ -58,7 +58,11 @@ public partial class RadioViewModel : ViewModelBase
             await BuildCategoryTreeAsync();
             
             // Initially show all stations
-            Stations = new ObservableCollection<RadioStation>(stations);
+            Stations.Clear();
+            foreach (var station in stations)
+            {
+                Stations.Add(station);
+            }
             StatusMessage = $"Loaded {stations.Count} radio stations";
         }
         catch (Exception ex)
@@ -79,7 +83,11 @@ public partial class RadioViewModel : ViewModelBase
         try
         {
             var stations = await _radioStationService.SearchStationsAsync(SearchQuery);
-            Stations = new ObservableCollection<RadioStation>(stations);
+            Stations.Clear();
+            foreach (var station in stations)
+            {
+                Stations.Add(station);
+            }
             StatusMessage = $"Found {stations.Count} stations";
         }
         catch (Exception ex)
@@ -177,9 +185,13 @@ public partial class RadioViewModel : ViewModelBase
     {
         if (value != null)
         {
-            var stationsList = new ObservableCollection<RadioStation>(value.Stations);
-            Stations = stationsList;
-            StatusMessage = $"Showing {stationsList.Count} stations in '{value.Name}'";
+            // Clear and repopulate the existing collection instead of replacing it
+            Stations.Clear();
+            foreach (var station in value.Stations)
+            {
+                Stations.Add(station);
+            }
+            StatusMessage = $"Showing {Stations.Count} stations in '{value.Name}'";
         }
     }
 }
