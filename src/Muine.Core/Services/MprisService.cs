@@ -212,8 +212,11 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task IMediaPlayer2.SetAsync(string prop, object val) => Task.CompletedTask;
 
-    Task<IDisposable> IMediaPlayer2.WatchPropertiesAsync(Action<PropertyChanges> handler) =>
-        Task.FromResult<IDisposable>(null!);
+    Task<IDisposable> IMediaPlayer2.WatchPropertiesAsync(Action<PropertyChanges> handler)
+    {
+        // Return a no-op disposable since we don't emit property change signals yet
+        return Task.FromResult<IDisposable>(new NoOpDisposable());
+    }
 
     // IMediaPlayer2Player implementation
     Task IMediaPlayer2Player.PlayAsync()
@@ -341,8 +344,11 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         return Task.CompletedTask;
     }
 
-    Task<IDisposable> IMediaPlayer2Player.WatchPropertiesAsync(Action<PropertyChanges> handler) =>
-        Task.FromResult<IDisposable>(null!);
+    Task<IDisposable> IMediaPlayer2Player.WatchPropertiesAsync(Action<PropertyChanges> handler)
+    {
+        // Return a no-op disposable since we don't emit property change signals yet
+        return Task.FromResult<IDisposable>(new NoOpDisposable());
+    }
 
     private string GetPlaybackStatus()
     {
@@ -396,5 +402,14 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         }
 
         return metadata;
+    }
+}
+
+// No-op IDisposable implementation for signal subscriptions
+internal class NoOpDisposable : IDisposable
+{
+    public void Dispose()
+    {
+        // No-op
     }
 }
