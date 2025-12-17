@@ -120,9 +120,40 @@ public partial class RadioViewModel : ViewModelBase
 
         try
         {
+            // Store the category info before deletion to check if it becomes empty
+            var categoryBeforeDeletion = station.FullCategory;
+            
             await _radioStationService.DeleteStationAsync(station.Id);
             Stations.Remove(station);
-            StatusMessage = $"Deleted '{station.Name}'";
+            
+            // Rebuild category tree to reflect the deletion
+            await BuildCategoryTreeAsync();
+            
+            // Check if the category the station was in still exists
+            var categoryStillExists = CategoryTree.Any(node => 
+                node.Name == categoryBeforeDeletion || 
+                node.Children.Any(child => $"{node.Name} > {child.Name}" == categoryBeforeDeletion));
+            
+            // If the category no longer exists (it was empty after deletion), show all stations
+            if (!categoryStillExists && !string.IsNullOrEmpty(categoryBeforeDeletion))
+            {
+                // Load all stations to show the full list
+                var allStations = await _radioStationService.GetAllStationsAsync();
+                Stations.Clear();
+                foreach (var s in allStations)
+                {
+                    Stations.Add(s);
+                }
+                
+                // Clear the selected category to indicate we're showing all stations
+                SelectedCategory = null;
+                
+                StatusMessage = $"Deleted '{station.Name}' - category '{categoryBeforeDeletion}' was removed (empty)";
+            }
+            else
+            {
+                StatusMessage = $"Deleted '{station.Name}'";
+            }
         }
         catch (Exception ex)
         {

@@ -92,7 +92,8 @@
                         <TextBox Name="OnlineSearchBox" 
                                  Text="{Binding OnlineSearchQuery}" 
                                  Watermark="Enter name, city, or genre..." 
-                                 Width="400"/>
+                                 Width="400"
+                                 KeyDown="OnOnlineSearchBoxKeyDown"/>
                         <Button Content="Search Online" 
                                 Name="SearchOnlineButton" 
                                 Click="OnSearchOnlineClick"

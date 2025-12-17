@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Muine.App.ViewModels;
 using Muine.Core.Models;
@@ -116,6 +117,14 @@ public partial class RadioView : UserControl
         if (DataContext is RadioViewModel vm && vm.SelectedOnlineStation != null)
         {
             StationDoubleClicked?.Invoke(this, vm.SelectedOnlineStation);
+        }
+    }
+
+    private async void OnOnlineSearchBoxKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && DataContext is RadioViewModel vm)
+        {
+            await vm.SearchOnlineAsync();
         }
     }
 }
