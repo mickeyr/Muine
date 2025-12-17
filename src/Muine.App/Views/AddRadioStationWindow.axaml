@@ -54,7 +54,6 @@
                     <StackPanel Grid.Column="0" Spacing="5">
                         <TextBlock Text="Parent Category" FontWeight="Bold"/>
                         <AutoCompleteBox ItemsSource="{Binding AvailableParentCategories}"
-                                         SelectedItem="{Binding ParentCategory}"
                                          Text="{Binding ParentCategory, Mode=TwoWay}"
                                          Watermark="Type or select parent category"
                                          HorizontalAlignment="Stretch"/>
@@ -66,7 +65,6 @@
                     <StackPanel Grid.Column="1" Spacing="5">
                         <TextBlock Text="Sub Category" FontWeight="Bold"/>
                         <AutoCompleteBox ItemsSource="{Binding AvailableCategories}"
-                                         SelectedItem="{Binding Category}"
                                          Text="{Binding Category, Mode=TwoWay}"
                                          Watermark="Type or select sub category"
                                          HorizontalAlignment="Stretch"/>
