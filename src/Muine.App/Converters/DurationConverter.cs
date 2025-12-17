@@ -18,7 +18,7 @@ public class DurationConverter : IValueConverter
             // Format as HH:MM:SS if duration is >= 1 hour, otherwise MM:SS
             if (timeSpan.TotalHours >= 1)
             {
-                return timeSpan.ToString(@"h\:mm\:ss");
+                return timeSpan.ToString(@"hh\:mm\:ss");
             }
             else
             {

@@ -247,22 +247,43 @@ public class MusicDatabaseService : IDisposable
         };
 
         // Read YouTube-specific fields if they exist (for backwards compatibility)
-        var sourceTypeOrdinal = reader.GetOrdinal("SourceType");
-        if (sourceTypeOrdinal >= 0 && !reader.IsDBNull(sourceTypeOrdinal))
+        try
         {
-            song.SourceType = (SongSourceType)reader.GetInt32(sourceTypeOrdinal);
+            var sourceTypeOrdinal = reader.GetOrdinal("SourceType");
+            if (!reader.IsDBNull(sourceTypeOrdinal))
+            {
+                song.SourceType = (SongSourceType)reader.GetInt32(sourceTypeOrdinal);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Column doesn't exist in older database schema
         }
 
-        var youtubeIdOrdinal = reader.GetOrdinal("YouTubeId");
-        if (youtubeIdOrdinal >= 0 && !reader.IsDBNull(youtubeIdOrdinal))
+        try
         {
-            song.YouTubeId = reader.GetString(youtubeIdOrdinal);
+            var youtubeIdOrdinal = reader.GetOrdinal("YouTubeId");
+            if (!reader.IsDBNull(youtubeIdOrdinal))
+            {
+                song.YouTubeId = reader.GetString(youtubeIdOrdinal);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Column doesn't exist in older database schema
         }
 
-        var youtubeUrlOrdinal = reader.GetOrdinal("YouTubeUrl");
-        if (youtubeUrlOrdinal >= 0 && !reader.IsDBNull(youtubeUrlOrdinal))
+        try
         {
-            song.YouTubeUrl = reader.GetString(youtubeUrlOrdinal);
+            var youtubeUrlOrdinal = reader.GetOrdinal("YouTubeUrl");
+            if (!reader.IsDBNull(youtubeUrlOrdinal))
+            {
+                song.YouTubeUrl = reader.GetString(youtubeUrlOrdinal);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Column doesn't exist in older database schema
         }
 
         return song;

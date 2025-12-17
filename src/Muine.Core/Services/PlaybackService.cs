@@ -17,6 +17,7 @@ public class PlaybackService : IDisposable
 {
     private readonly LibVLC? _libVLC;
     private readonly MediaPlayer? _mediaPlayer;
+    private readonly YouTubeService? _youtubeService;
     private Song? _currentSong;
     private RadioStation? _currentRadioStation;
     private Timer? _positionTimer;
@@ -63,6 +64,9 @@ public class PlaybackService : IDisposable
 
             // Start position update timer
             _positionTimer = new Timer(UpdatePosition, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
+            
+            // Initialize YouTube service for streaming
+            _youtubeService = new YouTubeService();
         }
         catch (Exception)
         {
@@ -105,35 +109,32 @@ public class PlaybackService : IDisposable
         // For YouTube songs, we need to get the stream URL first
         if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
         {
-            var youtubeService = new YouTubeService();
-            try
+            if (_youtubeService == null)
             {
-                var streamUrl = await youtubeService.GetAudioStreamUrlAsync(song.YouTubeId);
-                if (string.IsNullOrEmpty(streamUrl))
-                {
-                    throw new InvalidOperationException($"Failed to get audio stream for YouTube video: {song.YouTubeId}");
-                }
-
-                await Task.Run(() =>
-                {
-                    Stop();
-
-                    var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
-                    _mediaPlayer.Media = media;
-                    _mediaPlayer.Volume = (int)_volume;
-
-                    _currentSong = song;
-                    _currentRadioStation = null;
-                    CurrentSongChanged?.Invoke(this, _currentSong);
-                    CurrentRadioStationChanged?.Invoke(this, null);
-
-                    _mediaPlayer.Play();
-                });
+                throw new InvalidOperationException("YouTube service not initialized.");
             }
-            finally
+            
+            var streamUrl = await _youtubeService.GetAudioStreamUrlAsync(song.YouTubeId);
+            if (string.IsNullOrEmpty(streamUrl))
             {
-                youtubeService.Dispose();
+                throw new InvalidOperationException($"Failed to get audio stream for YouTube video: {song.YouTubeId}");
             }
+
+            await Task.Run(() =>
+            {
+                Stop();
+
+                var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
+                _mediaPlayer.Media = media;
+                _mediaPlayer.Volume = (int)_volume;
+
+                _currentSong = song;
+                _currentRadioStation = null;
+                CurrentSongChanged?.Invoke(this, _currentSong);
+                CurrentRadioStationChanged?.Invoke(this, null);
+
+                _mediaPlayer.Play();
+            });
         }
         else
         {
@@ -335,6 +336,7 @@ public class PlaybackService : IDisposable
         _positionTimer?.Dispose();
         _mediaPlayer?.Dispose();
         _libVLC?.Dispose();
+        _youtubeService?.Dispose();
         _disposed = true;
 
         GC.SuppressFinalize(this);

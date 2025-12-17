@@ -47,10 +47,22 @@ public class YouTubeService : IDisposable
 
             return results;
         }
-        catch (Exception)
+        catch (YoutubeExplode.Exceptions.VideoUnavailableException ex)
         {
-            // Return empty list on error
-            // In production, consider using a logging framework
+            // Video is unavailable - log and continue
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Video unavailable: {ex.Message}");
+            return new List<Song>();
+        }
+        catch (System.Net.Http.HttpRequestException ex)
+        {
+            // Network error
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Network error during search: {ex.Message}");
+            return new List<Song>();
+        }
+        catch (Exception ex)
+        {
+            // Unexpected error - log for debugging
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Search failed: {ex.GetType().Name} - {ex.Message}");
             return new List<Song>();
         }
     }
@@ -72,9 +84,14 @@ public class YouTubeService : IDisposable
             var video = await _youtube.Videos.GetAsync(videoId);
             return ConvertToSong(video);
         }
-        catch (Exception)
+        catch (YoutubeExplode.Exceptions.VideoUnavailableException ex)
         {
-            // Return null on error
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Video unavailable: {videoId} - {ex.Message}");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Failed to get metadata for {videoId}: {ex.GetType().Name} - {ex.Message}");
             return null;
         }
     }
@@ -104,9 +121,14 @@ public class YouTubeService : IDisposable
 
             return audioStream?.Url;
         }
-        catch (Exception)
+        catch (YoutubeExplode.Exceptions.VideoUnavailableException ex)
         {
-            // Return null on error
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Video unavailable: {videoId} - {ex.Message}");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[YouTubeService] Failed to get stream URL for {videoId}: {ex.GetType().Name} - {ex.Message}");
             return null;
         }
     }
