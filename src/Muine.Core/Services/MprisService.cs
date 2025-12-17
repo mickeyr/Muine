@@ -93,17 +93,20 @@ public class MprisService : IDisposable
 
     private void OnPlaybackStateChanged(object? sender, PlaybackState state)
     {
-        // Property changed signal could be sent here
+        // Property change notifications would be sent here in a future enhancement
+        // For now, media players poll the properties periodically
     }
 
     private void OnCurrentSongChanged(object? sender, Song? song)
     {
-        // Property changed signal could be sent here
+        // Property change notifications would be sent here in a future enhancement
+        // For now, media players poll the properties periodically
     }
 
     private void OnCurrentRadioStationChanged(object? sender, RadioStation? station)
     {
-        // Property changed signal could be sent here
+        // Property change notifications would be sent here in a future enhancement
+        // For now, media players poll the properties periodically
     }
 
     public void Dispose()
@@ -290,6 +293,8 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task<object> IMediaPlayer2Player.GetAsync(string prop)
     {
+        Console.WriteLine($"[MPRIS] GetAsync called for property: {prop}");
+        
         object value = prop switch
         {
             "PlaybackStatus" => GetPlaybackStatus(),
@@ -309,6 +314,17 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
             "CanControl" => true,
             _ => throw new ArgumentException($"Unknown property: {prop}")
         };
+        
+        if (prop == "Metadata")
+        {
+            var metadata = (IDictionary<string, object>)value;
+            Console.WriteLine($"[MPRIS] Returning Metadata with {metadata.Count} keys:");
+            foreach (var kvp in metadata)
+            {
+                Console.WriteLine($"[MPRIS]   {kvp.Key} = {kvp.Value}");
+            }
+        }
+        
         return Task.FromResult(value);
     }
 
@@ -350,17 +366,16 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         return Task.FromResult<IDisposable>(new NoOpDisposable());
     }
 
-    private string GetPlaybackStatus()
+    // Make this method accessible to MprisService for property change signals
+    internal string GetPlaybackStatus() => _playbackService.State switch
     {
-        return _playbackService.State switch
-        {
-            PlaybackState.Playing => "Playing",
-            PlaybackState.Paused => "Paused",
-            _ => "Stopped"
-        };
-    }
+        PlaybackState.Playing => "Playing",
+        PlaybackState.Paused => "Paused",
+        _ => "Stopped"
+    };
 
-    private IDictionary<string, object> GetMetadata()
+    // Make this method accessible to MprisService for property change signals
+    internal IDictionary<string, object> GetMetadata()
     {
         var metadata = new Dictionary<string, object>();
 
