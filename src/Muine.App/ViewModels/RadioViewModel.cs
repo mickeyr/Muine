@@ -14,7 +14,7 @@ public partial class RadioViewModel : ViewModelBase
 {
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
-    private readonly RadioBrowserService _radioBrowserService;
+    private readonly RadioBrowserService? _radioBrowserService;
 
     private ObservableCollection<RadioStation> _stations = new();
     public ObservableCollection<RadioStation> Stations
@@ -53,7 +53,7 @@ public partial class RadioViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isOnlineSearching;
 
-    public RadioViewModel(RadioStationService radioStationService, RadioMetadataService radioMetadataService, RadioBrowserService radioBrowserService)
+    public RadioViewModel(RadioStationService radioStationService, RadioMetadataService radioMetadataService, RadioBrowserService? radioBrowserService)
     {
         _radioStationService = radioStationService;
         _radioMetadataService = radioMetadataService;
@@ -249,6 +249,12 @@ public partial class RadioViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(OnlineSearchQuery))
         {
             StatusMessage = "Please enter a search term";
+            return;
+        }
+
+        if (_radioBrowserService == null)
+        {
+            StatusMessage = "Online radio search is unavailable (network initialization failed)";
             return;
         }
 

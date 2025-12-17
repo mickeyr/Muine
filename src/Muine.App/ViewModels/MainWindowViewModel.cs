@@ -22,7 +22,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly PlaybackService _playbackService;
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
-    private readonly RadioBrowserService _radioBrowserService;
+    private readonly RadioBrowserService? _radioBrowserService;
     private readonly MprisService? _mprisService;
 
     [ObservableProperty]
@@ -95,7 +95,20 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _coverArtService = new CoverArtService();
         _playbackService = new PlaybackService();
         _radioMetadataService = new RadioMetadataService();
-        _radioBrowserService = new RadioBrowserService();
+        
+        // Initialize RadioBrowserService with error handling
+        // The RadioBrowser library requires DNS resolution which may fail in some environments
+        try
+        {
+            _radioBrowserService = new RadioBrowserService();
+        }
+        catch (Exception ex)
+        {
+            // Log the error but continue - radio browser search won't work but the app can still function
+            System.Diagnostics.Debug.WriteLine($"[RadioBrowser] Failed to initialize: {ex.Message}");
+            // Create a null reference - we'll need to check for null before using
+            _radioBrowserService = null!;
+        }
         
         var databasePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
