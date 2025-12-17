@@ -84,8 +84,13 @@ All core services and models implemented with comprehensive tests:
   - ✅ Hierarchical categorization (Parent > Sub categories)
   - ✅ Radio station playback through LibVLC
   - ✅ Database storage for stations and categories
-  - ✅ Search functionality for stations
+  - ✅ Search functionality for local stations
   - ✅ Last played tracking
+  - ✅ **Online Station Search** (NEW)
+    - ✅ Search Radio-Browser.info API for stations worldwide
+    - ✅ Unified search by name, city, and genre in single search box
+    - ✅ Add discovered stations to local library
+    - ✅ Two-tab interface: My Stations & Search Online
 
 **Needed:**
 - Additional dialogs (About)
@@ -229,6 +234,7 @@ Muine now includes comprehensive internet radio station support:
 <PackageReference Include="TagLibSharp" Version="2.3.0" />
 <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.1" />
 <PackageReference Include="LibVLCSharp" Version="3.9.0" />
+<PackageReference Include="RadioBrowser" Version="0.7.0" />
 <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
 <PackageReference Include="VideoLAN.LibVLC.Mac" Version="3.0.21" />
 

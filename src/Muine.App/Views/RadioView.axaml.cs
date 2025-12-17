@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Muine.App.ViewModels;
 using Muine.Core.Models;
@@ -27,6 +28,18 @@ public partial class RadioView : UserControl
                     if (DataContext is RadioViewModel vm && vm.SelectedStation != null)
                     {
                         StationDoubleClicked?.Invoke(this, vm.SelectedStation);
+                    }
+                };
+            }
+            
+            // Handle double-click on online station to add to library
+            if (OnlineStationsGrid != null)
+            {
+                OnlineStationsGrid.DoubleTapped += async (sender, args) =>
+                {
+                    if (DataContext is RadioViewModel vm && vm.SelectedOnlineStation != null)
+                    {
+                        await vm.AddOnlineStationToLibraryAsync(vm.SelectedOnlineStation);
                     }
                 };
             }
@@ -73,5 +86,45 @@ public partial class RadioView : UserControl
     private void OnRefreshClick(object? sender, RoutedEventArgs e)
     {
         RefreshRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    private async void OnSearchOnlineClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is RadioViewModel vm)
+        {
+            await vm.SearchOnlineAsync();
+        }
+    }
+
+    private void OnClearOnlineClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is RadioViewModel vm)
+        {
+            vm.ClearOnlineSearch();
+        }
+    }
+
+    private async void OnAddOnlineStationClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is RadioViewModel vm && vm.SelectedOnlineStation != null)
+        {
+            await vm.AddOnlineStationToLibraryAsync(vm.SelectedOnlineStation);
+        }
+    }
+
+    private void OnPlayOnlineStationClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is RadioViewModel vm && vm.SelectedOnlineStation != null)
+        {
+            StationDoubleClicked?.Invoke(this, vm.SelectedOnlineStation);
+        }
+    }
+
+    private async void OnOnlineSearchBoxKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && DataContext is RadioViewModel vm)
+        {
+            await vm.SearchOnlineAsync();
+        }
     }
 }

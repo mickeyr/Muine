@@ -22,6 +22,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly PlaybackService _playbackService;
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
+    private readonly RadioBrowserService _radioBrowserService;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -93,6 +94,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _coverArtService = new CoverArtService();
         _playbackService = new PlaybackService();
         _radioMetadataService = new RadioMetadataService();
+        _radioBrowserService = new RadioBrowserService();
         
         var databasePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -112,7 +114,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         // Initialize view models
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
-        RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService);
+        RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
         
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
@@ -775,6 +777,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _playbackService?.Dispose();
         _databaseService?.Dispose();
         _radioStationService?.Dispose();
+        _radioBrowserService?.Dispose();
     }
 }
 
