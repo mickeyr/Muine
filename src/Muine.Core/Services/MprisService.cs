@@ -126,7 +126,7 @@ public interface IMediaPlayer2 : IDBusObject
 {
     Task RaiseAsync();
     Task QuitAsync();
-    Task<T> GetAsync<T>(string prop);
+    Task<object> GetAsync(string prop);
     Task<IDictionary<string, object>> GetAllAsync();
     Task SetAsync(string prop, object val);
     Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler);
@@ -145,7 +145,7 @@ public interface IMediaPlayer2Player : IDBusObject
     Task SeekAsync(long offset);
     Task SetPositionAsync(ObjectPath trackId, long position);
     Task OpenUriAsync(string uri);
-    Task<T> GetAsync<T>(string prop);
+    Task<object> GetAsync(string prop);
     Task<IDictionary<string, object>> GetAllAsync();
     Task SetAsync(string prop, object val);
     Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler);
@@ -179,7 +179,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         return Task.CompletedTask;
     }
 
-    Task<T> IMediaPlayer2.GetAsync<T>(string prop)
+    Task<object> IMediaPlayer2.GetAsync(string prop)
     {
         object value = prop switch
         {
@@ -192,7 +192,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
             "SupportedMimeTypes" => new string[] { "audio/mpeg", "audio/ogg", "audio/flac", "audio/x-flac", "audio/mp4" },
             _ => throw new ArgumentException($"Unknown property: {prop}")
         };
-        return Task.FromResult((T)value);
+        return Task.FromResult(value);
     }
 
     Task<IDictionary<string, object>> IMediaPlayer2.GetAllAsync()
@@ -285,7 +285,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         return Task.CompletedTask;
     }
 
-    Task<T> IMediaPlayer2Player.GetAsync<T>(string prop)
+    Task<object> IMediaPlayer2Player.GetAsync(string prop)
     {
         object value = prop switch
         {
@@ -306,7 +306,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
             "CanControl" => true,
             _ => throw new ArgumentException($"Unknown property: {prop}")
         };
-        return Task.FromResult((T)value);
+        return Task.FromResult(value);
     }
 
     Task<IDictionary<string, object>> IMediaPlayer2Player.GetAllAsync()
