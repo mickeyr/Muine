@@ -15,8 +15,12 @@ public partial class RadioViewModel : ViewModelBase
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
 
-    [ObservableProperty]
     private ObservableCollection<RadioStation> _stations = new();
+    public ObservableCollection<RadioStation> Stations
+    {
+        get => _stations;
+        set => SetProperty(ref _stations, value);
+    }
 
     [ObservableProperty]
     private RadioStation? _selectedStation;
@@ -173,8 +177,9 @@ public partial class RadioViewModel : ViewModelBase
     {
         if (value != null)
         {
-            Stations = new ObservableCollection<RadioStation>(value.Stations);
-            StatusMessage = $"Showing {value.Stations.Count} stations in '{value.Name}'";
+            var stationsList = new ObservableCollection<RadioStation>(value.Stations);
+            Stations = stationsList;
+            StatusMessage = $"Showing {stationsList.Count} stations in '{value.Name}'";
         }
     }
 }
