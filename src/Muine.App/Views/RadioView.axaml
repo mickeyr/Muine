@@ -43,22 +43,26 @@
         <!-- Stations List -->
         <Border Grid.Row="1" Grid.Column="1" Padding="5">
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="5,0,0,10">
-                    <TextBlock Text="{Binding StatusMessage}" 
-                               Foreground="Gray"/>
-                    <TextBlock Text="{Binding Stations.Count, StringFormat='Collection Count: {0}'}" 
-                               Foreground="Blue"
-                               FontWeight="Bold"/>
-                </StackPanel>
+                <TextBlock DockPanel.Dock="Top" 
+                           Text="{Binding StatusMessage}" 
+                           Margin="5,0,0,10"
+                           Foreground="Gray"/>
                 
                 <DataGrid x:Name="StationsGrid"
                           ItemsSource="{Binding Stations}"
                           SelectedItem="{Binding SelectedStation}"
                           IsReadOnly="True"
-                          AutoGenerateColumns="True"
+                          AutoGenerateColumns="False"
                           GridLinesVisibility="Horizontal"
                           CanUserResizeColumns="True"
                           MinHeight="200">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" MinWidth="150"/>
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="Auto" MinWidth="80"/>
+                        <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="Auto" MinWidth="80"/>
+                        <DataGridTextColumn Header="Bitrate" Binding="{Binding Bitrate, StringFormat='{}{0} kbps'}" Width="Auto" MinWidth="60"/>
+                        <DataGridTextColumn Header="Category" Binding="{Binding FullCategory}" Width="Auto" MinWidth="100"/>
+                    </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Play" Name="PlayMenuItem" Click="OnPlayStationClick"/>
