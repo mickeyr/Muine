@@ -22,6 +22,10 @@ on Linux, Windows, and macOS.
 - ✅ SQLite database for efficient music management
 - ✅ Play/Pause/Stop controls with seek functionality
 - ✅ Volume control
+- ✅ Keyboard media controls with MPRIS support
+  - Global media keys on Linux (MPRIS D-Bus)
+  - Taskbar "now playing" integration on Linux
+  - Window-focus media keys on Windows/macOS
 
 ### Planned Features
 - 🚧 Playlist queue management
@@ -32,7 +36,6 @@ on Linux, Windows, and macOS.
 - 📋 Configuration system
 - 📋 Plugin system
 - 📋 Keyboard shortcuts
-- 📋 Media key integration
 
 ## Requirements
 
@@ -88,6 +91,7 @@ Muine/
 - **Audio Metadata**: TagLib-Sharp 2.3.0
 - **Database**: SQLite via Microsoft.Data.Sqlite 10.0.1
 - **Audio Playback**: LibVLCSharp 3.9.0 with VLC 3.0.21
+- **Linux Integration**: Tmds.DBus 0.21.2 (MPRIS media control)
 - **MVVM**: CommunityToolkit.Mvvm 8.2.1
 - **Testing**: xUnit 2.9.3
 

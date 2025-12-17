@@ -22,7 +22,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly PlaybackService _playbackService;
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
-    private readonly RadioBrowserService _radioBrowserService;
+    private readonly RadioBrowserService? _radioBrowserService;
+    private readonly MprisService? _mprisService;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -94,7 +95,20 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _coverArtService = new CoverArtService();
         _playbackService = new PlaybackService();
         _radioMetadataService = new RadioMetadataService();
-        _radioBrowserService = new RadioBrowserService();
+        
+        // Initialize RadioBrowserService with error handling
+        // The RadioBrowser library requires DNS resolution which may fail in some environments
+        try
+        {
+            _radioBrowserService = new RadioBrowserService();
+        }
+        catch (Exception ex)
+        {
+            // Log the error but continue - radio browser search won't work but the app can still function
+            System.Diagnostics.Debug.WriteLine($"[RadioBrowser] Failed to initialize: {ex.Message}");
+            // Create a null reference - we'll need to check for null before using
+            _radioBrowserService = null!;
+        }
         
         var databasePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -110,6 +124,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _databaseService = new MusicDatabaseService(databasePath);
         _radioStationService = new RadioStationService(databasePath);
         _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
+        
+        // Initialize MPRIS service (Linux media key support)
+        _mprisService = new MprisService(_playbackService);
+        _mprisService.NextRequested += (s, e) => _ = PlayNextCommand.ExecuteAsync(null);
+        _mprisService.PreviousRequested += (s, e) => _ = PlayPreviousCommand.ExecuteAsync(null);
         
         // Initialize view models
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
@@ -132,6 +151,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _databaseService.InitializeAsync();
             await _radioStationService.InitializeAsync();
+            
+            // Initialize MPRIS service (Linux media key support)
+            if (_mprisService != null)
+            {
+                await _mprisService.InitializeAsync();
+            }
+            
             await LoadSongsAsync();
             if (MusicLibraryViewModel != null)
             {
@@ -774,6 +800,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public void Dispose()
     {
+        _mprisService?.Dispose();
         _playbackService?.Dispose();
         _databaseService?.Dispose();
         _radioStationService?.Dispose();
