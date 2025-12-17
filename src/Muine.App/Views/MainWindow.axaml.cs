@@ -19,6 +19,7 @@ public partial class MainWindow : Window
     private Slider? _positionSlider;
     private double _lastProgrammaticValue = 0;
     private DateTime _lastPointerSeekTime = DateTime.MinValue;
+    private float _volumeBeforeMute = 50;
 
     public MainWindow()
     {
@@ -26,6 +27,9 @@ public partial class MainWindow : Window
         
         // Hook into the slider's Loaded event to find and attach to the Thumb
         this.Loaded += OnWindowLoaded;
+        
+        // Hook up keyboard event handler for media keys
+        this.KeyDown += OnWindowKeyDown;
     }
 
     private void OnWindowLoaded(object? sender, RoutedEventArgs e)
@@ -316,6 +320,62 @@ public partial class MainWindow : Window
         if (DataContext is MainWindowViewModel viewModel)
         {
             await viewModel.RefreshRadioStationsAsync();
+        }
+    }
+
+    private async void OnWindowKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel viewModel)
+            return;
+
+        // Handle media keys
+        switch (e.Key)
+        {
+            case Key.MediaPlayPause:
+                viewModel.TogglePlayPauseCommand.Execute(null);
+                e.Handled = true;
+                break;
+
+            case Key.MediaStop:
+                viewModel.StopCommand.Execute(null);
+                e.Handled = true;
+                break;
+
+            case Key.MediaNextTrack:
+                await viewModel.PlayNextCommand.ExecuteAsync(null);
+                e.Handled = true;
+                break;
+
+            case Key.MediaPreviousTrack:
+                await viewModel.PlayPreviousCommand.ExecuteAsync(null);
+                e.Handled = true;
+                break;
+
+            case Key.VolumeUp:
+                // Increase volume by 5%
+                viewModel.Volume = Math.Min(100, viewModel.Volume + 5);
+                e.Handled = true;
+                break;
+
+            case Key.VolumeDown:
+                // Decrease volume by 5%
+                viewModel.Volume = Math.Max(0, viewModel.Volume - 5);
+                e.Handled = true;
+                break;
+
+            case Key.VolumeMute:
+                // Toggle mute by storing/restoring volume
+                if (viewModel.Volume > 0)
+                {
+                    _volumeBeforeMute = viewModel.Volume;
+                    viewModel.Volume = 0;
+                }
+                else
+                {
+                    viewModel.Volume = _volumeBeforeMute > 0 ? _volumeBeforeMute : 50;
+                }
+                e.Handled = true;
+                break;
         }
     }
 

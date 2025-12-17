@@ -22,6 +22,7 @@ on Linux, Windows, and macOS.
 - ✅ SQLite database for efficient music management
 - ✅ Play/Pause/Stop controls with seek functionality
 - ✅ Volume control
+- ✅ Keyboard media controls (Play/Pause, Stop, Next, Previous, Volume)
 
 ### Planned Features
 - 🚧 Playlist queue management
@@ -32,7 +33,6 @@ on Linux, Windows, and macOS.
 - 📋 Configuration system
 - 📋 Plugin system
 - 📋 Keyboard shortcuts
-- 📋 Media key integration
 
 ## Requirements
 
