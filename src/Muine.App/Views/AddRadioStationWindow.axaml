@@ -53,16 +53,11 @@
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                     <StackPanel Grid.Column="0" Spacing="5">
                         <TextBlock Text="Parent Category" FontWeight="Bold"/>
-                        <ComboBox ItemsSource="{Binding AvailableParentCategories}"
-                                  SelectedItem="{Binding ParentCategory}"
-                                  IsEditable="True"
-                                  HorizontalAlignment="Stretch">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        <AutoCompleteBox ItemsSource="{Binding AvailableParentCategories}"
+                                         SelectedItem="{Binding ParentCategory}"
+                                         Text="{Binding ParentCategory, Mode=TwoWay}"
+                                         Watermark="Type or select parent category"
+                                         HorizontalAlignment="Stretch"/>
                         <TextBlock Text="e.g., Sports, Music" 
                                    Foreground="Gray" 
                                    FontSize="10"/>
@@ -70,16 +65,11 @@
 
                     <StackPanel Grid.Column="1" Spacing="5">
                         <TextBlock Text="Sub Category" FontWeight="Bold"/>
-                        <ComboBox ItemsSource="{Binding AvailableCategories}"
-                                  SelectedItem="{Binding Category}"
-                                  IsEditable="True"
-                                  HorizontalAlignment="Stretch">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        <AutoCompleteBox ItemsSource="{Binding AvailableCategories}"
+                                         SelectedItem="{Binding Category}"
+                                         Text="{Binding Category, Mode=TwoWay}"
+                                         Watermark="Type or select sub category"
+                                         HorizontalAlignment="Stretch"/>
                         <TextBlock Text="e.g., Nashville, Atlanta" 
                                    Foreground="Gray" 
                                    FontSize="10"/>
