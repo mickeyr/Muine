@@ -55,6 +55,15 @@
                 <views:PlaylistView DataContext="{Binding PlaylistViewModel}"
                                     SongDoubleClicked="OnPlaylistSongDoubleClick"/>
             </TabItem>
+            
+            <!-- Radio Tab -->
+            <TabItem Header="Radio">
+                <views:RadioView DataContext="{Binding RadioViewModel}"
+                                 StationDoubleClicked="OnRadioStationDoubleClick"
+                                 AddStationRequested="OnAddRadioStationRequested"
+                                 EditStationRequested="OnEditRadioStationRequested"
+                                 RefreshRequested="OnRadioRefreshRequested"/>
+            </TabItem>
         </TabControl>
 
         <!-- Player Controls -->

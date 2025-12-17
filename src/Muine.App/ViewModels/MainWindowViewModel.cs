@@ -20,6 +20,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly LibraryScannerService _scannerService;
     private readonly CoverArtService _coverArtService;
     private readonly PlaybackService _playbackService;
+    private readonly RadioStationService _radioStationService;
+    private readonly RadioMetadataService _radioMetadataService;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -76,6 +78,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private PlaylistViewModel _playlistViewModel = new();
 
     [ObservableProperty]
+    private RadioViewModel? _radioViewModel;
+
+    [ObservableProperty]
     private int _selectedTabIndex = 0;
 
     private System.Diagnostics.Stopwatch? _operationStopwatch;
@@ -87,6 +92,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _metadataService = new MetadataService();
         _coverArtService = new CoverArtService();
         _playbackService = new PlaybackService();
+        _radioMetadataService = new RadioMetadataService();
         
         var databasePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -100,16 +106,19 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
 
         _databaseService = new MusicDatabaseService(databasePath);
+        _radioStationService = new RadioStationService(databasePath);
         _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
         
         // Initialize view models
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
+        RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService);
         
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
         _playbackService.PositionChanged += OnPlaybackPositionChanged;
         _playbackService.CurrentSongChanged += OnCurrentSongChanged;
+        _playbackService.CurrentRadioStationChanged += OnCurrentRadioStationChanged;
         
         // Initialize database asynchronously
         _ = InitializeDatabaseAsync();
@@ -120,10 +129,15 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         try
         {
             await _databaseService.InitializeAsync();
+            await _radioStationService.InitializeAsync();
             await LoadSongsAsync();
             if (MusicLibraryViewModel != null)
             {
                 await MusicLibraryViewModel.LoadLibraryAsync();
+            }
+            if (RadioViewModel != null)
+            {
+                await RadioViewModel.LoadStationsAsync();
             }
             StatusMessage = $"Ready - {TotalSongs} songs in library";
         }
@@ -510,12 +524,40 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             CurrentSongDisplay = $"{song.DisplayName} - {song.ArtistsString}";
         }
-        else
+        else if (_playbackService.CurrentRadioStation == null)
         {
             CurrentSongDisplay = "No song playing";
         }
         
         // Notify that CanSeek property has changed
+        OnPropertyChanged(nameof(CanSeek));
+    }
+
+    private void OnCurrentRadioStationChanged(object? sender, RadioStation? station)
+    {
+        if (station != null)
+        {
+            CurrentSongDisplay = $"📻 {station.DisplayName}";
+            if (!string.IsNullOrEmpty(station.Genre))
+            {
+                CurrentSongDisplay += $" - {station.Genre}";
+            }
+            
+            // Update last played time
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _radioStationService.UpdateLastPlayedAsync(station.Id);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"Error updating last played: {ex.Message}");
+                }
+            });
+        }
+        
+        // Notify that CanSeek property has changed (radio streams are not seekable)
         OnPropertyChanged(nameof(CanSeek));
     }
 
@@ -697,10 +739,42 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
     }
 
+    public async Task PlayRadioStationAsync(RadioStation station)
+    {
+        try
+        {
+            await _playbackService.PlayRadioAsync(station);
+            StatusMessage = $"Playing radio: {station.DisplayName}";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error playing radio station: {ex.Message}";
+        }
+    }
+
+    public AddRadioStationViewModel CreateRadioStationEditor(RadioStation? station = null)
+    {
+        var editorVm = new AddRadioStationViewModel(_radioStationService, _radioMetadataService);
+        if (station != null)
+        {
+            editorVm.LoadStation(station);
+        }
+        return editorVm;
+    }
+
+    public async Task RefreshRadioStationsAsync()
+    {
+        if (RadioViewModel != null)
+        {
+            await RadioViewModel.LoadStationsAsync();
+        }
+    }
+
     public void Dispose()
     {
         _playbackService?.Dispose();
         _databaseService?.Dispose();
+        _radioStationService?.Dispose();
     }
 }
 
