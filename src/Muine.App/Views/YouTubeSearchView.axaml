@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Muine.App.ViewModels"
+             xmlns:conv="using:Muine.App.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="Muine.App.Views.YouTubeSearchView"
+             x:DataType="vm:YouTubeSearchViewModel">
+    
+    <UserControl.Resources>
+        <conv:DurationConverter x:Key="DurationConverter"/>
+    </UserControl.Resources>
+    
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Search Controls -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" Spacing="10">
+            <TextBox Name="SearchBox" 
+                     Text="{Binding SearchQuery}" 
+                     Watermark="Search YouTube (e.g., artist name, song title)..." 
+                     Width="400"
+                     KeyDown="OnSearchBoxKeyDown"/>
+            <Button Content="Search" 
+                    Command="{Binding SearchCommand}"
+                    IsEnabled="{Binding !IsSearching}"/>
+            <TextBlock Text="Max results:" 
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"/>
+            <NumericUpDown Value="{Binding MaxResults}"
+                           Minimum="5"
+                           Maximum="50"
+                           Width="80"
+                           IsEnabled="{Binding !IsSearching}"/>
+            <Button Content="Clear" 
+                    Command="{Binding ClearResultsCommand}"
+                    IsEnabled="{Binding !IsSearching}"/>
+        </StackPanel>
+
+        <!-- Search Results -->
+        <Border Grid.Row="1" Padding="10">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" 
+                           Text="{Binding StatusMessage}" 
+                           Margin="0,0,0,10"
+                           Foreground="Gray"/>
+                
+                <DataGrid x:Name="ResultsGrid"
+                          ItemsSource="{Binding SearchResults}"
+                          SelectedItem="{Binding SelectedSong}"
+                          IsReadOnly="True"
+                          AutoGenerateColumns="False"
+                          GridLinesVisibility="Horizontal"
+                          CanUserResizeColumns="True"
+                          MinHeight="200"
+                          DoubleTapped="OnResultDoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" MinWidth="200"/>
+                        <DataGridTextColumn Header="Artist" Binding="{Binding ArtistsString}" Width="*" MinWidth="150"/>
+                        <DataGridTextColumn Header="Duration" Width="Auto" MinWidth="80">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="Duration" Converter="{StaticResource DurationConverter}"/>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="Auto" MinWidth="60"/>
+                        <DataGridTextColumn Header="YouTube ID" Binding="{Binding YouTubeId}" Width="Auto" MinWidth="100"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Play" Name="PlayMenuItem" Click="OnPlayClick"/>
+                            <MenuItem Header="Add to Library" Name="AddMenuItem" Click="OnAddToLibraryClick"/>
+                            <Separator/>
+                            <MenuItem Header="Copy YouTube URL" Name="CopyUrlMenuItem" Click="OnCopyUrlClick"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </DockPanel>
+        </Border>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10" Spacing="10" HorizontalAlignment="Right">
+            <Button Content="Add Selected to Library" 
+                    Command="{Binding AddToLibraryCommand}"
+                    IsEnabled="{Binding !IsSearching}"/>
+            <Button Content="Add All to Library" 
+                    Command="{Binding AddAllToLibraryCommand}"
+                    IsEnabled="{Binding !IsSearching}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -23,6 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
     private readonly RadioBrowserService? _radioBrowserService;
+    private readonly YouTubeService _youtubeService;
     private readonly MprisService? _mprisService;
 
     [ObservableProperty]
@@ -83,6 +84,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private RadioViewModel? _radioViewModel;
 
     [ObservableProperty]
+    private YouTubeSearchViewModel? _youTubeSearchViewModel;
+
+    [ObservableProperty]
     private int _selectedTabIndex = 0;
 
     private System.Diagnostics.Stopwatch? _operationStopwatch;
@@ -95,6 +99,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _coverArtService = new CoverArtService();
         _playbackService = new PlaybackService();
         _radioMetadataService = new RadioMetadataService();
+        _youtubeService = new YouTubeService();
         
         // Initialize RadioBrowserService with error handling
         // The RadioBrowser library requires DNS resolution which may fail in some environments
@@ -134,6 +139,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
+        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService);
         
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
@@ -780,6 +786,20 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         }
     }
 
+    public async Task PlayYouTubeSongAsync(Song song)
+    {
+        try
+        {
+            await _playbackService.PlayAsync(song);
+            PlaylistViewModel.AddSong(song);
+            StatusMessage = $"Playing YouTube song: {song.DisplayName}";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Error playing YouTube song: {ex.Message}";
+        }
+    }
+
     public AddRadioStationViewModel CreateRadioStationEditor(RadioStation? station = null)
     {
         var editorVm = new AddRadioStationViewModel(_radioStationService, _radioMetadataService);
@@ -805,6 +825,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _databaseService?.Dispose();
         _radioStationService?.Dispose();
         _radioBrowserService?.Dispose();
+        _youtubeService?.Dispose();
     }
 }
 
