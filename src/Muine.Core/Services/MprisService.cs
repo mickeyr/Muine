@@ -226,14 +226,21 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                 // Create uninitialized instance
                 var changes = (PropertyChanges)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(propertyChangesType);
                 
-                // Find and set the backing fields
-                // Try both with and without the compiler-generated naming pattern
+                // Find ALL fields (public, private, instance)
                 var allFields = propertyChangesType.GetFields(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
                 
                 Console.WriteLine($"[MPRIS] PropertyChanges has {allFields.Length} fields");
                 foreach (var field in allFields)
                 {
-                    Console.WriteLine($"[MPRIS]   Field: {field.Name}, Type: {field.FieldType.Name}");
+                    Console.WriteLine($"[MPRIS]   Field: {field.Name}, Type: {field.FieldType.Name}, IsPublic: {field.IsPublic}");
+                }
+                
+                // Also check for properties
+                var allProperties = propertyChangesType.GetProperties(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                Console.WriteLine($"[MPRIS] PropertyChanges has {allProperties.Length} properties");
+                foreach (var prop in allProperties)
+                {
+                    Console.WriteLine($"[MPRIS]   Property: {prop.Name}, Type: {prop.PropertyType.Name}, CanRead: {prop.CanRead}, CanWrite: {prop.CanWrite}");
                 }
                 
                 // The actual field names are _changed and _invalidated (lowercase with underscore)
@@ -268,6 +275,10 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                 {
                     try
                     {
+                        Console.WriteLine($"[MPRIS] About to invoke watcher with PropertyChanges...");
+                        Console.WriteLine($"[MPRIS]   _changed: {changedField?.GetValue(changes) != null} ({(changedField?.GetValue(changes) as Array)?.Length ?? 0} items)");
+                        Console.WriteLine($"[MPRIS]   _invalidated: {invalidatedField?.GetValue(changes) != null} ({(invalidatedField?.GetValue(changes) as Array)?.Length ?? 0} items)");
+                        
                         watcher(changes);
                         Console.WriteLine($"[MPRIS] ✓ Successfully emitted PropertyChanged signal for {interfaceName}");
                     }
@@ -277,6 +288,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                         if (ex.InnerException != null)
                         {
                             Console.WriteLine($"[MPRIS]   Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                            Console.WriteLine($"[MPRIS]   Inner Stack: {ex.InnerException.StackTrace}");
                         }
                     }
                 }
