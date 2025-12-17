@@ -49,10 +49,10 @@ public class RadioBrowserService : IDisposable
             
             return stations;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            // Log error and return empty list
-            Console.WriteLine($"Error searching radio stations: {ex.Message}");
+            // Return empty list on error - errors will be visible to user through empty results
+            // In production, consider using a logging framework here
             return new List<RadioStation>();
         }
     }
@@ -101,9 +101,9 @@ public class RadioBrowserService : IDisposable
             
             return stations;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Error in advanced search: {ex.Message}");
+            // Return empty list on error
             return new List<RadioStation>();
         }
     }
@@ -126,9 +126,9 @@ public class RadioBrowserService : IDisposable
             var results = await _client.Search.AdvancedAsync(searchOptions);
             return results.Select(ConvertToRadioStation).ToList();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Error getting popular stations: {ex.Message}");
+            // Return empty list on error
             return new List<RadioStation>();
         }
     }
@@ -173,6 +173,7 @@ public class RadioBrowserService : IDisposable
     {
         if (!_disposed)
         {
+            // RadioBrowserClient doesn't implement IDisposable, so nothing to dispose
             _disposed = true;
         }
     }
