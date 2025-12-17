@@ -14,7 +14,7 @@ namespace Muine.Core.Services;
 public class MprisService : IDisposable
 {
     private readonly PlaybackService _playbackService;
-    private IConnection? _connection;
+    private Connection? _connection;
     private MprisObject? _mprisObject;
     private bool _isInitialized;
     private bool _disposed;
@@ -43,25 +43,46 @@ public class MprisService : IDisposable
     /// </summary>
     public async Task InitializeAsync()
     {
+        Console.WriteLine($"[MPRIS] InitializeAsync called");
+        Console.WriteLine($"[MPRIS] Is Linux: {RuntimeInformation.IsOSPlatform(OSPlatform.Linux)}");
+        Console.WriteLine($"[MPRIS] Already initialized: {_isInitialized}");
+        
         if (_isInitialized || !RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            Console.WriteLine("[MPRIS] Skipping initialization");
             return;
+        }
 
         try
         {
-            _connection = Connection.Session;
-            _mprisObject = new MprisObject(_playbackService, this);
+            Console.WriteLine("[MPRIS] Creating connection to session bus...");
+            _connection = new Connection(Address.Session!);
+            await _connection.ConnectAsync();
+            Console.WriteLine("[MPRIS] Connected to session bus");
             
+            Console.WriteLine("[MPRIS] Creating MPRIS object...");
+            _mprisObject = new MprisObject(_playbackService, this);
+            Console.WriteLine("[MPRIS] MPRIS object created");
+            
+            Console.WriteLine($"[MPRIS] Registering object at {MprisObject.Path}...");
             await _connection.RegisterObjectAsync(_mprisObject);
+            Console.WriteLine("[MPRIS] Object registered");
+            
+            Console.WriteLine($"[MPRIS] Registering service name: {BusName}...");
             await _connection.RegisterServiceAsync(BusName);
+            Console.WriteLine("[MPRIS] Service name registered");
             
             _isInitialized = true;
-            Console.WriteLine($"MPRIS service initialized successfully as {BusName}");
+            Console.WriteLine($"[MPRIS] ✓ Service initialized successfully as {BusName}");
         }
         catch (Exception ex)
         {
-            // MPRIS initialization failed - this is non-critical
-            Console.WriteLine($"MPRIS initialization failed: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            Console.WriteLine($"[MPRIS] ✗ Initialization failed: {ex.GetType().Name}: {ex.Message}");
+            Console.WriteLine($"[MPRIS] Stack trace: {ex.StackTrace}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"[MPRIS] Inner exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+            }
         }
     }
 
@@ -136,7 +157,8 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     private readonly PlaybackService _playbackService;
     private readonly MprisService _service;
     
-    public ObjectPath ObjectPath => new ObjectPath("/org/mpris/MediaPlayer2");
+    public static readonly ObjectPath Path = new ObjectPath("/org/mpris/MediaPlayer2");
+    public ObjectPath ObjectPath => Path;
 
     public MprisObject(PlaybackService playbackService, MprisService service)
     {
