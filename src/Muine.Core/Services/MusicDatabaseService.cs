@@ -39,12 +39,17 @@ public class MusicDatabaseService : IDisposable
                 Gain REAL,
                 Peak REAL,
                 MTime INTEGER,
-                CoverImagePath TEXT
+                CoverImagePath TEXT,
+                SourceType INTEGER DEFAULT 0,
+                YouTubeId TEXT,
+                YouTubeUrl TEXT
             )";
 
         var createIndexes = @"
             CREATE INDEX IF NOT EXISTS idx_songs_album ON Songs(Album);
             CREATE INDEX IF NOT EXISTS idx_songs_filename ON Songs(Filename);
+            CREATE INDEX IF NOT EXISTS idx_songs_sourcetype ON Songs(SourceType);
+            CREATE INDEX IF NOT EXISTS idx_songs_youtubeid ON Songs(YouTubeId);
         ";
 
         using var cmd = _connection!.CreateCommand();
@@ -59,14 +64,17 @@ public class MusicDatabaseService : IDisposable
     {
         const string sql = @"
             INSERT INTO Songs (Filename, Title, Artists, Performers, Album, TrackNumber, 
-                NAlbumTracks, DiscNumber, Year, Duration, Gain, Peak, MTime, CoverImagePath)
+                NAlbumTracks, DiscNumber, Year, Duration, Gain, Peak, MTime, CoverImagePath,
+                SourceType, YouTubeId, YouTubeUrl)
             VALUES (@Filename, @Title, @Artists, @Performers, @Album, @TrackNumber, 
-                @NAlbumTracks, @DiscNumber, @Year, @Duration, @Gain, @Peak, @MTime, @CoverImagePath)
+                @NAlbumTracks, @DiscNumber, @Year, @Duration, @Gain, @Peak, @MTime, @CoverImagePath,
+                @SourceType, @YouTubeId, @YouTubeUrl)
             ON CONFLICT(Filename) DO UPDATE SET
                 Title = @Title, Artists = @Artists, Performers = @Performers, Album = @Album,
                 TrackNumber = @TrackNumber, NAlbumTracks = @NAlbumTracks, DiscNumber = @DiscNumber,
                 Year = @Year, Duration = @Duration, Gain = @Gain, Peak = @Peak, MTime = @MTime,
-                CoverImagePath = @CoverImagePath
+                CoverImagePath = @CoverImagePath, SourceType = @SourceType, YouTubeId = @YouTubeId,
+                YouTubeUrl = @YouTubeUrl
             RETURNING Id";
 
         using var cmd = _connection!.CreateCommand();
@@ -85,6 +93,9 @@ public class MusicDatabaseService : IDisposable
         cmd.Parameters.AddWithValue("@Peak", song.Peak);
         cmd.Parameters.AddWithValue("@MTime", song.MTime);
         cmd.Parameters.AddWithValue("@CoverImagePath", song.CoverImagePath ?? (object)DBNull.Value);
+        cmd.Parameters.AddWithValue("@SourceType", (int)song.SourceType);
+        cmd.Parameters.AddWithValue("@YouTubeId", song.YouTubeId ?? (object)DBNull.Value);
+        cmd.Parameters.AddWithValue("@YouTubeUrl", song.YouTubeUrl ?? (object)DBNull.Value);
 
         var result = await cmd.ExecuteScalarAsync();
         return Convert.ToInt32(result);
@@ -216,7 +227,7 @@ public class MusicDatabaseService : IDisposable
 
     private static Song ReadSong(SqliteDataReader reader)
     {
-        return new Song
+        var song = new Song
         {
             Id = reader.GetInt32(reader.GetOrdinal("Id")),
             Filename = reader.GetString(reader.GetOrdinal("Filename")),
@@ -234,6 +245,27 @@ public class MusicDatabaseService : IDisposable
             MTime = reader.GetInt32(reader.GetOrdinal("MTime")),
             CoverImagePath = reader.IsDBNull(reader.GetOrdinal("CoverImagePath")) ? null : reader.GetString(reader.GetOrdinal("CoverImagePath"))
         };
+
+        // Read YouTube-specific fields if they exist (for backwards compatibility)
+        var sourceTypeOrdinal = reader.GetOrdinal("SourceType");
+        if (sourceTypeOrdinal >= 0 && !reader.IsDBNull(sourceTypeOrdinal))
+        {
+            song.SourceType = (SongSourceType)reader.GetInt32(sourceTypeOrdinal);
+        }
+
+        var youtubeIdOrdinal = reader.GetOrdinal("YouTubeId");
+        if (youtubeIdOrdinal >= 0 && !reader.IsDBNull(youtubeIdOrdinal))
+        {
+            song.YouTubeId = reader.GetString(youtubeIdOrdinal);
+        }
+
+        var youtubeUrlOrdinal = reader.GetOrdinal("YouTubeUrl");
+        if (youtubeUrlOrdinal >= 0 && !reader.IsDBNull(youtubeUrlOrdinal))
+        {
+            song.YouTubeUrl = reader.GetString(youtubeUrlOrdinal);
+        }
+
+        return song;
     }
 
     public void Dispose()

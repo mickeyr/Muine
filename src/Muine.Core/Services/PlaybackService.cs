@@ -102,41 +102,78 @@ public class PlaybackService : IDisposable
 
         ArgumentNullException.ThrowIfNull(song);
 
-        if (!File.Exists(song.Filename))
+        // For YouTube songs, we need to get the stream URL first
+        if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
         {
-            throw new FileNotFoundException($"Audio file not found: {song.Filename}");
+            var youtubeService = new YouTubeService();
+            try
+            {
+                var streamUrl = await youtubeService.GetAudioStreamUrlAsync(song.YouTubeId);
+                if (string.IsNullOrEmpty(streamUrl))
+                {
+                    throw new InvalidOperationException($"Failed to get audio stream for YouTube video: {song.YouTubeId}");
+                }
+
+                await Task.Run(() =>
+                {
+                    Stop();
+
+                    var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
+                    _mediaPlayer.Media = media;
+                    _mediaPlayer.Volume = (int)_volume;
+
+                    _currentSong = song;
+                    _currentRadioStation = null;
+                    CurrentSongChanged?.Invoke(this, _currentSong);
+                    CurrentRadioStationChanged?.Invoke(this, null);
+
+                    _mediaPlayer.Play();
+                });
+            }
+            finally
+            {
+                youtubeService.Dispose();
+            }
         }
-
-        await Task.Run(() =>
+        else
         {
-            Stop();
-
-            var media = new Media(_libVLC!, song.Filename, FromType.FromPath);
-            _mediaPlayer.Media = media;
-
-            // Apply ReplayGain if available
-            if (song.Gain != 0.0)
+            // Local file playback
+            if (!File.Exists(song.Filename))
             {
-                var gainDb = song.Gain;
-                // LibVLC volume is 0-200, where 100 is normal
-                // ReplayGain is in dB, typical range is -15 to +15 dB
-                // Convert dB to linear: 10^(dB/20)
-                var linearGain = Math.Pow(10, gainDb / 20.0);
-                var newVolume = (int)(100 * linearGain);
-                _mediaPlayer.Volume = Math.Clamp(newVolume, 0, 200);
-            }
-            else
-            {
-                _mediaPlayer.Volume = (int)_volume;
+                throw new FileNotFoundException($"Audio file not found: {song.Filename}");
             }
 
-            _currentSong = song;
-            _currentRadioStation = null;
-            CurrentSongChanged?.Invoke(this, _currentSong);
-            CurrentRadioStationChanged?.Invoke(this, null);
+            await Task.Run(() =>
+            {
+                Stop();
 
-            _mediaPlayer.Play();
-        });
+                var media = new Media(_libVLC!, song.Filename, FromType.FromPath);
+                _mediaPlayer.Media = media;
+
+                // Apply ReplayGain if available
+                if (song.Gain != 0.0)
+                {
+                    var gainDb = song.Gain;
+                    // LibVLC volume is 0-200, where 100 is normal
+                    // ReplayGain is in dB, typical range is -15 to +15 dB
+                    // Convert dB to linear: 10^(dB/20)
+                    var linearGain = Math.Pow(10, gainDb / 20.0);
+                    var newVolume = (int)(100 * linearGain);
+                    _mediaPlayer.Volume = Math.Clamp(newVolume, 0, 200);
+                }
+                else
+                {
+                    _mediaPlayer.Volume = (int)_volume;
+                }
+
+                _currentSong = song;
+                _currentRadioStation = null;
+                CurrentSongChanged?.Invoke(this, _currentSong);
+                CurrentRadioStationChanged?.Invoke(this, null);
+
+                _mediaPlayer.Play();
+            });
+        }
     }
 
     public async Task PlayRadioAsync(RadioStation station)
