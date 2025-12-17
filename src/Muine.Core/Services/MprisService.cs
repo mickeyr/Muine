@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Muine.Core.Models;
 using Tmds.DBus;
-
-[assembly: InternalsVisibleTo(Tmds.DBus.Connection.DynamicAssemblyName)]
 
 namespace Muine.Core.Services;
 
@@ -16,8 +13,9 @@ namespace Muine.Core.Services;
 /// </summary>
 public class MprisService : IDisposable
 {
-    private IConnection? _connection;
     private readonly PlaybackService _playbackService;
+    private IConnection? _connection;
+    private MprisRoot? _root;
     private MprisPlayer? _player;
     private bool _isInitialized;
     private bool _disposed;
@@ -52,44 +50,41 @@ public class MprisService : IDisposable
 
         try
         {
-            _connection = Connection.Session;
+            _connection = new Connection(Address.Session!);
+            await _connection.ConnectAsync();
+            
+            _root = new MprisRoot(this);
             _player = new MprisPlayer(_playbackService, this);
             
+            await _connection.RegisterObjectAsync(_root);
             await _connection.RegisterObjectAsync(_player);
             await _connection.RegisterServiceAsync(BusName);
             
             _isInitialized = true;
+            System.Diagnostics.Debug.WriteLine("MPRIS service initialized successfully");
         }
         catch (Exception ex)
         {
             // MPRIS initialization failed - this is non-critical
             // App will still work without MPRIS
             System.Diagnostics.Debug.WriteLine($"MPRIS initialization failed: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
         }
     }
 
     private void OnPlaybackStateChanged(object? sender, PlaybackState state)
     {
-        if (!_isInitialized || _player == null)
-            return;
-
-        _player.OnPlaybackStateChanged();
+        // Notify property change via D-Bus signal if needed
     }
 
     private void OnCurrentSongChanged(object? sender, Song? song)
     {
-        if (!_isInitialized || _player == null)
-            return;
-
-        _player.OnMetadataChanged();
+        // Notify metadata change via D-Bus signal if needed
     }
 
     private void OnCurrentRadioStationChanged(object? sender, RadioStation? station)
     {
-        if (!_isInitialized || _player == null)
-            return;
-
-        _player.OnMetadataChanged();
+        // Notify metadata change via D-Bus signal if needed
     }
 
     internal void OnNext() => NextRequested?.Invoke(this, EventArgs.Empty);
@@ -111,49 +106,19 @@ public class MprisService : IDisposable
     }
 }
 
+// MPRIS Root Interface (org.mpris.MediaPlayer2)
 [DBusInterface("org.mpris.MediaPlayer2")]
-internal interface IMediaPlayer2 : IDBusObject
+internal class MprisRoot : IDBusObject
 {
-    Task RaiseAsync();
-    Task QuitAsync();
-    Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler);
-    Task<IDictionary<string, object>> GetAllAsync();
-    Task<object> GetAsync(string prop);
-    Task SetAsync(string prop, object val);
-}
-
-[DBusInterface("org.mpris.MediaPlayer2.Player")]
-internal interface IMediaPlayer2Player : IDBusObject
-{
-    Task PlayAsync();
-    Task PauseAsync();
-    Task PlayPauseAsync();
-    Task StopAsync();
-    Task NextAsync();
-    Task PreviousAsync();
-    Task SeekAsync(long offset);
-    Task SetPositionAsync(ObjectPath trackId, long position);
-    Task OpenUriAsync(string uri);
-    Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler);
-    Task<IDictionary<string, object>> GetAllAsync();
-    Task<object> GetAsync(string prop);
-    Task SetAsync(string prop, object val);
-}
-
-internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
-{
-    private readonly PlaybackService _playbackService;
     private readonly MprisService _service;
     
     public ObjectPath ObjectPath => new ObjectPath("/org/mpris/MediaPlayer2");
 
-    public MprisPlayer(PlaybackService playbackService, MprisService service)
+    public MprisRoot(MprisService service)
     {
-        _playbackService = playbackService;
         _service = service;
     }
 
-    // IMediaPlayer2 implementation
     public Task RaiseAsync()
     {
         _service.OnRaise();
@@ -166,10 +131,23 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
         return Task.CompletedTask;
     }
 
-    Task<IDisposable> IMediaPlayer2.WatchPropertiesAsync(Action<PropertyChanges> handler) =>
-        Task.FromResult<IDisposable>(null!);
+    public Task<T> GetAsync<T>(string prop)
+    {
+        object value = prop switch
+        {
+            "Identity" => "Muine",
+            "DesktopEntry" => "muine",
+            "CanQuit" => true,
+            "CanRaise" => true,
+            "HasTrackList" => false,
+            "SupportedUriSchemes" => new string[] { "file" },
+            "SupportedMimeTypes" => new string[] { "audio/mpeg", "audio/ogg", "audio/flac", "audio/x-flac", "audio/mp4" },
+            _ => throw new ArgumentException($"Unknown property: {prop}")
+        };
+        return Task.FromResult((T)value);
+    }
 
-    Task<IDictionary<string, object>> IMediaPlayer2.GetAllAsync()
+    public Task<IDictionary<string, object>> GetAllAsync()
     {
         var properties = new Dictionary<string, object>
         {
@@ -179,29 +157,32 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
             ["CanRaise"] = true,
             ["HasTrackList"] = false,
             ["SupportedUriSchemes"] = new string[] { "file" },
-            ["SupportedMimeTypes"] = new string[] { "audio/mpeg", "audio/ogg", "audio/flac" }
+            ["SupportedMimeTypes"] = new string[] { "audio/mpeg", "audio/ogg", "audio/flac", "audio/x-flac", "audio/mp4" }
         };
         return Task.FromResult<IDictionary<string, object>>(properties);
     }
 
-    Task<object> IMediaPlayer2.GetAsync(string prop)
+    public Task SetAsync(string prop, object val) => Task.CompletedTask;
+
+    public Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler) =>
+        Task.FromResult<IDisposable>(null!);
+}
+
+// MPRIS Player Interface (org.mpris.MediaPlayer2.Player)
+[DBusInterface("org.mpris.MediaPlayer2.Player")]
+internal class MprisPlayer : IDBusObject
+{
+    private readonly PlaybackService _playbackService;
+    private readonly MprisService _service;
+    
+    public ObjectPath ObjectPath => new ObjectPath("/org/mpris/MediaPlayer2");
+
+    public MprisPlayer(PlaybackService playbackService, MprisService service)
     {
-        return prop switch
-        {
-            "Identity" => Task.FromResult<object>("Muine"),
-            "DesktopEntry" => Task.FromResult<object>("muine"),
-            "CanQuit" => Task.FromResult<object>(true),
-            "CanRaise" => Task.FromResult<object>(true),
-            "HasTrackList" => Task.FromResult<object>(false),
-            "SupportedUriSchemes" => Task.FromResult<object>(new string[] { "file" }),
-            "SupportedMimeTypes" => Task.FromResult<object>(new string[] { "audio/mpeg", "audio/ogg", "audio/flac" }),
-            _ => throw new ArgumentException($"Unknown property: {prop}")
-        };
+        _playbackService = playbackService;
+        _service = service;
     }
 
-    Task IMediaPlayer2.SetAsync(string prop, object val) => Task.CompletedTask;
-
-    // IMediaPlayer2Player implementation
     public Task PlayAsync()
     {
         if (_playbackService.State != PlaybackState.Playing)
@@ -248,13 +229,20 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
     {
         var currentPosition = _playbackService.Position;
         var newPosition = currentPosition + TimeSpan.FromMicroseconds(offset);
-        _playbackService.Seek(newPosition);
+        if (newPosition >= TimeSpan.Zero)
+        {
+            _playbackService.Seek(newPosition);
+        }
         return Task.CompletedTask;
     }
 
     public Task SetPositionAsync(ObjectPath trackId, long position)
     {
-        _playbackService.Seek(TimeSpan.FromMicroseconds(position));
+        var newPosition = TimeSpan.FromMicroseconds(position);
+        if (newPosition >= TimeSpan.Zero)
+        {
+            _playbackService.Seek(newPosition);
+        }
         return Task.CompletedTask;
     }
 
@@ -264,10 +252,31 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
         return Task.CompletedTask;
     }
 
-    Task<IDisposable> IMediaPlayer2Player.WatchPropertiesAsync(Action<PropertyChanges> handler) =>
-        Task.FromResult<IDisposable>(null!);
+    public Task<T> GetAsync<T>(string prop)
+    {
+        object value = prop switch
+        {
+            "PlaybackStatus" => GetPlaybackStatus(),
+            "LoopStatus" => "None",
+            "Rate" => 1.0,
+            "Shuffle" => false,
+            "Metadata" => GetMetadata(),
+            "Volume" => _playbackService.Volume / 100.0,
+            "Position" => (long)_playbackService.Position.TotalMicroseconds,
+            "MinimumRate" => 1.0,
+            "MaximumRate" => 1.0,
+            "CanGoNext" => false, // TODO: Connect to playlist
+            "CanGoPrevious" => false, // TODO: Connect to playlist
+            "CanPlay" => true,
+            "CanPause" => true,
+            "CanSeek" => !_playbackService.IsPlayingRadio,
+            "CanControl" => true,
+            _ => throw new ArgumentException($"Unknown property: {prop}")
+        };
+        return Task.FromResult((T)value);
+    }
 
-    Task<IDictionary<string, object>> IMediaPlayer2Player.GetAllAsync()
+    public Task<IDictionary<string, object>> GetAllAsync()
     {
         var properties = new Dictionary<string, object>
         {
@@ -280,8 +289,8 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
             ["Position"] = (long)_playbackService.Position.TotalMicroseconds,
             ["MinimumRate"] = 1.0,
             ["MaximumRate"] = 1.0,
-            ["CanGoNext"] = false, // TODO: Connect to playlist
-            ["CanGoPrevious"] = false, // TODO: Connect to playlist
+            ["CanGoNext"] = false,
+            ["CanGoPrevious"] = false,
             ["CanPlay"] = true,
             ["CanPause"] = true,
             ["CanSeek"] = !_playbackService.IsPlayingRadio,
@@ -290,37 +299,21 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
         return Task.FromResult<IDictionary<string, object>>(properties);
     }
 
-    Task<object> IMediaPlayer2Player.GetAsync(string prop)
-    {
-        return prop switch
-        {
-            "PlaybackStatus" => Task.FromResult<object>(GetPlaybackStatus()),
-            "LoopStatus" => Task.FromResult<object>("None"),
-            "Rate" => Task.FromResult<object>(1.0),
-            "Shuffle" => Task.FromResult<object>(false),
-            "Metadata" => Task.FromResult<object>(GetMetadata()),
-            "Volume" => Task.FromResult<object>(_playbackService.Volume / 100.0),
-            "Position" => Task.FromResult<object>((long)_playbackService.Position.TotalMicroseconds),
-            "MinimumRate" => Task.FromResult<object>(1.0),
-            "MaximumRate" => Task.FromResult<object>(1.0),
-            "CanGoNext" => Task.FromResult<object>(false),
-            "CanGoPrevious" => Task.FromResult<object>(false),
-            "CanPlay" => Task.FromResult<object>(true),
-            "CanPause" => Task.FromResult<object>(true),
-            "CanSeek" => Task.FromResult<object>(!_playbackService.IsPlayingRadio),
-            "CanControl" => Task.FromResult<object>(true),
-            _ => throw new ArgumentException($"Unknown property: {prop}")
-        };
-    }
-
-    Task IMediaPlayer2Player.SetAsync(string prop, object val)
+    public Task SetAsync(string prop, object val)
     {
         if (prop == "Volume")
         {
             _playbackService.Volume = (float)((double)val * 100.0);
         }
+        else if (prop == "LoopStatus" || prop == "Rate" || prop == "Shuffle")
+        {
+            // These are not supported, but we don't throw an error
+        }
         return Task.CompletedTask;
     }
+
+    public Task<IDisposable> WatchPropertiesAsync(Action<PropertyChanges> handler) =>
+        Task.FromResult<IDisposable>(null!);
 
     private string GetPlaybackStatus()
     {
@@ -367,19 +360,12 @@ internal class MprisPlayer : IMediaPlayer2, IMediaPlayer2Player
             if (!string.IsNullOrEmpty(station.Genre))
                 metadata["xesam:genre"] = new[] { station.Genre };
         }
+        else
+        {
+            // Provide a default trackid even when nothing is playing
+            metadata["mpris:trackid"] = new ObjectPath("/org/mpris/MediaPlayer2/TrackList/NoTrack");
+        }
 
         return metadata;
-    }
-
-    public void OnPlaybackStateChanged()
-    {
-        // In a full implementation, would emit PropertiesChanged signal
-        // Tmds.DBus 0.20 doesn't make this easy, so skipping for now
-    }
-
-    public void OnMetadataChanged()
-    {
-        // In a full implementation, would emit PropertiesChanged signal
-        // Tmds.DBus 0.20 doesn't make this easy, so skipping for now
     }
 }

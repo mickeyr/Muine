@@ -91,7 +91,7 @@ Muine/
 - **Audio Metadata**: TagLib-Sharp 2.3.0
 - **Database**: SQLite via Microsoft.Data.Sqlite 10.0.1
 - **Audio Playback**: LibVLCSharp 3.9.0 with VLC 3.0.21
-- **Linux Integration**: Tmds.DBus 0.20.0 (MPRIS media control)
+- **Linux Integration**: Tmds.DBus 0.15.0 (MPRIS media control)
 - **MVVM**: CommunityToolkit.Mvvm 8.2.1
 - **Testing**: xUnit 2.9.3
 
