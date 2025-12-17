@@ -236,27 +236,31 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                     Console.WriteLine($"[MPRIS]   Field: {field.Name}, Type: {field.FieldType.Name}");
                 }
                 
-                var changedField = allFields.FirstOrDefault(f => f.Name.Contains("Changed"));
-                var invalidatedField = allFields.FirstOrDefault(f => f.Name.Contains("Invalidated"));
+                // The actual field names are _changed and _invalidated (lowercase with underscore)
+                var changedField = allFields.FirstOrDefault(f => f.Name == "_changed");
+                var invalidatedField = allFields.FirstOrDefault(f => f.Name == "_invalidated");
                 
                 if (changedField != null)
                 {
-                    changedField.SetValue(changes, changedProperties);
-                    Console.WriteLine($"[MPRIS] ✓ Set Changed field with {changedProperties.Count} properties");
+                    // _changed is KeyValuePair<string, object>[], not IDictionary!
+                    // Convert our dictionary to KeyValuePair array
+                    var changedArray = changedProperties.Select(kvp => new KeyValuePair<string, object>(kvp.Key, kvp.Value)).ToArray();
+                    changedField.SetValue(changes, changedArray);
+                    Console.WriteLine($"[MPRIS] ✓ Set _changed field with {changedArray.Length} properties");
                 }
                 else
                 {
-                    Console.WriteLine("[MPRIS] ✗ Could not find Changed field");
+                    Console.WriteLine("[MPRIS] ✗ Could not find _changed field");
                 }
                 
                 if (invalidatedField != null)
                 {
                     invalidatedField.SetValue(changes, Array.Empty<string>());
-                    Console.WriteLine("[MPRIS] ✓ Set Invalidated field");
+                    Console.WriteLine("[MPRIS] ✓ Set _invalidated field");
                 }
                 else
                 {
-                    Console.WriteLine("[MPRIS] ✗ Could not find Invalidated field");
+                    Console.WriteLine("[MPRIS] ✗ Could not find _invalidated field");
                 }
                 
                 // Invoke watchers with the constructed PropertyChanges
