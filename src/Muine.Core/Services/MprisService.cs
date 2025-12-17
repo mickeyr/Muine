@@ -185,6 +185,24 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     private readonly List<Action<PropertyChanges>> _playerPropertyWatchers = new();
     private readonly List<Action<long>> _seekedWatchers = new();
     
+    // Cache reflected fields for PropertyChanges construction
+    private static readonly System.Reflection.FieldInfo? ChangedField;
+    private static readonly System.Reflection.FieldInfo? InvalidatedField;
+    
+    static MprisObject()
+    {
+        // Cache PropertyChanges fields at type initialization time
+        var propertyChangesType = typeof(PropertyChanges);
+        var allFields = propertyChangesType.GetFields(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+        ChangedField = allFields.FirstOrDefault(f => f.Name == "_changed");
+        InvalidatedField = allFields.FirstOrDefault(f => f.Name == "_invalidated");
+        
+        if (ChangedField == null || InvalidatedField == null)
+        {
+            Console.WriteLine("[MPRIS] WARNING: Could not find PropertyChanges backing fields. Signal emission will not work!");
+        }
+    }
+    
     public static readonly ObjectPath Path = new ObjectPath("/org/mpris/MediaPlayer2");
     public ObjectPath ObjectPath => Path;
 
@@ -206,104 +224,45 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
         if (watchers != null && watchers.Count > 0)
         {
-            Console.WriteLine($"[MPRIS] Emitting PropertyChanged signal for {interfaceName} with {changedProperties.Count} properties to {watchers.Count} watchers");
-            
-            // CRITICAL INSIGHT from stack trace:
-            // Tmds.DBus generated MprisObjectAdapter.Emitorg_mpris_MediaPlayer2_Player_Properties(PropertyChanges)
-            // The signal emission mechanism IS working, we just need a valid PropertyChanges struct.
-            //
-            // PropertyChanges struct must have:
-            // - Changed: IDictionary<string, object>  
-            // - Invalidated: string[]
-            //
-            // Let's use RuntimeHelpers.GetUninitializedObject (not obsolete) to create the struct
-            // and then set the backing fields via reflection
+            // Verify cached fields are available
+            if (ChangedField == null || InvalidatedField == null)
+            {
+                Console.WriteLine("[MPRIS] ✗ Cannot emit signal: PropertyChanges fields not found");
+                return;
+            }
             
             try
             {
                 var propertyChangesType = typeof(PropertyChanges);
                 
-                // Create uninitialized instance - but we need to box it for SetValue to work on structs
+                // Create uninitialized instance - keep boxed for SetValue to work on structs
                 object changesObj = System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(propertyChangesType);
                 
-                // Find ALL fields (public, private, instance)
-                var allFields = propertyChangesType.GetFields(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                
-                Console.WriteLine($"[MPRIS] PropertyChanges has {allFields.Length} fields");
-                foreach (var field in allFields)
-                {
-                    Console.WriteLine($"[MPRIS]   Field: {field.Name}, Type: {field.FieldType.Name}, IsPublic: {field.IsPublic}");
-                }
-                
-                // Also check for properties
-                var allProperties = propertyChangesType.GetProperties(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                Console.WriteLine($"[MPRIS] PropertyChanges has {allProperties.Length} properties");
-                foreach (var prop in allProperties)
-                {
-                    Console.WriteLine($"[MPRIS]   Property: {prop.Name}, Type: {prop.PropertyType.Name}, CanRead: {prop.CanRead}, CanWrite: {prop.CanWrite}");
-                }
-                
-                // The actual field names are _changed and _invalidated (lowercase with underscore)
-                var changedField = allFields.FirstOrDefault(f => f.Name == "_changed");
-                var invalidatedField = allFields.FirstOrDefault(f => f.Name == "_invalidated");
-                
-                if (changedField != null)
-                {
-                    // _changed is KeyValuePair<string, object>[], not IDictionary!
-                    // Convert our dictionary to KeyValuePair array
-                    var changedArray = changedProperties.Select(kvp => new KeyValuePair<string, object>(kvp.Key, kvp.Value)).ToArray();
-                    changedField.SetValue(changesObj, changedArray);  // Set on the boxed object
-                    Console.WriteLine($"[MPRIS] ✓ Set _changed field with {changedArray.Length} properties");
-                }
-                else
-                {
-                    Console.WriteLine("[MPRIS] ✗ Could not find _changed field");
-                }
-                
-                if (invalidatedField != null)
-                {
-                    invalidatedField.SetValue(changesObj, Array.Empty<string>());  // Set on the boxed object
-                    Console.WriteLine("[MPRIS] ✓ Set _invalidated field");
-                }
-                else
-                {
-                    Console.WriteLine("[MPRIS] ✗ Could not find _invalidated field");
-                }
+                // _changed is KeyValuePair<string, object>[], convert dictionary to array
+                var changedArray = changedProperties.Select(kvp => new KeyValuePair<string, object>(kvp.Key, kvp.Value)).ToArray();
+                ChangedField.SetValue(changesObj, changedArray);
+                InvalidatedField.SetValue(changesObj, Array.Empty<string>());
                 
                 // Unbox back to PropertyChanges struct
                 var changes = (PropertyChanges)changesObj;
                 
-                // Invoke watchers with the constructed PropertyChanges
+                // Invoke watchers - Tmds.DBus will emit D-Bus PropertiesChanged signal
                 foreach (var watcher in watchers.ToArray())
                 {
                     try
                     {
-                        Console.WriteLine($"[MPRIS] About to invoke watcher with PropertyChanges...");
-                        Console.WriteLine($"[MPRIS]   _changed: {changedField?.GetValue(changes) != null} ({(changedField?.GetValue(changes) as Array)?.Length ?? 0} items)");
-                        Console.WriteLine($"[MPRIS]   _invalidated: {invalidatedField?.GetValue(changes) != null} ({(invalidatedField?.GetValue(changes) as Array)?.Length ?? 0} items)");
-                        
                         watcher(changes);
-                        Console.WriteLine($"[MPRIS] ✓ Successfully emitted PropertyChanged signal for {interfaceName}");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[MPRIS] ✗ Error invoking watcher: {ex.GetType().Name}: {ex.Message}");
-                        if (ex.InnerException != null)
-                        {
-                            Console.WriteLine($"[MPRIS]   Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
-                            Console.WriteLine($"[MPRIS]   Inner Stack: {ex.InnerException.StackTrace}");
-                        }
+                        Console.WriteLine($"[MPRIS] ✗ Error emitting signal: {ex.Message}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[MPRIS] ✗ Error creating PropertyChanges: {ex.GetType().Name}: {ex.Message}");
+                Console.WriteLine($"[MPRIS] ✗ Error creating PropertyChanges: {ex.Message}");
             }
-        }
-        else
-        {
-            Console.WriteLine($"[MPRIS] No watchers registered for {interfaceName}, signal will not be emitted");
         }
     }
 
