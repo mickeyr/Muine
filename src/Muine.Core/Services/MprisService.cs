@@ -223,8 +223,8 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
             {
                 var propertyChangesType = typeof(PropertyChanges);
                 
-                // Create uninitialized instance
-                var changes = (PropertyChanges)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(propertyChangesType);
+                // Create uninitialized instance - but we need to box it for SetValue to work on structs
+                object changesObj = System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(propertyChangesType);
                 
                 // Find ALL fields (public, private, instance)
                 var allFields = propertyChangesType.GetFields(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
@@ -252,7 +252,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                     // _changed is KeyValuePair<string, object>[], not IDictionary!
                     // Convert our dictionary to KeyValuePair array
                     var changedArray = changedProperties.Select(kvp => new KeyValuePair<string, object>(kvp.Key, kvp.Value)).ToArray();
-                    changedField.SetValue(changes, changedArray);
+                    changedField.SetValue(changesObj, changedArray);  // Set on the boxed object
                     Console.WriteLine($"[MPRIS] ✓ Set _changed field with {changedArray.Length} properties");
                 }
                 else
@@ -262,13 +262,16 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                 
                 if (invalidatedField != null)
                 {
-                    invalidatedField.SetValue(changes, Array.Empty<string>());
+                    invalidatedField.SetValue(changesObj, Array.Empty<string>());  // Set on the boxed object
                     Console.WriteLine("[MPRIS] ✓ Set _invalidated field");
                 }
                 else
                 {
                     Console.WriteLine("[MPRIS] ✗ Could not find _invalidated field");
                 }
+                
+                // Unbox back to PropertyChanges struct
+                var changes = (PropertyChanges)changesObj;
                 
                 // Invoke watchers with the constructed PropertyChanges
                 foreach (var watcher in watchers.ToArray())
