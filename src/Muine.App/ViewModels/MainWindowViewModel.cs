@@ -23,6 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly RadioStationService _radioStationService;
     private readonly RadioMetadataService _radioMetadataService;
     private readonly RadioBrowserService _radioBrowserService;
+    private readonly MprisService? _mprisService;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -111,6 +112,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _radioStationService = new RadioStationService(databasePath);
         _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
         
+        // Initialize MPRIS service (Linux media key support)
+        _mprisService = new MprisService(_playbackService);
+        _mprisService.NextRequested += (s, e) => _ = PlayNextCommand.ExecuteAsync(null);
+        _mprisService.PreviousRequested += (s, e) => _ = PlayPreviousCommand.ExecuteAsync(null);
+        
         // Initialize view models
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
@@ -132,6 +138,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _databaseService.InitializeAsync();
             await _radioStationService.InitializeAsync();
+            
+            // Initialize MPRIS service (Linux media key support)
+            if (_mprisService != null)
+            {
+                await _mprisService.InitializeAsync();
+            }
+            
             await LoadSongsAsync();
             if (MusicLibraryViewModel != null)
             {
@@ -774,6 +787,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public void Dispose()
     {
+        _mprisService?.Dispose();
         _playbackService?.Dispose();
         _databaseService?.Dispose();
         _radioStationService?.Dispose();

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Muine supports keyboard media controls, allowing you to control playback using dedicated media keys on your keyboard. This feature works cross-platform on Windows, Linux, and macOS through Avalonia's keyboard event abstraction.
+Muine supports keyboard media controls, allowing you to control playback using dedicated media keys on your keyboard. On Linux, this includes **MPRIS D-Bus integration** for global media key support and "now playing" taskbar integration, working even when the app doesn't have focus. On Windows and macOS, media keys work when the application has focus.
 
 ## Supported Media Keys
 
@@ -27,24 +27,30 @@ The following media keys are supported:
 
 ## Platform Support
 
+### Linux ✨ NEW: MPRIS Integration
+- **Global media keys**: Work even when app doesn't have focus
+- **Taskbar integration**: "Now playing" information in system taskbar/panel
+- **MPRIS D-Bus**: Full implementation of Media Player Remote Interfacing Specification
+- **Desktop environment support**: Works with GNOME, KDE, XFCE, and other DE's
+- **Media applets**: Integrates with media control applets and notification systems
+- Fallback to window-focus media keys if MPRIS initialization fails
+
 ### Windows
 - Media keys work when the application has focus
 - Most keyboards with multimedia keys are supported
-- Windows system media transport controls integration may be added in future
-
-### Linux
-- Media keys work when the application has focus
-- Tested with standard multimedia keyboards
-- MPRIS D-Bus integration may be added in future for global media key support
+- Windows System Media Transport Controls integration may be added in future
 
 ### macOS
 - Media keys work when the application has focus
-- System media key integration may be added in future
+- MPNowPlayingInfoCenter integration may be added in future
 
 ## Implementation Details
 
 ### Architecture
 
+Muine uses a two-tier approach for media key support:
+
+#### 1. Window-Level KeyDown Handler (All Platforms)
 The media key handling is implemented in `MainWindow.axaml.cs`:
 
 1. A `KeyDown` event handler is attached to the main window
@@ -52,11 +58,26 @@ The media key handling is implemented in `MainWindow.axaml.cs`:
 3. The appropriate command from `MainWindowViewModel` is executed
 4. The event is marked as handled to prevent further propagation
 
+#### 2. MPRIS D-Bus Service (Linux Only)
+On Linux, an additional MPRIS service provides system-wide integration:
+
+1. `MprisService` registers with D-Bus session bus as `org.mpris.MediaPlayer2.muine`
+2. Implements `org.mpris.MediaPlayer2` and `org.mpris.MediaPlayer2.Player` interfaces
+3. Exposes playback controls, metadata, and state to the system
+4. Handles media key events from the desktop environment
+5. Updates "now playing" information in taskbars and notification areas
+
 ### Code Location
 
+**Window-Level Handler:**
 - **File**: `src/Muine.App/Views/MainWindow.axaml.cs`
 - **Method**: `OnWindowKeyDown`
 - **Event**: Subscribed in constructor via `this.KeyDown += OnWindowKeyDown`
+
+**MPRIS Service (Linux):**
+- **File**: `src/Muine.Core/Services/MprisService.cs`
+- **Integration**: Initialized in `MainWindowViewModel.InitializeDatabaseAsync()`
+- **Interfaces**: `IMediaPlayer2` and `IMediaPlayer2Player` from Tmds.DBus
 
 ### Volume Mute Implementation
 
@@ -132,9 +153,23 @@ Currently, UI keyboard event testing is not implemented due to the complexity of
 
 ### Media keys not responding
 
+**On Linux:**
+1. **MPRIS should work globally**: Media keys should work even when Muine doesn't have focus
+2. **Check D-Bus**: Run `dbus-send --session --dest=org.mpris.MediaPlayer2.muine --print-reply /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:PlaybackStatus` to verify MPRIS registration
+3. **Verify desktop environment**: Ensure your DE has media key support enabled
+4. **Check taskbar integration**: Look for "now playing" info in your system panel
+
+**On Windows/macOS:**
 1. **Check if application has focus**: Click on the Muine window to ensure it's active
 2. **Verify keyboard support**: Some keyboards may not send standard media key codes
 3. **Check platform**: Ensure your platform supports media keys through Avalonia
+
+### MPRIS not working on Linux
+
+1. **Check D-Bus session bus**: Verify D-Bus is running with `echo $DBUS_SESSION_BUS_ADDRESS`
+2. **Check service registration**: Use `busctl --user list | grep muine` to see if the service is registered
+3. **Check logs**: Look for "MPRIS initialization failed" messages in debug output
+4. **Fallback**: If MPRIS fails, window-focus media keys will still work
 
 ### Volume mute not working correctly
 
