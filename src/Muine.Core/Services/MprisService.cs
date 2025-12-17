@@ -74,6 +74,7 @@ public class MprisService : IDisposable
             
             _isInitialized = true;
             Console.WriteLine($"[MPRIS] ✓ Service initialized successfully as {BusName}");
+            Console.WriteLine("[MPRIS] Property change signals will be emitted when playback state or song changes");
         }
         catch (Exception ex)
         {
@@ -93,20 +94,38 @@ public class MprisService : IDisposable
 
     private void OnPlaybackStateChanged(object? sender, PlaybackState state)
     {
-        // Property change notifications would be sent here in a future enhancement
-        // For now, media players poll the properties periodically
+        if (_mprisObject != null && _isInitialized)
+        {
+            var changes = new Dictionary<string, object>
+            {
+                ["PlaybackStatus"] = _mprisObject.GetPlaybackStatus()
+            };
+            _mprisObject.EmitPropertyChanged("org.mpris.MediaPlayer2.Player", changes);
+        }
     }
 
     private void OnCurrentSongChanged(object? sender, Song? song)
     {
-        // Property change notifications would be sent here in a future enhancement
-        // For now, media players poll the properties periodically
+        if (_mprisObject != null && _isInitialized)
+        {
+            var changes = new Dictionary<string, object>
+            {
+                ["Metadata"] = _mprisObject.GetMetadata()
+            };
+            _mprisObject.EmitPropertyChanged("org.mpris.MediaPlayer2.Player", changes);
+        }
     }
 
     private void OnCurrentRadioStationChanged(object? sender, RadioStation? station)
     {
-        // Property change notifications would be sent here in a future enhancement
-        // For now, media players poll the properties periodically
+        if (_mprisObject != null && _isInitialized)
+        {
+            var changes = new Dictionary<string, object>
+            {
+                ["Metadata"] = _mprisObject.GetMetadata()
+            };
+            _mprisObject.EmitPropertyChanged("org.mpris.MediaPlayer2.Player", changes);
+        }
     }
 
     public void Dispose()
@@ -159,6 +178,8 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 {
     private readonly PlaybackService _playbackService;
     private readonly MprisService _service;
+    private readonly List<Action<PropertyChanges>> _mediaPlayer2PropertyWatchers = new();
+    private readonly List<Action<PropertyChanges>> _playerPropertyWatchers = new();
     
     public static readonly ObjectPath Path = new ObjectPath("/org/mpris/MediaPlayer2");
     public ObjectPath ObjectPath => Path;
@@ -167,6 +188,37 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     {
         _playbackService = playbackService;
         _service = service;
+    }
+
+    // Method to emit property change signals
+    internal void EmitPropertyChanged(string interfaceName, IDictionary<string, object> changedProperties)
+    {
+        var watchers = interfaceName switch
+        {
+            "org.mpris.MediaPlayer2" => _mediaPlayer2PropertyWatchers,
+            "org.mpris.MediaPlayer2.Player" => _playerPropertyWatchers,
+            _ => null
+        };
+
+        if (watchers != null && watchers.Count > 0)
+        {
+            Console.WriteLine($"[MPRIS] Emitting PropertyChanged signal for {interfaceName} with {changedProperties.Count} properties to {watchers.Count} watchers");
+            
+            // PropertyChanges is from Tmds.DBus - try default construction
+            var changes = default(PropertyChanges);
+            
+            foreach (var watcher in watchers.ToArray())
+            {
+                try
+                {
+                    watcher(changes);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[MPRIS] Error invoking property watcher: {ex.Message}");
+                }
+            }
+        }
     }
 
     // IMediaPlayer2 implementation
@@ -217,8 +269,9 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task<IDisposable> IMediaPlayer2.WatchPropertiesAsync(Action<PropertyChanges> handler)
     {
-        // Return a no-op disposable since we don't emit property change signals yet
-        return Task.FromResult<IDisposable>(new NoOpDisposable());
+        _mediaPlayer2PropertyWatchers.Add(handler);
+        Console.WriteLine("[MPRIS] Added MediaPlayer2 property watcher");
+        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => _mediaPlayer2PropertyWatchers.Remove(handler)));
     }
 
     // IMediaPlayer2Player implementation
@@ -362,8 +415,9 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task<IDisposable> IMediaPlayer2Player.WatchPropertiesAsync(Action<PropertyChanges> handler)
     {
-        // Return a no-op disposable since we don't emit property change signals yet
-        return Task.FromResult<IDisposable>(new NoOpDisposable());
+        _playerPropertyWatchers.Add(handler);
+        Console.WriteLine("[MPRIS] Added MediaPlayer2.Player property watcher");
+        return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => _playerPropertyWatchers.Remove(handler)));
     }
 
     // Make this method accessible to MprisService for property change signals
@@ -420,11 +474,23 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     }
 }
 
-// No-op IDisposable implementation for signal subscriptions
-internal class NoOpDisposable : IDisposable
+// Disposable that removes property watcher on disposal
+internal class PropertyWatcherDisposable : IDisposable
 {
+    private readonly Action _onDispose;
+    private bool _disposed;
+
+    public PropertyWatcherDisposable(Action onDispose)
+    {
+        _onDispose = onDispose;
+    }
+
     public void Dispose()
     {
-        // No-op
+        if (!_disposed)
+        {
+            _onDispose();
+            _disposed = true;
+        }
     }
 }
