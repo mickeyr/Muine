@@ -126,13 +126,20 @@ public class PlaybackService : IDisposable
                 throw new InvalidOperationException(error);
             }
 
-            LoggingService.Info($"Got stream URL, starting playback for: {song.Title}", "Playback");
+            LoggingService.Info($"Got stream URL: {streamUrl}", "Playback");
+            LoggingService.Info($"Starting playback for: {song.Title}", "Playback");
 
             await Task.Run(() =>
             {
                 Stop();
 
+                // Create media with the direct stream URL
                 var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
+                
+                // Add media options for network streaming
+                media.AddOption(":network-caching=1000");
+                media.AddOption(":http-reconnect");
+                
                 _mediaPlayer.Media = media;
                 _mediaPlayer.Volume = (int)_volume;
 
@@ -141,8 +148,25 @@ public class PlaybackService : IDisposable
                 CurrentSongChanged?.Invoke(this, _currentSong);
                 CurrentRadioStationChanged?.Invoke(this, null);
 
-                _mediaPlayer.Play();
-                LoggingService.Info($"YouTube playback started for: {song.Title}", "Playback");
+                var playResult = _mediaPlayer.Play();
+                LoggingService.Info($"MediaPlayer.Play() returned: {playResult}", "Playback");
+                
+                // Log media state after a short delay
+                Task.Delay(500).ContinueWith(_ =>
+                {
+                    try
+                    {
+                        LoggingService.Info($"Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
+                        if (_mediaPlayer.Media?.State == VLCState.Error)
+                        {
+                            LoggingService.Error($"Media is in error state for: {song.Title}", null, "Playback");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingService.Error($"Error checking media state", ex, "Playback");
+                    }
+                });
             });
         }
         else
