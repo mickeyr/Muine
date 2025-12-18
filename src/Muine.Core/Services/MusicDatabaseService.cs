@@ -19,6 +19,8 @@ public class MusicDatabaseService : IDisposable
         _connection = new SqliteConnection(_connectionString);
         await _connection.OpenAsync();
         await CreateTablesAsync();
+        await MigrateDatabaseAsync();
+        await CreateIndexesAsync();
     }
 
     private async Task CreateTablesAsync()
@@ -45,6 +47,13 @@ public class MusicDatabaseService : IDisposable
                 YouTubeUrl TEXT
             )";
 
+        using var cmd = _connection!.CreateCommand();
+        cmd.CommandText = createSongsTable;
+        await cmd.ExecuteNonQueryAsync();
+    }
+
+    private async Task CreateIndexesAsync()
+    {
         var createIndexes = @"
             CREATE INDEX IF NOT EXISTS idx_songs_album ON Songs(Album);
             CREATE INDEX IF NOT EXISTS idx_songs_filename ON Songs(Filename);
@@ -53,11 +62,54 @@ public class MusicDatabaseService : IDisposable
         ";
 
         using var cmd = _connection!.CreateCommand();
-        cmd.CommandText = createSongsTable;
-        await cmd.ExecuteNonQueryAsync();
-
         cmd.CommandText = createIndexes;
         await cmd.ExecuteNonQueryAsync();
+    }
+
+    private async Task MigrateDatabaseAsync()
+    {
+        // Check if YouTube columns exist, add them if they don't (migration for existing databases)
+        await AddColumnIfNotExistsAsync("Songs", "SourceType", "INTEGER DEFAULT 0");
+        await AddColumnIfNotExistsAsync("Songs", "YouTubeId", "TEXT");
+        await AddColumnIfNotExistsAsync("Songs", "YouTubeUrl", "TEXT");
+    }
+
+    private async Task AddColumnIfNotExistsAsync(string tableName, string columnName, string columnType)
+    {
+        try
+        {
+            // Check if column exists by querying table info
+            using var cmd = _connection!.CreateCommand();
+            cmd.CommandText = $"PRAGMA table_info({tableName})";
+            
+            using var reader = await cmd.ExecuteReaderAsync();
+            var columnExists = false;
+            
+            while (await reader.ReadAsync())
+            {
+                var name = reader.GetString(1); // Column name is at index 1
+                if (name.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    columnExists = true;
+                    break;
+                }
+            }
+            
+            reader.Close();
+            
+            if (!columnExists)
+            {
+                // Add the column
+                cmd.CommandText = $"ALTER TABLE {tableName} ADD COLUMN {columnName} {columnType}";
+                await cmd.ExecuteNonQueryAsync();
+                System.Diagnostics.Debug.WriteLine($"[MusicDatabaseService] Added column {columnName} to {tableName}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log but don't fail - the column might already exist or there might be other issues
+            System.Diagnostics.Debug.WriteLine($"[MusicDatabaseService] Error adding column {columnName}: {ex.Message}");
+        }
     }
 
     public async Task<int> SaveSongAsync(Song song)
