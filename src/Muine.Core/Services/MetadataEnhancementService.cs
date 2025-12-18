@@ -42,6 +42,10 @@ public class MetadataEnhancementService : IDisposable
             return new List<MusicBrainzMatch>();
         }
 
+        // Clean common suffixes from title before searching (defensive - handles old data)
+        title = CleanTitle(title);
+        artist = CleanTitle(artist);
+
         LoggingService.Info($"Finding MusicBrainz matches for: {artist} - {title}", "MetadataEnhancementService");
 
         var matches = await _musicBrainzService.SearchRecordingsAsync(artist, title, maxResults);
@@ -138,13 +142,34 @@ public class MetadataEnhancementService : IDisposable
             YouTubeUrl = song.YouTubeUrl
         };
 
-        // Write to file if requested and if it's a local file
-        if (writeToFile && song.IsLocal && !string.IsNullOrEmpty(song.Filename))
+        // Write to file if requested and if it's a local file OR YouTube song with cached MP3
+        if (writeToFile && !string.IsNullOrEmpty(song.Filename))
         {
-            var writeSuccess = _metadataService.WriteMusicBrainzMetadata(song.Filename, bestMatch);
-            if (!writeSuccess)
+            string fileToWrite = song.Filename;
+            
+            // For YouTube songs, use the cached MP3 file path
+            if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
             {
-                LoggingService.Warning($"Failed to write metadata to file: {song.Filename}", "MetadataEnhancementService");
+                var youtubeAudioDir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Muine",
+                    "YouTubeAudio"
+                );
+                fileToWrite = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.mp3");
+            }
+            
+            // Only write if the file actually exists
+            if (File.Exists(fileToWrite))
+            {
+                var writeSuccess = _metadataService.WriteMusicBrainzMetadata(fileToWrite, bestMatch);
+                if (!writeSuccess)
+                {
+                    LoggingService.Warning($"Failed to write metadata to file: {fileToWrite}", "MetadataEnhancementService");
+                }
+            }
+            else
+            {
+                LoggingService.Warning($"Cannot write metadata - file does not exist: {fileToWrite}", "MetadataEnhancementService");
             }
         }
 
@@ -206,13 +231,34 @@ public class MetadataEnhancementService : IDisposable
             YouTubeUrl = song.YouTubeUrl
         };
 
-        // Write to file if requested and if it's a local file
-        if (writeToFile && song.IsLocal && !string.IsNullOrEmpty(song.Filename))
+        // Write to file if requested and if it's a local file OR YouTube song with cached MP3
+        if (writeToFile && !string.IsNullOrEmpty(song.Filename))
         {
-            var writeSuccess = _metadataService.WriteMusicBrainzMetadata(song.Filename, match);
-            if (!writeSuccess)
+            string fileToWrite = song.Filename;
+            
+            // For YouTube songs, use the cached MP3 file path
+            if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
             {
-                LoggingService.Warning($"Failed to write metadata to file: {song.Filename}", "MetadataEnhancementService");
+                var youtubeAudioDir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Muine",
+                    "YouTubeAudio"
+                );
+                fileToWrite = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.mp3");
+            }
+            
+            // Only write if the file actually exists
+            if (File.Exists(fileToWrite))
+            {
+                var writeSuccess = _metadataService.WriteMusicBrainzMetadata(fileToWrite, match);
+                if (!writeSuccess)
+                {
+                    LoggingService.Warning($"Failed to write metadata to file: {fileToWrite}", "MetadataEnhancementService");
+                }
+            }
+            else
+            {
+                LoggingService.Warning($"Cannot write metadata - file does not exist: {fileToWrite}", "MetadataEnhancementService");
             }
         }
 
@@ -235,19 +281,32 @@ public class MetadataEnhancementService : IDisposable
             return;
         }
 
-        // For local files, embed the artwork
-        if (song.IsLocal && !string.IsNullOrEmpty(song.Filename))
+        string fileToWrite = song.Filename;
+        
+        // For YouTube songs, use the cached MP3 file path
+        if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
+        {
+            var youtubeAudioDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Muine",
+                "YouTubeAudio"
+            );
+            fileToWrite = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.mp3");
+        }
+
+        // Embed artwork in the file (works for both local and YouTube cached MP3s)
+        if (!string.IsNullOrEmpty(fileToWrite) && File.Exists(fileToWrite))
         {
             try
             {
-                var success = await _metadataService.EmbedAlbumArtFromUrlAsync(song.Filename, match.CoverArtUrl);
+                var success = await _metadataService.EmbedAlbumArtFromUrlAsync(fileToWrite, match.CoverArtUrl);
                 if (success)
                 {
-                    LoggingService.Info($"Cover art embedded in: {song.Filename}", "MetadataEnhancementService");
+                    LoggingService.Info($"Cover art embedded in: {fileToWrite}", "MetadataEnhancementService");
                     
                     // Update the song's cover image path
                     // Re-read metadata to get the embedded cover path
-                    var updatedSong = _metadataService.ReadSongMetadata(song.Filename);
+                    var updatedSong = _metadataService.ReadSongMetadata(fileToWrite);
                     if (updatedSong?.CoverImagePath != null)
                     {
                         song.CoverImagePath = updatedSong.CoverImagePath;
@@ -259,7 +318,7 @@ public class MetadataEnhancementService : IDisposable
                 LoggingService.Error($"Failed to download and embed cover art", ex, "MetadataEnhancementService");
             }
         }
-        // For YouTube songs, just store the URL
+        // Fallback: If file doesn't exist yet, just store the URL
         else if (song.IsYouTube)
         {
             song.CoverImagePath = match.CoverArtUrl;
@@ -286,9 +345,49 @@ public class MetadataEnhancementService : IDisposable
 
         LoggingService.Info($"Enhancing YouTube song: {youTubeSong.DisplayName}", "MetadataEnhancementService");
 
-        // YouTube songs can't have metadata written to file (they're streams)
-        // But we can enhance the in-memory Song object
-        return await EnhanceSongAsync(youTubeSong, writeToFile: false, downloadCoverArt: false);
+        // YouTube songs ARE downloaded as MP3 files in the cache, so we CAN write tags
+        // The Filename will be the cached MP3 path after download
+        return await EnhanceSongAsync(youTubeSong, writeToFile: true, downloadCoverArt: true);
+    }
+
+    /// <summary>
+    /// Clean common suffixes from title/artist for better MusicBrainz matching
+    /// </summary>
+    private string CleanTitle(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return text;
+
+        var suffixes = new[]
+        {
+            "(Official Video)",
+            "(Official Music Video)",
+            "[Official Video]",
+            "(Official Audio)",
+            "[Official Audio]",
+            "(Lyric Video)",
+            "[Lyric Video]",
+            "(Audio)",
+            "[Audio]",
+            "(HD)",
+            "[HD]",
+            "(4K)",
+            "[4K]",
+            "(Official)",
+            "[Official]",
+            "(Remastered)",
+            "[Remastered]"
+        };
+
+        foreach (var suffix in suffixes)
+        {
+            if (text.Contains(suffix, StringComparison.OrdinalIgnoreCase))
+            {
+                text = text.Replace(suffix, "", StringComparison.OrdinalIgnoreCase).Trim();
+            }
+        }
+
+        return text;
     }
 
     public void Dispose()
