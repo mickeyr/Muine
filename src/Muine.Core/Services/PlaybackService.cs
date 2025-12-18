@@ -152,15 +152,17 @@ public class PlaybackService : IDisposable
 
                 var media = new Media(_libVLC!, audioFilePath, FromType.FromPath);
                 
-                // Add media options to prevent timing issues
-                media.AddOption(":no-audio-time-stretch");  // Prevent time stretching
-                media.AddOption(":audio-time-stretch=1.0");  // Explicitly set time stretch to 1.0
+                // Add media options to ensure proper playback speed and compatibility
+                media.AddOption(":no-audio-time-stretch");  // Disable time stretching completely
+                media.AddOption(":audio-time-stretch=0");  // Set time stretch to 0 (disabled)
+                media.AddOption(":audio-resampler=soxr");  // Use high-quality resampler
+                media.AddOption(":sout-audio-rate=48000");  // Force output sample rate to 48kHz
                 
                 _mediaPlayer.Media = media;
                 _mediaPlayer.Volume = (int)_volume;
                 
                 // Explicitly set playback rate to 1.0 (normal speed) for YouTube songs
-                // This prevents issues with LibVLC misinterpreting the sample rate
+                // This must be set BEFORE calling Play()
                 _mediaPlayer.SetRate(1.0f);
 
                 _currentSong = song;
