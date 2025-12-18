@@ -5,6 +5,7 @@ using Muine.Core.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using static Muine.Core.Services.LoggingService;
 
 namespace Muine.App.ViewModels;
 
@@ -12,6 +13,9 @@ public partial class YouTubeSearchViewModel : ViewModelBase
 {
     private readonly YouTubeService _youtubeService;
     private readonly MusicDatabaseService _databaseService;
+
+    // Event fired when songs are added to the library
+    public event EventHandler? SongsAddedToLibrary;
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
@@ -87,10 +91,14 @@ public partial class YouTubeSearchViewModel : ViewModelBase
             // Save the YouTube song to the database
             await _databaseService.SaveSongAsync(SelectedSong);
             StatusMessage = $"Added '{SelectedSong.Title}' to library";
+            
+            // Notify that library has been updated
+            SongsAddedToLibrary?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
             StatusMessage = $"Error adding to library: {ex.Message}";
+            LoggingService.Error($"Failed to add YouTube song to library: {SelectedSong?.Title}", ex, "YouTubeSearch");
         }
         finally
         {
@@ -117,10 +125,14 @@ public partial class YouTubeSearchViewModel : ViewModelBase
             }
 
             StatusMessage = $"Added {count} songs to library";
+            
+            // Notify that library has been updated
+            SongsAddedToLibrary?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
             StatusMessage = $"Error adding to library: {ex.Message}";
+            LoggingService.Error($"Failed to add YouTube songs to library", ex, "YouTubeSearch");
         }
         finally
         {

@@ -111,14 +111,22 @@ public class PlaybackService : IDisposable
         {
             if (_youtubeService == null)
             {
-                throw new InvalidOperationException("YouTube service not initialized.");
+                var error = "YouTube service not initialized.";
+                LoggingService.Error(error, null, "Playback");
+                throw new InvalidOperationException(error);
             }
+            
+            LoggingService.Info($"Getting audio stream for YouTube video: {song.YouTubeId} - {song.Title}", "Playback");
             
             var streamUrl = await _youtubeService.GetAudioStreamUrlAsync(song.YouTubeId);
             if (string.IsNullOrEmpty(streamUrl))
             {
-                throw new InvalidOperationException($"Failed to get audio stream for YouTube video: {song.YouTubeId}");
+                var error = $"Failed to get audio stream for YouTube video: {song.YouTubeId}";
+                LoggingService.Error(error, null, "Playback");
+                throw new InvalidOperationException(error);
             }
+
+            LoggingService.Info($"Got stream URL, starting playback for: {song.Title}", "Playback");
 
             await Task.Run(() =>
             {
@@ -134,6 +142,7 @@ public class PlaybackService : IDisposable
                 CurrentRadioStationChanged?.Invoke(this, null);
 
                 _mediaPlayer.Play();
+                LoggingService.Info($"YouTube playback started for: {song.Title}", "Playback");
             });
         }
         else

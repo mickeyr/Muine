@@ -141,6 +141,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
         YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService);
         
+        // Subscribe to YouTube events
+        YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
+        
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
         _playbackService.PositionChanged += OnPlaybackPositionChanged;
@@ -593,6 +596,15 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         
         // Notify that CanSeek property has changed (radio streams are not seekable)
         OnPropertyChanged(nameof(CanSeek));
+    }
+
+    private async void OnYouTubeSongsAddedToLibrary(object? sender, EventArgs e)
+    {
+        // Refresh the music library view
+        if (MusicLibraryViewModel != null)
+        {
+            await MusicLibraryViewModel.LoadLibraryAsync();
+        }
     }
 
     public void AddSongToPlaylist(Song song)
