@@ -129,49 +129,67 @@ public class PlaybackService : IDisposable
             LoggingService.Info($"Got stream URL: {streamUrl}", "Playback");
             LoggingService.Info($"Starting playback for: {song.Title}", "Playback");
 
-            Stop();
-
-            // Create media with the direct stream URL
-            var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
-            
-            // Add media options for network streaming
-            media.AddOption(":network-caching=1000");
-            media.AddOption(":http-reconnect");
-            media.AddOption(":http-user-agent=Mozilla/5.0");
-            
-            // Parse the media to ensure it's ready
-            LoggingService.Info($"Parsing media for: {song.Title}", "Playback");
-            var parseResult = await media.Parse(MediaParseOptions.ParseNetwork);
-            LoggingService.Info($"Parse result: {parseResult}, Duration: {media.Duration} ms", "Playback");
-            
-            _mediaPlayer.Media = media;
-            _mediaPlayer.Volume = (int)_volume;
-
-            _currentSong = song;
-            _currentRadioStation = null;
-            CurrentSongChanged?.Invoke(this, _currentSong);
-            CurrentRadioStationChanged?.Invoke(this, null);
-
-            var playResult = _mediaPlayer.Play();
-            LoggingService.Info($"MediaPlayer.Play() returned: {playResult}", "Playback");
-            
-            // Log media state after a short delay
-            await Task.Delay(1000);
-            try
+            await Task.Run(() =>
             {
-                LoggingService.Info($"Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
-                LoggingService.Info($"Media duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}", "Playback");
-                LoggingService.Info($"Is playing: {_mediaPlayer.IsPlaying}, Volume: {_mediaPlayer.Volume}", "Playback");
+                Stop();
+
+                // Create media with the direct stream URL - using same approach as radio
+                var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
                 
-                if (_mediaPlayer.Media?.State == VLCState.Error)
+                // Add media options for network streaming - increased caching for YouTube
+                media.AddOption(":network-caching=3000");
+                media.AddOption(":http-reconnect");
+                media.AddOption(":http-user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36");
+                
+                _mediaPlayer.Media = media;
+                _mediaPlayer.Volume = (int)_volume;
+
+                _currentSong = song;
+                _currentRadioStation = null;
+                CurrentSongChanged?.Invoke(this, _currentSong);
+                CurrentRadioStationChanged?.Invoke(this, null);
+
+                var playResult = _mediaPlayer.Play();
+                LoggingService.Info($"MediaPlayer.Play() returned: {playResult}", "Playback");
+                
+                // Log media state after delays to see progression
+                Task.Delay(1000).ContinueWith(_ =>
                 {
-                    LoggingService.Error($"Media is in error state for: {song.Title}", null, "Playback");
-                }
-            }
-            catch (Exception ex)
-            {
-                LoggingService.Error($"Error checking media state", ex, "Playback");
-            }
+                    try
+                    {
+                        LoggingService.Info($"[1s] Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
+                        LoggingService.Info($"[1s] Duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}, Volume: {_mediaPlayer.Volume}", "Playback");
+                        LoggingService.Info($"[1s] IsPlaying: {_mediaPlayer.IsPlaying}", "Playback");
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingService.Error($"Error checking media state at 1s", ex, "Playback");
+                    }
+                });
+                
+                Task.Delay(3000).ContinueWith(_ =>
+                {
+                    try
+                    {
+                        LoggingService.Info($"[3s] Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
+                        LoggingService.Info($"[3s] Duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}", "Playback");
+                        LoggingService.Info($"[3s] IsPlaying: {_mediaPlayer.IsPlaying}, Time: {_mediaPlayer.Time} ms", "Playback");
+                        
+                        if (_mediaPlayer.Media?.State == VLCState.Error)
+                        {
+                            LoggingService.Error($"Media is in error state for: {song.Title}", null, "Playback");
+                        }
+                        else if (_mediaPlayer.Media?.State == VLCState.Ended)
+                        {
+                            LoggingService.Error($"Media ended immediately - likely invalid stream for: {song.Title}", null, "Playback");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingService.Error($"Error checking media state at 3s", ex, "Playback");
+                    }
+                });
+            });
         }
         else
         {
