@@ -25,6 +25,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly RadioBrowserService? _radioBrowserService;
     private readonly YouTubeService _youtubeService;
     private readonly MprisService? _mprisService;
+    private readonly BackgroundTaggingQueue _taggingQueue;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -128,7 +129,17 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
         _databaseService = new MusicDatabaseService(databasePath);
         _radioStationService = new RadioStationService(databasePath);
-        _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService);
+        
+        // Initialize metadata enhancement services
+        var mbService = new MusicBrainzService();
+        var enhancementService = new MetadataEnhancementService(mbService, _metadataService);
+        _taggingQueue = new BackgroundTaggingQueue(enhancementService);
+        
+        // Subscribe to tagging queue events
+        _taggingQueue.WorkCompleted += OnTaggingWorkCompleted;
+        _taggingQueue.WorkFailed += OnTaggingWorkFailed;
+        
+        _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService, _taggingQueue);
         
         // Initialize MPRIS service (Linux media key support)
         _mprisService = new MprisService(_playbackService);
@@ -139,7 +150,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
-        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService);
+        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue);
         
         // Subscribe to YouTube events
         YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
@@ -229,7 +240,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             });
 
             // Run the scan in a background thread to avoid blocking the UI
-            var result = await Task.Run(() => _scannerService.ScanDirectoryAsync(folderPath, progress));
+            var result = await Task.Run(() => _scannerService.ScanDirectoryAsync(folderPath, progress, autoEnhanceMetadata: true));
 
             // Reload songs from database
             await LoadSongsAsync();
@@ -401,6 +412,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 
                 int successCount = 0;
                 int failureCount = 0;
+                var importedSongs = new List<Song>();
 
                 foreach (var file in files)
                 {
@@ -413,6 +425,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                         {
                             _coverArtService.UpdateSongCoverArt(song);
                             await _databaseService.SaveSongAsync(song);
+                            importedSongs.Add(song);
                             successCount++;
                         }
                         else
@@ -424,6 +437,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                     {
                         failureCount++;
                     }
+                }
+
+                // Queue imported songs for metadata enhancement
+                if (importedSongs.Count > 0)
+                {
+                    _taggingQueue.EnqueueSongs(importedSongs, downloadCoverArt: true);
+                    LoggingService.Info($"Queued {importedSongs.Count} songs for metadata enhancement", "MainWindowViewModel");
                 }
 
                 await LoadSongsAsync();
@@ -605,6 +625,34 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await MusicLibraryViewModel.LoadLibraryAsync();
         }
+    }
+    
+    private async void OnTaggingWorkCompleted(object? sender, TaggingCompletedEventArgs e)
+    {
+        // Update the song in the database with enhanced metadata
+        try
+        {
+            await _databaseService.SaveSongAsync(e.EnhancedSong);
+            
+            // Refresh the library view
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                if (MusicLibraryViewModel != null)
+                {
+                    await MusicLibraryViewModel.LoadLibraryAsync();
+                }
+                StatusMessage = $"Enhanced metadata for: {e.EnhancedSong.DisplayName}";
+            });
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to save enhanced song metadata", ex, "MainWindowViewModel");
+        }
+    }
+    
+    private void OnTaggingWorkFailed(object? sender, TaggingFailedEventArgs e)
+    {
+        LoggingService.Warning($"Failed to enhance metadata for {e.Song.DisplayName}: {e.ErrorMessage}", "MainWindowViewModel");
     }
 
     public void AddSongToPlaylist(Song song)
@@ -832,6 +880,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public void Dispose()
     {
+        _taggingQueue?.Dispose();
         _mprisService?.Dispose();
         _playbackService?.Dispose();
         _databaseService?.Dispose();

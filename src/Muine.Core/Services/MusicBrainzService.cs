@@ -7,7 +7,7 @@ namespace Muine.Core.Services;
 /// <summary>
 /// Service for querying the MusicBrainz API with rate limiting and authentication support
 /// </summary>
-public class MusicBrainzService : IDisposable
+public class MusicBrainzService : IMusicBrainzService
 {
     private readonly Query _query;
     private readonly SemaphoreSlim _rateLimiter;

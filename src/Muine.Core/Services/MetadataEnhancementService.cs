@@ -7,12 +7,12 @@ namespace Muine.Core.Services;
 /// </summary>
 public class MetadataEnhancementService : IDisposable
 {
-    private readonly MusicBrainzService _musicBrainzService;
+    private readonly IMusicBrainzService _musicBrainzService;
     private readonly MetadataService _metadataService;
     private bool _disposed;
 
     public MetadataEnhancementService(
-        MusicBrainzService? musicBrainzService = null,
+        IMusicBrainzService? musicBrainzService = null,
         MetadataService? metadataService = null)
     {
         _musicBrainzService = musicBrainzService ?? new MusicBrainzService();
