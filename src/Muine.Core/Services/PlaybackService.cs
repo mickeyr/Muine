@@ -151,6 +151,11 @@ public class PlaybackService : IDisposable
                 Stop();
 
                 var media = new Media(_libVLC!, audioFilePath, FromType.FromPath);
+                
+                // Add media options to prevent timing issues
+                media.AddOption(":no-audio-time-stretch");  // Prevent time stretching
+                media.AddOption(":audio-time-stretch=1.0");  // Explicitly set time stretch to 1.0
+                
                 _mediaPlayer.Media = media;
                 _mediaPlayer.Volume = (int)_volume;
                 

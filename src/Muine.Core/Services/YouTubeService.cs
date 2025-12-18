@@ -168,13 +168,16 @@ public class YouTubeService : IDisposable
             
             // Convert WebM to OGG using FFmpeg for better LibVLC compatibility
             // OGG Vorbis is well-supported by VLC and maintains good quality
-            // Explicitly set sample rate to 48000 Hz to ensure correct playback speed
+            // Use custom arguments to ensure clean conversion without timing issues
             var success = await FFMpegArguments
                 .FromFileInput(tempWebmPath)
                 .OutputToFile(outputPath, true, options => options
                     .WithAudioCodec(AudioCodec.LibVorbis)
                     .WithAudioBitrate(192)  // 192kbps for good quality
-                    .WithAudioSamplingRate(48000))  // Explicitly set sample rate to prevent speed issues
+                    .WithAudioSamplingRate(48000)  // Explicitly set sample rate
+                    .WithCustomArgument("-map 0:a:0")  // Map only the first audio stream
+                    .WithCustomArgument("-ac 2")  // Force stereo output
+                    .WithCustomArgument("-vn"))  // Explicitly no video
                 .ProcessAsynchronously();
             
             // Clean up temporary WebM file
