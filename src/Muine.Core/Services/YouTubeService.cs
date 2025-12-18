@@ -103,10 +103,10 @@ public class YouTubeService : IDisposable
     }
 
     /// <summary>
-    /// Download audio from a YouTube video to a local file and convert to MP3 format for better compatibility
+    /// Download audio from a YouTube video to a local file and convert to Opus format for better compatibility
     /// </summary>
     /// <param name="videoId">YouTube video ID</param>
-    /// <param name="outputPath">Path where the audio file should be saved (should end in .mp3)</param>
+    /// <param name="outputPath">Path where the audio file should be saved (should end in .opus)</param>
     /// <returns>True if successful, false otherwise</returns>
     public async Task<bool> DownloadAudioAsync(string videoId, string outputPath)
     {
@@ -164,17 +164,16 @@ public class YouTubeService : IDisposable
             // Download the audio stream (WebM format)
             await _youtube.Videos.Streams.DownloadAsync(audioStream, tempWebmPath);
             
-            LoggingService.Info($"Converting WebM to OGG for better compatibility: {videoId}", "YouTubeService");
+            LoggingService.Info($"Converting WebM to Opus for better compatibility: {videoId}", "YouTubeService");
             
-            // Convert WebM to OGG using FFmpeg for better LibVLC compatibility
-            // OGG Vorbis is well-supported by VLC and maintains good quality
-            // Use strict standard settings to ensure maximum compatibility
+            // Convert WebM to Opus using FFmpeg for better LibVLC compatibility
+            // Opus is a modern, open codec with better quality/size ratio than MP3
+            // 128kbps Opus typically equals 192kbps MP3 quality
             var success = await FFMpegArguments
                 .FromFileInput(tempWebmPath)
                 .OutputToFile(outputPath, true, options => options
-                    .WithAudioCodec(AudioCodec.LibMp3Lame)
-                    .WithAudioBitrate(192)  // 192kbps for good quality
-                    .WithVariableBitrate(4)  // VBR quality level 4 (good quality)
+                    .WithCustomArgument("-c:a libopus")  // Use Opus audio codec
+                    .WithAudioBitrate(128)  // 128kbps for excellent quality (better than 192kbps MP3)
                     .WithAudioSamplingRate(48000)  // Explicitly set sample rate to 48kHz
                     .WithCustomArgument("-ac 2")  // Force stereo output (2 channels)
                     .WithCustomArgument("-vn"))  // Explicitly no video

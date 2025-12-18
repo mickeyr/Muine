@@ -123,7 +123,7 @@ public class PlaybackService : IDisposable
                 "YouTubeAudio"
             );
             
-            var audioFilePath = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.mp3");
+            var audioFilePath = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.opus");
             
             // Download if not already cached
             if (!File.Exists(audioFilePath))
@@ -146,7 +146,7 @@ public class PlaybackService : IDisposable
             }
 
             // Play the downloaded file exactly like a local file - no special options
-            // The OGG file is properly converted and should play like any local audio file
+            // The Opus file is properly converted and should play like any local audio file
             await Task.Run(() =>
             {
                 Stop();
