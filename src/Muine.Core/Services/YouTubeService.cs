@@ -291,7 +291,9 @@ public class YouTubeService : IDisposable
             var parts = videoTitle.Split(new[] { " - " }, 2, StringSplitOptions.None);
             if (parts.Length == 2)
             {
-                return (parts[0].Trim(), parts[1].Trim());
+                var artist = RemoveCommonSuffixes(parts[0].Trim());
+                var title = RemoveCommonSuffixes(parts[1].Trim());
+                return (artist, title);
             }
         }
 
@@ -304,6 +306,7 @@ public class YouTubeService : IDisposable
             
             // Remove common suffixes like "(Official Video)", "[Official Audio]", etc.
             artist = RemoveCommonSuffixes(artist);
+            title = RemoveCommonSuffixes(title);
             
             return (artist, title);
         }
@@ -335,7 +338,9 @@ public class YouTubeService : IDisposable
             "(4K)",
             "[4K]",
             "(Official)",
-            "[Official]"
+            "[Official]",
+            "(Remastered)",
+            "[Remastered]"
         };
 
         foreach (var suffix in suffixes)

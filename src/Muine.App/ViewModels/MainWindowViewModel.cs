@@ -476,11 +476,43 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _playbackService.PlayAsync(song);
             StatusMessage = $"Playing: {song.DisplayName}";
+            
+            // Queue for metadata enhancement if it appears to need it
+            // This handles songs already in the library that haven't been enhanced
+            if (ShouldEnhanceMetadata(song))
+            {
+                _taggingQueue.EnqueueSong(song, downloadCoverArt: true);
+                LoggingService.Info($"Queued existing song for metadata enhancement: {song.DisplayName}", "MainWindowViewModel");
+            }
         }
         catch (Exception ex)
         {
             StatusMessage = $"Error playing song: {ex.Message}";
         }
+    }
+    
+    /// <summary>
+    /// Determine if a song should be queued for metadata enhancement
+    /// </summary>
+    private bool ShouldEnhanceMetadata(Song song)
+    {
+        // Skip if it's a radio station or not a trackable song
+        if (string.IsNullOrEmpty(song.Title))
+            return false;
+        
+        // YouTube songs with "Unknown Artist" definitely need enhancement
+        if (song.IsYouTube && (song.Artists.Length == 0 || song.Artists[0] == "Unknown Artist"))
+            return true;
+        
+        // YouTube songs missing album/year info could benefit from enhancement
+        if (song.IsYouTube && string.IsNullOrEmpty(song.Album))
+            return true;
+        
+        // Local files with "Unknown Artist" or missing basic metadata
+        if (song.IsLocal && (song.Artists.Length == 0 || song.Artists[0] == "Unknown Artist"))
+            return true;
+        
+        return false;
     }
 
     [RelayCommand]

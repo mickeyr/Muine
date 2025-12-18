@@ -25,7 +25,7 @@ public class MetadataEnhancementServiceTests : IDisposable
         }
     }
 
-    [Fact]
+    [Fact(Skip = "Requires real MusicBrainz API - use mocked tests instead")]
     public async Task FindMatchesAsync_WithValidSong_ReturnsMatches()
     {
         // Arrange
@@ -76,7 +76,7 @@ public class MetadataEnhancementServiceTests : IDisposable
         Assert.Empty(matches);
     }
 
-    [Fact]
+    [Fact(Skip = "Requires real MusicBrainz API - use mocked tests instead")]
     public async Task FindMatchesAsync_BoostsScoreForMatchingAlbum()
     {
         // Arrange
