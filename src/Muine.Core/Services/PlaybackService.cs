@@ -106,7 +106,7 @@ public class PlaybackService : IDisposable
 
         ArgumentNullException.ThrowIfNull(song);
 
-        // For YouTube songs, we need to get the stream URL first
+        // For YouTube songs, we need to download the audio first
         if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
         {
             if (_youtubeService == null)
@@ -116,31 +116,41 @@ public class PlaybackService : IDisposable
                 throw new InvalidOperationException(error);
             }
             
-            LoggingService.Info($"Getting audio stream for YouTube video: {song.YouTubeId} - {song.Title}", "Playback");
+            // Check if we already have a downloaded file
+            var youtubeAudioDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Muine",
+                "YouTubeAudio"
+            );
             
-            var streamUrl = await _youtubeService.GetAudioStreamUrlAsync(song.YouTubeId);
-            if (string.IsNullOrEmpty(streamUrl))
+            var audioFilePath = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.webm");
+            
+            // Download if not already cached
+            if (!File.Exists(audioFilePath))
             {
-                var error = $"Failed to get audio stream for YouTube video: {song.YouTubeId}";
-                LoggingService.Error(error, null, "Playback");
-                throw new InvalidOperationException(error);
+                LoggingService.Info($"Downloading audio for YouTube video: {song.YouTubeId} - {song.Title}", "Playback");
+                
+                var downloadSuccess = await _youtubeService.DownloadAudioAsync(song.YouTubeId, audioFilePath);
+                if (!downloadSuccess || !File.Exists(audioFilePath))
+                {
+                    var error = $"Failed to download audio for YouTube video: {song.YouTubeId}";
+                    LoggingService.Error(error, null, "Playback");
+                    throw new InvalidOperationException(error);
+                }
+                
+                LoggingService.Info($"Successfully downloaded audio to: {audioFilePath}", "Playback");
+            }
+            else
+            {
+                LoggingService.Info($"Using cached audio file: {audioFilePath}", "Playback");
             }
 
-            LoggingService.Info($"Got stream URL: {streamUrl}", "Playback");
-            LoggingService.Info($"Starting playback for: {song.Title}", "Playback");
-
+            // Play the downloaded file like a local file
             await Task.Run(() =>
             {
                 Stop();
 
-                // Create media with the direct stream URL - using same approach as radio
-                var media = new Media(_libVLC!, streamUrl, FromType.FromLocation);
-                
-                // Add media options for network streaming - increased caching for YouTube
-                media.AddOption(":network-caching=3000");
-                media.AddOption(":http-reconnect");
-                media.AddOption(":http-user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36");
-                
+                var media = new Media(_libVLC!, audioFilePath, FromType.FromPath);
                 _mediaPlayer.Media = media;
                 _mediaPlayer.Volume = (int)_volume;
 
@@ -150,7 +160,7 @@ public class PlaybackService : IDisposable
                 CurrentRadioStationChanged?.Invoke(this, null);
 
                 var playResult = _mediaPlayer.Play();
-                LoggingService.Info($"MediaPlayer.Play() returned: {playResult}", "Playback");
+                LoggingService.Info($"MediaPlayer.Play() returned: {playResult} for YouTube song: {song.Title}", "Playback");
                 
                 // Log media state after delays to see progression
                 Task.Delay(1000).ContinueWith(_ =>
@@ -164,29 +174,6 @@ public class PlaybackService : IDisposable
                     catch (Exception ex)
                     {
                         LoggingService.Error($"Error checking media state at 1s", ex, "Playback");
-                    }
-                });
-                
-                Task.Delay(3000).ContinueWith(_ =>
-                {
-                    try
-                    {
-                        LoggingService.Info($"[3s] Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
-                        LoggingService.Info($"[3s] Duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}", "Playback");
-                        LoggingService.Info($"[3s] IsPlaying: {_mediaPlayer.IsPlaying}, Time: {_mediaPlayer.Time} ms", "Playback");
-                        
-                        if (_mediaPlayer.Media?.State == VLCState.Error)
-                        {
-                            LoggingService.Error($"Media is in error state for: {song.Title}", null, "Playback");
-                        }
-                        else if (_mediaPlayer.Media?.State == VLCState.Ended)
-                        {
-                            LoggingService.Error($"Media ended immediately - likely invalid stream for: {song.Title}", null, "Playback");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LoggingService.Error($"Error checking media state at 3s", ex, "Playback");
                     }
                 });
             });

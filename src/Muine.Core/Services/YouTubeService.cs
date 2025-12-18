@@ -97,6 +97,62 @@ public class YouTubeService : IDisposable
     }
 
     /// <summary>
+    /// Download audio from a YouTube video to a local file
+    /// </summary>
+    /// <param name="videoId">YouTube video ID</param>
+    /// <param name="outputPath">Path where the audio file should be saved</param>
+    /// <returns>True if successful, false otherwise</returns>
+    public async Task<bool> DownloadAudioAsync(string videoId, string outputPath)
+    {
+        if (string.IsNullOrWhiteSpace(videoId) || string.IsNullOrWhiteSpace(outputPath))
+        {
+            return false;
+        }
+
+        try
+        {
+            var streamManifest = await _youtube.Videos.Streams.GetManifestAsync(videoId);
+            
+            // Get the best audio-only stream
+            var audioStream = streamManifest
+                .GetAudioOnlyStreams()
+                .OrderByDescending(s => s.Bitrate)
+                .FirstOrDefault();
+
+            if (audioStream == null)
+            {
+                LoggingService.Error($"No audio stream found for video: {videoId}", null, "YouTubeService");
+                return false;
+            }
+
+            // Ensure output directory exists
+            var directory = Path.GetDirectoryName(outputPath);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            LoggingService.Info($"Downloading audio for {videoId} to {outputPath}", "YouTubeService");
+            
+            // Download the audio stream
+            await _youtube.Videos.Streams.DownloadAsync(audioStream, outputPath);
+            
+            LoggingService.Info($"Successfully downloaded audio for {videoId}", "YouTubeService");
+            return true;
+        }
+        catch (YoutubeExplode.Exceptions.VideoUnavailableException ex)
+        {
+            LoggingService.Error($"Video unavailable: {videoId}", ex, "YouTubeService");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to download audio for {videoId}", ex, "YouTubeService");
+            return false;
+        }
+    }
+
+    /// <summary>
     /// Get the best audio stream URL for a YouTube video
     /// This URL can be played directly with LibVLC
     /// </summary>
