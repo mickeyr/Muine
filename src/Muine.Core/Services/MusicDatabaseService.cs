@@ -19,6 +19,8 @@ public class MusicDatabaseService : IDisposable
         _connection = new SqliteConnection(_connectionString);
         await _connection.OpenAsync();
         await CreateTablesAsync();
+        await MigrateDatabaseAsync();
+        await CreateIndexesAsync();
     }
 
     private async Task CreateTablesAsync()
@@ -39,34 +41,92 @@ public class MusicDatabaseService : IDisposable
                 Gain REAL,
                 Peak REAL,
                 MTime INTEGER,
-                CoverImagePath TEXT
+                CoverImagePath TEXT,
+                SourceType INTEGER DEFAULT 0,
+                YouTubeId TEXT,
+                YouTubeUrl TEXT
             )";
-
-        var createIndexes = @"
-            CREATE INDEX IF NOT EXISTS idx_songs_album ON Songs(Album);
-            CREATE INDEX IF NOT EXISTS idx_songs_filename ON Songs(Filename);
-        ";
 
         using var cmd = _connection!.CreateCommand();
         cmd.CommandText = createSongsTable;
         await cmd.ExecuteNonQueryAsync();
+    }
 
+    private async Task CreateIndexesAsync()
+    {
+        var createIndexes = @"
+            CREATE INDEX IF NOT EXISTS idx_songs_album ON Songs(Album);
+            CREATE INDEX IF NOT EXISTS idx_songs_filename ON Songs(Filename);
+            CREATE INDEX IF NOT EXISTS idx_songs_sourcetype ON Songs(SourceType);
+            CREATE INDEX IF NOT EXISTS idx_songs_youtubeid ON Songs(YouTubeId);
+        ";
+
+        using var cmd = _connection!.CreateCommand();
         cmd.CommandText = createIndexes;
         await cmd.ExecuteNonQueryAsync();
+    }
+
+    private async Task MigrateDatabaseAsync()
+    {
+        // Check if YouTube columns exist, add them if they don't (migration for existing databases)
+        await AddColumnIfNotExistsAsync("Songs", "SourceType", "INTEGER DEFAULT 0");
+        await AddColumnIfNotExistsAsync("Songs", "YouTubeId", "TEXT");
+        await AddColumnIfNotExistsAsync("Songs", "YouTubeUrl", "TEXT");
+    }
+
+    private async Task AddColumnIfNotExistsAsync(string tableName, string columnName, string columnType)
+    {
+        try
+        {
+            // Check if column exists by querying table info
+            using var cmd = _connection!.CreateCommand();
+            cmd.CommandText = $"PRAGMA table_info({tableName})";
+            
+            using var reader = await cmd.ExecuteReaderAsync();
+            var columnExists = false;
+            
+            while (await reader.ReadAsync())
+            {
+                var name = reader.GetString(1); // Column name is at index 1
+                if (name.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    columnExists = true;
+                    break;
+                }
+            }
+            
+            reader.Close();
+            
+            if (!columnExists)
+            {
+                // Add the column
+                cmd.CommandText = $"ALTER TABLE {tableName} ADD COLUMN {columnName} {columnType}";
+                await cmd.ExecuteNonQueryAsync();
+                System.Diagnostics.Debug.WriteLine($"[MusicDatabaseService] Added column {columnName} to {tableName}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log but don't fail - the column might already exist or there might be other issues
+            System.Diagnostics.Debug.WriteLine($"[MusicDatabaseService] Error adding column {columnName}: {ex.Message}");
+        }
     }
 
     public async Task<int> SaveSongAsync(Song song)
     {
         const string sql = @"
             INSERT INTO Songs (Filename, Title, Artists, Performers, Album, TrackNumber, 
-                NAlbumTracks, DiscNumber, Year, Duration, Gain, Peak, MTime, CoverImagePath)
+                NAlbumTracks, DiscNumber, Year, Duration, Gain, Peak, MTime, CoverImagePath,
+                SourceType, YouTubeId, YouTubeUrl)
             VALUES (@Filename, @Title, @Artists, @Performers, @Album, @TrackNumber, 
-                @NAlbumTracks, @DiscNumber, @Year, @Duration, @Gain, @Peak, @MTime, @CoverImagePath)
+                @NAlbumTracks, @DiscNumber, @Year, @Duration, @Gain, @Peak, @MTime, @CoverImagePath,
+                @SourceType, @YouTubeId, @YouTubeUrl)
             ON CONFLICT(Filename) DO UPDATE SET
                 Title = @Title, Artists = @Artists, Performers = @Performers, Album = @Album,
                 TrackNumber = @TrackNumber, NAlbumTracks = @NAlbumTracks, DiscNumber = @DiscNumber,
                 Year = @Year, Duration = @Duration, Gain = @Gain, Peak = @Peak, MTime = @MTime,
-                CoverImagePath = @CoverImagePath
+                CoverImagePath = @CoverImagePath, SourceType = @SourceType, YouTubeId = @YouTubeId,
+                YouTubeUrl = @YouTubeUrl
             RETURNING Id";
 
         using var cmd = _connection!.CreateCommand();
@@ -85,6 +145,9 @@ public class MusicDatabaseService : IDisposable
         cmd.Parameters.AddWithValue("@Peak", song.Peak);
         cmd.Parameters.AddWithValue("@MTime", song.MTime);
         cmd.Parameters.AddWithValue("@CoverImagePath", song.CoverImagePath ?? (object)DBNull.Value);
+        cmd.Parameters.AddWithValue("@SourceType", (int)song.SourceType);
+        cmd.Parameters.AddWithValue("@YouTubeId", song.YouTubeId ?? (object)DBNull.Value);
+        cmd.Parameters.AddWithValue("@YouTubeUrl", song.YouTubeUrl ?? (object)DBNull.Value);
 
         var result = await cmd.ExecuteScalarAsync();
         return Convert.ToInt32(result);
@@ -216,7 +279,7 @@ public class MusicDatabaseService : IDisposable
 
     private static Song ReadSong(SqliteDataReader reader)
     {
-        return new Song
+        var song = new Song
         {
             Id = reader.GetInt32(reader.GetOrdinal("Id")),
             Filename = reader.GetString(reader.GetOrdinal("Filename")),
@@ -234,6 +297,48 @@ public class MusicDatabaseService : IDisposable
             MTime = reader.GetInt32(reader.GetOrdinal("MTime")),
             CoverImagePath = reader.IsDBNull(reader.GetOrdinal("CoverImagePath")) ? null : reader.GetString(reader.GetOrdinal("CoverImagePath"))
         };
+
+        // Read YouTube-specific fields if they exist (for backwards compatibility)
+        try
+        {
+            var sourceTypeOrdinal = reader.GetOrdinal("SourceType");
+            if (!reader.IsDBNull(sourceTypeOrdinal))
+            {
+                song.SourceType = (SongSourceType)reader.GetInt32(sourceTypeOrdinal);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Column doesn't exist in older database schema
+        }
+
+        try
+        {
+            var youtubeIdOrdinal = reader.GetOrdinal("YouTubeId");
+            if (!reader.IsDBNull(youtubeIdOrdinal))
+            {
+                song.YouTubeId = reader.GetString(youtubeIdOrdinal);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Column doesn't exist in older database schema
+        }
+
+        try
+        {
+            var youtubeUrlOrdinal = reader.GetOrdinal("YouTubeUrl");
+            if (!reader.IsDBNull(youtubeUrlOrdinal))
+            {
+                song.YouTubeUrl = reader.GetString(youtubeUrlOrdinal);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Column doesn't exist in older database schema
+        }
+
+        return song;
     }
 
     public void Dispose()

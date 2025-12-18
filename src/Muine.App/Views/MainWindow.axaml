@@ -64,6 +64,12 @@
                                  EditStationRequested="OnEditRadioStationRequested"
                                  RefreshRequested="OnRadioRefreshRequested"/>
             </TabItem>
+            
+            <!-- YouTube Search Tab -->
+            <TabItem Header="YouTube">
+                <views:YouTubeSearchView DataContext="{Binding YouTubeSearchViewModel}"
+                                         SongDoubleClicked="OnYouTubeSongDoubleClick"/>
+            </TabItem>
         </TabControl>
 
         <!-- Player Controls -->

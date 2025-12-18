@@ -325,6 +325,21 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void OnYouTubeSongDoubleClick(object? sender, Song song)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            try
+            {
+                await viewModel.PlayYouTubeSongAsync(song);
+            }
+            catch
+            {
+                // ViewModel handles error display via StatusMessage
+            }
+        }
+    }
+
     private async void OnWindowKeyDown(object? sender, KeyEventArgs e)
     {
         if (DataContext is not MainWindowViewModel viewModel)

@@ -17,6 +17,7 @@ public class PlaybackService : IDisposable
 {
     private readonly LibVLC? _libVLC;
     private readonly MediaPlayer? _mediaPlayer;
+    private readonly YouTubeService? _youtubeService;
     private Song? _currentSong;
     private RadioStation? _currentRadioStation;
     private Timer? _positionTimer;
@@ -63,6 +64,9 @@ public class PlaybackService : IDisposable
 
             // Start position update timer
             _positionTimer = new Timer(UpdatePosition, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(100));
+            
+            // Initialize YouTube service for streaming
+            _youtubeService = new YouTubeService();
         }
         catch (Exception)
         {
@@ -102,41 +106,118 @@ public class PlaybackService : IDisposable
 
         ArgumentNullException.ThrowIfNull(song);
 
-        if (!File.Exists(song.Filename))
+        // For YouTube songs, we need to download the audio first
+        if (song.IsYouTube && !string.IsNullOrEmpty(song.YouTubeId))
         {
-            throw new FileNotFoundException($"Audio file not found: {song.Filename}");
-        }
-
-        await Task.Run(() =>
-        {
-            Stop();
-
-            var media = new Media(_libVLC!, song.Filename, FromType.FromPath);
-            _mediaPlayer.Media = media;
-
-            // Apply ReplayGain if available
-            if (song.Gain != 0.0)
+            if (_youtubeService == null)
             {
-                var gainDb = song.Gain;
-                // LibVLC volume is 0-200, where 100 is normal
-                // ReplayGain is in dB, typical range is -15 to +15 dB
-                // Convert dB to linear: 10^(dB/20)
-                var linearGain = Math.Pow(10, gainDb / 20.0);
-                var newVolume = (int)(100 * linearGain);
-                _mediaPlayer.Volume = Math.Clamp(newVolume, 0, 200);
+                var error = "YouTube service not initialized.";
+                LoggingService.Error(error, null, "Playback");
+                throw new InvalidOperationException(error);
+            }
+            
+            // Check if we already have a downloaded file
+            var youtubeAudioDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Muine",
+                "YouTubeAudio"
+            );
+            
+            var audioFilePath = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.mp3");
+            
+            // Download if not already cached
+            if (!File.Exists(audioFilePath))
+            {
+                LoggingService.Info($"Downloading audio for YouTube video: {song.YouTubeId} - {song.Title}", "Playback");
+                
+                var downloadSuccess = await _youtubeService.DownloadAudioAsync(song.YouTubeId, audioFilePath);
+                if (!downloadSuccess || !File.Exists(audioFilePath))
+                {
+                    var error = $"Failed to download audio for YouTube video: {song.YouTubeId}";
+                    LoggingService.Error(error, null, "Playback");
+                    throw new InvalidOperationException(error);
+                }
+                
+                LoggingService.Info($"Successfully downloaded audio to: {audioFilePath}", "Playback");
             }
             else
             {
-                _mediaPlayer.Volume = (int)_volume;
+                LoggingService.Info($"Using cached audio file: {audioFilePath}", "Playback");
             }
 
-            _currentSong = song;
-            _currentRadioStation = null;
-            CurrentSongChanged?.Invoke(this, _currentSong);
-            CurrentRadioStationChanged?.Invoke(this, null);
+            // Play the downloaded file exactly like a local file - no special options
+            // The Opus file is properly converted and should play like any local audio file
+            await Task.Run(() =>
+            {
+                Stop();
 
-            _mediaPlayer.Play();
-        });
+                var media = new Media(_libVLC!, audioFilePath, FromType.FromPath);
+                _mediaPlayer.Media = media;
+                _mediaPlayer.Volume = (int)_volume;
+
+                _currentSong = song;
+                _currentRadioStation = null;
+                CurrentSongChanged?.Invoke(this, _currentSong);
+                CurrentRadioStationChanged?.Invoke(this, null);
+
+                var playResult = _mediaPlayer.Play();
+                LoggingService.Info($"MediaPlayer.Play() returned: {playResult} for YouTube song: {song.Title}", "Playback");
+                
+                // Log media state after delay to see progression
+                Task.Delay(1000).ContinueWith(_ =>
+                {
+                    try
+                    {
+                        LoggingService.Info($"[1s] Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
+                        LoggingService.Info($"[1s] Duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}, Volume: {_mediaPlayer.Volume}, Rate: {_mediaPlayer.Rate}", "Playback");
+                        LoggingService.Info($"[1s] IsPlaying: {_mediaPlayer.IsPlaying}", "Playback");
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingService.Error($"Error checking media state at 1s", ex, "Playback");
+                    }
+                });
+            });
+        }
+        else
+        {
+            // Local file playback
+            if (!File.Exists(song.Filename))
+            {
+                throw new FileNotFoundException($"Audio file not found: {song.Filename}");
+            }
+
+            await Task.Run(() =>
+            {
+                Stop();
+
+                var media = new Media(_libVLC!, song.Filename, FromType.FromPath);
+                _mediaPlayer.Media = media;
+
+                // Apply ReplayGain if available
+                if (song.Gain != 0.0)
+                {
+                    var gainDb = song.Gain;
+                    // LibVLC volume is 0-200, where 100 is normal
+                    // ReplayGain is in dB, typical range is -15 to +15 dB
+                    // Convert dB to linear: 10^(dB/20)
+                    var linearGain = Math.Pow(10, gainDb / 20.0);
+                    var newVolume = (int)(100 * linearGain);
+                    _mediaPlayer.Volume = Math.Clamp(newVolume, 0, 200);
+                }
+                else
+                {
+                    _mediaPlayer.Volume = (int)_volume;
+                }
+
+                _currentSong = song;
+                _currentRadioStation = null;
+                CurrentSongChanged?.Invoke(this, _currentSong);
+                CurrentRadioStationChanged?.Invoke(this, null);
+
+                _mediaPlayer.Play();
+            });
+        }
     }
 
     public async Task PlayRadioAsync(RadioStation station)
@@ -298,6 +379,7 @@ public class PlaybackService : IDisposable
         _positionTimer?.Dispose();
         _mediaPlayer?.Dispose();
         _libVLC?.Dispose();
+        _youtubeService?.Dispose();
         _disposed = true;
 
         GC.SuppressFinalize(this);

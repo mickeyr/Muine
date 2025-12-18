@@ -43,47 +43,41 @@ public class MprisService : IDisposable
     /// </summary>
     public async Task InitializeAsync()
     {
-        Console.WriteLine($"[MPRIS] InitializeAsync called");
-        Console.WriteLine($"[MPRIS] Is Linux: {RuntimeInformation.IsOSPlatform(OSPlatform.Linux)}");
-        Console.WriteLine($"[MPRIS] Already initialized: {_isInitialized}");
+        LoggingService.Debug($"InitializeAsync called", "MPRIS");
+        LoggingService.Debug($"Is Linux: {RuntimeInformation.IsOSPlatform(OSPlatform.Linux)}", "MPRIS");
+        LoggingService.Debug($"Already initialized: {_isInitialized}", "MPRIS");
         
         if (_isInitialized || !RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            Console.WriteLine("[MPRIS] Skipping initialization");
+            LoggingService.Debug("Skipping initialization", "MPRIS");
             return;
         }
 
         try
         {
-            Console.WriteLine("[MPRIS] Creating connection to session bus...");
+            LoggingService.Debug("Creating connection to session bus...", "MPRIS");
             _connection = new Connection(Address.Session!);
             await _connection.ConnectAsync();
-            Console.WriteLine("[MPRIS] Connected to session bus");
+            LoggingService.Debug("Connected to session bus", "MPRIS");
             
-            Console.WriteLine("[MPRIS] Creating MPRIS object...");
+            LoggingService.Debug("Creating MPRIS object...", "MPRIS");
             _mprisObject = new MprisObject(_playbackService, this);
-            Console.WriteLine("[MPRIS] MPRIS object created");
+            LoggingService.Debug("MPRIS object created", "MPRIS");
             
-            Console.WriteLine($"[MPRIS] Registering object at {MprisObject.Path}...");
+            LoggingService.Debug($"Registering object at {MprisObject.Path}...", "MPRIS");
             await _connection.RegisterObjectAsync(_mprisObject);
-            Console.WriteLine("[MPRIS] Object registered");
+            LoggingService.Debug("Object registered", "MPRIS");
             
-            Console.WriteLine($"[MPRIS] Registering service name: {BusName}...");
+            LoggingService.Debug($"Registering service name: {BusName}...", "MPRIS");
             await _connection.RegisterServiceAsync(BusName);
-            Console.WriteLine("[MPRIS] Service name registered");
+            LoggingService.Debug("Service name registered", "MPRIS");
             
             _isInitialized = true;
-            Console.WriteLine($"[MPRIS] ✓ Service initialized successfully as {BusName}");
-            Console.WriteLine("[MPRIS] Property change signals will be emitted when playback state or song changes");
+            LoggingService.Info($"Service initialized successfully as {BusName}", "MPRIS");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[MPRIS] ✗ Initialization failed: {ex.GetType().Name}: {ex.Message}");
-            Console.WriteLine($"[MPRIS] Stack trace: {ex.StackTrace}");
-            if (ex.InnerException != null)
-            {
-                Console.WriteLine($"[MPRIS] Inner exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
-            }
+            LoggingService.Error($"Initialization failed", ex, "MPRIS");
         }
     }
 
@@ -199,7 +193,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
         
         if (ChangedField == null || InvalidatedField == null)
         {
-            Console.WriteLine("[MPRIS] WARNING: Could not find PropertyChanges backing fields. Signal emission will not work!");
+            LoggingService.Warning("Could not find PropertyChanges backing fields. Signal emission will not work!", "MPRIS");
         }
     }
     
@@ -227,7 +221,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
             // Verify cached fields are available
             if (ChangedField == null || InvalidatedField == null)
             {
-                Console.WriteLine("[MPRIS] ✗ Cannot emit signal: PropertyChanges fields not found");
+                LoggingService.Debug("Cannot emit signal: PropertyChanges fields not found", "MPRIS");
                 return;
             }
             
@@ -255,13 +249,13 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[MPRIS] ✗ Error emitting signal: {ex.Message}");
+                        LoggingService.Debug($"Error emitting signal: {ex.Message}", "MPRIS");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[MPRIS] ✗ Error creating PropertyChanges: {ex.Message}");
+                LoggingService.Debug($"Error creating PropertyChanges: {ex.Message}", "MPRIS");
             }
         }
     }
@@ -316,10 +310,10 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     {
         // D-Bus clients register watchers here to receive PropertiesChanged signals
         _mediaPlayer2PropertyWatchers.Add(handler);
-        Console.WriteLine($"[MPRIS] MediaPlayer2 property watcher registered (total: {_mediaPlayer2PropertyWatchers.Count})");
+        LoggingService.Debug($"MediaPlayer2 property watcher registered (total: {_mediaPlayer2PropertyWatchers.Count})", "MPRIS");
         return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => {
             _mediaPlayer2PropertyWatchers.Remove(handler);
-            Console.WriteLine($"[MPRIS] MediaPlayer2 property watcher removed (total: {_mediaPlayer2PropertyWatchers.Count})");
+            LoggingService.Debug($"MediaPlayer2 property watcher removed (total: {_mediaPlayer2PropertyWatchers.Count})", "MPRIS");
         }));
     }
 
@@ -395,7 +389,7 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
 
     Task<object> IMediaPlayer2Player.GetAsync(string prop)
     {
-        Console.WriteLine($"[MPRIS] GetAsync called for property: {prop}");
+        LoggingService.Debug($"GetAsync called for property: {prop}", "MPRIS");
         
         object value = prop switch
         {
@@ -417,14 +411,10 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
             _ => throw new ArgumentException($"Unknown property: {prop}")
         };
         
-        if (prop == "Metadata")
+        // Only log metadata details at debug level to reduce verbosity
+        if (prop == "Metadata" && value is IDictionary<string, object> metadata)
         {
-            var metadata = (IDictionary<string, object>)value;
-            Console.WriteLine($"[MPRIS] Returning Metadata with {metadata.Count} keys:");
-            foreach (var kvp in metadata)
-            {
-                Console.WriteLine($"[MPRIS]   {kvp.Key} = {kvp.Value}");
-            }
+            LoggingService.Debug($"Returning Metadata with {metadata.Count} keys", "MPRIS");
         }
         
         return Task.FromResult(value);
@@ -466,10 +456,10 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     {
         // D-Bus clients register watchers here to receive PropertiesChanged signals
         _playerPropertyWatchers.Add(handler);
-        Console.WriteLine($"[MPRIS] MediaPlayer2.Player property watcher registered (total: {_playerPropertyWatchers.Count})");
+        LoggingService.Debug($"MediaPlayer2.Player property watcher registered (total: {_playerPropertyWatchers.Count})", "MPRIS");
         return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => {
             _playerPropertyWatchers.Remove(handler);
-            Console.WriteLine($"[MPRIS] MediaPlayer2.Player property watcher removed (total: {_playerPropertyWatchers.Count})");
+            LoggingService.Debug($"MediaPlayer2.Player property watcher removed (total: {_playerPropertyWatchers.Count})", "MPRIS");
         }));
     }
 
@@ -477,10 +467,10 @@ internal class MprisObject : IMediaPlayer2, IMediaPlayer2Player
     {
         // For Seeked signal
         _seekedWatchers.Add(handler);
-        Console.WriteLine($"[MPRIS] Seeked signal watcher registered (total: {_seekedWatchers.Count})");
+        LoggingService.Debug($"Seeked signal watcher registered (total: {_seekedWatchers.Count})", "MPRIS");
         return Task.FromResult<IDisposable>(new PropertyWatcherDisposable(() => {
             _seekedWatchers.Remove(handler);
-            Console.WriteLine($"[MPRIS] Seeked signal watcher removed (total: {_seekedWatchers.Count})");
+            LoggingService.Debug($"Seeked signal watcher removed (total: {_seekedWatchers.Count})", "MPRIS");
         }));
     }
 
