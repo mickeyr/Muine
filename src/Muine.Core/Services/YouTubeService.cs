@@ -164,16 +164,16 @@ public class YouTubeService : IDisposable
             // Download the audio stream (WebM format)
             await _youtube.Videos.Streams.DownloadAsync(audioStream, tempWebmPath);
             
-            LoggingService.Info($"Converting WebM to Opus for better compatibility: {videoId}", "YouTubeService");
+            LoggingService.Info($"Converting WebM to MP3 for better compatibility: {videoId}", "YouTubeService");
             
-            // Convert WebM to Opus using FFmpeg for better LibVLC compatibility
-            // Opus is a modern, open codec with better quality/size ratio than MP3
-            // 128kbps Opus typically equals 192kbps MP3 quality
+            // Convert WebM to MP3 using FFmpeg for universal LibVLC compatibility
+            // MP3 format provides reliable playback without stuttering issues
             var success = await FFMpegArguments
                 .FromFileInput(tempWebmPath)
                 .OutputToFile(outputPath, true, options => options
-                    .WithCustomArgument("-c:a libopus")  // Use Opus audio codec
-                    .WithAudioBitrate(128)  // 128kbps for excellent quality (better than 192kbps MP3)
+                    .WithAudioCodec("libmp3lame")  // Use MP3 audio codec
+                    .WithAudioBitrate(192)  // 192kbps for excellent quality
+                    .WithVariableBitrate(4)  // VBR quality 4 for optimal size/quality
                     .WithAudioSamplingRate(48000)  // Explicitly set sample rate to 48kHz
                     .WithCustomArgument("-ac 2")  // Force stereo output (2 channels)
                     .WithCustomArgument("-vn"))  // Explicitly no video
