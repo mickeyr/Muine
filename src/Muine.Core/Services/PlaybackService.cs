@@ -123,7 +123,7 @@ public class PlaybackService : IDisposable
                 "YouTubeAudio"
             );
             
-            var audioFilePath = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.webm");
+            var audioFilePath = Path.Combine(youtubeAudioDir, $"{song.YouTubeId}.ogg");
             
             // Download if not already cached
             if (!File.Exists(audioFilePath))

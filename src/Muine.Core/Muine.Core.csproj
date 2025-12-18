@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FFMpegCore" Version="5.1.0" />
     <PackageReference Include="LibVLCSharp" Version="3.9.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.1" />
     <PackageReference Include="RadioBrowser" Version="0.7.0" />

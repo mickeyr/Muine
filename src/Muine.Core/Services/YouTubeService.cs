@@ -2,6 +2,8 @@ using YoutubeExplode;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Search;
 using Muine.Core.Models;
+using FFMpegCore;
+using FFMpegCore.Enums;
 
 namespace Muine.Core.Services;
 
@@ -97,10 +99,10 @@ public class YouTubeService : IDisposable
     }
 
     /// <summary>
-    /// Download audio from a YouTube video to a local file
+    /// Download audio from a YouTube video to a local file and convert to OGG format for better compatibility
     /// </summary>
     /// <param name="videoId">YouTube video ID</param>
-    /// <param name="outputPath">Path where the audio file should be saved</param>
+    /// <param name="outputPath">Path where the audio file should be saved (should end in .ogg)</param>
     /// <returns>True if successful, false otherwise</returns>
     public async Task<bool> DownloadAudioAsync(string videoId, string outputPath)
     {
@@ -132,12 +134,45 @@ public class YouTubeService : IDisposable
                 Directory.CreateDirectory(directory);
             }
 
-            LoggingService.Info($"Downloading audio for {videoId} to {outputPath}", "YouTubeService");
+            // Download to temporary WebM file first
+            var tempWebmPath = Path.ChangeExtension(outputPath, ".webm.tmp");
             
-            // Download the audio stream
-            await _youtube.Videos.Streams.DownloadAsync(audioStream, outputPath);
+            LoggingService.Info($"Downloading audio for {videoId} to temporary file", "YouTubeService");
             
-            LoggingService.Info($"Successfully downloaded audio for {videoId}", "YouTubeService");
+            // Download the audio stream (WebM format)
+            await _youtube.Videos.Streams.DownloadAsync(audioStream, tempWebmPath);
+            
+            LoggingService.Info($"Converting WebM to OGG for better compatibility: {videoId}", "YouTubeService");
+            
+            // Convert WebM to OGG using FFmpeg for better LibVLC compatibility
+            // OGG Vorbis is well-supported by VLC and maintains good quality
+            var success = await FFMpegArguments
+                .FromFileInput(tempWebmPath)
+                .OutputToFile(outputPath, true, options => options
+                    .WithAudioCodec(AudioCodec.LibVorbis)
+                    .WithAudioBitrate(192))  // 192kbps for good quality
+                .ProcessAsynchronously();
+            
+            // Clean up temporary WebM file
+            if (File.Exists(tempWebmPath))
+            {
+                try
+                {
+                    File.Delete(tempWebmPath);
+                }
+                catch
+                {
+                    // Ignore cleanup errors
+                }
+            }
+            
+            if (!success)
+            {
+                LoggingService.Error($"Failed to convert audio for {videoId}", null, "YouTubeService");
+                return false;
+            }
+            
+            LoggingService.Info($"Successfully downloaded and converted audio for {videoId}", "YouTubeService");
             return true;
         }
         catch (YoutubeExplode.Exceptions.VideoUnavailableException ex)
