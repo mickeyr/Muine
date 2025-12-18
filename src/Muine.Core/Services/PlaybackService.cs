@@ -145,25 +145,15 @@ public class PlaybackService : IDisposable
                 LoggingService.Info($"Using cached audio file: {audioFilePath}", "Playback");
             }
 
-            // Play the downloaded file like a local file
+            // Play the downloaded file exactly like a local file - no special options
+            // The OGG file is properly converted and should play like any local audio file
             await Task.Run(() =>
             {
                 Stop();
 
                 var media = new Media(_libVLC!, audioFilePath, FromType.FromPath);
-                
-                // Add media options to ensure proper playback speed and compatibility
-                media.AddOption(":no-audio-time-stretch");  // Disable time stretching completely
-                media.AddOption(":audio-time-stretch=0");  // Set time stretch to 0 (disabled)
-                media.AddOption(":audio-resampler=soxr");  // Use high-quality resampler
-                media.AddOption(":sout-audio-rate=48000");  // Force output sample rate to 48kHz
-                
                 _mediaPlayer.Media = media;
                 _mediaPlayer.Volume = (int)_volume;
-                
-                // Explicitly set playback rate to 1.0 (normal speed) for YouTube songs
-                // This must be set BEFORE calling Play()
-                _mediaPlayer.SetRate(1.0f);
 
                 _currentSong = song;
                 _currentRadioStation = null;
@@ -173,7 +163,7 @@ public class PlaybackService : IDisposable
                 var playResult = _mediaPlayer.Play();
                 LoggingService.Info($"MediaPlayer.Play() returned: {playResult} for YouTube song: {song.Title}", "Playback");
                 
-                // Log media state after delays to see progression
+                // Log media state after delay to see progression
                 Task.Delay(1000).ContinueWith(_ =>
                 {
                     try
