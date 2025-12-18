@@ -7,18 +7,21 @@ public class LibraryScannerService
     private readonly MetadataService _metadataService;
     private readonly MusicDatabaseService _databaseService;
     private readonly CoverArtService _coverArtService;
+    private readonly BackgroundTaggingQueue? _taggingQueue;
 
     public LibraryScannerService(
         MetadataService metadataService, 
         MusicDatabaseService databaseService,
-        CoverArtService coverArtService)
+        CoverArtService coverArtService,
+        BackgroundTaggingQueue? taggingQueue = null)
     {
         _metadataService = metadataService;
         _databaseService = databaseService;
         _coverArtService = coverArtService;
+        _taggingQueue = taggingQueue;
     }
 
-    public async Task<ScanResult> ScanDirectoryAsync(string directory, IProgress<ScanProgress>? progress = null)
+    public async Task<ScanResult> ScanDirectoryAsync(string directory, IProgress<ScanProgress>? progress = null, bool autoEnhanceMetadata = false)
     {
         var result = new ScanResult();
         
@@ -47,6 +50,12 @@ public class LibraryScannerService
                     
                     await _databaseService.SaveSongAsync(song);
                     result.SuccessCount++;
+                    
+                    // Queue for metadata enhancement if requested and tagging queue is available
+                    if (autoEnhanceMetadata && _taggingQueue != null)
+                    {
+                        _taggingQueue.EnqueueSong(song, downloadCoverArt: true);
+                    }
                 }
                 else
                 {
