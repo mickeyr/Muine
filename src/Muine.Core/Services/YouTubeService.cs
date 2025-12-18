@@ -13,11 +13,15 @@ namespace Muine.Core.Services;
 public class YouTubeService : IDisposable
 {
     private readonly YoutubeClient _youtube;
+    private readonly Dictionary<string, SemaphoreSlim> _downloadLocks;
+    private readonly SemaphoreSlim _lockDictionaryLock;
     private bool _disposed;
 
     public YouTubeService()
     {
         _youtube = new YoutubeClient();
+        _downloadLocks = new Dictionary<string, SemaphoreSlim>();
+        _lockDictionaryLock = new SemaphoreSlim(1, 1);
     }
 
     /// <summary>
@@ -111,8 +115,26 @@ public class YouTubeService : IDisposable
             return false;
         }
 
+        // Get or create a lock for this specific video ID to prevent concurrent downloads
+        await _lockDictionaryLock.WaitAsync();
+        if (!_downloadLocks.TryGetValue(videoId, out var downloadLock))
+        {
+            downloadLock = new SemaphoreSlim(1, 1);
+            _downloadLocks[videoId] = downloadLock;
+        }
+        _lockDictionaryLock.Release();
+
+        // Acquire the download lock for this video
+        await downloadLock.WaitAsync();
         try
         {
+            // Check if file was created by another thread while we were waiting
+            if (File.Exists(outputPath))
+            {
+                LoggingService.Info($"Audio file already exists (created by concurrent request): {outputPath}", "YouTubeService");
+                return true;
+            }
+
             var streamManifest = await _youtube.Videos.Streams.GetManifestAsync(videoId);
             
             // Get the best audio-only stream
@@ -146,11 +168,13 @@ public class YouTubeService : IDisposable
             
             // Convert WebM to OGG using FFmpeg for better LibVLC compatibility
             // OGG Vorbis is well-supported by VLC and maintains good quality
+            // Explicitly set sample rate to 48000 Hz to ensure correct playback speed
             var success = await FFMpegArguments
                 .FromFileInput(tempWebmPath)
                 .OutputToFile(outputPath, true, options => options
                     .WithAudioCodec(AudioCodec.LibVorbis)
-                    .WithAudioBitrate(192))  // 192kbps for good quality
+                    .WithAudioBitrate(192)  // 192kbps for good quality
+                    .WithAudioSamplingRate(48000))  // Explicitly set sample rate to prevent speed issues
                 .ProcessAsynchronously();
             
             // Clean up temporary WebM file
@@ -184,6 +208,10 @@ public class YouTubeService : IDisposable
         {
             LoggingService.Error($"Failed to download audio for {videoId}", ex, "YouTubeService");
             return false;
+        }
+        finally
+        {
+            downloadLock.Release();
         }
     }
 
@@ -323,6 +351,14 @@ public class YouTubeService : IDisposable
     {
         if (!_disposed)
         {
+            // Clean up download locks
+            foreach (var lockObj in _downloadLocks.Values)
+            {
+                lockObj?.Dispose();
+            }
+            _downloadLocks.Clear();
+            _lockDictionaryLock?.Dispose();
+            
             // YoutubeClient doesn't implement IDisposable in current version
             // but we keep this for future-proofing
             _disposed = true;

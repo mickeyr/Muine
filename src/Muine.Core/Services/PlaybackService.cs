@@ -153,6 +153,10 @@ public class PlaybackService : IDisposable
                 var media = new Media(_libVLC!, audioFilePath, FromType.FromPath);
                 _mediaPlayer.Media = media;
                 _mediaPlayer.Volume = (int)_volume;
+                
+                // Explicitly set playback rate to 1.0 (normal speed) for YouTube songs
+                // This prevents issues with LibVLC misinterpreting the sample rate
+                _mediaPlayer.SetRate(1.0f);
 
                 _currentSong = song;
                 _currentRadioStation = null;
@@ -168,7 +172,7 @@ public class PlaybackService : IDisposable
                     try
                     {
                         LoggingService.Info($"[1s] Media state: {_mediaPlayer.Media?.State}, Player state: {_mediaPlayer.State}", "Playback");
-                        LoggingService.Info($"[1s] Duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}, Volume: {_mediaPlayer.Volume}", "Playback");
+                        LoggingService.Info($"[1s] Duration: {_mediaPlayer.Media?.Duration} ms, Position: {_mediaPlayer.Position}, Volume: {_mediaPlayer.Volume}, Rate: {_mediaPlayer.Rate}", "Playback");
                         LoggingService.Info($"[1s] IsPlaying: {_mediaPlayer.IsPlaying}", "Playback");
                     }
                     catch (Exception ex)
