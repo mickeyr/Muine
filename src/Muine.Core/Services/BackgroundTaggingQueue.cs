@@ -223,15 +223,19 @@ public class BackgroundTaggingQueue : IDisposable
             // Signal cancellation
             _cancellationTokenSource.Cancel();
 
-            // Wait for worker to finish (with timeout)
-            try
+            // Give the worker task time to complete gracefully
+            // Use Task.Run to avoid potential deadlocks
+            Task.Run(async () =>
             {
-                _workerTask.Wait(TimeSpan.FromSeconds(5));
-            }
-            catch
-            {
-                // Ignore timeout
-            }
+                try
+                {
+                    await Task.WhenAny(_workerTask, Task.Delay(TimeSpan.FromSeconds(5)));
+                }
+                catch
+                {
+                    // Ignore errors during shutdown
+                }
+            }).GetAwaiter().GetResult();
 
             // Dispose resources
             _queueSignal?.Dispose();
