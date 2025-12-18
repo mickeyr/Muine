@@ -103,10 +103,10 @@ public class YouTubeService : IDisposable
     }
 
     /// <summary>
-    /// Download audio from a YouTube video to a local file and convert to OGG format for better compatibility
+    /// Download audio from a YouTube video to a local file and convert to MP3 format for better compatibility
     /// </summary>
     /// <param name="videoId">YouTube video ID</param>
-    /// <param name="outputPath">Path where the audio file should be saved (should end in .ogg)</param>
+    /// <param name="outputPath">Path where the audio file should be saved (should end in .mp3)</param>
     /// <returns>True if successful, false otherwise</returns>
     public async Task<bool> DownloadAudioAsync(string videoId, string outputPath)
     {
@@ -172,13 +172,12 @@ public class YouTubeService : IDisposable
             var success = await FFMpegArguments
                 .FromFileInput(tempWebmPath)
                 .OutputToFile(outputPath, true, options => options
-                    .WithAudioCodec(AudioCodec.LibVorbis)
+                    .WithAudioCodec(AudioCodec.LibMp3Lame)
                     .WithAudioBitrate(192)  // 192kbps for good quality
+                    .WithVariableBitrate(4)  // VBR quality level 4 (good quality)
                     .WithAudioSamplingRate(48000)  // Explicitly set sample rate to 48kHz
                     .WithCustomArgument("-ac 2")  // Force stereo output (2 channels)
-                    .WithCustomArgument("-vn")  // Explicitly no video
-                    .WithCustomArgument("-f ogg")  // Force OGG container format
-                    .WithCustomArgument("-strict experimental"))  // Allow experimental features if needed
+                    .WithCustomArgument("-vn"))  // Explicitly no video
                 .ProcessAsynchronously();
             
             // Clean up temporary WebM file
