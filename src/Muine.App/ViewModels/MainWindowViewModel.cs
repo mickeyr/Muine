@@ -238,19 +238,24 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private async Task ScanFolderAsync(string folderPath)
     {
         IsScanning = true;
-        SetOperationStatus($"Scanning {folderPath}...");
-        ScanProgress = "Starting scan...";
+        SetOperationStatus($"Importing {folderPath}...");
+        ScanProgress = "Starting import...";
 
         try
         {
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                SetOperationStatus($"Scanning: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
+                SetOperationStatus($"Importing: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
             });
 
-            // Run the scan in a background thread to avoid blocking the UI
-            var result = await Task.Run(() => _scannerService.ScanDirectoryAsync(folderPath, progress, autoEnhanceMetadata: true));
+            // Run the import in a background thread to avoid blocking the UI
+            // This will move/copy files to the managed library and organize them
+            var result = await Task.Run(() => _scannerService.ImportDirectoryAsync(
+                folderPath, 
+                copyInsteadOfMove: false, // Use default (move) - TODO: make this configurable in UI
+                progress, 
+                autoEnhanceMetadata: true));
 
             // Reload songs from database
             await LoadSongsAsync();
@@ -259,13 +264,31 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 await MusicLibraryViewModel.LoadLibraryAsync();
             }
 
-            SetOperationStatus($"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed", autoHideAfter: 5000);
+            // Build status message
+            var statusParts = new List<string>();
+            statusParts.Add($"{result.SuccessCount} songs imported");
             
-            // Errors are already tracked in result.Errors for logging if needed
+            if (result.FailureCount > 0)
+                statusParts.Add($"{result.FailureCount} failed");
+            if (result.Duplicates.Count > 0)
+                statusParts.Add($"{result.Duplicates.Count} duplicates skipped");
+            if (result.FilesNeedingManualMetadata.Count > 0)
+                statusParts.Add($"{result.FilesNeedingManualMetadata.Count} need manual metadata");
+            if (result.Conflicts.Count > 0)
+                statusParts.Add($"{result.Conflicts.Count} conflicts");
+            
+            SetOperationStatus($"Import complete: {string.Join(", ", statusParts)}", autoHideAfter: 5000);
+            
+            // Log any errors
+            foreach (var error in result.Errors)
+            {
+                LoggingService.Warning(error, "MainWindowViewModel");
+            }
         }
         catch (Exception ex)
         {
-            SetOperationStatus($"Error scanning folder: {ex.Message}", autoHideAfter: 5000);
+            SetOperationStatus($"Error importing folder: {ex.Message}", autoHideAfter: 5000);
+            LoggingService.Error($"Failed to import folder: {folderPath}", ex, "MainWindowViewModel");
         }
         finally
         {
