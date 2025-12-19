@@ -1,0 +1,126 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Muine.App.ViewModels"
+        xmlns:models="using:Muine.Core.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        x:Class="Muine.App.Views.MusicBrainzSearchWindow"
+        x:DataType="vm:MusicBrainzSearchViewModel"
+        Title="MusicBrainz Search"
+        Width="700" Height="600">
+
+    <Design.DataContext>
+        <vm:MusicBrainzSearchViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <!-- Song Info Header -->
+        <Border Grid.Row="0" Background="#2a2a2a" Padding="15">
+            <StackPanel Spacing="5">
+                <TextBlock Text="Search MusicBrainz for Metadata" FontSize="16" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Song.Filename, StringFormat='File: {0}'}" 
+                           FontSize="11" 
+                           Foreground="#999"
+                           TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Search Fields -->
+        <Border Grid.Row="1" Padding="15" Background="#1e1e1e">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Search Terms (edit as needed):" FontWeight="SemiBold"/>
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="8">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Artist:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SearchArtist}" Watermark="Artist name"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Title:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SearchTitle}" Watermark="Song title"/>
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Album:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SearchAlbum}" Watermark="Album name (optional)"/>
+                </Grid>
+                <Button Content="Search" 
+                        Command="{Binding SearchCommand}"
+                        IsEnabled="{Binding !IsSearching}"
+                        HorizontalAlignment="Right"
+                        Padding="20,8"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Search Results -->
+        <Border Grid.Row="2" Padding="15">
+            <ScrollViewer>
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Search Results:" FontWeight="SemiBold"/>
+                    <ListBox ItemsSource="{Binding SearchResults}"
+                             SelectedItem="{Binding SelectedMatch}"
+                             Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="models:MusicBrainzMatch">
+                                <Border Padding="10" 
+                                        Background="#2a2a2a" 
+                                        CornerRadius="4"
+                                        Margin="0,0,0,8">
+                                    <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+                                        <TextBlock Grid.Row="0" 
+                                                   Text="{Binding Title}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="14"/>
+                                        <TextBlock Grid.Row="1" 
+                                                   Text="{Binding Artist}" 
+                                                   Foreground="#ccc"/>
+                                        <TextBlock Grid.Row="2" 
+                                                   Text="{Binding Album, StringFormat='Album: {0}'}" 
+                                                   Foreground="#999"
+                                                   FontSize="12"/>
+                                        <TextBlock Grid.Row="3" 
+                                                   Text="{Binding Year, StringFormat='Year: {0}'}" 
+                                                   Foreground="#999"
+                                                   FontSize="12"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                    <!-- Empty state -->
+                    <TextBlock Text="No results yet. Enter search terms and click Search."
+                               IsVisible="{Binding !SearchResults.Count}"
+                               Foreground="#666"
+                               HorizontalAlignment="Center"
+                               Margin="0,40"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Actions -->
+        <Border Grid.Row="3" 
+                BorderBrush="#333" 
+                BorderThickness="0,1,0,0"
+                Background="#2a2a2a"
+                Padding="15">
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                <TextBlock Grid.Column="0" 
+                           Text="{Binding StatusMessage}" 
+                           VerticalAlignment="Center"
+                           Foreground="#ccc"/>
+                <Button Grid.Column="1" 
+                        Content="Apply Selected" 
+                        Command="{Binding ApplySelectedMatchCommand}"
+                        IsEnabled="{Binding SelectedMatch, Converter={x:Static ObjectConverters.IsNotNull}}"
+                        Margin="0,0,10,0"
+                        Padding="15,8"/>
+                <Button Grid.Column="2" 
+                        Content="Skip" 
+                        Command="{Binding SkipCommand}"
+                        Margin="0,0,10,0"
+                        Padding="15,8"/>
+                <Button Grid.Column="3" 
+                        Content="Cancel" 
+                        Click="OnCancelClick"
+                        Padding="15,8"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -157,6 +157,31 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void OnReviewMetadataClick(object? sender, RoutedEventArgs e)
+    {
+        var reviewWindow = new MetadataReviewWindow
+        {
+            DataContext = App.CreateMetadataReviewViewModel()
+        };
+
+        if (reviewWindow.DataContext is MetadataReviewViewModel viewModel)
+        {
+            await viewModel.LoadSongsNeedingReviewAsync();
+        }
+
+        await reviewWindow.ShowDialog(this);
+        
+        // Refresh library after review dialog closes
+        if (DataContext is MainWindowViewModel mainViewModel)
+        {
+            // Trigger a UI refresh by reloading the library view
+            if (mainViewModel.MusicLibraryViewModel != null)
+            {
+                await mainViewModel.MusicLibraryViewModel.LoadLibraryAsync();
+            }
+        }
+    }
+
     private void OnLibrarySongDoubleClick(object? sender, Song song)
     {
         if (DataContext is MainWindowViewModel viewModel)

@@ -24,6 +24,9 @@
                 <MenuItem Header="_Add Music Files..." 
                           Click="OnAddMusicFilesClick"/>
                 <Separator/>
+                <MenuItem Header="_Review Metadata..." 
+                          Click="OnReviewMetadataClick"/>
+                <Separator/>
                 <MenuItem Header="_Refresh Selected Song Metadata" 
                           Click="OnRefreshSelectedSongClick"/>
                 <MenuItem Header="Refresh _All Metadata..." 
