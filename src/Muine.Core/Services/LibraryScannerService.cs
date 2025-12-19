@@ -289,7 +289,8 @@ public class LibraryScannerService
         string sourceDirectory,
         bool copyInsteadOfMove,
         IProgress<ScanProgress>? progress = null,
-        bool autoEnhanceMetadata = true)
+        bool autoEnhanceMetadata = true,
+        bool skipDuplicateCheck = true) // Default to true for faster imports
     {
         var result = new ImportDirectoryResult();
         
@@ -318,7 +319,7 @@ public class LibraryScannerService
             
             try
             {
-                var importResult = await _managedLibraryService.ImportFileAsync(file, copyInsteadOfMove);
+                var importResult = await _managedLibraryService.ImportFileAsync(file, copyInsteadOfMove, skipDuplicateCheck);
                 
                 if (importResult.Success)
                 {

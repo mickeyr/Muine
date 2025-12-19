@@ -246,11 +246,35 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
         try
         {
-            var progress = new Progress<ScanProgress>(p =>
+            int lastRefreshCount = 0;
+            const int refreshInterval = 10; // Refresh UI every 10 files
+            
+            var progress = new Progress<ScanProgress>(async p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
                 ScanProgressPercentage = p.PercentComplete;
                 SetOperationStatus($"Importing: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
+                
+                // Refresh UI periodically during import for immediate feedback
+                if (p.ProcessedFiles - lastRefreshCount >= refreshInterval)
+                {
+                    lastRefreshCount = p.ProcessedFiles;
+                    await Dispatcher.UIThread.InvokeAsync(async () =>
+                    {
+                        try
+                        {
+                            await LoadSongsAsync();
+                            if (MusicLibraryViewModel != null)
+                            {
+                                await MusicLibraryViewModel.LoadLibraryAsync();
+                            }
+                        }
+                        catch
+                        {
+                            // Ignore errors during intermediate refreshes
+                        }
+                    });
+                }
             });
 
             // Run the import in a background thread to avoid blocking the UI
@@ -259,9 +283,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 folderPath, 
                 copyInsteadOfMove: false, // Use default (move) - TODO: make this configurable in UI
                 progress, 
-                autoEnhanceMetadata: true));
+                autoEnhanceMetadata: true,
+                skipDuplicateCheck: true)); // Skip expensive duplicate checking for faster imports
 
-            // Reload songs from database
+            // Final reload after import completes
             await LoadSongsAsync();
             if (MusicLibraryViewModel != null)
             {

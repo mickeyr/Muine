@@ -149,8 +149,9 @@ public class ManagedLibraryService
     /// </summary>
     /// <param name="sourcePath">Source file path</param>
     /// <param name="copyInsteadOfMove">Whether to copy instead of move (null uses config default)</param>
+    /// <param name="skipDuplicateCheck">Skip expensive duplicate checking for faster imports</param>
     /// <returns>ImportResult with the imported song or error information</returns>
-    public async Task<ImportResult> ImportFileAsync(string sourcePath, bool? copyInsteadOfMove = null)
+    public async Task<ImportResult> ImportFileAsync(string sourcePath, bool? copyInsteadOfMove = null, bool skipDuplicateCheck = false)
     {
         var result = new ImportResult { SourcePath = sourcePath };
 
@@ -174,15 +175,18 @@ public class ManagedLibraryService
                 return result;
             }
 
-            // Check for duplicates
-            var duplicateCheck = await CheckForDuplicateAsync(sourcePath, song);
-            if (duplicateCheck.IsDuplicate)
+            // Check for duplicates (skip if requested for faster imports)
+            if (!skipDuplicateCheck)
             {
-                result.Success = false;
-                result.ErrorMessage = "Duplicate file found";
-                result.IsDuplicate = true;
-                result.DuplicateSong = duplicateCheck.ExistingSong;
-                return result;
+                var duplicateCheck = await CheckForDuplicateAsync(sourcePath, song);
+                if (duplicateCheck.IsDuplicate)
+                {
+                    result.Success = false;
+                    result.ErrorMessage = "Duplicate file found";
+                    result.IsDuplicate = true;
+                    result.DuplicateSong = duplicateCheck.ExistingSong;
+                    return result;
+                }
             }
 
             // Check if metadata needs enhancement
@@ -280,6 +284,7 @@ public class ManagedLibraryService
 
     /// <summary>
     /// Check if a file is a duplicate of an existing song in the database
+    /// Optimized to use fast metadata matching instead of expensive file hashing
     /// </summary>
     private async Task<DuplicateCheckResult> CheckForDuplicateAsync(string filePath, Song song)
     {
@@ -287,29 +292,10 @@ public class ManagedLibraryService
 
         try
         {
-            // Calculate file hash
-            var fileHash = CalculateFileHash(filePath);
-
-            // Check for exact hash match in database
+            // Get all songs from database (cached by DB service)
             var allSongs = await _databaseService.GetAllSongsAsync();
             
-            foreach (var existingSong in allSongs)
-            {
-                if (File.Exists(existingSong.Filename))
-                {
-                    var existingHash = CalculateFileHash(existingSong.Filename);
-                    
-                    if (fileHash == existingHash)
-                    {
-                        result.IsDuplicate = true;
-                        result.ExistingSong = existingSong;
-                        result.MatchType = "Exact file match (hash)";
-                        return result;
-                    }
-                }
-            }
-
-            // Check for metadata match (same artist, title, album)
+            // Fast metadata-based duplicate check (no file hashing)
             var metadataMatches = allSongs.Where(s =>
                 s.Artists.Length > 0 &&
                 song.Artists.Length > 0 &&
@@ -325,6 +311,9 @@ public class ManagedLibraryService
                 result.MatchType = "Metadata match (artist/title/album)";
                 return result;
             }
+            
+            // Optional: Only do expensive hash check if metadata suggests possible duplicate
+            // This is now skipped by default for performance
         }
         catch (Exception ex)
         {
@@ -332,6 +321,24 @@ public class ManagedLibraryService
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Check if two files are exact duplicates using SHA256 hash
+    /// This is expensive and should only be used when necessary
+    /// </summary>
+    private bool AreFilesIdentical(string filePath1, string filePath2)
+    {
+        try
+        {
+            var hash1 = CalculateFileHash(filePath1);
+            var hash2 = CalculateFileHash(filePath2);
+            return hash1 == hash2;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     /// <summary>
