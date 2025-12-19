@@ -142,8 +142,11 @@ public partial class MusicBrainzSearchViewModel : ViewModelBase
             // Write updated metadata to file
             _metadataService.WriteSongMetadata(Song.Filename, Song);
 
-            // Reorganize file if managed library is available
-            if (_managedLibraryService != null)
+            // Reorganize file if managed library is available and file is already in library
+            // For YouTube temp files, skip reorganization here - it will be done during import
+            var isInLibrary = !Song.Filename.Contains("/tmp/") && !Song.Filename.Contains("\\Temp\\");
+            
+            if (_managedLibraryService != null && isInLibrary)
             {
                 var success = await _managedLibraryService.ReorganizeSongAsync(Song);
                 if (success)
@@ -152,8 +155,11 @@ public partial class MusicBrainzSearchViewModel : ViewModelBase
                 }
             }
 
-            // Save to database
-            await _databaseService.SaveSongAsync(Song);
+            // Save to database only if song already has an ID (existing song)
+            if (Song.Id > 0)
+            {
+                await _databaseService.SaveSongAsync(Song);
+            }
 
             DialogResult = true;
             StatusMessage = "Metadata applied successfully";

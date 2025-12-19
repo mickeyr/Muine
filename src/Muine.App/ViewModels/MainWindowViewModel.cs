@@ -167,6 +167,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         
         // Subscribe to YouTube events
         YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
+        YouTubeSearchViewModel.YouTubeSongNeedsMetadataReview += OnYouTubeSongNeedsMetadataReview;
         
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
@@ -748,6 +749,60 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 }
             });
         }, delayMilliseconds: 2500); // 2.5 seconds debounce
+    }
+    
+    private void OnYouTubeSongNeedsMetadataReview(object? sender, YouTubeSongEventArgs e)
+    {
+        // This event is fired when user clicks to add YouTube song
+        // We show the metadata dialog immediately while download can happen in background
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            try
+            {
+                // Open MusicBrainz search dialog for YouTube song
+                var searchDialog = new Views.MusicBrainzSearchWindow
+                {
+                    DataContext = App.CreateMusicBrainzSearchViewModel()
+                };
+
+                if (searchDialog.DataContext is MusicBrainzSearchViewModel searchViewModel)
+                {
+                    // Initialize with the YouTube song metadata
+                    searchViewModel.Initialize(e.Song);
+                    
+                    // Show dialog - this will block until user completes or cancels
+                    var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+                    if (mainWindow != null)
+                    {
+                        await searchDialog.ShowDialog(mainWindow);
+                        
+                        // If user applied metadata, download and complete the import
+                        if (searchViewModel.DialogResult)
+                        {
+                            // Download happens here, AFTER user has selected metadata
+                            // This provides responsive UI - user sees results immediately
+                            await YouTubeSearchViewModel!.CompleteYouTubeImportAsync(e.Song, e.YouTubeId);
+                        }
+                        else
+                        {
+                            // User skipped - no download needed, nothing to clean up
+                            YouTubeSearchViewModel!.StatusMessage = "Import cancelled";
+                            YouTubeSearchViewModel.IsSearching = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingService.Error("Failed to open metadata review dialog for YouTube song", ex, "MainWindowViewModel");
+                StatusMessage = "Error reviewing YouTube song metadata";
+                
+                if (YouTubeSearchViewModel != null)
+                {
+                    YouTubeSearchViewModel.IsSearching = false;
+                }
+            }
+        });
     }
     
     private async void OnTaggingWorkCompleted(object? sender, TaggingCompletedEventArgs e)
