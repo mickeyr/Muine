@@ -30,10 +30,10 @@ public partial class MetadataReviewWindow : Window
             if (dialog.DataContext is MusicBrainzSearchViewModel searchViewModel)
             {
                 searchViewModel.Initialize(song);
-                await dialog.ShowDialog(this);
+                var dialogResult = await dialog.ShowDialog<bool>(this);
 
                 // If metadata was applied, remove from review list
-                if (searchViewModel.DialogResult)
+                if (dialogResult)
                 {
                     viewModel.RemoveSongFromReview(song);
                 }

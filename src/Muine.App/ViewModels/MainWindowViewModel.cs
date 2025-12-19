@@ -774,10 +774,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                     var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
                     if (mainWindow != null)
                     {
-                        await searchDialog.ShowDialog(mainWindow);
+                        var dialogResult = await searchDialog.ShowDialog<bool>(mainWindow);
                         
                         // If user applied metadata, download and complete the import
-                        if (searchViewModel.DialogResult)
+                        if (dialogResult)
                         {
                             // Download happens here, AFTER user has selected metadata
                             // This provides responsive UI - user sees results immediately
