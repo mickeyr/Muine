@@ -26,6 +26,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly YouTubeService _youtubeService;
     private readonly MprisService? _mprisService;
     private readonly BackgroundTaggingQueue _taggingQueue;
+    private readonly DebouncedActionService _debouncer;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -101,6 +102,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _playbackService = new PlaybackService();
         _radioMetadataService = new RadioMetadataService();
         _youtubeService = new YouTubeService();
+        _debouncer = new DebouncedActionService();
         
         // Initialize RadioBrowserService with error handling
         // The RadioBrowser library requires DNS resolution which may fail in some environments
@@ -660,11 +662,30 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private async void OnYouTubeSongsAddedToLibrary(object? sender, EventArgs e)
     {
-        // Refresh the music library view
-        if (MusicLibraryViewModel != null)
+        // Debounce UI updates for YouTube songs (immediate but debounced)
+        _debouncer.DebounceAsync("library-refresh", async () =>
         {
-            await MusicLibraryViewModel.LoadLibraryAsync();
-        }
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                try
+                {
+                    // Reload songs from database
+                    await LoadSongsAsync();
+                    
+                    // Refresh the music library view
+                    if (MusicLibraryViewModel != null)
+                    {
+                        await MusicLibraryViewModel.LoadLibraryAsync();
+                    }
+                    
+                    StatusMessage = $"Library updated - {TotalSongs} songs";
+                }
+                catch (Exception ex)
+                {
+                    LoggingService.Error("Failed to refresh UI after YouTube import", ex, "MainWindowViewModel");
+                }
+            });
+        }, delayMilliseconds: 2500); // 2.5 seconds debounce
     }
     
     private async void OnTaggingWorkCompleted(object? sender, TaggingCompletedEventArgs e)
@@ -674,15 +695,30 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _databaseService.SaveSongAsync(e.EnhancedSong);
             
-            // Refresh the library view
-            await Dispatcher.UIThread.InvokeAsync(async () =>
+            // Debounce UI updates to avoid excessive refreshes (every 2-3 seconds)
+            _debouncer.DebounceAsync("library-refresh", async () =>
             {
-                if (MusicLibraryViewModel != null)
+                await Dispatcher.UIThread.InvokeAsync(async () =>
                 {
-                    await MusicLibraryViewModel.LoadLibraryAsync();
-                }
-                StatusMessage = $"Enhanced metadata for: {e.EnhancedSong.DisplayName}";
-            });
+                    try
+                    {
+                        // Reload all songs from database
+                        await LoadSongsAsync();
+                        
+                        // Refresh the music library view
+                        if (MusicLibraryViewModel != null)
+                        {
+                            await MusicLibraryViewModel.LoadLibraryAsync();
+                        }
+                        
+                        StatusMessage = $"Library updated with enhanced metadata";
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingService.Error("Failed to refresh UI after metadata enhancement", ex, "MainWindowViewModel");
+                    }
+                });
+            }, delayMilliseconds: 2500); // 2.5 seconds debounce
         }
         catch (Exception ex)
         {
@@ -920,6 +956,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public void Dispose()
     {
+        // Flush any pending debounced actions before disposing
+        _debouncer?.FlushAll();
+        _debouncer?.Dispose();
+        
         _taggingQueue?.Dispose();
         _mprisService?.Dispose();
         _playbackService?.Dispose();
