@@ -305,8 +305,17 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 statusParts.Add($"{result.FilesNeedingManualMetadata.Count} need manual metadata");
             if (result.Conflicts.Count > 0)
                 statusParts.Add($"{result.Conflicts.Count} conflicts");
+            if (result.SongsWithMissingCriticalMetadata.Count > 0)
+                statusParts.Add($"{result.SongsWithMissingCriticalMetadata.Count} need metadata review");
             
             SetOperationStatus($"Import complete: {string.Join(", ", statusParts)}", autoHideAfter: 5000);
+            
+            // Store songs needing review for later access
+            if (result.SongsWithMissingCriticalMetadata.Count > 0)
+            {
+                // TODO: Show notification or dialog to review these songs
+                LoggingService.Info($"{result.SongsWithMissingCriticalMetadata.Count} songs need metadata review", "MainWindowViewModel");
+            }
             
             // Log any errors
             foreach (var error in result.Errors)

@@ -189,7 +189,14 @@ public class ManagedLibraryService
                 }
             }
 
-            // Check if metadata needs enhancement
+            // Check if critical metadata is missing
+            if (HasMissingCriticalMetadata(song))
+            {
+                result.HasMissingCriticalMetadata = true;
+                // Still import the song, but flag it for user review
+            }
+
+            // Check if metadata could benefit from enhancement
             if (NeedsMetadataEnhancement(song))
             {
                 result.NeedsMetadataEnhancement = true;
@@ -259,11 +266,12 @@ public class ManagedLibraryService
     }
 
     /// <summary>
-    /// Check if a song needs metadata enhancement
+    /// Check if a song is missing critical metadata (artist, title, or album)
+    /// Songs with missing critical metadata should be added to a review list
     /// </summary>
-    private bool NeedsMetadataEnhancement(Song song)
+    private bool HasMissingCriticalMetadata(Song song)
     {
-        // Check if essential metadata is missing
+        // Check if critical metadata is missing
         if (song.Artists.Length == 0 || string.IsNullOrWhiteSpace(song.Artists[0]))
             return true;
 
@@ -273,6 +281,20 @@ public class ManagedLibraryService
         if (string.IsNullOrWhiteSpace(song.Album))
             return true;
 
+        return false;
+    }
+
+    /// <summary>
+    /// Check if a song could benefit from metadata enhancement
+    /// This is for optional enhancements like year or cover art
+    /// </summary>
+    private bool NeedsMetadataEnhancement(Song song)
+    {
+        // Don't auto-enhance if critical metadata is missing - let user review first
+        if (HasMissingCriticalMetadata(song))
+            return false;
+
+        // Only suggest enhancement for optional fields if core metadata is present
         if (string.IsNullOrWhiteSpace(song.Year))
             return true;
 
@@ -498,6 +520,7 @@ public class ImportResult
     public string? ErrorMessage { get; set; }
     public bool NeedsMetadataEnhancement { get; set; }
     public bool NeedsManualMetadata { get; set; }
+    public bool HasMissingCriticalMetadata { get; set; } // Artist, title, or album missing
     public bool IsDuplicate { get; set; }
     public Song? DuplicateSong { get; set; }
     public bool NeedsUserInput { get; set; }

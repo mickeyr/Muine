@@ -325,7 +325,13 @@ public class LibraryScannerService
                 {
                     result.SuccessCount++;
                     
-                    // Queue for enhancement if needed
+                    // Track songs with missing critical metadata for user review
+                    if (importResult.HasMissingCriticalMetadata && importResult.ImportedSong != null)
+                    {
+                        result.SongsWithMissingCriticalMetadata.Add(importResult.ImportedSong);
+                    }
+                    
+                    // Queue for enhancement if needed (only for optional enhancements)
                     if (importResult.NeedsMetadataEnhancement && autoEnhanceMetadata && _taggingQueue != null)
                     {
                         _taggingQueue.EnqueueSong(importResult.ImportedSong!, downloadCoverArt: true);
@@ -420,6 +426,7 @@ public class ImportDirectoryResult
     public List<DuplicateInfo> Duplicates { get; set; } = new();
     public List<string> FilesNeedingManualMetadata { get; set; } = new();
     public List<FileConflictInfo> Conflicts { get; set; } = new();
+    public List<Song> SongsWithMissingCriticalMetadata { get; set; } = new(); // Songs missing artist/title/album
 }
 
 public class DuplicateInfo
