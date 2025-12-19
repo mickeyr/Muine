@@ -205,9 +205,44 @@ Muine/
 - Familiar API
 
 ## Known Issues
-None currently. All 95 tests passing, code review clean, security scan pending.
+None currently. All tests passing (note: some MusicBrainz API tests may fail intermittently due to rate limiting).
 
 ## New Features (Beyond Original Muine)
+
+### Enhanced Metadata and MP3 Tagging (NEW)
+Muine now includes comprehensive MusicBrainz integration for automatic metadata enhancement:
+- **MusicBrainz API Integration**: Search and match songs to MusicBrainz database
+- **Automatic Matching**: Match local files and YouTube songs to MusicBrainz entries
+- **ID3 Tag Writing**: Write enhanced metadata to MP3, FLAC, OGG files including:
+  - Artist, Title, Album, Year, Track Number
+  - MusicBrainz Recording/Release/Artist IDs
+  - Genres/Tags from MusicBrainz
+- **Album Artwork**: Download and embed cover art from Cover Art Archive
+- **Disambiguation Support**: Handle multiple matches with confidence scoring
+- **Background Queue**: Process metadata enhancement in background with rate limiting
+- **Rate Limit Compliance**: Respects MusicBrainz 1 request/second limit
+- **YouTube Enhancement**: Automatically enhance YouTube song metadata
+
+**Services:**
+- `MusicBrainzService`: Query MusicBrainz API with rate limiting
+- `MetadataEnhancementService`: Orchestrate matching and enhancement
+- `BackgroundTaggingQueue`: Background processing queue for metadata updates
+- Extended `MetadataService`: Write tags and embed artwork
+
+**Usage:**
+```csharp
+// Enhance a single song
+var enhancementService = new MetadataEnhancementService();
+var (enhancedSong, match) = await enhancementService.EnhanceSongAsync(song);
+
+// Queue multiple songs for background processing
+var taggingQueue = new BackgroundTaggingQueue();
+taggingQueue.EnqueueSongs(songs);
+
+// Auto-enhance during library scan
+var scanner = new LibraryScannerService(metadata, database, coverArt, taggingQueue);
+await scanner.ScanDirectoryAsync(path, progress, autoEnhanceMetadata: true);
+```
 
 ### Internet Radio Support
 Muine now includes comprehensive internet radio station support:
@@ -235,6 +270,7 @@ Muine now includes comprehensive internet radio station support:
 <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.1" />
 <PackageReference Include="LibVLCSharp" Version="3.9.0" />
 <PackageReference Include="RadioBrowser" Version="0.7.0" />
+<PackageReference Include="MetaBrainz.MusicBrainz" Version="7.0.0" />
 <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
 <PackageReference Include="VideoLAN.LibVLC.Mac" Version="3.0.21" />
 
@@ -254,11 +290,13 @@ Muine now includes comprehensive internet radio station support:
 - Database operations are async to avoid UI blocking
 - File scanning uses async I/O
 - Large music libraries should be scanned in background
+- MusicBrainz queries are rate-limited (1 req/sec) and processed in background queue
 - Consider implementing caching for album artwork
 
 ## Testing Strategy
 - Unit tests for all models and services
 - Integration tests for database operations
+- MusicBrainz API tests (may require internet connection)
 - UI tests (pending Avalonia UI completion)
 - Manual testing on Linux (primary target platform)
 
@@ -266,3 +304,5 @@ Muine now includes comprehensive internet radio station support:
 - [Avalonia Documentation](https://docs.avaloniaui.net/)
 - [TagLib-Sharp API](https://github.com/mono/taglib-sharp)
 - [SQLite .NET Provider](https://docs.microsoft.com/en-us/dotnet/standard/data/sqlite/)
+- [MusicBrainz API](https://musicbrainz.org/doc/MusicBrainz_API)
+- [Cover Art Archive](https://coverartarchive.org/)

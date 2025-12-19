@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Muine.Core.Models;
 using Muine.Core.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using static Muine.Core.Services.LoggingService;
@@ -13,6 +14,7 @@ public partial class YouTubeSearchViewModel : ViewModelBase
 {
     private readonly YouTubeService _youtubeService;
     private readonly MusicDatabaseService _databaseService;
+    private readonly BackgroundTaggingQueue? _taggingQueue;
 
     // Event fired when songs are added to the library
     public event EventHandler? SongsAddedToLibrary;
@@ -35,10 +37,11 @@ public partial class YouTubeSearchViewModel : ViewModelBase
     [ObservableProperty]
     private int _maxResults = 20;
 
-    public YouTubeSearchViewModel(YouTubeService youtubeService, MusicDatabaseService databaseService)
+    public YouTubeSearchViewModel(YouTubeService youtubeService, MusicDatabaseService databaseService, BackgroundTaggingQueue? taggingQueue = null)
     {
         _youtubeService = youtubeService;
         _databaseService = databaseService;
+        _taggingQueue = taggingQueue;
     }
 
     [RelayCommand]
@@ -90,6 +93,11 @@ public partial class YouTubeSearchViewModel : ViewModelBase
         {
             // Save the YouTube song to the database
             await _databaseService.SaveSongAsync(SelectedSong);
+            
+            // Queue for metadata enhancement
+            _taggingQueue?.EnqueueSong(SelectedSong, downloadCoverArt: true);
+            LoggingService.Info($"Queued YouTube song for metadata enhancement: {SelectedSong.DisplayName}", "YouTubeSearchViewModel");
+            
             StatusMessage = $"Added '{SelectedSong.Title}' to library";
             
             // Notify that library has been updated
@@ -114,14 +122,23 @@ public partial class YouTubeSearchViewModel : ViewModelBase
 
         IsSearching = true;
         var count = 0;
+        var addedSongs = new List<Song>();
 
         try
         {
             foreach (var song in SearchResults)
             {
                 await _databaseService.SaveSongAsync(song);
+                addedSongs.Add(song);
                 count++;
                 StatusMessage = $"Adding to library... ({count}/{SearchResults.Count})";
+            }
+
+            // Queue all songs for metadata enhancement
+            if (addedSongs.Count > 0)
+            {
+                _taggingQueue?.EnqueueSongs(addedSongs, downloadCoverArt: true);
+                LoggingService.Info($"Queued {addedSongs.Count} YouTube songs for metadata enhancement", "YouTubeSearchViewModel");
             }
 
             StatusMessage = $"Added {count} songs to library";

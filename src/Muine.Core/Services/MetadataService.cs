@@ -234,4 +234,316 @@ public class MetadataService
             _ => false
         };
     }
+
+    /// <summary>
+    /// Write metadata to an audio file
+    /// </summary>
+    /// <param name="filename">Path to the audio file</param>
+    /// <param name="song">Song metadata to write</param>
+    /// <returns>True if successful, false otherwise</returns>
+    public bool WriteSongMetadata(string filename, Song song)
+    {
+        if (!System.IO.File.Exists(filename))
+        {
+            LoggingService.Warning($"File not found: {filename}", "MetadataService");
+            return false;
+        }
+
+        try
+        {
+            using var file = TagLib.File.Create(filename);
+            var tag = file.Tag;
+
+            // Write basic metadata
+            tag.Title = song.Title;
+            tag.Performers = song.Artists.Length > 0 ? song.Artists : song.Performers;
+            tag.AlbumArtists = song.Artists;
+            tag.Album = song.Album;
+            tag.Track = (uint)song.TrackNumber;
+            tag.TrackCount = (uint)song.NAlbumTracks;
+            tag.Disc = (uint)song.DiscNumber;
+            
+            if (!string.IsNullOrEmpty(song.Year) && uint.TryParse(song.Year, out var year))
+            {
+                tag.Year = year;
+            }
+
+            // Save the file
+            file.Save();
+            
+            LoggingService.Info($"Metadata written to: {filename}", "MetadataService");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to write metadata to {filename}", ex, "MetadataService");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Write metadata from a MusicBrainz match to an audio file
+    /// </summary>
+    /// <param name="filename">Path to the audio file</param>
+    /// <param name="match">MusicBrainz match data</param>
+    /// <returns>True if successful, false otherwise</returns>
+    public bool WriteMusicBrainzMetadata(string filename, MusicBrainzMatch match)
+    {
+        if (!System.IO.File.Exists(filename))
+        {
+            LoggingService.Warning($"File not found: {filename}", "MetadataService");
+            return false;
+        }
+
+        try
+        {
+            using var file = TagLib.File.Create(filename);
+            var tag = file.Tag;
+
+            // Write basic metadata
+            tag.Title = match.Title;
+            tag.Performers = new[] { match.Artist };
+            tag.AlbumArtists = new[] { match.Artist };
+            
+            if (!string.IsNullOrEmpty(match.Album))
+            {
+                tag.Album = match.Album;
+            }
+
+            if (match.Year.HasValue)
+            {
+                tag.Year = (uint)match.Year.Value;
+            }
+
+            if (match.TrackNumber.HasValue)
+            {
+                tag.Track = (uint)match.TrackNumber.Value;
+            }
+
+            if (match.TotalTracks.HasValue)
+            {
+                tag.TrackCount = (uint)match.TotalTracks.Value;
+            }
+
+            if (match.Genres.Length > 0)
+            {
+                tag.Genres = match.Genres;
+            }
+
+            // Write MusicBrainz IDs (only for formats that support them)
+            if (file.GetTag(TagTypes.Id3v2) is TagLib.Id3v2.Tag id3v2Tag)
+            {
+                WriteMusicBrainzIds(id3v2Tag, match);
+            }
+            else if (file.GetTag(TagTypes.Xiph) is XiphComment xiphComment)
+            {
+                WriteMusicBrainzIdsXiph(xiphComment, match);
+            }
+
+            // Save the file
+            file.Save();
+            
+            LoggingService.Info($"MusicBrainz metadata written to: {filename}", "MetadataService");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to write MusicBrainz metadata to {filename}", ex, "MetadataService");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Write MusicBrainz IDs to ID3v2 tags (MP3)
+    /// </summary>
+    private void WriteMusicBrainzIds(TagLib.Id3v2.Tag tag, MusicBrainzMatch match)
+    {
+        // MusicBrainz uses TXXX frames for custom fields
+        if (!string.IsNullOrEmpty(match.RecordingId))
+        {
+            SetUserTextInformationFrame(tag, "MusicBrainz Recording Id", match.RecordingId);
+        }
+
+        if (!string.IsNullOrEmpty(match.ReleaseId))
+        {
+            SetUserTextInformationFrame(tag, "MusicBrainz Release Id", match.ReleaseId);
+        }
+
+        if (!string.IsNullOrEmpty(match.ArtistId))
+        {
+            SetUserTextInformationFrame(tag, "MusicBrainz Artist Id", match.ArtistId);
+        }
+    }
+
+    /// <summary>
+    /// Write MusicBrainz IDs to Xiph comments (FLAC, OGG)
+    /// </summary>
+    private void WriteMusicBrainzIdsXiph(XiphComment comment, MusicBrainzMatch match)
+    {
+        if (!string.IsNullOrEmpty(match.RecordingId))
+        {
+            comment.SetField("MUSICBRAINZ_TRACKID", match.RecordingId);
+        }
+
+        if (!string.IsNullOrEmpty(match.ReleaseId))
+        {
+            comment.SetField("MUSICBRAINZ_ALBUMID", match.ReleaseId);
+        }
+
+        if (!string.IsNullOrEmpty(match.ArtistId))
+        {
+            comment.SetField("MUSICBRAINZ_ARTISTID", match.ArtistId);
+        }
+    }
+
+    /// <summary>
+    /// Set or update a TXXX (User Text Information) frame in ID3v2 tag
+    /// </summary>
+    private void SetUserTextInformationFrame(TagLib.Id3v2.Tag tag, string description, string value)
+    {
+        // Remove existing frame with this description
+        var existingFrames = tag.GetFrames<UserTextInformationFrame>()
+            .Where(f => f.Description == description)
+            .ToList();
+
+        foreach (var frame in existingFrames)
+        {
+            tag.RemoveFrame(frame);
+        }
+
+        // Add new frame
+        var newFrame = UserTextInformationFrame.Get(tag, description, true);
+        newFrame.Text = new[] { value };
+    }
+
+    /// <summary>
+    /// Embed album artwork into an audio file
+    /// </summary>
+    /// <param name="filename">Path to the audio file</param>
+    /// <param name="artworkPath">Path to the artwork image file</param>
+    /// <returns>True if successful, false otherwise</returns>
+    public bool EmbedAlbumArt(string filename, string artworkPath)
+    {
+        if (!System.IO.File.Exists(filename))
+        {
+            LoggingService.Warning($"Audio file not found: {filename}", "MetadataService");
+            return false;
+        }
+
+        if (!System.IO.File.Exists(artworkPath))
+        {
+            LoggingService.Warning($"Artwork file not found: {artworkPath}", "MetadataService");
+            return false;
+        }
+
+        try
+        {
+            using var file = TagLib.File.Create(filename);
+            var tag = file.Tag;
+
+            // Read the artwork file
+            var artworkData = System.IO.File.ReadAllBytes(artworkPath);
+            var mimeType = GetMimeType(artworkPath);
+
+            // Create a picture
+            var picture = new Picture
+            {
+                Type = PictureType.FrontCover,
+                MimeType = mimeType,
+                Description = "Cover",
+                Data = artworkData
+            };
+
+            // Remove existing pictures
+            tag.Pictures = new IPicture[] { picture };
+
+            // Save the file
+            file.Save();
+            
+            LoggingService.Info($"Album art embedded in: {filename}", "MetadataService");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to embed album art in {filename}", ex, "MetadataService");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Embed album artwork from a URL (downloads first, then embeds)
+    /// </summary>
+    /// <param name="filename">Path to the audio file</param>
+    /// <param name="artworkUrl">URL of the artwork image</param>
+    /// <returns>True if successful, false otherwise</returns>
+    public async Task<bool> EmbedAlbumArtFromUrlAsync(string filename, string artworkUrl)
+    {
+        if (!System.IO.File.Exists(filename))
+        {
+            LoggingService.Warning($"Audio file not found: {filename}", "MetadataService");
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(artworkUrl))
+        {
+            LoggingService.Warning("Artwork URL is empty", "MetadataService");
+            return false;
+        }
+
+        try
+        {
+            // Download the artwork to a temporary file
+            var tempPath = Path.Combine(Path.GetTempPath(), $"muine_artwork_{Guid.NewGuid()}.jpg");
+            
+            using var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Muine/1.0");
+            
+            var response = await httpClient.GetAsync(artworkUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                LoggingService.Warning($"Failed to download artwork from {artworkUrl}: {response.StatusCode}", "MetadataService");
+                return false;
+            }
+
+            var imageBytes = await response.Content.ReadAsByteArrayAsync();
+            await System.IO.File.WriteAllBytesAsync(tempPath, imageBytes);
+
+            // Embed the downloaded artwork
+            var success = EmbedAlbumArt(filename, tempPath);
+
+            // Clean up temporary file
+            try
+            {
+                System.IO.File.Delete(tempPath);
+            }
+            catch
+            {
+                // Ignore cleanup errors
+            }
+
+            return success;
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to embed album art from URL {artworkUrl}", ex, "MetadataService");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Get MIME type for an image file
+    /// </summary>
+    private string GetMimeType(string filename)
+    {
+        var extension = Path.GetExtension(filename).ToLowerInvariant();
+        return extension switch
+        {
+            ".jpg" => "image/jpeg",
+            ".jpeg" => "image/jpeg",
+            ".png" => "image/png",
+            ".gif" => "image/gif",
+            ".bmp" => "image/bmp",
+            _ => "image/jpeg"
+        };
+    }
 }
