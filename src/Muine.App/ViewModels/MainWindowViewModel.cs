@@ -130,6 +130,14 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _databaseService = new MusicDatabaseService(databasePath);
         _radioStationService = new RadioStationService(databasePath);
         
+        // Initialize library configuration
+        var libraryConfigService = new LibraryConfigurationService();
+        var libraryConfig = libraryConfigService.LoadConfiguration();
+        libraryConfig.EnsureLibraryDirectoryExists();
+        
+        // Initialize managed library service
+        var managedLibraryService = new ManagedLibraryService(libraryConfig, _metadataService, _databaseService);
+        
         // Initialize metadata enhancement services
         var mbService = new MusicBrainzService();
         var enhancementService = new MetadataEnhancementService(mbService, _metadataService);
@@ -139,7 +147,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _taggingQueue.WorkCompleted += OnTaggingWorkCompleted;
         _taggingQueue.WorkFailed += OnTaggingWorkFailed;
         
-        _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService, _taggingQueue);
+        _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService, _taggingQueue, managedLibraryService);
         
         // Initialize MPRIS service (Linux media key support)
         _mprisService = new MprisService(_playbackService);
@@ -150,7 +158,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
-        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue);
+        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue, managedLibraryService, _metadataService);
         
         // Subscribe to YouTube events
         YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;

@@ -5,6 +5,8 @@ using Muine.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static Muine.Core.Services.LoggingService;
 
@@ -15,6 +17,8 @@ public partial class YouTubeSearchViewModel : ViewModelBase
     private readonly YouTubeService _youtubeService;
     private readonly MusicDatabaseService _databaseService;
     private readonly BackgroundTaggingQueue? _taggingQueue;
+    private readonly ManagedLibraryService? _managedLibraryService;
+    private readonly MetadataService? _metadataService;
 
     // Event fired when songs are added to the library
     public event EventHandler? SongsAddedToLibrary;
@@ -37,11 +41,18 @@ public partial class YouTubeSearchViewModel : ViewModelBase
     [ObservableProperty]
     private int _maxResults = 20;
 
-    public YouTubeSearchViewModel(YouTubeService youtubeService, MusicDatabaseService databaseService, BackgroundTaggingQueue? taggingQueue = null)
+    public YouTubeSearchViewModel(
+        YouTubeService youtubeService, 
+        MusicDatabaseService databaseService, 
+        BackgroundTaggingQueue? taggingQueue = null,
+        ManagedLibraryService? managedLibraryService = null,
+        MetadataService? metadataService = null)
     {
         _youtubeService = youtubeService;
         _databaseService = databaseService;
         _taggingQueue = taggingQueue;
+        _managedLibraryService = managedLibraryService;
+        _metadataService = metadataService;
     }
 
     [RelayCommand]
@@ -87,18 +98,80 @@ public partial class YouTubeSearchViewModel : ViewModelBase
             return;
 
         IsSearching = true;
-        StatusMessage = $"Adding '{SelectedSong.Title}' to library...";
+        StatusMessage = $"Downloading '{SelectedSong.Title}'...";
 
         try
         {
-            // Save the YouTube song to the database
-            await _databaseService.SaveSongAsync(SelectedSong);
+            // Download YouTube audio to temp directory
+            var tempPath = await _youtubeService.DownloadToTempAsync(SelectedSong.YouTubeId!);
             
-            // Queue for metadata enhancement
-            _taggingQueue?.EnqueueSong(SelectedSong, downloadCoverArt: true);
-            LoggingService.Info($"Queued YouTube song for metadata enhancement: {SelectedSong.DisplayName}", "YouTubeSearchViewModel");
-            
-            StatusMessage = $"Added '{SelectedSong.Title}' to library";
+            if (tempPath == null || !File.Exists(tempPath))
+            {
+                StatusMessage = $"Failed to download '{SelectedSong.Title}'";
+                return;
+            }
+
+            StatusMessage = $"Processing '{SelectedSong.Title}'...";
+
+            // If managed library service is available, import to managed library
+            if (_managedLibraryService != null && _metadataService != null)
+            {
+                // Read metadata from downloaded file
+                var song = _metadataService.ReadSongMetadata(tempPath);
+                if (song != null)
+                {
+                    // Preserve YouTube info
+                    song.SourceType = SongSourceType.YouTube;
+                    song.YouTubeId = SelectedSong.YouTubeId;
+                    song.YouTubeUrl = SelectedSong.YouTubeUrl;
+                    
+                    // Import to managed library (moves file from temp to library)
+                    var importResult = await _managedLibraryService.ImportFileAsync(tempPath, copyInsteadOfMove: false);
+                    
+                    if (importResult.Success && importResult.ImportedSong != null)
+                    {
+                        StatusMessage = $"Added '{SelectedSong.Title}' to library";
+                        
+                        // Queue for metadata enhancement
+                        if (importResult.NeedsMetadataEnhancement)
+                        {
+                            _taggingQueue?.EnqueueSong(importResult.ImportedSong, downloadCoverArt: true);
+                            LoggingService.Info($"Queued YouTube song for metadata enhancement: {importResult.ImportedSong.DisplayName}", "YouTubeSearchViewModel");
+                        }
+                    }
+                    else
+                    {
+                        StatusMessage = $"Error importing: {importResult.ErrorMessage}";
+                        // Clean up temp file if import failed
+                        if (File.Exists(tempPath))
+                        {
+                            try { File.Delete(tempPath); } catch { }
+                        }
+                    }
+                }
+                else
+                {
+                    StatusMessage = "Failed to read metadata from downloaded file";
+                    // Clean up temp file
+                    if (File.Exists(tempPath))
+                    {
+                        try { File.Delete(tempPath); } catch { }
+                    }
+                }
+            }
+            else
+            {
+                // Fallback: old behavior - save directly to database
+                // Update song with temp file path
+                SelectedSong.Filename = tempPath;
+                await _databaseService.SaveSongAsync(SelectedSong);
+                
+                // Queue for metadata enhancement
+                _taggingQueue?.EnqueueSong(SelectedSong, downloadCoverArt: true);
+                LoggingService.Info($"Queued YouTube song for metadata enhancement: {SelectedSong.DisplayName}", "YouTubeSearchViewModel");
+                
+                StatusMessage = $"Added '{SelectedSong.Title}' to library";
+            }
             
             // Notify that library has been updated
             SongsAddedToLibrary?.Invoke(this, EventArgs.Empty);
@@ -122,23 +195,81 @@ public partial class YouTubeSearchViewModel : ViewModelBase
 
         IsSearching = true;
         var count = 0;
-        var addedSongs = new List<Song>();
+        var total = SearchResults.Count;
 
         try
         {
-            foreach (var song in SearchResults)
+            foreach (var song in SearchResults.ToList()) // ToList to avoid collection modification issues
             {
-                await _databaseService.SaveSongAsync(song);
-                addedSongs.Add(song);
-                count++;
-                StatusMessage = $"Adding to library... ({count}/{SearchResults.Count})";
-            }
+                try
+                {
+                    count++;
+                    StatusMessage = $"Downloading {count}/{total}: {song.Title}...";
 
-            // Queue all songs for metadata enhancement
-            if (addedSongs.Count > 0)
-            {
-                _taggingQueue?.EnqueueSongs(addedSongs, downloadCoverArt: true);
-                LoggingService.Info($"Queued {addedSongs.Count} YouTube songs for metadata enhancement", "YouTubeSearchViewModel");
+                    // Download YouTube audio to temp directory
+                    var tempPath = await _youtubeService.DownloadToTempAsync(song.YouTubeId!);
+                    
+                    if (tempPath == null || !File.Exists(tempPath))
+                    {
+                        LoggingService.Warning($"Failed to download: {song.Title}", "YouTubeSearchViewModel");
+                        continue;
+                    }
+
+                    // If managed library service is available, import to managed library
+                    if (_managedLibraryService != null && _metadataService != null)
+                    {
+                        // Read metadata from downloaded file
+                        var downloadedSong = _metadataService.ReadSongMetadata(tempPath);
+                        if (downloadedSong != null)
+                        {
+                            // Preserve YouTube info
+                            downloadedSong.SourceType = SongSourceType.YouTube;
+                            downloadedSong.YouTubeId = song.YouTubeId;
+                            downloadedSong.YouTubeUrl = song.YouTubeUrl;
+                            
+                            // Import to managed library
+                            var importResult = await _managedLibraryService.ImportFileAsync(tempPath, copyInsteadOfMove: false);
+                            
+                            if (importResult.Success && importResult.ImportedSong != null)
+                            {
+                                // Queue for metadata enhancement if needed
+                                if (importResult.NeedsMetadataEnhancement)
+                                {
+                                    _taggingQueue?.EnqueueSong(importResult.ImportedSong, downloadCoverArt: true);
+                                }
+                            }
+                            else
+                            {
+                                LoggingService.Warning($"Failed to import: {song.Title} - {importResult.ErrorMessage}", "YouTubeSearchViewModel");
+                                // Clean up temp file
+                                if (File.Exists(tempPath))
+                                {
+                                    try { File.Delete(tempPath); } catch { }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            LoggingService.Warning($"Failed to read metadata: {song.Title}", "YouTubeSearchViewModel");
+                            // Clean up temp file
+                            if (File.Exists(tempPath))
+                            {
+                                try { File.Delete(tempPath); } catch { }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Fallback: old behavior
+                        song.Filename = tempPath;
+                        await _databaseService.SaveSongAsync(song);
+                        _taggingQueue?.EnqueueSong(song, downloadCoverArt: true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LoggingService.Error($"Failed to add YouTube song: {song.Title}", ex, "YouTubeSearchViewModel");
+                }
             }
 
             StatusMessage = $"Added {count} songs to library";
