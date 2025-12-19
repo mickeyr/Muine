@@ -126,11 +126,33 @@
                 BorderBrush="#333333" 
                 BorderThickness="0,1,0,0"
                 Background="#2a2a2a"
-                IsVisible="{Binding !!OperationStatus}"
                 Padding="10,3">
-            <TextBlock Text="{Binding OperationStatus}" 
-                       FontSize="11" 
-                       Foreground="#cccccc"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <!-- Status Message -->
+                <TextBlock Grid.Column="0"
+                           Text="{Binding OperationStatus}" 
+                           FontSize="11" 
+                           Foreground="#cccccc"
+                           VerticalAlignment="Center"
+                           IsVisible="{Binding !!OperationStatus}"/>
+                
+                <!-- Progress Indicator -->
+                <StackPanel Grid.Column="1" 
+                            Orientation="Horizontal" 
+                            Spacing="10"
+                            IsVisible="{Binding IsScanning}">
+                    <TextBlock Text="{Binding ScanProgress}" 
+                               FontSize="11" 
+                               Foreground="#cccccc"
+                               VerticalAlignment="Center"/>
+                    <ProgressBar IsIndeterminate="False"
+                                 Value="{Binding ScanProgressPercentage}"
+                                 Width="200"
+                                 Height="16"
+                                 VerticalAlignment="Center"
+                                 Foreground="#4a9eff"/>
+                </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 

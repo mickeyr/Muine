@@ -44,6 +44,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private string _scanProgress = string.Empty;
 
     [ObservableProperty]
+    private double _scanProgressPercentage;
+
+    [ObservableProperty]
     private int _totalSongs;
 
     [ObservableProperty]
@@ -246,6 +249,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
+                ScanProgressPercentage = p.PercentComplete;
                 SetOperationStatus($"Importing: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
             });
 
@@ -379,6 +383,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
+                ScanProgressPercentage = p.PercentComplete;
                 SetOperationStatus($"Refreshing: {p.PercentComplete:F0}%");
             });
 
