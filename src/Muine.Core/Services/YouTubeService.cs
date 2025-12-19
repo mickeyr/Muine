@@ -106,7 +106,7 @@ public class YouTubeService : IDisposable
     /// Download audio from a YouTube video to a local file and convert to Opus format for better compatibility
     /// </summary>
     /// <param name="videoId">YouTube video ID</param>
-    /// <param name="outputPath">Path where the audio file should be saved (should end in .opus)</param>
+    /// <param name="outputPath">Path where the audio file should be saved (should end in .mp3)</param>
     /// <returns>True if successful, false otherwise</returns>
     public async Task<bool> DownloadAudioAsync(string videoId, string outputPath)
     {
@@ -352,6 +352,48 @@ public class YouTubeService : IDisposable
         }
 
         return text;
+    }
+
+    /// <summary>
+    /// Download YouTube audio to temp directory, then return the path for further processing
+    /// This allows the managed library service to handle the final location
+    /// </summary>
+    /// <param name="videoId">YouTube video ID</param>
+    /// <returns>Path to downloaded MP3 file, or null if failed</returns>
+    public async Task<string?> DownloadToTempAsync(string videoId)
+    {
+        if (string.IsNullOrWhiteSpace(videoId))
+        {
+            return null;
+        }
+
+        try
+        {
+            // Create temp directory
+            var tempDir = Path.Combine(Path.GetTempPath(), "Muine", "YouTubeDownloads");
+            if (!Directory.Exists(tempDir))
+            {
+                Directory.CreateDirectory(tempDir);
+            }
+
+            // Generate temporary file path
+            var tempPath = Path.Combine(tempDir, $"{videoId}_{Guid.NewGuid()}.mp3");
+
+            // Download audio
+            var success = await DownloadAudioAsync(videoId, tempPath);
+            
+            if (success && File.Exists(tempPath))
+            {
+                return tempPath;
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error($"Failed to download YouTube audio to temp: {videoId}", ex, "YouTubeService");
+            return null;
+        }
     }
 
     public void Dispose()
