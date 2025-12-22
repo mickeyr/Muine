@@ -46,7 +46,8 @@
         <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedTabIndex}">
             <!-- Music Library Tab -->
             <TabItem Header="Music Library">
-                <views:MusicLibraryView DataContext="{Binding MusicLibraryViewModel}"
+                <views:MusicLibraryView x:Name="MusicLibraryView"
+                                        DataContext="{Binding MusicLibraryViewModel}"
                                         SongDoubleClicked="OnLibrarySongDoubleClick"
                                         AddSongToPlaylistRequested="OnLibraryAddSongToPlaylistRequested"
                                         AddAlbumToPlaylistRequested="OnLibraryAddAlbumToPlaylistRequested"
@@ -66,12 +67,6 @@
                                  AddStationRequested="OnAddRadioStationRequested"
                                  EditStationRequested="OnEditRadioStationRequested"
                                  RefreshRequested="OnRadioRefreshRequested"/>
-            </TabItem>
-            
-            <!-- YouTube Search Tab -->
-            <TabItem Header="YouTube">
-                <views:YouTubeSearchView DataContext="{Binding YouTubeSearchViewModel}"
-                                         SongDoubleClicked="OnYouTubeSongDoubleClick"/>
             </TabItem>
         </TabControl>
 

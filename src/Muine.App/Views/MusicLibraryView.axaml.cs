@@ -1,5 +1,6 @@
 using System;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Muine.App.ViewModels;
 using Muine.Core.Models;
@@ -17,6 +18,8 @@ public partial class MusicLibraryView : UserControl
     public event EventHandler<Song>? SongDoubleClicked;
     public event EventHandler<Song>? AddSongToPlaylistRequested;
     public event EventHandler<Song>? EditMetadataRequested;
+    public event EventHandler? ImportFolderRequested;
+    public event EventHandler? AddFilesRequested;
 
     private void OnArtistDoubleClick(object? sender, RoutedEventArgs e)
     {
@@ -65,6 +68,24 @@ public partial class MusicLibraryView : UserControl
         if (sender is MenuItem menuItem && menuItem.DataContext is Song song)
         {
             EditMetadataRequested?.Invoke(this, song);
+        }
+    }
+
+    private void OnImportFolderClick(object? sender, RoutedEventArgs e)
+    {
+        ImportFolderRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnAddFilesClick(object? sender, RoutedEventArgs e)
+    {
+        AddFilesRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnYouTubeSearchBoxKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && DataContext is MusicLibraryViewModel viewModel)
+        {
+            viewModel.SearchYouTubeCommand.Execute(null);
         }
     }
 }

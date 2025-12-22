@@ -160,10 +160,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _mprisService.PreviousRequested += (s, e) => _ = PlayPreviousCommand.ExecuteAsync(null);
         
         // Initialize view models
-        MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
+        MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService, _youtubeService, _taggingQueue, managedLibraryService, _metadataService);
         PlaylistViewModel = new PlaylistViewModel();
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
         YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue, managedLibraryService, _metadataService);
+        
+        // Subscribe to library events
+        MusicLibraryViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
         
         // Subscribe to YouTube events
         YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
