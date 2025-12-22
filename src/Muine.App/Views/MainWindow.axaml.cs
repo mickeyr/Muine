@@ -49,6 +49,14 @@ public partial class MainWindow : Window
                 _sliderThumb.DragCompleted += OnThumbDragCompleted;
             }
         }
+
+        // Wire up MusicLibraryView events
+        var musicLibraryView = this.FindControl<MusicLibraryView>("MusicLibraryView");
+        if (musicLibraryView != null)
+        {
+            musicLibraryView.ImportFolderRequested += OnLibraryImportFolderRequested;
+            musicLibraryView.AddFilesRequested += OnLibraryAddFilesRequested;
+        }
     }
 
     private Thumb? FindThumbInSlider(Slider slider)
@@ -236,6 +244,16 @@ public partial class MainWindow : Window
                 viewModel.StatusMessage = "Metadata updated successfully";
             }
         }
+    }
+
+    private void OnLibraryImportFolderRequested(object? sender, EventArgs e)
+    {
+        OnImportMusicFolderClick(sender, new RoutedEventArgs());
+    }
+
+    private void OnLibraryAddFilesRequested(object? sender, EventArgs e)
+    {
+        OnAddMusicFilesClick(sender, new RoutedEventArgs());
     }
 
     private async void OnPlaylistSongDoubleClick(object? sender, Song song)

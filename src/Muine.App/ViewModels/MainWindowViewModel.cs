@@ -160,10 +160,14 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _mprisService.PreviousRequested += (s, e) => _ = PlayPreviousCommand.ExecuteAsync(null);
         
         // Initialize view models
-        MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
+        MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService, _youtubeService, _taggingQueue, managedLibraryService, _metadataService);
         PlaylistViewModel = new PlaylistViewModel();
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
         YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue, managedLibraryService, _metadataService);
+        
+        // Subscribe to library events
+        MusicLibraryViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
+        MusicLibraryViewModel.YouTubeSongNeedsMetadataReview += OnYouTubeSongNeedsMetadataReview;
         
         // Subscribe to YouTube events
         YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
@@ -781,13 +785,29 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                         {
                             // Download happens here, AFTER user has selected metadata
                             // This provides responsive UI - user sees results immediately
-                            await YouTubeSearchViewModel!.CompleteYouTubeImportAsync(e.Song, e.YouTubeId);
+                            // Determine which ViewModel triggered the event
+                            if (sender == MusicLibraryViewModel)
+                            {
+                                await MusicLibraryViewModel!.CompleteYouTubeImportAsync(e.Song, e.YouTubeId);
+                            }
+                            else if (sender == YouTubeSearchViewModel)
+                            {
+                                await YouTubeSearchViewModel!.CompleteYouTubeImportAsync(e.Song, e.YouTubeId);
+                            }
                         }
                         else
                         {
                             // User skipped - no download needed, nothing to clean up
-                            YouTubeSearchViewModel!.StatusMessage = "Import cancelled";
-                            YouTubeSearchViewModel.IsSearching = false;
+                            if (sender == MusicLibraryViewModel)
+                            {
+                                MusicLibraryViewModel!.YoutubeStatusMessage = "Import cancelled";
+                                MusicLibraryViewModel.IsYouTubeSearching = false;
+                            }
+                            else if (sender == YouTubeSearchViewModel)
+                            {
+                                YouTubeSearchViewModel!.StatusMessage = "Import cancelled";
+                                YouTubeSearchViewModel.IsSearching = false;
+                            }
                         }
                     }
                 }
@@ -797,7 +817,12 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
                 LoggingService.Error("Failed to open metadata review dialog for YouTube song", ex, "MainWindowViewModel");
                 StatusMessage = "Error reviewing YouTube song metadata";
                 
-                if (YouTubeSearchViewModel != null)
+                // Reset searching state based on sender
+                if (sender == MusicLibraryViewModel && MusicLibraryViewModel != null)
+                {
+                    MusicLibraryViewModel.IsYouTubeSearching = false;
+                }
+                else if (sender == YouTubeSearchViewModel && YouTubeSearchViewModel != null)
                 {
                     YouTubeSearchViewModel.IsSearching = false;
                 }
