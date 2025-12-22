@@ -61,6 +61,11 @@ public class ManagedLibraryService
         // Get file extension
         var extension = Path.GetExtension(song.Filename);
 
+        // Normalize casing for artist and album to ensure consistent folder names
+        // Use title case for better readability
+        artist = NormalizeCasing(artist);
+        album = NormalizeCasing(album);
+
         // Sanitize all components
         artist = SanitizeFilesystemName(artist);
         album = SanitizeFilesystemName(album);
@@ -111,6 +116,40 @@ public class ManagedLibraryService
         }
 
         return artist;
+    }
+
+    /// <summary>
+    /// Normalize casing for artist and album names to ensure consistent folder names
+    /// Converts to title case for readability while handling special cases
+    /// </summary>
+    private string NormalizeCasing(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return text;
+        }
+
+        // Use TextInfo for title casing
+        var textInfo = System.Globalization.CultureInfo.CurrentCulture.TextInfo;
+        
+        // Convert to title case
+        // This handles most cases well: "the beatles" -> "The Beatles", "LED ZEPPELIN" -> "Led Zeppelin"
+        var normalized = textInfo.ToTitleCase(text.ToLower());
+        
+        // Handle common special cases that should stay uppercase
+        var uppercaseWords = new[] { "AC/DC", "ABBA", "USA", "UK", "DJ", "MC", "TV", "MTV", "BBC" };
+        foreach (var word in uppercaseWords)
+        {
+            // Case-insensitive replacement
+            var regex = new Regex($@"\b{Regex.Escape(word)}\b", RegexOptions.IgnoreCase);
+            normalized = regex.Replace(normalized, word);
+        }
+        
+        // Handle acronyms that should stay uppercase (e.g., "R.E.M.", "N.W.A")
+        // Pattern: letters separated by dots
+        normalized = Regex.Replace(normalized, @"\b([A-Z]\.)+\b", m => m.Value.ToUpper());
+        
+        return normalized;
     }
 
     /// <summary>
