@@ -40,9 +40,9 @@
 
         <!-- YouTube Search Panel (Expandable) -->
         <Border Grid.Row="1" 
-                BorderBrush="Gray" 
+                BorderBrush="#555555" 
                 BorderThickness="0,0,0,1"
-                Background="#fff9e6"
+                Background="#2d2d2d"
                 IsVisible="{Binding IsYouTubePanelExpanded}">
             <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="10">
                 <!-- Panel Header -->
@@ -50,6 +50,7 @@
                     <TextBlock Grid.Column="0" 
                                Text="▼ YouTube Search" 
                                FontWeight="Bold" 
+                               Foreground="#e0e0e0"
                                VerticalAlignment="Center"/>
                     <Button Grid.Column="1" 
                             Content="✕" 
@@ -68,7 +69,9 @@
                              Watermark="Search YouTube (e.g., artist name, song title)..." 
                              Width="400"
                              KeyDown="OnYouTubeSearchBoxKeyDown"/>
-                    <TextBlock Text="Max:" VerticalAlignment="Center"/>
+                    <TextBlock Text="Max:" 
+                               VerticalAlignment="Center"
+                               Foreground="#e0e0e0"/>
                     <NumericUpDown Value="{Binding MaxYouTubeResults}"
                                    Minimum="5"
                                    Maximum="50"
@@ -85,7 +88,7 @@
                 <!-- Status Message -->
                 <TextBlock Grid.Row="2" 
                            Text="{Binding YoutubeStatusMessage}" 
-                           Foreground="Gray"
+                           Foreground="#b0b0b0"
                            Margin="0,0,0,10"
                            IsVisible="{Binding !!YoutubeStatusMessage}"/>
 
