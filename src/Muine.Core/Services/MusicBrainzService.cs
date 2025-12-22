@@ -106,21 +106,65 @@ public class MusicBrainzService : IMusicBrainzService
                     match.ArtistId = firstArtist.Artist?.Id.ToString();
                 }
 
-                // Get release (album) information from the first release
+                // Get release (album) information - prefer official album releases
                 if (recording.Releases != null && recording.Releases.Count > 0)
                 {
-                    var release = recording.Releases[0];
-                    match.ReleaseId = release.Id.ToString();
-                    match.Album = release.Title;
+                    // Sort releases to prefer official album releases
+                    // Priority: Official albums > Other albums > Live releases > Other types
+                    var preferredRelease = recording.Releases
+                        .OrderByDescending(r =>
+                        {
+                            // Calculate preference score
+                            int score = 0;
+                            
+                            // Prefer official releases
+                            if (r.Status == "Official")
+                                score += 1000;
+                            
+                            // Prefer album release groups over live recordings
+                            var title = r.Title?.ToLowerInvariant() ?? "";
+                            var disambiguation = r.Disambiguation?.ToLowerInvariant() ?? "";
+                            
+                            // Penalize live recordings heavily
+                            if (title.Contains("live") || disambiguation.Contains("live") ||
+                                title.Contains("concert") || disambiguation.Contains("concert") ||
+                                disambiguation.Contains(": ") && disambiguation.Contains(", ")) // Date format like "1994-02-14: Paris, France"
+                            {
+                                score -= 500;
+                            }
+                            
+                            // Prefer releases without disambiguation (usually main releases)
+                            if (string.IsNullOrEmpty(r.Disambiguation))
+                                score += 100;
+                            
+                            // Prefer releases with earlier dates (usually original releases)
+                            if (r.Date != null && r.Date.Year.HasValue)
+                            {
+                                // Give slight preference to earlier releases
+                                score += Math.Max(0, 50 - (r.Date.Year.Value - 1900));
+                            }
+                            
+                            return score;
+                        })
+                        .ThenBy(r => r.Date?.Year ?? 9999) // Tie-breaker: earlier year
+                        .FirstOrDefault();
                     
-                    // Get release date/year
-                    if (release.Date != null)
+                    if (preferredRelease != null)
                     {
-                        match.Year = release.Date.Year;
-                    }
+                        match.ReleaseId = preferredRelease.Id.ToString();
+                        match.Album = preferredRelease.Title;
+                        
+                        // Get release date/year
+                        if (preferredRelease.Date != null)
+                        {
+                            match.Year = preferredRelease.Date.Year;
+                        }
 
-                    // Try to get cover art URL
-                    match.CoverArtUrl = $"https://coverartarchive.org/release/{release.Id}/front-250";
+                        // Try to get cover art URL
+                        match.CoverArtUrl = $"https://coverartarchive.org/release/{preferredRelease.Id}/front-250";
+                        
+                        LoggingService.Info($"Selected release: {preferredRelease.Title} (Status: {preferredRelease.Status}, Disambiguation: {preferredRelease.Disambiguation ?? "none"})", "MusicBrainzService");
+                    }
                 }
 
                 // Get genres/tags

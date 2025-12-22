@@ -341,6 +341,30 @@ public class MusicDatabaseService : IDisposable
         return song;
     }
 
+    public async Task<bool> DeleteSongAsync(int id)
+    {
+        const string sql = "DELETE FROM Songs WHERE Id = @Id";
+
+        using var cmd = _connection!.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue("@Id", id);
+
+        var rowsAffected = await cmd.ExecuteNonQueryAsync();
+        return rowsAffected > 0;
+    }
+
+    public async Task<bool> DeleteSongByFilenameAsync(string filename)
+    {
+        const string sql = "DELETE FROM Songs WHERE Filename = @Filename";
+
+        using var cmd = _connection!.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue("@Filename", filename);
+
+        var rowsAffected = await cmd.ExecuteNonQueryAsync();
+        return rowsAffected > 0;
+    }
+
     public void Dispose()
     {
         _connection?.Dispose();

@@ -26,6 +26,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly YouTubeService _youtubeService;
     private readonly MprisService? _mprisService;
     private readonly BackgroundTaggingQueue _taggingQueue;
+    private readonly DebouncedActionService _debouncer;
 
     [ObservableProperty]
     private string _statusMessage = "Ready - Muine Music Player";
@@ -41,6 +42,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     [ObservableProperty]
     private string _scanProgress = string.Empty;
+
+    [ObservableProperty]
+    private double _scanProgressPercentage;
 
     [ObservableProperty]
     private int _totalSongs;
@@ -101,6 +105,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _playbackService = new PlaybackService();
         _radioMetadataService = new RadioMetadataService();
         _youtubeService = new YouTubeService();
+        _debouncer = new DebouncedActionService();
         
         // Initialize RadioBrowserService with error handling
         // The RadioBrowser library requires DNS resolution which may fail in some environments
@@ -130,6 +135,14 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _databaseService = new MusicDatabaseService(databasePath);
         _radioStationService = new RadioStationService(databasePath);
         
+        // Initialize library configuration
+        var libraryConfigService = new LibraryConfigurationService();
+        var libraryConfig = libraryConfigService.LoadConfiguration();
+        libraryConfig.EnsureLibraryDirectoryExists();
+        
+        // Initialize managed library service
+        var managedLibraryService = new ManagedLibraryService(libraryConfig, _metadataService, _databaseService);
+        
         // Initialize metadata enhancement services
         var mbService = new MusicBrainzService();
         var enhancementService = new MetadataEnhancementService(mbService, _metadataService);
@@ -139,7 +152,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _taggingQueue.WorkCompleted += OnTaggingWorkCompleted;
         _taggingQueue.WorkFailed += OnTaggingWorkFailed;
         
-        _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService, _taggingQueue);
+        _scannerService = new LibraryScannerService(_metadataService, _databaseService, _coverArtService, _taggingQueue, managedLibraryService);
         
         // Initialize MPRIS service (Linux media key support)
         _mprisService = new MprisService(_playbackService);
@@ -150,10 +163,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         MusicLibraryViewModel = new MusicLibraryViewModel(_databaseService);
         PlaylistViewModel = new PlaylistViewModel();
         RadioViewModel = new RadioViewModel(_radioStationService, _radioMetadataService, _radioBrowserService);
-        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue);
+        YouTubeSearchViewModel = new YouTubeSearchViewModel(_youtubeService, _databaseService, _taggingQueue, managedLibraryService, _metadataService);
         
         // Subscribe to YouTube events
         YouTubeSearchViewModel.SongsAddedToLibrary += OnYouTubeSongsAddedToLibrary;
+        YouTubeSearchViewModel.YouTubeSongNeedsMetadataReview += OnYouTubeSongNeedsMetadataReview;
         
         // Subscribe to playback events
         _playbackService.StateChanged += OnPlaybackStateChanged;
@@ -228,34 +242,92 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private async Task ScanFolderAsync(string folderPath)
     {
         IsScanning = true;
-        SetOperationStatus($"Scanning {folderPath}...");
-        ScanProgress = "Starting scan...";
+        SetOperationStatus($"Importing {folderPath}...");
+        ScanProgress = "Starting import...";
 
         try
         {
-            var progress = new Progress<ScanProgress>(p =>
+            int lastRefreshCount = 0;
+            const int refreshInterval = 10; // Refresh UI every 10 files
+            
+            var progress = new Progress<ScanProgress>(async p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
-                SetOperationStatus($"Scanning: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
+                ScanProgressPercentage = p.PercentComplete;
+                SetOperationStatus($"Importing: {Path.GetFileName(p.CurrentFile)} ({p.PercentComplete:F1}%)");
+                
+                // Refresh UI periodically during import for immediate feedback
+                if (p.ProcessedFiles - lastRefreshCount >= refreshInterval)
+                {
+                    lastRefreshCount = p.ProcessedFiles;
+                    await Dispatcher.UIThread.InvokeAsync(async () =>
+                    {
+                        try
+                        {
+                            await LoadSongsAsync();
+                            if (MusicLibraryViewModel != null)
+                            {
+                                await MusicLibraryViewModel.LoadLibraryAsync();
+                            }
+                        }
+                        catch
+                        {
+                            // Ignore errors during intermediate refreshes
+                        }
+                    });
+                }
             });
 
-            // Run the scan in a background thread to avoid blocking the UI
-            var result = await Task.Run(() => _scannerService.ScanDirectoryAsync(folderPath, progress, autoEnhanceMetadata: true));
+            // Run the import in a background thread to avoid blocking the UI
+            // This will move/copy files to the managed library and organize them
+            var result = await Task.Run(() => _scannerService.ImportDirectoryAsync(
+                folderPath, 
+                copyInsteadOfMove: false, // Use default (move) - TODO: make this configurable in UI
+                progress, 
+                autoEnhanceMetadata: true,
+                skipDuplicateCheck: true)); // Skip expensive duplicate checking for faster imports
 
-            // Reload songs from database
+            // Final reload after import completes
             await LoadSongsAsync();
             if (MusicLibraryViewModel != null)
             {
                 await MusicLibraryViewModel.LoadLibraryAsync();
             }
 
-            SetOperationStatus($"Scan complete: {result.SuccessCount} songs imported, {result.FailureCount} failed", autoHideAfter: 5000);
+            // Build status message
+            var statusParts = new List<string>();
+            statusParts.Add($"{result.SuccessCount} songs imported");
             
-            // Errors are already tracked in result.Errors for logging if needed
+            if (result.FailureCount > 0)
+                statusParts.Add($"{result.FailureCount} failed");
+            if (result.Duplicates.Count > 0)
+                statusParts.Add($"{result.Duplicates.Count} duplicates skipped");
+            if (result.FilesNeedingManualMetadata.Count > 0)
+                statusParts.Add($"{result.FilesNeedingManualMetadata.Count} need manual metadata");
+            if (result.Conflicts.Count > 0)
+                statusParts.Add($"{result.Conflicts.Count} conflicts");
+            if (result.SongsWithMissingCriticalMetadata.Count > 0)
+                statusParts.Add($"{result.SongsWithMissingCriticalMetadata.Count} need metadata review");
+            
+            SetOperationStatus($"Import complete: {string.Join(", ", statusParts)}", autoHideAfter: 5000);
+            
+            // Store songs needing review for later access
+            if (result.SongsWithMissingCriticalMetadata.Count > 0)
+            {
+                // TODO: Show notification or dialog to review these songs
+                LoggingService.Info($"{result.SongsWithMissingCriticalMetadata.Count} songs need metadata review", "MainWindowViewModel");
+            }
+            
+            // Log any errors
+            foreach (var error in result.Errors)
+            {
+                LoggingService.Warning(error, "MainWindowViewModel");
+            }
         }
         catch (Exception ex)
         {
-            SetOperationStatus($"Error scanning folder: {ex.Message}", autoHideAfter: 5000);
+            SetOperationStatus($"Error importing folder: {ex.Message}", autoHideAfter: 5000);
+            LoggingService.Error($"Failed to import folder: {folderPath}", ex, "MainWindowViewModel");
         }
         finally
         {
@@ -346,6 +418,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
             var progress = new Progress<ScanProgress>(p =>
             {
                 ScanProgress = $"Processing {p.ProcessedFiles} of {p.TotalFiles} files ({p.PercentComplete:F1}%)";
+                ScanProgressPercentage = p.PercentComplete;
                 SetOperationStatus($"Refreshing: {p.PercentComplete:F0}%");
             });
 
@@ -652,11 +725,84 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private async void OnYouTubeSongsAddedToLibrary(object? sender, EventArgs e)
     {
-        // Refresh the music library view
-        if (MusicLibraryViewModel != null)
+        // Debounce UI updates for YouTube songs (immediate but debounced)
+        _debouncer.DebounceAsync("library-refresh", async () =>
         {
-            await MusicLibraryViewModel.LoadLibraryAsync();
-        }
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                try
+                {
+                    // Reload songs from database
+                    await LoadSongsAsync();
+                    
+                    // Refresh the music library view
+                    if (MusicLibraryViewModel != null)
+                    {
+                        await MusicLibraryViewModel.LoadLibraryAsync();
+                    }
+                    
+                    StatusMessage = $"Library updated - {TotalSongs} songs";
+                }
+                catch (Exception ex)
+                {
+                    LoggingService.Error("Failed to refresh UI after YouTube import", ex, "MainWindowViewModel");
+                }
+            });
+        }, delayMilliseconds: 2500); // 2.5 seconds debounce
+    }
+    
+    private void OnYouTubeSongNeedsMetadataReview(object? sender, YouTubeSongEventArgs e)
+    {
+        // This event is fired when user clicks to add YouTube song
+        // We show the metadata dialog immediately while download can happen in background
+        Dispatcher.UIThread.InvokeAsync(async () =>
+        {
+            try
+            {
+                // Open MusicBrainz search dialog for YouTube song
+                var searchDialog = new Views.MusicBrainzSearchWindow
+                {
+                    DataContext = App.CreateMusicBrainzSearchViewModel()
+                };
+
+                if (searchDialog.DataContext is MusicBrainzSearchViewModel searchViewModel)
+                {
+                    // Initialize with the YouTube song metadata
+                    searchViewModel.Initialize(e.Song);
+                    
+                    // Show dialog - this will block until user completes or cancels
+                    var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+                    if (mainWindow != null)
+                    {
+                        var dialogResult = await searchDialog.ShowDialog<bool>(mainWindow);
+                        
+                        // If user applied metadata, download and complete the import
+                        if (dialogResult)
+                        {
+                            // Download happens here, AFTER user has selected metadata
+                            // This provides responsive UI - user sees results immediately
+                            await YouTubeSearchViewModel!.CompleteYouTubeImportAsync(e.Song, e.YouTubeId);
+                        }
+                        else
+                        {
+                            // User skipped - no download needed, nothing to clean up
+                            YouTubeSearchViewModel!.StatusMessage = "Import cancelled";
+                            YouTubeSearchViewModel.IsSearching = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggingService.Error("Failed to open metadata review dialog for YouTube song", ex, "MainWindowViewModel");
+                StatusMessage = "Error reviewing YouTube song metadata";
+                
+                if (YouTubeSearchViewModel != null)
+                {
+                    YouTubeSearchViewModel.IsSearching = false;
+                }
+            }
+        });
     }
     
     private async void OnTaggingWorkCompleted(object? sender, TaggingCompletedEventArgs e)
@@ -666,15 +812,30 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             await _databaseService.SaveSongAsync(e.EnhancedSong);
             
-            // Refresh the library view
-            await Dispatcher.UIThread.InvokeAsync(async () =>
+            // Debounce UI updates to avoid excessive refreshes (every 2-3 seconds)
+            _debouncer.DebounceAsync("library-refresh", async () =>
             {
-                if (MusicLibraryViewModel != null)
+                await Dispatcher.UIThread.InvokeAsync(async () =>
                 {
-                    await MusicLibraryViewModel.LoadLibraryAsync();
-                }
-                StatusMessage = $"Enhanced metadata for: {e.EnhancedSong.DisplayName}";
-            });
+                    try
+                    {
+                        // Reload all songs from database
+                        await LoadSongsAsync();
+                        
+                        // Refresh the music library view
+                        if (MusicLibraryViewModel != null)
+                        {
+                            await MusicLibraryViewModel.LoadLibraryAsync();
+                        }
+                        
+                        StatusMessage = $"Library updated with enhanced metadata";
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggingService.Error("Failed to refresh UI after metadata enhancement", ex, "MainWindowViewModel");
+                    }
+                });
+            }, delayMilliseconds: 2500); // 2.5 seconds debounce
         }
         catch (Exception ex)
         {
@@ -912,6 +1073,10 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public void Dispose()
     {
+        // Flush any pending debounced actions before disposing
+        _debouncer?.FlushAll();
+        _debouncer?.Dispose();
+        
         _taggingQueue?.Dispose();
         _mprisService?.Dispose();
         _playbackService?.Dispose();

@@ -1,0 +1,74 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Muine.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="Muine.App.Views.MetadataReviewWindow"
+        x:DataType="vm:MetadataReviewViewModel"
+        Title="Metadata Review"
+        Width="800" Height="600">
+
+    <Design.DataContext>
+        <vm:MetadataReviewViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2a2a2a" Padding="15">
+            <StackPanel Spacing="5">
+                <TextBlock Text="Metadata Review" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Songs with missing or incomplete metadata" FontSize="12" Foreground="#999"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Songs List -->
+        <DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding SongsNeedingReview}"
+                  SelectedItem="{Binding SelectedSong}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="File" Binding="{Binding Filename}" Width="2*"/>
+                <DataGridTextColumn Header="Artist" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Artists[0]"/>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                <DataGridTextColumn Header="Album" Binding="{Binding Album}" Width="*"/>
+                <DataGridTemplateColumn Header="Actions" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Search MusicBrainz" 
+                                    Click="OnSearchMusicBrainzClick"
+                                    Padding="10,5"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" 
+                BorderBrush="#333" 
+                BorderThickness="0,1,0,0"
+                Background="#2a2a2a"
+                Padding="15,10">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0" 
+                           Text="{Binding StatusMessage}" 
+                           VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                    <Button Content="Refresh" 
+                            Command="{Binding RefreshListCommand}"
+                            IsEnabled="{Binding !IsLoading}"/>
+                    <Button Content="Close" 
+                            Click="OnCloseClick"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
